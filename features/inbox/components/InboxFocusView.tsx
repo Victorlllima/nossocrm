@@ -72,6 +72,8 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
   onNext,
 }) => {
   const [showContext, setShowContext] = useState(false);
+  const [manualDealId, setManualDealId] = useState('');
+  const [contextSearch, setContextSearch] = useState('');
   const {
     deals,
     contacts,
@@ -85,6 +87,12 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
     setSidebarCollapsed,
   } = useCRM();
   const { profile } = useAuth();
+
+  useEffect(() => {
+    // UX: when moving between items, reset any manual context selection.
+    setManualDealId('');
+    setContextSearch('');
+  }, [currentItem?.id]);
 
   // Performance: build lookup maps once to avoid repeated `.find(...)` in `contextData`.
   const dealsById = useMemo(() => new Map(deals.map(d => [d.id, d])), [deals]);
@@ -127,13 +135,13 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
   const contextData = useMemo(() => {
     if (!currentItem) return null;
 
-    let dealId = '';
+    let dealId = manualDealId || '';
     let contactId = '';
     let extractedContactName = '';
 
     if (currentItem.type === 'activity') {
       const act = currentItem.data as Activity;
-      dealId = act.dealId || '';
+      dealId = dealId || act.dealId || '';
       // Fallback: muitas telas exibem apenas `dealTitle` mesmo quando `dealId` está vazio.
       // Tentamos resolver o deal por título para permitir abrir o painel de contexto.
       if (!dealId && act.dealTitle) {
@@ -157,7 +165,7 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
       }
     } else {
       const sugg = currentItem.data as AISuggestion;
-      dealId = sugg.data.deal?.id || '';
+      dealId = dealId || sugg.data.deal?.id || '';
       contactId = sugg.data.contact?.id || '';
     }
 
@@ -201,7 +209,7 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
       board,
       isPlaceholder: !deal && !!placeholderDeal
     };
-  }, [currentItem, dealsById, dealsByTitleKey, contactsById, contacts, activitiesByDealIdSorted, boardsById, activeBoard]);
+  }, [currentItem, manualDealId, dealsById, dealsByTitleKey, contactsById, contacts, activitiesByDealIdSorted, boardsById, activeBoard]);
 
   const { moveDeal } = useMoveDealSimple(contextData?.board ?? null, []);
 
@@ -229,9 +237,7 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
           break;
         case ' ': // Space bar
           e.preventDefault();
-          if (contextData?.deal || contextData?.contact) {
-            setShowContext(!showContext);
-          }
+          setShowContext(!showContext);
           break;
         case 'Escape':
           if (showContext) setShowContext(false);
@@ -333,6 +339,21 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
   // Horário (se for reunião/call)
   const isMeeting = activity?.type === 'MEETING' || activity?.type === 'CALL';
   const timeString = activity ? PT_BR_TIME_FORMATTER.format(new Date(activity.date)) : '';
+  const hasResolvedContext = !!(contextData?.deal || contextData?.contact);
+  const normalizedContextSearch = normalizeTitleKey(contextSearch);
+  const suggestedDeals = useMemo(() => {
+    // UX: if the activity has no deal/contact context (common in generic tasks),
+    // allow the user to manually link a deal to bring back the Cockpit panel.
+    if (!normalizedContextSearch) return deals.slice(0, 12);
+    const results: DealView[] = [];
+    for (const d of deals) {
+      const key = normalizeTitleKey(d.title ?? '');
+      if (!key) continue;
+      if (key.includes(normalizedContextSearch)) results.push(d);
+      if (results.length >= 12) break;
+    }
+    return results;
+  }, [deals, normalizedContextSearch]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] py-8 animate-fade-in">
@@ -389,8 +410,8 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
         </div>
       )}
 
-      {/* Ver detalhes - aparece quando tem deal OU contato */}
-      {(contextData?.deal || contextData?.contact) && (
+      {/* Ver detalhes - sempre aparece; quando não há contexto, abre painel para vincular um deal */}
+      {currentItem && (
         <div className="flex items-center justify-center my-6">
           <button
             onClick={() => setShowContext(true)}
@@ -404,7 +425,7 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
             />
 
             <Maximize2 size={14} className="relative z-10" />
-            <span className="relative z-10">Ver detalhes</span>
+            <span className="relative z-10">{hasResolvedContext ? 'Ver detalhes' : 'Vincular contexto'}</span>
             <kbd className="hidden group-hover:inline-flex h-5 items-center gap-1 rounded border border-yellow-500/20 bg-yellow-500/10 px-1.5 font-mono text-[10px] font-medium text-yellow-500/50 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-out translate-x-1 group-hover:translate-x-0 ml-2">
               SPACE
             </kbd>
@@ -493,7 +514,7 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
       {/* Cockpit Panel with AnimatePresence */}
       {createPortal(
         <AnimatePresence>
-          {showContext && (contextData?.deal || contextData?.contact) && (
+          {showContext && hasResolvedContext && (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -519,6 +540,68 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
                 onUpdateActivity={updateActivity}
                 onClose={() => setShowContext(false)}
               />
+            </motion.div>
+          )}
+
+          {showContext && !hasResolvedContext && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{
+                type: "spring",
+                stiffness: 300,
+                damping: 30
+              }}
+              className="fixed inset-0 z-[9999] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Vincular contexto"
+            >
+              <div className="w-full max-w-xl rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-white/10 shadow-2xl p-5">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <div className="text-sm font-semibold text-slate-900 dark:text-white">Vincular contexto</div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                      Esta atividade não tem deal/contato associado. Selecione um negócio para abrir o Cockpit.
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setShowContext(false)}
+                    className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+                    aria-label="Fechar"
+                  >
+                    ×
+                  </button>
+                </div>
+
+                <div className="mt-4">
+                  <input
+                    value={contextSearch}
+                    onChange={e => setContextSearch(e.target.value)}
+                    placeholder="Buscar negócio pelo título…"
+                    className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 px-4 py-2 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-primary-500/40"
+                  />
+                </div>
+
+                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[50vh] overflow-auto pr-1">
+                  {suggestedDeals.map(d => (
+                    <button
+                      key={d.id}
+                      onClick={() => setManualDealId(d.id)}
+                      className="text-left rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 px-3 py-2 transition-colors"
+                    >
+                      <div className="text-sm font-semibold text-slate-900 dark:text-white truncate">{d.title}</div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400 truncate">{d.contactName}</div>
+                    </button>
+                  ))}
+                  {suggestedDeals.length === 0 && (
+                    <div className="text-sm text-slate-500 dark:text-slate-400 py-6 text-center col-span-full">
+                      Nenhum negócio encontrado. Tente outro termo.
+                    </div>
+                  )}
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>,
