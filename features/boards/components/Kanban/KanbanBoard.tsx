@@ -6,6 +6,48 @@ import { MoveToStageModal } from '../Modals/MoveToStageModal';
 
 import { useCRM } from '@/context/CRMContext';
 
+/**
+ * UI: Drop highlight should follow the stage color.
+ *
+ * Note on Tailwind: stage colors come from persisted values like `bg-blue-500`.
+ * Tailwind only generates classes it can “see” in source, so we map to a finite set
+ * of explicit `border-<color>-500`, `bg-<color>-100/20`, and `shadow-<color>-500/30` classes here.
+ */
+function dropHighlightClasses(stageBgClass?: string): string {
+  const c = (stageBgClass ?? '').toLowerCase();
+
+  if (c.includes('blue') || c.includes('sky') || c.includes('cyan')) {
+    return 'border-blue-500 bg-blue-100/20 dark:bg-blue-900/30 shadow-xl shadow-blue-500/30';
+  }
+  if (c.includes('green') || c.includes('emerald')) {
+    return 'border-emerald-500 bg-emerald-100/20 dark:bg-emerald-900/30 shadow-xl shadow-emerald-500/30';
+  }
+  if (c.includes('yellow') || c.includes('amber')) {
+    return 'border-amber-500 bg-amber-100/20 dark:bg-amber-900/30 shadow-xl shadow-amber-500/30';
+  }
+  if (c.includes('orange')) {
+    return 'border-orange-500 bg-orange-100/20 dark:bg-orange-900/30 shadow-xl shadow-orange-500/30';
+  }
+  if (c.includes('red')) {
+    return 'border-red-500 bg-red-100/20 dark:bg-red-900/30 shadow-xl shadow-red-500/30';
+  }
+  if (c.includes('violet') || c.includes('purple')) {
+    return 'border-violet-500 bg-violet-100/20 dark:bg-violet-900/30 shadow-xl shadow-violet-500/30';
+  }
+  if (c.includes('pink') || c.includes('rose')) {
+    return 'border-pink-500 bg-pink-100/20 dark:bg-pink-900/30 shadow-xl shadow-pink-500/30';
+  }
+  if (c.includes('indigo')) {
+    return 'border-indigo-500 bg-indigo-100/20 dark:bg-indigo-900/30 shadow-xl shadow-indigo-500/30';
+  }
+  if (c.includes('teal')) {
+    return 'border-teal-500 bg-teal-100/20 dark:bg-teal-900/30 shadow-xl shadow-teal-500/30';
+  }
+
+  // Fallback: keep existing behavior-ish (green).
+  return 'border-emerald-500 bg-emerald-100/20 dark:bg-emerald-900/30 shadow-xl shadow-emerald-500/30';
+}
+
 interface KanbanBoardProps {
   stages: BoardStage[];
   filteredDeals: DealView[];
@@ -138,7 +180,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
             onDragLeave={() => setDragOverStage(null)}
             className={`min-w-[20rem] flex-1 flex flex-col rounded-xl border-2 overflow-visible h-full max-h-full transition-all duration-200
                             ${isOver
-                ? 'border-green-500 bg-green-100/20 dark:bg-green-900/30 scale-[1.02] shadow-xl shadow-green-500/30'
+                ? `${dropHighlightClasses(stage.color)} scale-[1.02]`
                 : 'border-slate-200/50 dark:border-white/10 glass'
               }
                         `}

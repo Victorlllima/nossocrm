@@ -2,6 +2,10 @@
 
 ## 24/12/2025
 
+- **Kanban (UX)**:
+  - Contorno/realce de drop ao arrastar deals agora **segue a cor do estágio** (em vez de ser sempre verde), mantendo consistência visual no pipeline.
+  - Implementação via mapeamento explícito de classes Tailwind para evitar classes dinâmicas não geradas no build.
+
 - **Merge de branches e consolidação na `main`**:
   - Merge de `chore/migrate-ai-actions-to-tasks`: introdução de endpoints em `/api/ai/tasks/*` (boards/deals/inbox) e migração parcial de chamadas para o novo client (`lib/ai/tasksClient.ts`), removendo rotas legacy.
   - Merge de `feat/inbox-macro-overview`: evolução grande do Inbox com visão Overview, composer de mensagens, melhorias de UX e adições relacionadas a cockpit/installer.
