@@ -83,6 +83,22 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
     // AI Context Injection
     const { setContext, clearContext } = useAI();
 
+    useEffect(() => {
+        // UX: allow ESC to always close the Cockpit overlay, even when focus is inside inputs.
+        // We attach in capture phase to avoid being swallowed by nested components/modals.
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key !== 'Escape') return;
+            e.preventDefault();
+            e.stopPropagation();
+            onClose();
+        };
+
+        window.addEventListener('keydown', onKeyDown, { capture: true });
+        return () => {
+            window.removeEventListener('keydown', onKeyDown, { capture: true } as any);
+        };
+    }, [onClose]);
+
     // Performance: derive recentHistory once (avoid recomputing in the effect body).
     const recentHistory = useMemo(() => {
         return activities

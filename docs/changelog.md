@@ -9,6 +9,7 @@
   - Inbox Focus: restaurado o botão “Ver detalhes” (pulsar) mesmo quando uma atividade vier sem `dealId`, usando fallback por `dealTitle` para resolver o deal.
   - Inbox Focus: reforçada a resolução de contexto quando `dealTitle` vem vazio (extração do nome do contato a partir de títulos comuns como “cliente: Nome”/“cliente Nome”, e normalização de títulos para matching mais robusto).
   - Inbox Focus: “Ver detalhes” volta a aparecer **mesmo sem deal/contato resolvido**; quando não há contexto, abre um painel rápido para **vincular um negócio manualmente** e então abrir o Cockpit.
+  - Cockpit: tecla **ESC** volta a fechar o overlay mesmo com foco em inputs (listener em capture no `FocusContextPanel`).
 
 - **Merge de branches e consolidação na `main`**:
   - Merge de `chore/migrate-ai-actions-to-tasks`: introdução de endpoints em `/api/ai/tasks/*` (boards/deals/inbox) e migração parcial de chamadas para o novo client (`lib/ai/tasksClient.ts`), removendo rotas legacy.
