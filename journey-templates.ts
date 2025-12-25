@@ -235,11 +235,14 @@ export const OFFICIAL_JOURNEYS: Record<
       {
         slug: 'sales-simple',
         name: 'Pipeline de Vendas',
-        columns: BOARD_TEMPLATES.SALES.stages.map(s => ({
-          name: s.label,
-          color: s.color,
-          linkedLifecycleStage: s.linkedLifecycleStage,
-        })),
+        // UX: simplest possible sales pipeline (popular labels).
+        columns: [
+          { name: 'Novo', color: 'bg-blue-500', linkedLifecycleStage: 'MQL' },
+          { name: 'Em conversa', color: 'bg-yellow-500', linkedLifecycleStage: 'PROSPECT' },
+          { name: 'Proposta', color: 'bg-purple-500', linkedLifecycleStage: 'PROSPECT' },
+          { name: 'Ganho', color: 'bg-green-500', linkedLifecycleStage: 'CUSTOMER' },
+          { name: 'Perdido', color: 'bg-red-500', linkedLifecycleStage: 'OTHER' },
+        ],
         strategy: {
           agentPersona: BOARD_TEMPLATES.SALES.agentPersona,
           goal: BOARD_TEMPLATES.SALES.goal,

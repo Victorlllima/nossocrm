@@ -305,6 +305,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
       cs: BOARD_TEMPLATES.CS.linkedLifecycleStage,
       renewals: 'CUSTOMER',
       expansion: 'CUSTOMER',
+      'sales-simple': BOARD_TEMPLATES.SALES.linkedLifecycleStage,
     };
 
     // Install all boards in the journey with sequential order
@@ -326,6 +327,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
         cs: 'CS',
         renewals: 'CUSTOM',
         expansion: 'CUSTOM',
+        'sales-simple': 'SALES',
       };
       const template = BOARD_TEMPLATES[templateBySlug[boardDef.slug] ?? 'CUSTOM'];
       const guessed = guessWonLostStageIds(boardStages, {
