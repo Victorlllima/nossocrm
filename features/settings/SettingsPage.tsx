@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useSettingsController } from './hooks/useSettingsController';
 import { TagsManager } from './components/TagsManager';
 import { CustomFieldsManager } from './components/CustomFieldsManager';
@@ -13,9 +12,9 @@ import { AICenterSettings } from './AICenterSettings';
 
 import { UsersPage } from './UsersPage';
 import { useAuth } from '@/context/AuthContext';
-import { Settings as SettingsIcon, Users, Database, Sparkles } from 'lucide-react';
+import { Settings as SettingsIcon, Users, Database, Sparkles, Plug } from 'lucide-react';
 
-type SettingsTab = 'general' | 'ai' | 'data' | 'users';
+type SettingsTab = 'general' | 'integrations' | 'ai' | 'data' | 'users';
 
 interface GeneralSettingsProps {
   hash?: string;
@@ -91,15 +90,20 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({ hash, isAdmin }) => {
           />
 
           <ProductsCatalogManager />
-
-          <ApiKeysSection />
-
-          <WebhooksSection />
         </>
       )}
 
       <AIConfigSection />
 
+    </div>
+  );
+};
+
+const IntegrationsSettings: React.FC = () => {
+  return (
+    <div className="pb-10">
+      <ApiKeysSection />
+      <WebhooksSection />
     </div>
   );
 };
@@ -117,7 +121,6 @@ interface SettingsPageProps {
 const SettingsPage: React.FC<SettingsPageProps> = ({ tab: initialTab }) => {
   const { profile } = useAuth();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<SettingsTab>(initialTab || 'general');
 
   // Get hash from URL for scrolling
@@ -127,6 +130,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ tab: initialTab }) => {
   useEffect(() => {
     if (pathname?.includes('/settings/ai')) {
       setActiveTab('ai');
+    } else if (pathname?.includes('/settings/integracoes')) {
+      setActiveTab('integrations');
     } else if (pathname?.includes('/settings/data')) {
       setActiveTab('data');
     } else if (pathname?.includes('/settings/users')) {
@@ -138,6 +143,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ tab: initialTab }) => {
 
   const tabs = [
     { id: 'general' as SettingsTab, name: 'Geral', icon: SettingsIcon },
+    ...(profile?.role === 'admin' ? [{ id: 'integrations' as SettingsTab, name: 'Integrações', icon: Plug }] : []),
     { id: 'ai' as SettingsTab, name: 'Central de I.A', icon: Sparkles },
     { id: 'data' as SettingsTab, name: 'Dados', icon: Database },
     ...(profile?.role === 'admin' ? [{ id: 'users' as SettingsTab, name: 'Equipe', icon: Users }] : []),
@@ -145,6 +151,8 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ tab: initialTab }) => {
 
   const renderContent = () => {
     switch (activeTab) {
+      case 'integrations':
+        return <IntegrationsSettings />;
       case 'ai':
         return <AICenterSettings />;
       case 'data':

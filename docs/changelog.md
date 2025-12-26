@@ -12,6 +12,8 @@
   - Adicionada configuração de **Follow-up (Webhook de saída)** para notificar sistemas externos quando um deal muda de etapa.
   - Migration `supabase/migrations/20251226010000_integrations_webhooks_product.sql` adiciona tabelas de configuração/auditoria e trigger de mudança de estágio.
   - Edge Function `supabase/functions/webhook-in` implementa o endpoint público de entrada com `X-Webhook-Secret`.
+- **Settings (UX)**:
+  - Criada a aba **Integrações** em Configurações e movidas para lá as seções de **Chaves de API** e **Webhooks** (admin-only).
 - **Contatos (Importar/Exportar CSV)**:
   - Botão de **Importar/Exportar** no header de **Contatos → Pessoas**, abrindo modal com abas de import/export.
   - Exportação via endpoint `GET /api/contacts/export` respeitando **filtros/pesquisa/ordenação** atuais.
