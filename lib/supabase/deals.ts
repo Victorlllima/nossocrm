@@ -341,8 +341,11 @@ export const dealsService = {
             .from('boards')
             .update({ organization_id: organizationId })
             .eq('id', boardId)
-            .then(() => undefined)
-            .catch(() => undefined);
+            // PostgrestBuilder is Promise-like (thenable) but does not expose `.catch` in typings.
+            .then(
+              () => undefined,
+              () => undefined
+            );
         }
       }
 

@@ -34,6 +34,13 @@
   - UX (Supabase):
     - Ao colar o **PAT**, o Wizard agora **lista projetos automaticamente** (com debounce) e, se não encontrar nenhum, sugere **criar um projeto automaticamente** (já seguindo com auto-preenchimento).
 
+- **Build (fix)**:
+  - Corrigidos erros de typecheck no build (`next build`):
+    - `BoardCreationWizard`: `strategy.goal.type` agora é tipado corretamente como `'number' | 'currency' | 'percentage'` (Renovações do Infoprodutor).
+    - `ExportTemplateModal`: removida referência a variável inexistente (`mode`) ao gerar nome de arquivo.
+    - `Public API auth`: validação do retorno do RPC `validate_api_key` com tipagem defensiva (sem tipos gerados).
+    - `dealsService`: ajuste para evitar `.catch()` em builder thenable (tipagem do PostgREST).
+
 - **Database (Migrations / Onboarding do aluno)**:
   - Consolidado o schema do Supabase para **1 única migration** em `supabase/migrations/20251201000000_schema_init.sql`.
   - Detalhes técnicos: baseline inclui `organization_settings.ai_enabled`, `ai_prompt_templates`, `ai_feature_flags`, `boards.default_product_id`, contexto de empresa/participantes em `activities`, e Integrações/Webhooks (`pg_net`, tabelas `integration_*`/`webhook_*` e trigger em `deals`).

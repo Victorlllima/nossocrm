@@ -190,7 +190,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
     setActiveTab('official');
   };
 
-  const buildRenewalsBoard = () => {
+  const buildRenewalsBoard = (): JourneyDefinition['boards'][number] => {
     return {
       slug: 'renewals',
       // UX: keep the journey list visually consistent (all boards are numbered).

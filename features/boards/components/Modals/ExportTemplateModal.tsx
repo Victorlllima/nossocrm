@@ -264,7 +264,9 @@ export function ExportTemplateModal(props: {
         addToast('Selecione ao menos 1 board para exportar a jornada.', 'error');
         return;
       }
-      const base = slugify(mode === 'board' ? activeBoard.name : (journeyName || 'journey'));
+      // If exporting a single board, the filename should be based on that board name.
+      // Otherwise, use the journey name.
+      const base = slugify((selectedBoards.length <= 1 ? activeBoard.name : (journeyName || 'journey')));
       const filename = `${base || 'journey'}.journey.json`;
       // Debug trace: helps diagnose user reports like "click does nothing".
       console.info('[ExportTemplateModal] download click', {

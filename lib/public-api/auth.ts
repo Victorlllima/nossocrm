@@ -22,17 +22,35 @@ export async function authPublicApi(request: Request): Promise<PublicApiAuthResu
     return { ok: false, status: 500, body: { error: 'Supabase not configured', code: 'SERVER_NOT_CONFIGURED' } };
   }
 
+  type ValidateApiKeyRow = {
+    api_key_id: string;
+    api_key_prefix: string;
+    organization_id: string;
+    organization_name: string;
+  };
+
+  // Supabase RPC return types are not strongly typed here (no generated Database types),
+  // so we validate the shape defensively.
   const { data, error } = await sb.rpc('validate_api_key', { p_token: token }).maybeSingle();
-  if (error || !data?.organization_id) {
+  const row = (data ?? null) as ValidateApiKeyRow | null;
+  if (
+    error ||
+    !row ||
+    typeof row.organization_id !== 'string' ||
+    !row.organization_id.trim() ||
+    typeof row.organization_name !== 'string' ||
+    typeof row.api_key_id !== 'string' ||
+    typeof row.api_key_prefix !== 'string'
+  ) {
     return { ok: false, status: 401, body: { error: 'Invalid API key', code: 'AUTH_INVALID' } };
   }
 
   return {
     ok: true,
-    apiKeyId: data.api_key_id,
-    apiKeyPrefix: data.api_key_prefix,
-    organizationId: data.organization_id,
-    organizationName: data.organization_name,
+    apiKeyId: row.api_key_id,
+    apiKeyPrefix: row.api_key_prefix,
+    organizationId: row.organization_id,
+    organizationName: row.organization_name,
   };
 }
 
