@@ -6,6 +6,7 @@ import { useCRM } from '@/context/CRMContext';
 import { Copy, Loader2, Pencil, RotateCcw, SlidersHorizontal, ToggleLeft, ToggleRight } from 'lucide-react';
 import { useToast } from '@/context/ToastContext';
 import { Modal } from '@/components/ui/Modal';
+import { getPromptCatalogMap } from '@/lib/ai/prompts/catalog';
 
 type FeatureItem = {
   key: string;
@@ -39,6 +40,7 @@ export const AIFeaturesSection: React.FC = () => {
   const [savingKey, setSavingKey] = useState<string | null>(null);
 
   const items = useMemo(() => FEATURES, []);
+  const catalogMap = useMemo(() => getPromptCatalogMap(), []);
 
   const getEnabled = (key: string) => {
     const v = aiFeatureFlags?.[key];
@@ -80,8 +82,11 @@ export const AIFeaturesSection: React.FC = () => {
       });
       const data = await res.json().catch(() => null);
       if (!res.ok) throw new Error(data?.error || `Falha ao carregar prompt (HTTP ${res.status})`);
-      const resolved = data?.resolvedContent as string | undefined;
-      setPromptDraft(resolved || '');
+      // API returns { key, active, versions }. If no override is active, we should fall back to the catalog default.
+      const activeContent = (data?.active?.content as string | undefined) || '';
+      const fallbackDefault = catalogMap?.[feature.promptKey]?.defaultTemplate || '';
+      const next = activeContent.trim().length > 0 ? activeContent : fallbackDefault;
+      setPromptDraft(next || '');
     } catch (e: any) {
       showToast(e?.message || 'Falha ao carregar prompt', 'error');
       setPromptDraft('');

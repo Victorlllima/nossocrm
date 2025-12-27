@@ -15,6 +15,7 @@
   - **Central de I.A**:
     - “Funções de IA” voltou para o padrão visual de “row-card” com ações por ícone (editar prompt + toggle por ícone).
     - Toggle por ícone padronizado: **ativo verde** / **desativado vermelho**.
+    - Fix: editor de prompt dentro de “Funções de IA” agora carrega o **template padrão do catálogo** quando não existe override ativo (antes podia abrir vazio).
   - **Integrações → Webhooks**: corrigido exemplo de `curl` (remoção de caracteres `+` no output).
 - **Debug Mode (UX)**:
   - Debug agora é **reativo** (sem refresh): toggle dispara evento (`DEBUG_MODE_EVENT`) e `DebugFillButton` usa `useDebugMode`.
