@@ -598,7 +598,7 @@ export default function InstallStartPage() {
                   ref={inputRef}
                   type="password"
                   value={vercelToken}
-                  onChange={(e) => setVercelToken(e.target.value)}
+                  onChange={(e) => { setVercelToken(e.target.value); setError(''); }}
                   className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:border-transparent text-center"
                   placeholder="Cole seu token da Vercel"
                   autoFocus
@@ -731,7 +731,7 @@ export default function InstallStartPage() {
                   ref={inputRef}
                   type="password"
                   value={supabaseToken}
-                  onChange={(e) => setSupabaseToken(e.target.value)}
+                  onChange={(e) => { setSupabaseToken(e.target.value); setError(''); }}
                   className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:border-transparent text-center"
                   placeholder="Cole seu token do Supabase"
                   autoFocus
