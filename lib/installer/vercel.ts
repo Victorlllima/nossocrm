@@ -27,6 +27,7 @@ type VercelEnv = {
 type VercelDeployment = {
   id?: string;
   uid?: string;
+  target?: 'production' | 'preview' | 'development';
 };
 
 const VERCEL_API_BASE = 'https://api.vercel.com';
@@ -253,14 +254,27 @@ export async function triggerProjectRedeploy(
   projectId: string,
   teamId?: string
 ) {
-  const data = await vercelFetch<{ deployments?: VercelDeployment[] }>(
-    `/v6/deployments?projectId=${projectId}&limit=1`,
+  // Prefer redeploying the latest *production* deployment so NEXT_PUBLIC_* is rebuilt
+  // and the production domain starts using the new env vars.
+  let data = await vercelFetch<{ deployments?: VercelDeployment[] }>(
+    `/v6/deployments?projectId=${projectId}&target=production&limit=1`,
     token,
     {},
     teamId
   );
 
-  const latest = data.deployments?.[0];
+  let latest = data.deployments?.[0];
+
+  // Fallback: if target filter isn't supported, pick production from recent deployments.
+  if (!latest) {
+    data = await vercelFetch<{ deployments?: VercelDeployment[] }>(
+      `/v6/deployments?projectId=${projectId}&limit=5`,
+      token,
+      {},
+      teamId
+    );
+    latest = data.deployments?.find((d) => d.target === 'production') ?? data.deployments?.[0];
+  }
   const deploymentId = latest?.uid ?? latest?.id;
   if (!deploymentId) {
     throw new Error('No deployments found for this project.');
