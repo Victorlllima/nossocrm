@@ -78,7 +78,7 @@ const ALL_STEPS: Step[] = [
   { id: 'edge_deploy', phase: 'comms', weight: 10, skippable: false },
   { id: 'bootstrap', phase: 'contact', weight: 5, skippable: true },
   { id: 'redeploy', phase: 'landing', weight: 5, skippable: false },
-  { id: 'wait_vercel_deploy', phase: 'landing', weight: 10, skippable: false },
+  { id: 'wait_vercel_deploy', phase: 'landing', weight: 3, skippable: false },
 ];
 
 // Mapeamento cinematográfico Interstellar

@@ -545,3 +545,14 @@
   - Adicionado editor de **tags do negócio** no `DealDetailModal` (chips + adicionar/remover).
   - Sugestões de tags reutilizam `crm_tags` (localStorage) e novas tags criadas no modal passam a alimentar a lista de sugestões.
   - Refinamento de UI: botão de adicionar tag agora é **compacto (ícone)** e alinhado ao input (melhor no mobile).
+
+### 28/12/2025 — UX Final do Installer
+
+- **Progresso proporcional no último capítulo**:
+  - Reduzido peso do `wait_vercel_deploy` de **10 → 3** para evitar a sensação de "travamento" em 80%
+  - Agora a barra avança de forma mais equilibrada durante todo o processo
+
+- **Tela final minimalista (estilo Jobs)**:
+  - Removido texto técnico `"Tudo está pronto — você já pode entrar. (Se parecer desatualizado, recarregue a página.)"`
+  - Botão simplificado: `🚀 Explorar o novo mundo` (usando ícone `Rocket` do Lucide)
+  - Foco na celebração, não em instruções técnicas
