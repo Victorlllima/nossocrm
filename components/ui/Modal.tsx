@@ -43,6 +43,11 @@ interface ModalProps {
    * the focus trap temporarily to avoid trapping focus behind the nested dialog.
    */
   focusTrapEnabled?: boolean;
+  /**
+   * Whether to close the modal when clicking the backdrop.
+   * Defaults to true.
+   */
+  closeOnBackdropClick?: boolean;
 }
 
 const sizeClasses = {
@@ -67,6 +72,7 @@ const sizeClasses = {
   describedById,
   initialFocus,
   focusTrapEnabled = true,
+  closeOnBackdropClick = true,
 } - Parâmetro `{ 
   isOpen, 
   onClose, 
@@ -79,6 +85,7 @@ const sizeClasses = {
   describedById,
   initialFocus,
   focusTrapEnabled = true,
+  closeOnBackdropClick = true,
 }`.
  * @returns {Element | null} Retorna um valor do tipo `Element | null`.
  */
@@ -94,6 +101,7 @@ export const Modal: React.FC<ModalProps> = ({
   describedById,
   initialFocus,
   focusTrapEnabled = true,
+  closeOnBackdropClick = true,
 }) => {
   // Generate unique ID for title if not provided
   const generatedId = useId();
@@ -109,10 +117,10 @@ export const Modal: React.FC<ModalProps> = ({
 
   // Handle backdrop click
   const handleBackdropClick = useCallback((e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
+    if (e.target === e.currentTarget && closeOnBackdropClick) {
       onClose();
     }
-  }, [onClose]);
+  }, [onClose, closeOnBackdropClick]);
 
   if (!isOpen) return null;
 
