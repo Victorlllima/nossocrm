@@ -1,8 +1,8 @@
 # Single Source of Truth: NossoCRM (Max Lima Edition)
 
 > **Arquivo:** `asbuilt.md`
-> **Versão:** 1.0.0
-> **Última Atualização:** 01/01/2026
+> **Versão:** 1.1.0
+> **Última Atualização:** 02/01/2026
 > **Responsável:** Equipe de Engenharia (AI Lead)
 
 Este documento serve como a **Fonte Única da Verdade (SSOT)** para o projeto. Qualquer agente ou desenvolvedor deve consultar este arquivo antes de iniciar novas implementações para garantir consistência arquitetural.
@@ -124,9 +124,61 @@ Todas as tabelas possuem a coluna `organization_id` (UUID). As policies do Supab
 *   **IA & Agentes:**
     *   `POST /api/ai/chat`: Endpoint principal do Chatbot (Streaming).
     *   `POST /api/ai/tasks/*`: Tarefas específicas (gerar resumo, analisar deal).
+*   **Integrações Externas:**
+    *   `POST /api/integrations/n8n/incoming`: Webhook para receber leads do n8n/WhatsApp.
 *   **Sistema:**
     *   `POST /api/setup-instance`: Criação do primeiro admin/org.
     *   `GET /api/public/v1/docs`: Swagger UI da API pública.
+
+---
+
+## 5.1 Integrações Externas (n8n/WhatsApp)
+
+O CRM possui integração nativa com **n8n** para automação de leads vindos do WhatsApp.
+
+### Opção 1: Via API Webhook
+**Endpoint:** `POST /api/integrations/n8n/incoming`
+
+**Payload:**
+```json
+{
+  "phone": "+5511999999999",
+  "name": "Nome do Lead",
+  "organization_id": "uuid-da-organizacao"
+}
+```
+
+**Comportamento:**
+1. Valida campos obrigatórios (`phone`, `organization_id`).
+2. Busca ou cria contato na tabela `contacts`.
+3. Identifica o board e estágio "Novo" da organização.
+4. Cria um deal (card) no pipeline.
+
+**Arquivo:** `app/api/integrations/n8n/incoming/route.ts`
+
+### Opção 2: Via Database Trigger
+**Trigger:** `trg_sync_leads` (AFTER INSERT em `leads`)
+
+**Função:** `sync_leads_to_crm()`
+
+**Comportamento:**
+1. Limpa o `whatsapp_id` (remove `@s.whatsapp.net`).
+2. Busca ou cria contato em `contacts`.
+3. Identifica board e estágio apropriado.
+4. Cria deal no pipeline.
+5. Atualiza o lead com `converted_to_contact_id`.
+
+**Migration:** `supabase/migrations/20260102144200_n8n_lead_sync_trigger.sql`
+
+**Formato de entrada (tabela `leads`):**
+```sql
+INSERT INTO leads (name, whatsapp_id)
+VALUES ('João Silva', '5511999999999@s.whatsapp.net');
+```
+
+### Colunas Adicionadas:
+*   `contacts.whatsapp_phone` (TEXT): Número limpo do WhatsApp.
+*   `leads.whatsapp_id` (TEXT): ID bruto do n8n (formato: `numero@s.whatsapp.net`).
 
 ---
 
@@ -159,6 +211,7 @@ Arquivo necessário: `.env.local`
 *   ✅ **Core CRM**: Funcional (CRUD de Contatos, Deals, Boards).
 *   ✅ **IA Integration**: Funcional (Chat, Tools de leitura/escrita, RAG básico).
 *   ✅ **Autenticação**: Funcional (Supabase Auth).
+*   ✅ **Integração n8n/WhatsApp**: Funcional (API Webhook + DB Trigger).
 *   ⚠️ **Mobile/PWA**: Em refinamento (Layouts responsivos implementados, mas precisam de polimento).
 *   ⚠️ **Testes**: Cobertura parcial (foco em core logic).
 
