@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { getErrorMessage } from '@/lib/utils/errorUtils'
 import { Loader2, Mail, Lock, ArrowRight } from 'lucide-react'
@@ -136,6 +137,17 @@ export default function LoginPage() {
                             )}
                         </button>
                     </form>
+
+                    {/* Link para cadastro */}
+                    <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
+                        Não tem uma conta?{' '}
+                        <Link
+                            href="/signup"
+                            className="font-medium text-primary-600 dark:text-primary-400 hover:text-primary-500 transition-colors"
+                        >
+                            Crie sua conta
+                        </Link>
+                    </p>
                 </div>
 
                 <p className="mt-8 text-center text-xs text-slate-400 dark:text-slate-500">

@@ -486,5 +486,9 @@ export const useDashboardMetrics = (period: PeriodFilter = 'this_month', boardId
       revenue: revenueChange,
     },
     activeSnapshotDeals, // Exposing full active pipeline for alerts
+    // Flag para detectar usuários novos sem dados
+    isEmpty: allDeals.length === 0 && allContacts.length === 0,
+    hasNoDeals: allDeals.length === 0,
+    hasNoContacts: allContacts.length === 0,
   };
 };

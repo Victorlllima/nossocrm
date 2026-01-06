@@ -6,6 +6,7 @@ import { TrendingUp, TrendingDown, Users, DollarSign, Target, Clock, MoreVertica
 import { StatCard } from './components/StatCard';
 import { ActivityFeedItem } from './components/ActivityFeedItem';
 import { PipelineAlertsModal } from './components/PipelineAlertsModal';
+import { DashboardEmptyState } from './components/DashboardEmptyState';
 import { useDashboardMetrics, PeriodFilter, COMPARISON_LABELS } from './hooks/useDashboardMetrics';
 import { PeriodFilterSelect } from '@/components/filters/PeriodFilterSelect';
 import { LazyFunnelChart, ChartWrapper } from '@/components/charts';
@@ -86,6 +87,9 @@ const DashboardPage: React.FC = () => {
     wonDealsWithDates,
     changes,
     activeSnapshotDeals,
+    isEmpty,
+    hasNoDeals,
+    hasNoContacts,
   } = useDashboardMetrics(period, selectedBoardId);
 
   // Formatar variações para exibição
@@ -93,6 +97,11 @@ const DashboardPage: React.FC = () => {
   const dealsChangeInfo = formatChange(changes.deals);
   const winRateChangeInfo = formatChange(changes.winRate);
   const revenueChangeInfo = formatChange(changes.revenue);
+
+  // Se não tem dados, mostra Empty State
+  if (isEmpty) {
+    return <DashboardEmptyState hasNoDeals={hasNoDeals} hasNoContacts={hasNoContacts} />;
+  }
 
   return (
     <div className="flex flex-col h-[calc(100vh-7rem)] space-y-4">

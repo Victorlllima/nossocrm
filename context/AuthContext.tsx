@@ -58,6 +58,8 @@ interface Profile {
     phone?: string | null;
     avatar_url?: string | null;
     created_at?: string;
+    /** Se TRUE, usuário deve trocar a senha antes de acessar o sistema */
+    must_change_password?: boolean;
 }
 
 /**
@@ -78,6 +80,10 @@ interface AuthContextType {
     loading: boolean;
     /** Se a instância foi inicializada (setup feito) */
     isInitialized: boolean | null;
+    /** Se o usuário precisa completar o onboarding (tem user mas não tem org) */
+    needsOnboarding: boolean;
+    /** Se o usuário precisa trocar a senha (must_change_password = true) */
+    requiresPasswordChange: boolean;
     /** Verifica se instância foi inicializada */
     checkInitialization: () => Promise<void>;
     /** Faz logout do usuário */
@@ -210,6 +216,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setSession(null);
     };
 
+    // Calcula se precisa de onboarding
+    const needsOnboarding = !loading && !!user && !profile?.organization_id;
+
+    // Calcula se precisa trocar a senha
+    const requiresPasswordChange = !loading && !!user && !!profile?.must_change_password;
+
     const value = {
         session,
         user,
@@ -217,6 +229,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         organizationId: profile?.organization_id ?? null,
         loading,
         isInitialized,
+        needsOnboarding,
+        requiresPasswordChange,
         checkInitialization,
         signOut,
         refreshProfile,
