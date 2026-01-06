@@ -36,10 +36,6 @@ export type UpdatePasswordState = {
  * 2. Atualiza via supabase.auth.updateUser
  * 3. Remove flag must_change_password do profile
  * 4. Revalida cache
- * 
- * @param prevState - Estado anterior
- * @param formData - Dados do formulário
- * @returns Estado com resultado da operação
  */
 export async function updatePassword(
     prevState: UpdatePasswordState | null,

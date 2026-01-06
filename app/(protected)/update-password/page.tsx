@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2, Lock, ShieldCheck, ArrowRight } from 'lucide-react'
 import { z } from 'zod'
 import { useAuth } from '@/context/AuthContext'
-import { updatePassword, type UpdatePasswordState } from '@/features/auth'
+import { updatePassword } from '@/features/auth'
 
 /**
  * Schema de validação para o formulário
@@ -25,7 +25,7 @@ const updatePasswordFormSchema = z.object({
     path: ['confirmPassword'],
 })
 
-type FormData = z.infer<typeof updatePasswordFormSchema>
+type FormDataValues = z.infer<typeof updatePasswordFormSchema>
 
 /**
  * Página de atualização obrigatória de senha
@@ -35,17 +35,15 @@ export default function UpdatePasswordPage() {
     const router = useRouter()
     const { user, loading: authLoading, requiresPasswordChange, refreshProfile } = useAuth()
 
-    const [state, formAction, isPending] = useActionState<UpdatePasswordState | null, FormData>(
-        updatePassword,
-        null
-    )
+    // Deixamos o TypeScript inferir os tipos para evitar conflitos de FormData vs Object
+    const [state, formAction, isPending] = useActionState(updatePassword, null)
 
     const {
         register,
         handleSubmit,
         formState: { errors },
         setError,
-    } = useForm<FormData>({
+    } = useForm<FormDataValues>({
         resolver: zodResolver(updatePasswordFormSchema),
         defaultValues: {
             newPassword: '',
@@ -81,6 +79,22 @@ export default function UpdatePasswordPage() {
             router.replace('/dashboard')
         }
     }, [authLoading, requiresPasswordChange, user, router])
+
+    // Função helper para submeter o form via react-hook-form + server action
+    const onSubmit = (evt: React.FormEvent) => {
+        evt.preventDefault();
+        handleSubmit(() => {
+            // Cria um FormData manualmente do formulário HTML
+            const formElement = document.querySelector('form') as HTMLFormElement
+            if (formElement) {
+                // Envia para a server action via startTransition (implícito no formAction do useActionState)
+                const formData = new FormData(formElement)
+                React.startTransition(() => {
+                    formAction(formData)
+                })
+            }
+        })(evt);
+    };
 
     // Loading state
     if (authLoading) {
@@ -122,14 +136,7 @@ export default function UpdatePasswordPage() {
                 {/* Card do formulário */}
                 <div className="bg-white dark:bg-dark-card border border-slate-200 dark:border-white/10 rounded-2xl shadow-xl p-8 backdrop-blur-sm">
                     <form
-                        action={formAction}
-                        onSubmit={handleSubmit(() => {
-                            const form = document.querySelector('form') as HTMLFormElement
-                            if (form) {
-                                const formData = new FormData(form)
-                                formAction(formData)
-                            }
-                        })}
+                        onSubmit={onSubmit}
                         className="space-y-5"
                     >
                         {/* Nova Senha */}
