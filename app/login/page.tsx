@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
 import { getErrorMessage } from '@/lib/utils/errorUtils'
 import { Loader2, Mail, Lock, ArrowRight } from 'lucide-react'
@@ -51,6 +53,18 @@ export default function LoginPage() {
             </div>
 
             <div className="max-w-md w-full relative z-10 px-4">
+                {/* Logo */}
+                <div className="flex justify-center mb-8">
+                    <Image
+                        src="/logo_maxlima_sembg.png"
+                        alt="Max Lima CRM"
+                        width={300}
+                        height={300}
+                        className="drop-shadow-lg"
+                        priority
+                    />
+                </div>
+
                 <div className="text-center mb-8">
                     <h1 className="text-4xl font-bold text-slate-900 dark:text-white font-display tracking-tight mb-2">
                         Bem-vindo de volta
@@ -136,6 +150,17 @@ export default function LoginPage() {
                             )}
                         </button>
                     </form>
+
+                    {/* Link para cadastro */}
+                    <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
+                        Não tem uma conta?{' '}
+                        <Link
+                            href="/signup"
+                            className="font-medium text-primary-600 dark:text-primary-400 hover:text-primary-500 transition-colors"
+                        >
+                            Crie sua conta
+                        </Link>
+                    </p>
                 </div>
 
                 <p className="mt-8 text-center text-xs text-slate-400 dark:text-slate-500">
