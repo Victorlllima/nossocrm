@@ -252,17 +252,19 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           aria-label="Menu principal"
         >
           <div className={`h-16 flex items-center border-b border-[var(--color-border-subtle)] transition-all duration-300 px-5 ${sidebarCollapsed ? 'justify-center px-0' : 'justify-between'}`}>
-            <div className={`flex items-center transition-all duration-300 ${sidebarCollapsed ? 'gap-0 justify-center' : 'gap-3'}`}>
+            <div className={`flex items-center justify-center transition-all duration-300 w-full`}>
               <Image
                 src="/logo_maxlima_sembg.png"
                 alt="Max Lima"
-                width={36}
-                height={36}
-                className="rounded-xl shrink-0"
+                width={sidebarCollapsed ? 40 : 120}
+                height={sidebarCollapsed ? 40 : 120}
+                className="shrink-0 transition-all duration-300"
+                style={{
+                  maxHeight: '48px',
+                  width: 'auto',
+                  objectFit: 'contain'
+                }}
               />
-              <span className={`text-xl font-bold font-display tracking-tight text-slate-900 dark:text-white whitespace-nowrap overflow-hidden transition-all duration-300 ${sidebarCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}>
-                Max Lima
-              </span>
             </div>
 
             {/* Header Toggle Button - Only visible when expanded */}

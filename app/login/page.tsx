@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
 import { getErrorMessage } from '@/lib/utils/errorUtils'
 import { Loader2, Mail, Lock, ArrowRight } from 'lucide-react'
@@ -52,6 +53,18 @@ export default function LoginPage() {
             </div>
 
             <div className="max-w-md w-full relative z-10 px-4">
+                {/* Logo */}
+                <div className="flex justify-center mb-8">
+                    <Image
+                        src="/logo_maxlima_sembg.png"
+                        alt="Max Lima CRM"
+                        width={300}
+                        height={300}
+                        className="drop-shadow-lg"
+                        priority
+                    />
+                </div>
+
                 <div className="text-center mb-8">
                     <h1 className="text-4xl font-bold text-slate-900 dark:text-white font-display tracking-tight mb-2">
                         Bem-vindo de volta
