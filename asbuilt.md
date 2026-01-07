@@ -177,6 +177,7 @@ Os tipos globais residem em `types/types.ts`.
 *   **Activity**: Tarefa/Evento. Relacionada a `Deal` ou `Contact`.
 *   **Product/DealItem**: Itens vendáveis associados a um Deal.
 *   **Leads**: Entrada de leads externos (n8n/WhatsApp).
+*   **ConversationSummaries**: Resumos de conversas processados por IA (n8n).
 
 **Padrão de Segurança (RLS):**
 Todas as tabelas possuem a coluna `organization_id` (UUID). As policies do Supabase garantem que `auth.uid()` só acesse registros onde sua organização corresponde.
@@ -184,6 +185,8 @@ Todas as tabelas possuem a coluna `organization_id` (UUID). As policies do Supab
 **Migrations Disponíveis:**
 1. `20251201000000_schema_init.sql` - Schema inicial completo (82KB).
 2. `20260102144200_n8n_lead_sync_trigger.sql` - Trigger de sincronização de leads WhatsApp/n8n.
+3. `20260106_auto_convert_leads.sql` - Trigger de conversão automática de leads em deals/contacts.
+4. `20260107160000_conversation_summaries.sql` - Tabela e trigger de resumos de conversas IA.
 
 ---
 
@@ -273,6 +276,22 @@ VALUES ('João Silva', '5511999999999@s.whatsapp.net');
 *   `contacts.whatsapp_phone` (TEXT): Número limpo do WhatsApp.
 *   `leads.whatsapp_id` (TEXT): ID bruto do n8n (formato: `numero@s.whatsapp.net`).
 *   `leads.converted_to_contact_id` (UUID): Referência ao contato criado.
+
+### Nova Tabela: Conversation Summaries
+* **Tabela:** `conversation_summaries`
+* **Finalidade:** Receber resumos de conversas gerados por IA via n8n.
+* **Trigger:** `trg_inject_summary` -> Injeta o conteúdo no campo `description` do Deal mais recente do contato.
+
+### Integração n8n - Resumo de Conversa
+**Tabela Alvo:** `conversation_summaries`
+**Payload esperado do n8n:**
+```json
+{
+  "whatsapp_id": "551199999999@s.whatsapp.net",
+  "summary": "Cliente interessado no plano X, mas achou caro. Pediu retorno semana que vem.",
+  "organization_id": "uuid-da-org"
+}
+```
 
 ---
 
