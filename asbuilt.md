@@ -280,7 +280,7 @@ VALUES ('João Silva', '5511999999999@s.whatsapp.net');
 ### Nova Tabela: Conversation Summaries
 * **Tabela:** `conversation_summaries`
 * **Finalidade:** Receber resumos de conversas gerados por IA via n8n.
-* **Trigger:** `trg_inject_summary` -> Injeta o conteúdo no campo `description` do Deal mais recente do contato.
+* **Trigger:** `trg_inject_summary` -> Injeta o conteúdo no campo `ai_summary` do Deal mais recente do contato.
 
 ### Integração n8n - Resumo de Conversa
 **Tabela Alvo:** `conversation_summaries`
