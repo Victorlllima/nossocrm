@@ -11,23 +11,23 @@
   --font-display: 'Space Grotesk', sans-serif;
   --font-serif: 'Cinzel', serif;
 
-  /* Primary Colors */
-  --color-primary-50: #f0f9ff;
-  --color-primary-100: #e0f2fe;
-  --color-primary-200: #bae6fd;
-  --color-primary-300: #7dd3fc;
-  --color-primary-400: #38bdf8;
-  --color-primary-500: #0ea5e9;
-  --color-primary-600: #0284c7;
-  --color-primary-700: #0369a1;
-  --color-primary-800: #075985;
-  --color-primary-900: #0c4a6e;
+  /* Primary Colors - Max Lima Brand (Gold) */
+  --color-primary-50: #FDF8F0;
+  --color-primary-100: #F9ECDA;
+  --color-primary-200: #F3D9B5;
+  --color-primary-300: #ECC197;
+  --color-primary-400: #E5A970;
+  --color-primary-500: #D4934A;
+  --color-primary-600: #B87A35;
+  --color-primary-700: #9A6328;
+  --color-primary-800: #7D4D1E;
+  --color-primary-900: #5F3815;
 
-  /* Dark Theme Colors */
-  --color-dark-bg: #020617;
-  --color-dark-card: #0f172a;
-  --color-dark-border: #1e293b;
-  --color-dark-hover: #334155;
+  /* Dark Theme Colors - Max Lima Brand */
+  --color-dark-bg: #191815;
+  --color-dark-card: #322C25;
+  --color-dark-border: #4A4238;
+  --color-dark-hover: #5A5248;
 }
 
 /* ========================================
@@ -114,14 +114,14 @@ html, body {
 }
 
 .dark {
-  /* Dark Mode - Deep Slate (OKLCH) */
-  --color-bg: oklch(11% 0.025 260);
-  --color-surface: oklch(15% 0.02 260);
-  --color-muted: oklch(22% 0.015 260);
-  --color-border: oklch(26% 0.012 260);
-  --color-border-subtle: oklch(22% 0.01 260 / 0.6);
+  /* Dark Mode - Max Lima Brand (Deep Brown/Gold) */
+  --color-bg: oklch(12% 0.01 75);
+  --color-surface: oklch(18% 0.015 65);
+  --color-muted: oklch(22% 0.02 60);
+  --color-border: oklch(28% 0.02 60);
+  --color-border-subtle: oklch(24% 0.015 60 / 0.6);
 
-  /* Status Colors - Dark Mode */
+  /* Status Colors - Dark Mode (mantidos) */
   --color-success: oklch(70% 0.17 145);
   --color-success-hover: oklch(65% 0.17 145);
   --color-success-bg: oklch(70% 0.17 145 / 0.1);
@@ -146,26 +146,26 @@ html, body {
   --color-orange-bg: oklch(75% 0.17 55 / 0.1);
   --color-orange-text: oklch(75% 0.17 55);
 
-  /* Text Colors - Dark Mode */
-  --color-text-primary: oklch(98% 0.002 260);
-  --color-text-secondary: oklch(83% 0.015 260);
-  --color-text-muted: oklch(72% 0.02 260);
-  --color-text-subtle: oklch(62% 0.025 260);
+  /* Text Colors - Max Lima Dark Mode */
+  --color-text-primary: oklch(92% 0.005 60);
+  --color-text-secondary: oklch(78% 0.01 60);
+  --color-text-muted: oklch(65% 0.015 60);
+  --color-text-subtle: oklch(55% 0.02 60);
 
-  /* Glass effect - Dark */
-  --glass-bg: oklch(15% 0.02 260 / 0.75);
+  /* Glass effect - Dark (warm tone) */
+  --glass-bg: oklch(18% 0.015 65 / 0.75);
   --glass-border: oklch(100% 0 0 / 0.05);
   --glass-blur: 12px;
 
   /* Dots background */
-  --dots-color: oklch(22% 0.012 260);
+  --dots-color: oklch(24% 0.015 60);
 
   /* Chart Colors */
-  --chart-text: #94a3b8;
-  --chart-grid: rgba(255, 255, 255, 0.1);
-  --chart-tooltip-bg: #1e293b;
-  --chart-tooltip-border: rgba(255, 255, 255, 0.1);
-  --chart-tooltip-text: #f8fafc;
+  --chart-text: #A1978A;
+  --chart-grid: rgba(236, 193, 151, 0.1);
+  --chart-tooltip-bg: #322C25;
+  --chart-tooltip-border: rgba(236, 193, 151, 0.2);
+  --chart-tooltip-text: #E6E6E6;
 }
 
 /* ========================================
