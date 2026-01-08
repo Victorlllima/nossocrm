@@ -1,8 +1,8 @@
 # Single Source of Truth: NossoCRM (Max Lima Edition)
 
 > **Arquivo:** `asbuilt.md`
-> **Versão:** 1.2.0
-> **Última Atualização:** 06/01/2026
+> **Versão:** 1.3.0
+> **Última Atualização:** 08/01/2026
 > **Responsável:** Equipe de Engenharia (AI Lead)
 
 Este documento serve como a **Fonte Única da Verdade (SSOT)** para o projeto. Qualquer agente ou desenvolvedor deve consultar este arquivo antes de iniciar novas implementações para garantir consistência arquitetural.
@@ -23,6 +23,7 @@ O **Max Lima** (anteriormente NossoCRM) é um CRM (Customer Relationship Managem
 *   **Relatórios e Analytics:** Dashboards com métricas de vendas e performance.
 *   **Multi-Tenant:** Arquitetura preparada para múltiplas organizações (isolamento via `organization_id`).
 *   **Integração n8n/WhatsApp:** Automação de leads com sincronização automática via trigger.
+*   **Identidade Visual Max Lima:** Tema Dark com paleta de cores exclusiva (Marrom Escuro #191815, Dourado #ECC197).
 
 ---
 
