@@ -13,6 +13,7 @@ import { DealView, CustomFieldDefinition, Board, BoardStage } from '@/types';
 import { ExportTemplateModal } from './Modals/ExportTemplateModal';
 import { useAuth } from '@/context/AuthContext';
 import PageLoader from '@/components/PageLoader';
+import { PeriodFilter } from '@/features/dashboard/hooks/useDashboardMetrics';
 
 interface PipelineViewProps {
   // Boards
@@ -46,6 +47,8 @@ interface PipelineViewProps {
   setOwnerFilter: (filter: 'all' | 'mine') => void;
   statusFilter: 'open' | 'won' | 'lost' | 'all';
   setStatusFilter: (filter: 'open' | 'won' | 'lost' | 'all') => void;
+  conversationPeriodFilter?: PeriodFilter;
+  setConversationPeriodFilter?: (filter: PeriodFilter) => void;
   draggingId: string | null;
   selectedDealId: string | null;
   setSelectedDealId: (id: string | null) => void;
@@ -221,6 +224,8 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
   setOwnerFilter,
   statusFilter,
   setStatusFilter,
+  conversationPeriodFilter,
+  setConversationPeriodFilter,
   draggingId,
   selectedDealId,
   setSelectedDealId,
@@ -325,6 +330,8 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
             setOwnerFilter={setOwnerFilter}
             statusFilter={statusFilter}
             setStatusFilter={setStatusFilter}
+            conversationPeriodFilter={conversationPeriodFilter}
+            setConversationPeriodFilter={setConversationPeriodFilter}
             onNewDeal={() => setIsCreateModalOpen(true)}
           />
 

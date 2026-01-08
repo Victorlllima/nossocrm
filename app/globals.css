@@ -109,7 +109,8 @@ svg.lucide {
 }
 
 /* Avoid accidental horizontal scroll on small screens (mobile/tablet). */
-html, body {
+html,
+body {
   overflow-x: hidden;
 }
 
@@ -225,6 +226,31 @@ body {
 
 .dark .scrollbar-custom::-webkit-scrollbar-thumb:hover {
   background: #475569;
+}
+
+/* ========================================
+ * Select Dropdown Styling (Dark Mode Fix)
+ * ======================================== */
+select {
+  color-scheme: dark;
+}
+
+.dark select {
+  background-color: #322C25;
+  color: #E6E6E6;
+}
+
+.dark select option {
+  background-color: #322C25;
+  color: #E6E6E6;
+  padding: 8px 12px;
+}
+
+.dark select option:hover,
+.dark select option:focus,
+.dark select option:checked {
+  background-color: #4A4238;
+  color: #ECC197;
 }
 
 /* ========================================

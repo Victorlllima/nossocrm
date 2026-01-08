@@ -21,6 +21,7 @@ import { useToast } from '@/context/ToastContext';
 import { useAuth } from '@/context/AuthContext';
 import { useCRM } from '@/context/CRMContext';
 import { useAI } from '@/context/AIContext';
+import { PeriodFilter } from '@/features/dashboard/hooks/useDashboardMetrics';
 
 /**
  * Função pública `isDealRotting` do projeto.
@@ -140,6 +141,7 @@ export const useBoardsController = () => {
   const [ownerFilter, setOwnerFilter] = useState<'all' | 'mine'>('all');
   const [statusFilter, setStatusFilter] = useState<'open' | 'won' | 'lost' | 'all'>('open');
   const [dateRange, setDateRange] = useState({ start: '', end: '' });
+  const [conversationPeriodFilter, setConversationPeriodFilter] = useState<PeriodFilter>('all');
 
   // Track last context signature to avoid unnecessary setContext calls
   const lastContextSignatureRef = useRef<string | null>(null);
@@ -364,6 +366,53 @@ export const useBoardsController = () => {
     return () => document.removeEventListener('click', handleClickOutside);
   }, [openActivityMenuId]);
 
+  // Helper function to check conversation period filter
+  const checkConversationPeriod = (dateString: string | null, filter: PeriodFilter): boolean => {
+    if (filter === 'all' || !dateString) return true;
+
+    const date = new Date(dateString);
+    const now = new Date();
+
+    // Zero out hours for day comparison
+    const targetDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    switch (filter) {
+      case 'today':
+        return targetDate.getTime() === today.getTime();
+      case 'yesterday': {
+        const yesterday = new Date(today);
+        yesterday.setDate(today.getDate() - 1);
+        return targetDate.getTime() === yesterday.getTime();
+      }
+      case 'last_7_days': {
+        const sevenDaysAgo = new Date(today);
+        sevenDaysAgo.setDate(today.getDate() - 7);
+        return targetDate >= sevenDaysAgo;
+      }
+      case 'last_30_days': {
+        const thirtyDaysAgo = new Date(today);
+        thirtyDaysAgo.setDate(today.getDate() - 30);
+        return targetDate >= thirtyDaysAgo;
+      }
+      case 'this_month':
+        return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
+      case 'last_month': {
+        const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        return date.getMonth() === lastMonth.getMonth() && date.getFullYear() === lastMonth.getFullYear();
+      }
+      case 'this_quarter': {
+        const quarter = Math.floor(now.getMonth() / 3);
+        const quarterStart = new Date(now.getFullYear(), quarter * 3, 1);
+        return date >= quarterStart;
+      }
+      case 'this_year':
+        return date.getFullYear() === now.getFullYear();
+      default:
+        return true;
+    }
+  };
+
   // Filtering Logic
   const filteredDeals = useMemo(() => {
     const cutoffDate = new Date();
@@ -407,7 +456,10 @@ export const useBoardsController = () => {
         }
       }
 
-      return matchesSearch && matchesOwner && matchesDate && matchesStatus && matchesRecent;
+      // Conversation Period Filter (based on updated_at - when n8n updates the deal)
+      const matchesConversationPeriod = checkConversationPeriod(l.updatedAt, conversationPeriodFilter);
+
+      return matchesSearch && matchesOwner && matchesDate && matchesStatus && matchesRecent && matchesConversationPeriod;
     }).map(deal => {
       // Enrich owner info if it matches current user
       if (deal.ownerId === profile?.id || deal.ownerId === (profile as any)?.user_id) { // Fallback for some profile types
@@ -421,7 +473,7 @@ export const useBoardsController = () => {
       }
       return deal;
     });
-  }, [deals, searchTerm, ownerFilter, dateRange, statusFilter, profile]);
+  }, [deals, searchTerm, ownerFilter, dateRange, statusFilter, conversationPeriodFilter, profile]);
 
   // Drag & Drop Handlers
   const handleDragStart = (e: React.DragEvent, id: string, title: string) => {
@@ -851,6 +903,8 @@ export const useBoardsController = () => {
     setStatusFilter,
     dateRange,
     setDateRange,
+    conversationPeriodFilter,
+    setConversationPeriodFilter,
 
     draggingId,
     selectedDealId,

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Plus, Search, LayoutGrid, Table as TableIcon, User, Settings, Lightbulb, Download } from 'lucide-react';
+import { Plus, Search, LayoutGrid, Table as TableIcon, User, Settings, Lightbulb, Download, CalendarClock } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Board } from '@/types';
 import { BoardSelector } from '../BoardSelector';
+import { PeriodFilter, PERIOD_LABELS } from '@/features/dashboard/hooks/useDashboardMetrics';
 
 interface KanbanHeaderProps {
     // Boards
@@ -22,6 +23,8 @@ interface KanbanHeaderProps {
     setOwnerFilter: (filter: 'all' | 'mine') => void;
     statusFilter: 'open' | 'won' | 'lost' | 'all';
     setStatusFilter: (filter: 'open' | 'won' | 'lost' | 'all') => void;
+    conversationPeriodFilter?: PeriodFilter;
+    setConversationPeriodFilter?: (filter: PeriodFilter) => void;
     onNewDeal: () => void;
 }
 
@@ -69,6 +72,8 @@ export const KanbanHeader: React.FC<KanbanHeaderProps> = ({
     searchTerm, setSearchTerm,
     ownerFilter, setOwnerFilter,
     statusFilter, setStatusFilter,
+    conversationPeriodFilter,
+    setConversationPeriodFilter,
     onNewDeal
 }) => {
     return (
@@ -205,6 +210,25 @@ export const KanbanHeader: React.FC<KanbanHeaderProps> = ({
                     </select>
                     <User className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={14} />
                 </div>
+
+                {/* CONVERSATION PERIOD FILTER */}
+                {setConversationPeriodFilter && (
+                    <div className="relative">
+                        <select
+                            value={conversationPeriodFilter || 'all'}
+                            onChange={(e) => setConversationPeriodFilter(e.target.value as PeriodFilter)}
+                            aria-label="Filtrar por período de conversas"
+                            className="pl-9 pr-4 py-2 rounded-lg border border-primary-300/30 dark:border-primary-500/20 bg-primary-50/50 dark:bg-primary-900/10 text-sm outline-none focus:ring-2 focus:ring-primary-500 dark:text-white backdrop-blur-sm appearance-none cursor-pointer"
+                        >
+                            <option value="all">Todo Período</option>
+                            <option value="today">Conversas de Hoje</option>
+                            <option value="last_7_days">Últimos 7 dias</option>
+                            <option value="last_30_days">Últimos 30 dias</option>
+                            <option value="this_month">Este Mês</option>
+                        </select>
+                        <CalendarClock className="absolute left-3 top-1/2 -translate-y-1/2 text-primary-500 dark:text-primary-400 pointer-events-none" size={16} />
+                    </div>
+                )}
             </div>
 
             <div className="flex gap-3">
