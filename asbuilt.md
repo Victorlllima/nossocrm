@@ -24,6 +24,7 @@ O **Max Lima** (anteriormente NossoCRM) é um CRM (Customer Relationship Managem
 *   **Multi-Tenant:** Arquitetura preparada para múltiplas organizações (isolamento via `organization_id`).
 *   **Integração n8n/WhatsApp:** Automação de leads com sincronização automática via trigger.
 *   **Identidade Visual Max Lima:** Tema Dark com paleta de cores exclusiva (Marrom Escuro #191815, Dourado #ECC197).
+*   **Filtro de Conversas por Período:** Filtro no Kanban para visualizar deals atualizados Hoje, Últimos 7 dias, 30 dias, ou Este Mês.
 
 ---
 
