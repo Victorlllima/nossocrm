@@ -230,11 +230,11 @@ const DealCardComponent: React.FC<DealCardProps> = ({
         ))}
         {nextFollowUp && (
           <span
-            className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-300 border border-primary-200 dark:border-primary-800/50 flex items-center gap-1 shadow-sm animate-in fade-in zoom-in duration-300"
+            className="text-[10px] font-black px-2 py-0.5 rounded-full bg-rose-600 dark:bg-rose-500 text-white flex items-center gap-1 shadow-md animate-in fade-in zoom-in duration-300 ring-2 ring-white dark:ring-slate-900"
             title={`Follow-up agendado para ${new Date(nextFollowUp.scheduled_at).toLocaleString()}`}
           >
-            <CalendarClock size={10} />
-            Agendado
+            <CalendarClock size={10} className="text-white" strokeWidth={3} />
+            AGENDADO
           </span>
         )}
       </div>

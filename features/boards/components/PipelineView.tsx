@@ -385,6 +385,7 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
         dealId={selectedDealId}
         isOpen={!!selectedDealId}
         onClose={() => setSelectedDealId(null)}
+        setFollowUpDealId={setFollowUpDealId}
       />
 
       <FollowUpModal

@@ -186,7 +186,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
 
   return (
     <div className="h-full overflow-x-auto pb-4">
-      <div className="flex gap-4 h-full min-w-[3400px] px-4">
+      <div className="flex gap-4 h-full min-w-[2200px] px-4">
         {stages.map(stage => {
           const stageDeals = dealsByStageId.map.get(stage.id) ?? [];
           const stageValue = dealsByStageId.totals.get(stage.id) ?? 0;

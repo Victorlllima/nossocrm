@@ -5,6 +5,7 @@ import { Modal, ModalForm } from '@/components/ui/Modal';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface FollowUpModalProps {
   isOpen: boolean;
@@ -30,6 +31,7 @@ export const FollowUpModal: React.FC<FollowUpModalProps> = ({
 }) => {
   const { profile } = useAuth();
   const { addToast } = useToast();
+  const queryClient = useQueryClient();
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const {
@@ -116,6 +118,9 @@ export const FollowUpModal: React.FC<FollowUpModalProps> = ({
         if (error) throw error;
         addToast('Follow-up agendado com sucesso!', 'success');
       }
+
+      // Invalidate query to update UI (Kanban badges and Summary tab)
+      queryClient.invalidateQueries({ queryKey: ['scheduled_messages', dealId] });
 
       reset();
       onScheduled?.();

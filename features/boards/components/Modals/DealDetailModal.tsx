@@ -6,6 +6,8 @@ import ConfirmModal from '@/components/ConfirmModal';
 import { LossReasonModal } from '@/components/ui/LossReasonModal';
 import { useMoveDealSimple } from '@/lib/query/hooks';
 import { FocusTrap, useFocusReturn } from '@/lib/a11y';
+import { supabase } from '@/lib/supabase';
+import { useQueryClient } from '@tanstack/react-query';
 import { Activity } from '@/types';
 import { usePersistedState } from '@/hooks/usePersistedState';
 import { useResponsiveMode } from '@/hooks/useResponsiveMode';
@@ -35,15 +37,21 @@ import {
   Tag as TagIcon,
   Plus,
   MessageSquareDashed,
+  CalendarClock,
+  Clock,
 } from 'lucide-react';
 import { StageProgressBar } from '../StageProgressBar';
 import { ActivityRow } from '@/features/activities/components/ActivityRow';
 import { formatPriorityPtBr } from '@/lib/utils/priority';
+import { useScheduledMessages } from '@/lib/query/hooks/useFollowUpQuery';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 interface DealDetailModalProps {
   dealId: string | null;
   isOpen: boolean;
   onClose: () => void;
+  setFollowUpDealId?: (id: string | null) => void;
 }
 
 // Performance: reuse date formatter instance.
@@ -55,7 +63,12 @@ const PT_BR_DATE_FORMATTER = new Intl.DateTimeFormat('pt-BR');
  * @param {DealDetailModalProps} { dealId, isOpen, onClose } - Parâmetro `{ dealId, isOpen, onClose }`.
  * @returns {Element | null} Retorna um valor do tipo `Element | null`.
  */
-export const DealDetailModal: React.FC<DealDetailModalProps> = ({ dealId, isOpen, onClose }) => {
+export const DealDetailModal: React.FC<DealDetailModalProps> = ({
+  dealId,
+  isOpen,
+  onClose,
+  setFollowUpDealId,
+}) => {
   // Accessibility: Unique ID for ARIA labelling
   const headingId = useId();
 
@@ -84,6 +97,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({ dealId, isOpen
   } = useCRM();
   const { profile } = useAuth();
   const { addToast } = useToast();
+  const queryClient = useQueryClient();
 
   // Performance: avoid repeated `find(...)` on large arrays.
   const dealsById = useMemo(() => new Map(deals.map((d) => [d.id, d])), [deals]);
@@ -138,6 +152,10 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({ dealId, isOpen
   const normalizeTag = (value: string) => value.trim().replace(/\s+/g, ' ');
   const tagsLower = useMemo(() => new Set((deal?.tags || []).map(t => t.toLowerCase())), [deal?.tags]);
   const availableTagsLower = useMemo(() => new Set((availableTags || []).map(t => t.toLowerCase())), [availableTags]);
+
+  // Follow-up information
+  const { data: scheduled_messages_query = [] } = useScheduledMessages(dealId || '');
+  const pendingFollowUp = scheduled_messages_query[0];
 
   // Helper functions removed as they are now handled by ActivityRow component
 
@@ -808,6 +826,81 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({ dealId, isOpen
             <div className="flex-1 overflow-y-auto p-6 bg-slate-50/30 dark:bg-black/10">
               {activeTab === 'summary' && (
                 <div className="space-y-4">
+                  {/* Follow-up Section */}
+                  {pendingFollowUp && (
+                    <div className="rounded-lg border border-pink-100 bg-pink-50/50 p-6 shadow-sm dark:border-pink-900/30 dark:bg-pink-950/20">
+                      <div className="flex justify-between items-start mb-4">
+                        <h3 className="flex items-center gap-2 text-lg font-semibold text-pink-900 dark:text-pink-300">
+                          <CalendarClock className="h-5 w-5 text-pink-600" />
+                          Próximo Follow-up Agendado
+                        </h3>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={async () => {
+                              if (!window.confirm('Tem certeza que deseja cancelar este agendamento automático?')) return;
+                              const { error } = await supabase
+                                .from('scheduled_messages')
+                                .update({ status: 'CANCELLED_MANUAL' })
+                                .eq('deal_id', dealId)
+                                .eq('status', 'PENDING');
+
+                              if (error) {
+                                addToast('Erro ao cancelar: ' + error.message, 'error');
+                              } else {
+                                addToast('Agendamento cancelado com sucesso!', 'success');
+                                queryClient.invalidateQueries({ queryKey: ['scheduled_messages', dealId] });
+                              }
+                            }}
+                            className="text-[10px] font-bold px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors shadow-sm"
+                          >
+                            Cancelar Agendamento
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (setFollowUpDealId) {
+                                setFollowUpDealId(deal.id);
+                              }
+                            }}
+                            className="text-[10px] font-bold px-3 py-1 rounded-full bg-white dark:bg-pink-900/50 text-pink-600 dark:text-pink-300 border border-pink-200 dark:border-pink-800 hover:bg-pink-100 transition-colors shadow-sm"
+                          >
+                            Editar Agendamento
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-6 text-sm">
+                          <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
+                            <Calendar className="h-4 w-4" />
+                            <span className="font-medium">
+                              {format(new Date(pendingFollowUp.scheduled_at), "eeee, dd 'de' MMMM", { locale: ptBR })}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
+                            <Clock className="h-4 w-4" />
+                            <span className="font-medium">
+                              {format(new Date(pendingFollowUp.scheduled_at), "HH:mm")}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="bg-white/80 dark:bg-black/20 rounded-lg p-4 border border-pink-100 dark:border-pink-900/30">
+                          <div className="flex items-center gap-2 text-[10px] font-bold text-pink-500 uppercase mb-2">
+                            <MessageSquareDashed className="h-3 w-3" /> Conteúdo da Mensagem
+                          </div>
+                          <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed italic">
+                            "{pendingFollowUp.message_content}"
+                          </p>
+                        </div>
+
+                        <p className="text-[10px] text-slate-500 italic">
+                          * Esta mensagem será enviada automaticamente via WhatsApp no horário agendado.
+                          Se o cliente responder antes disso, o envio será cancelado automaticamente pela IA.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="rounded-lg border border-indigo-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-950">
                     <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
                       <Bot className="h-5 w-5 text-indigo-600" />
