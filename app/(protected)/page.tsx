@@ -30,13 +30,9 @@ export default async function Home() {
     }
 
     // “Padrão ouro” pós-deploy:
-    // - Se o installer está habilitado e a instância ainda não está inicializada (ou não dá pra checar),
-    //   manda pro /install.
-    // - Se já está inicializada, não força /install (vai pro app).
-    if (installerEnabled) {
-        if (isInitialized === true) {
-            redirect('/dashboard')
-        }
+    // - Se o installer está habilitado e a instância confirmadamente NÃO está inicializada, manda pro /install.
+    // - Se já está inicializada ou houve erro na checagem, não força /install (evita loops em falhas de conexão).
+    if (installerEnabled && isInitialized === false) {
         redirect('/install')
     }
 
