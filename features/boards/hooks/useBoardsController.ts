@@ -321,6 +321,7 @@ export const useBoardsController = () => {
   const [selectedDealId, setSelectedDealId] = useState<string | null>(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [openActivityMenuId, setOpenActivityMenuId] = useState<string | null>(null);
+  const [followUpDealId, setFollowUpDealId] = useState<string | null>(null);
 
   // Loss Reason Modal State
   const [lossReasonModal, setLossReasonModal] = useState<{
@@ -520,6 +521,12 @@ export const useBoardsController = () => {
 
       // Find the target stage to check if it's a won/lost stage
       const targetStage = activeBoard.stages.find(s => s.id === stageId);
+
+      // Detect Follow-Up Stage
+      const isFollowUpStage = targetStage?.label.toLowerCase().includes('follow-up') || targetStage?.label.toLowerCase().includes('acompanhamento');
+      if (isFollowUpStage) {
+        setFollowUpDealId(dealId);
+      }
 
       // Check linkedLifecycleStage to determine won/lost status
       if (targetStage?.linkedLifecycleStage === 'OTHER') {
@@ -913,6 +920,8 @@ export const useBoardsController = () => {
     setIsCreateModalOpen,
     openActivityMenuId,
     setOpenActivityMenuId,
+    followUpDealId,
+    setFollowUpDealId,
     filteredDeals,
     customFieldDefinitions,
     isLoading,

@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
+import { n8nIncomingSchema } from '@/lib/validations/n8n-incoming';
 
 // Inicializa o cliente Supabase com a Service Role Key para bypass de RLS
 const supabase = createClient(
@@ -7,21 +8,46 @@ const supabase = createClient(
     process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
+// API Key para autenticação do webhook n8n
+const WEBHOOK_API_KEY = process.env.N8N_INCOMING_WEBHOOK_KEY;
+
 export async function POST(req: Request) {
     try {
-        const body = await req.json();
-        const { phone, name, organization_id } = body;
+        // =====================================================
+        // 0. VALIDAÇÃO DE API KEY (Segurança)
+        // =====================================================
+        const apiKey = req.headers.get('X-API-Key') || req.headers.get('x-api-key');
 
-        // Validação dos campos obrigatórios
-        if (!phone || !organization_id) {
+        if (!WEBHOOK_API_KEY) {
+            console.warn('[n8n-webhook] ⚠️ N8N_INCOMING_WEBHOOK_KEY não configurada - acesso liberado temporariamente');
+        } else if (apiKey !== WEBHOOK_API_KEY) {
             return NextResponse.json(
-                { error: 'Faltando telefone ou ID da organização' },
+                { error: 'Unauthorized: API Key inválida ou ausente' },
+                { status: 401 }
+            );
+        }
+
+        const body = await req.json();
+
+        // =====================================================
+        // 1. VALIDAÇÃO COM ZOD (Sanitização)
+        // =====================================================
+        const parseResult = n8nIncomingSchema.safeParse(body);
+
+        if (!parseResult.success) {
+            return NextResponse.json(
+                {
+                    error: 'Dados inválidos',
+                    details: parseResult.error.flatten().fieldErrors
+                },
                 { status: 400 }
             );
         }
 
+        const { phone, name, organization_id } = parseResult.data;
+
         // =====================================================
-        // 1. LÓGICA DE CONTATO - Busca ou Cria
+        // 2. LÓGICA DE CONTATO - Busca ou Cria
         // =====================================================
         const { data: existingContact } = await supabase
             .from('contacts')

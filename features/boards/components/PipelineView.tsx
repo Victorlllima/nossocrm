@@ -3,6 +3,7 @@ import { DealDetailModal } from './Modals/DealDetailModal';
 import { CreateDealModal } from './Modals/CreateDealModal';
 import { CreateBoardModal } from './Modals/CreateBoardModal';
 import { BoardCreationWizard } from './BoardCreationWizard';
+import { FollowUpModal } from '@/components/FollowUpModal';
 import { KanbanHeader } from './Kanban/KanbanHeader';
 import { BoardStrategyHeader } from './Kanban/BoardStrategyHeader';
 import { KanbanBoard } from './Kanban/KanbanBoard';
@@ -52,6 +53,8 @@ interface PipelineViewProps {
   draggingId: string | null;
   selectedDealId: string | null;
   setSelectedDealId: (id: string | null) => void;
+  followUpDealId: string | null;
+  setFollowUpDealId: (id: string | null) => void;
   isCreateModalOpen: boolean;
   setIsCreateModalOpen: (isOpen: boolean) => void;
   openActivityMenuId: string | null;
@@ -229,6 +232,8 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
   draggingId,
   selectedDealId,
   setSelectedDealId,
+  followUpDealId, // Added prop
+  setFollowUpDealId, // Added prop
   isCreateModalOpen,
   setIsCreateModalOpen,
   openActivityMenuId,
@@ -380,6 +385,13 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
         dealId={selectedDealId}
         isOpen={!!selectedDealId}
         onClose={() => setSelectedDealId(null)}
+      />
+
+      <FollowUpModal
+        isOpen={!!followUpDealId}
+        onClose={() => setFollowUpDealId(null)}
+        dealId={followUpDealId}
+        dealTitle={filteredDeals.find(d => d.id === followUpDealId)?.title}
       />
 
       <CreateBoardModal

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { DealView } from '@/types';
-import { Building2, Hourglass, Trophy, XCircle } from 'lucide-react';
+import { Building2, Hourglass, Trophy, XCircle, CalendarClock } from 'lucide-react';
 import { ActivityStatusIcon } from './ActivityStatusIcon';
 import { priorityAriaLabelPtBr } from '@/lib/utils/priority';
+import { useScheduledMessages } from '@/lib/query/hooks/useFollowUpQuery';
 
 interface DealCardProps {
   deal: DealView;
@@ -60,6 +61,8 @@ const DealCardComponent: React.FC<DealCardProps> = ({
 }) => {
   const [localDragging, setLocalDragging] = useState(false);
   const isClosed = isDealClosed(deal);
+  const { data: scheduledMessages = [] } = useScheduledMessages(deal.id);
+  const nextFollowUp = scheduledMessages[0];
 
   const handleToggleMenu = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -225,6 +228,15 @@ const DealCardComponent: React.FC<DealCardProps> = ({
             {tag}
           </span>
         ))}
+        {nextFollowUp && (
+          <span
+            className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-300 border border-primary-200 dark:border-primary-800/50 flex items-center gap-1 shadow-sm animate-in fade-in zoom-in duration-300"
+            title={`Follow-up agendado para ${new Date(nextFollowUp.scheduled_at).toLocaleString()}`}
+          >
+            <CalendarClock size={10} />
+            Agendado
+          </span>
+        )}
       </div>
 
       <h4
