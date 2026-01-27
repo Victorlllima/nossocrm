@@ -26,7 +26,7 @@ export const useCancelFollowUp = () => {
         mutationFn: async (messageId: string) => {
             const { error } = await supabase
                 .from('scheduled_messages')
-                .update({ status: 'CANCELLED' })
+                .update({ status: 'CANCELLED_MANUAL' })
                 .eq('id', messageId);
 
             if (error) throw error;

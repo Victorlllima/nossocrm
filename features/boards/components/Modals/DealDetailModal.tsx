@@ -835,25 +835,6 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({ dealId, isOpen
             <div className="flex-1 overflow-y-auto p-6 bg-slate-50/30 dark:bg-black/10">
               {activeTab === 'summary' && (
                 <div className="space-y-4">
-                  <div className="rounded-lg border border-indigo-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-950">
-                    <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
-                      <Bot className="h-5 w-5 text-indigo-600" />
-                      Resumo da Conversa
-                    </h3>
-
-                    {deal.aiSummary ? (
-                      <div className="prose prose-sm max-w-none text-gray-600 dark:prose-invert dark:text-gray-300 whitespace-pre-wrap">
-                        {deal.aiSummary}
-                      </div>
-                    ) : (
-                      <div className="flex flex-col items-center justify-center py-12 text-center">
-                        <MessageSquareDashed className="mb-3 h-10 w-10 text-gray-300 dark:text-gray-700" />
-                        <p className="text-sm text-gray-500">Nenhum resumo de conversa disponível ainda.</p>
-                        <p className="text-xs text-gray-400">Finalize uma conversa no WhatsApp para gerar.</p>
-                      </div>
-                    )}
-                  </div>
-
                   {/* Scheduled Follow-up Section */}
                   {nextFollowUp ? (
                     <div className="rounded-lg border border-primary-100 bg-white p-6 shadow-sm dark:border-primary-900/20 dark:bg-gray-950 animate-in fade-in zoom-in duration-300">
@@ -911,6 +892,25 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({ dealId, isOpen
                       )}
                     </div>
                   )}
+
+                  <div className="rounded-lg border border-indigo-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-950">
+                    <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
+                      <Bot className="h-5 w-5 text-indigo-600" />
+                      Resumo da Conversa
+                    </h3>
+
+                    {deal.aiSummary ? (
+                      <div className="prose prose-sm max-w-none text-gray-600 dark:prose-invert dark:text-gray-300 whitespace-pre-wrap">
+                        {deal.aiSummary}
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center py-12 text-center">
+                        <MessageSquareDashed className="mb-3 h-10 w-10 text-gray-300 dark:text-gray-700" />
+                        <p className="text-sm text-gray-500">Nenhum resumo de conversa disponível ainda.</p>
+                        <p className="text-xs text-gray-400">Finalize uma conversa no WhatsApp para gerar.</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
 

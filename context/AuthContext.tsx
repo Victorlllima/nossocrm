@@ -173,6 +173,40 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     useEffect(() => {
+        // HML Bypass Logic
+        const isBypassActive = typeof window !== 'undefined' && (
+            localStorage.getItem('CRM_LOGIN_BYPASS') === 'true' ||
+            process.env.NEXT_PUBLIC_LOGIN_BYPASS === 'true'
+        );
+
+        if (isBypassActive) {
+            console.log('Auth Bypass Active - Manual Profile Injected');
+            const mockUser = {
+                id: '00000000-0000-0000-0000-000000000000',
+                email: 'vendedor@test.com',
+                app_metadata: {},
+                user_metadata: {},
+                aud: 'authenticated',
+                created_at: new Date().toISOString()
+            } as User;
+
+            const mockProfile: Profile = {
+                id: mockUser.id,
+                email: mockUser.email!,
+                organization_id: '8114068c-defa-43f1-a75d-67253457a826', // ID padrão para testes
+                role: 'admin',
+                first_name: 'Usuário',
+                last_name: 'HML'
+            };
+
+            setSession({ user: mockUser, access_token: 'bypass', refresh_token: 'bypass', expires_in: 3600, token_type: 'bearer' } as Session);
+            setUser(mockUser);
+            setProfile(mockProfile);
+            setIsInitialized(true);
+            setLoading(false);
+            return;
+        }
+
         if (!sb) {
             // Sem Supabase configurado: mantém app em estado "deslogado".
             setSession(null);
