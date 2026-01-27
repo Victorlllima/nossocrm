@@ -390,8 +390,8 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({ dealId, isOpen
     try {
       await cancelFollowUp.mutateAsync(id);
       addToast('Agendamento cancelado com sucesso!', 'success');
-      // Invalidate queries to refresh UI
-      queryClient.invalidateQueries({ queryKey: ['scheduled_messages', deal.id] });
+      // Invalidate queries to refresh UI IMMEDIATELY
+      queryClient.invalidateQueries({ queryKey: ['scheduled_messages'] });
     } catch (error: any) {
       addToast('Erro ao cancelar agendamento: ' + error.message, 'error');
     }
