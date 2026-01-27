@@ -161,6 +161,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   // Redirect to onboarding if user doesn't have an organization yet
   useEffect(() => {
+    // Bypass onboarding redirect in local dev
+    const isLocalDev = typeof window !== 'undefined' &&
+      (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
+    if (isLocalDev) return;
+
     if (needsOnboarding && pathname !== '/onboarding') {
       router.replace('/onboarding');
     }

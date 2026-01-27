@@ -68,6 +68,14 @@ const stages: Stage[] = [
   { id: 'lost', label: 'Perdido', tone: 'slate' },
 ];
 
+const QUICK_NOTE_TEMPLATES = [
+  { label: '📞 Resumo de Call', text: 'Call realizada. Principais pontos:\n- \n- \n\nPróximos passos: Agendar retorno.' },
+  { label: '🚫 Sem resposta', text: 'Tentei contato via telefone e WhatsApp. Sem retorno. Agendado novo touch para amanhã.' },
+  { label: '✅ Qualificado', text: 'Lead qualificado. BANT validado:\n- Budget: OK\n- Authority: Falamos com decisor\n- Need: Alta urgência\n- Timing: Para este mês' },
+  { label: '💰 Negociação', text: 'Cliente pediu desconto. Ofereci condições de pagamento facilitadas. Aguardando aprovação financeira.' },
+  { label: '🚀 Fechamento', text: 'Verbalizou fechamento. Contrato enviado para assinatura. Previsão de retorno: 24h.' },
+];
+
 const mock = {
   deal: {
     title: 'Proposta PROP-2',
@@ -887,8 +895,27 @@ export default function DealCockpitMockClient() {
 
             {/* Bottom row: útil, mas não pode roubar altura da timeline */}
             <div className="grid min-h-0 gap-4 lg:grid-cols-2 lg:max-h-[30dvh]">
-              <div className="flex min-h-0 flex-col rounded-2xl border border-white/10 bg-white/3 p-4">
-                <label className="block text-xs font-semibold text-slate-400">Escreva…</label>
+            <div className="flex min-h-0 flex-col rounded-2xl border border-white/10 bg-white/3 p-4">
+                <div className="flex items-center justify-between">
+                  <label className="block text-xs font-semibold text-slate-400">Escreva…</label>
+                  <select
+                    className="rounded-lg bg-white/5 px-2 py-1 text-[11px] text-slate-300 outline-none hover:bg-white/10 cursor-pointer"
+                    onChange={(e) => {
+                      if (e.target.value) setNoteDraft(e.target.value);
+                      e.target.value = '';
+                    }}
+                    defaultValue=""
+                  >
+                    <option value="" disabled className="bg-slate-950 text-slate-400 font-semibold">
+                      Modelos Rápidos
+                    </option>
+                    {QUICK_NOTE_TEMPLATES.map((t) => (
+                      <option key={t.label} value={t.text} className="bg-slate-900 text-slate-200">
+                        {t.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 <textarea
                   value={noteDraft}
                   onChange={(e) => setNoteDraft(e.target.value)}
