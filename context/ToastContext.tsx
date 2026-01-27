@@ -111,8 +111,8 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     return (
         <ToastContext.Provider value={{ addToast, removeToast }}>
             {children}
-            <div 
-                className="fixed bottom-4 right-4 z-50 flex flex-col gap-2"
+            <div
+                className="fixed bottom-4 right-4 z-[10001] flex flex-col gap-2"
                 role="region"
                 aria-label="Notificações"
             >
@@ -123,9 +123,9 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
                         aria-live={getAriaLive(toast.type)}
                         aria-atomic="true"
                         className={`flex items-center gap-3 px-4 py-3 rounded-lg shadow-lg border transition-all animate-in slide-in-from-right-full duration-300 ${toast.type === 'success' ? 'bg-white dark:bg-slate-800 border-green-500 text-green-600 dark:text-green-400' :
-                                toast.type === 'error' ? 'bg-white dark:bg-slate-800 border-red-500 text-red-600 dark:text-red-400' :
-                                    toast.type === 'warning' ? 'bg-white dark:bg-slate-800 border-yellow-500 text-yellow-600 dark:text-yellow-400' :
-                                        'bg-white dark:bg-slate-800 border-blue-500 text-blue-600 dark:text-blue-400'
+                            toast.type === 'error' ? 'bg-white dark:bg-slate-800 border-red-500 text-red-600 dark:text-red-400' :
+                                toast.type === 'warning' ? 'bg-white dark:bg-slate-800 border-yellow-500 text-yellow-600 dark:text-yellow-400' :
+                                    'bg-white dark:bg-slate-800 border-blue-500 text-blue-600 dark:text-blue-400'
                             }`}
                     >
                         {toast.type === 'success' && <CheckCircle size={18} aria-hidden="true" />}
@@ -133,9 +133,9 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
                         {toast.type === 'warning' && <AlertCircle size={18} aria-hidden="true" />}
                         {toast.type === 'info' && <Info size={18} aria-hidden="true" />}
                         <span className="text-sm font-medium text-slate-900 dark:text-white">{toast.message}</span>
-                        <button 
+                        <button
                             type="button"
-                            onClick={() => removeToast(toast.id)} 
+                            onClick={() => removeToast(toast.id)}
                             aria-label={`Fechar notificação: ${toast.message}`}
                             className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 focus-visible-ring rounded p-0.5"
                         >
@@ -148,29 +148,6 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     );
 };
 
-/**
- * Hook para acessar sistema de notificações toast
- * 
- * Fornece funções para adicionar e remover toasts.
- * Deve ser usado dentro de um ToastProvider.
- * 
- * @returns {Object} Funções de controle de toast
- * @returns {(message: string, type?: ToastType) => void} return.addToast - Adiciona toast
- * @returns {(message: string, type?: ToastType) => void} return.showToast - Alias para addToast
- * @returns {(id: string) => void} return.removeToast - Remove toast específico
- * @throws {Error} Se usado fora do ToastProvider
- * 
- * @example
- * ```tsx
- * function ActionButton() {
- *   const { addToast, showToast } = useToast();
- *   
- *   // Ambas as sintaxes funcionam
- *   addToast('Ação realizada!', 'success');
- *   showToast('Ação realizada!', 'success');
- * }
- * ```
- */
 export const useToast = () => {
     const context = useContext(ToastContext);
     if (context === undefined) {
@@ -183,12 +160,6 @@ export const useToast = () => {
     };
 };
 
-/**
- * Hook opcional para toast.
- *
- * Útil em componentes que podem ser renderizados em testes/ambientes
- * sem ToastProvider. Retorna funções no-op quando o provider não existe.
- */
 export const useOptionalToast = () => {
     const context = useContext(ToastContext);
     const noop = () => {

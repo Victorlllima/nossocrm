@@ -38,6 +38,9 @@ import {
 } from 'lucide-react';
 import { StageProgressBar } from '../StageProgressBar';
 import { ActivityRow } from '@/features/activities/components/ActivityRow';
+import { useScheduledMessages, useCancelFollowUp } from '@/lib/query/hooks/useFollowUpQuery';
+import { useQueryClient } from '@tanstack/react-query';
+import { CalendarClock, AlertCircle, Ban, Clock } from 'lucide-react';
 import { formatPriorityPtBr } from '@/lib/utils/priority';
 
 interface DealDetailModalProps {
@@ -93,8 +96,14 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({ dealId, isOpen
   const productsById = useMemo(() => new Map(products.map((p) => [p.id, p])), [products]);
   const activitiesById = useMemo(() => new Map(activities.map((a) => [a.id, a])), [activities]);
 
+  const queryClient = useQueryClient();
   const deal = dealId ? dealsById.get(dealId) : undefined;
   const contact = deal ? (contactsById.get(deal.contactId) ?? null) : null;
+
+  // Follow-up scheduling data
+  const { data: scheduledMessages = [], refetch: refetchFollowUps } = useScheduledMessages(dealId ?? undefined);
+  const cancelFollowUp = useCancelFollowUp();
+  const nextFollowUp = scheduledMessages[0];
 
   // Determine the correct board for this deal
   const dealBoard = deal ? (boardsById.get(deal.boardId) ?? activeBoard) : activeBoard;
@@ -368,6 +377,17 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({ dealId, isOpen
   const updateCustomField = (key: string, value: string | number | boolean) => {
     const updatedFields = { ...deal.customFields, [key]: value };
     updateDeal(deal.id, { customFields: updatedFields });
+  };
+
+  const handleCancelFollowUp = async (id: string) => {
+    try {
+      await cancelFollowUp.mutateAsync(id);
+      addToast('Agendamento cancelado com sucesso!', 'success');
+      // Invalidate queries to refresh UI
+      queryClient.invalidateQueries({ queryKey: ['scheduled_messages', deal.id] });
+    } catch (error: any) {
+      addToast('Erro ao cancelar agendamento: ' + error.message, 'error');
+    }
   };
 
   // dealActivities memoized above.
@@ -826,6 +846,54 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({ dealId, isOpen
                       </div>
                     )}
                   </div>
+
+                  {/* Scheduled Follow-up Section */}
+                  {nextFollowUp && (
+                    <div className="rounded-lg border border-primary-100 bg-white p-6 shadow-sm dark:border-primary-900/20 dark:bg-gray-950 animate-in fade-in zoom-in duration-300">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
+                          <CalendarClock className="h-5 w-5 text-primary-600" />
+                          Follow-up Agendado
+                        </h3>
+                        <span className="text-[10px] font-bold px-2 py-1 rounded-full bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400 uppercase tracking-wider">
+                          Pendente
+                        </span>
+                      </div>
+
+                      <div className="space-y-4">
+                        <div className="bg-slate-50 dark:bg-white/5 rounded-lg p-4 border border-slate-100 dark:border-white/5">
+                          <div className="flex items-center gap-4 mb-3 text-sm text-slate-600 dark:text-slate-300">
+                            <div className="flex items-center gap-1.5">
+                              <Calendar size={14} className="text-slate-400" />
+                              {new Date(nextFollowUp.scheduled_at).toLocaleDateString('pt-BR')}
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              <Clock size={14} className="text-slate-400" />
+                              {new Date(nextFollowUp.scheduled_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                            </div>
+                          </div>
+                          <p className="text-sm text-slate-700 dark:text-slate-200 bg-white dark:bg-black/20 p-3 rounded border border-slate-200 dark:border-white/10 italic">
+                            "{nextFollowUp.message_content}"
+                          </p>
+                        </div>
+
+                        <div className="flex justify-end">
+                          <button
+                            onClick={() => handleCancelFollowUp(nextFollowUp.id)}
+                            disabled={cancelFollowUp.isPending}
+                            className="flex items-center gap-2 px-4 py-2 text-sm font-bold text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                          >
+                            {cancelFollowUp.isPending ? (
+                              <div className="animate-spin w-4 h-4 border-2 border-current border-t-transparent rounded-full" />
+                            ) : (
+                              <Ban size={16} />
+                            )}
+                            Cancelar Agendamento
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 

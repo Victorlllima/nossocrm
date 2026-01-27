@@ -1,6 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
-import { queryKeys } from '../index';
 
 export const useScheduledMessages = (dealId: string | undefined) => {
     return useQuery({
@@ -19,5 +18,18 @@ export const useScheduledMessages = (dealId: string | undefined) => {
         },
         enabled: !!dealId,
         staleTime: 30 * 1000, // 30 seconds
+    });
+};
+
+export const useCancelFollowUp = () => {
+    return useMutation({
+        mutationFn: async (messageId: string) => {
+            const { error } = await supabase
+                .from('scheduled_messages')
+                .update({ status: 'CANCELLED' })
+                .eq('id', messageId);
+
+            if (error) throw error;
+        }
     });
 };
