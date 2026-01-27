@@ -529,7 +529,8 @@ export const useBoardsController = () => {
       }
 
       // Check linkedLifecycleStage to determine won/lost status
-      if (targetStage?.linkedLifecycleStage === 'OTHER') {
+      // Prevent opening LossReasonModal if it's strictly a Follow-Up stage
+      if (targetStage?.linkedLifecycleStage === 'OTHER' && !isFollowUpStage) {
         // Dropping into LOST stage - open modal to ask for reason
         setLossReasonModal({
           isOpen: true,
@@ -593,8 +594,14 @@ export const useBoardsController = () => {
     // Find the target stage to check if it's a lost stage
     const targetStage = activeBoard.stages.find(s => s.id === newStageId);
 
+    // Detect Follow-Up Stage for keyboard/menu moves
+    const isFollowUpStage = targetStage?.label.toLowerCase().includes('follow-up') || targetStage?.label.toLowerCase().includes('acompanhamento');
+    if (isFollowUpStage) {
+      setFollowUpDealId(dealId);
+    }
+
     // Check linkedLifecycleStage to determine if this is a loss stage
-    if (targetStage?.linkedLifecycleStage === 'OTHER') {
+    if (targetStage?.linkedLifecycleStage === 'OTHER' && !isFollowUpStage) {
       // Opening a lost stage - need to ask for reason via modal
       setLossReasonModal({
         isOpen: true,

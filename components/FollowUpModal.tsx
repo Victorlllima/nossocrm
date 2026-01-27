@@ -167,9 +167,27 @@ export const FollowUpModal: React.FC<FollowUpModalProps> = ({
         </div>
 
         <div className="space-y-1">
-          <label className="text-xs font-bold text-slate-500 uppercase flex items-center gap-1">
-            <MessageSquare size={12} /> Mensagem de Follow-up
-          </label>
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-bold text-slate-500 uppercase flex items-center gap-1">
+              <MessageSquare size={12} /> Mensagem de Follow-up
+            </label>
+            <select
+              className="text-xs bg-transparent text-slate-500 dark:text-slate-400 hover:text-primary-600 cursor-pointer outline-none border-none p-0 focus:ring-0"
+              onChange={(e) => {
+                if (e.target.value) {
+                  setValue('message', e.target.value);
+                }
+              }}
+              defaultValue=""
+            >
+              <option value="" disabled>✨ Modelos Rápidos</option>
+              <option value="Oi [Nome], tudo certo para nossa visita amanhã às [Horário]? Te espero lá!">1. Confirmar Visita</option>
+              <option value="E aí [Nome], o que achou do imóvel que vimos? Algum ponto que te preocupou ou podemos avançar?">2. Feedback Pós-Visita</option>
+              <option value="Oi [Nome], conseguiu dar uma olhada nas opções que te mandei? Me diz o que achou pra eu saber se estou no caminho certo.">3. Cobrar Retorno (Sutil)</option>
+              <option value="Olá [Nome], tudo bem? Ainda está procurando imóvel ou já resolveu? Se ainda estiver buscando, tenho novidades.">4. Reaquecer Lead Frio</option>
+              <option value="[Nome], vou encerrar seu atendimento por enquanto pra não te incomodar. Se voltar a procurar, é só me chamar. Abraço!">5. Encerramento (Breakup)</option>
+            </select>
+          </div>
           <textarea
             {...register('message', { required: 'Mensagem é obrigatória' })}
             rows={4}
