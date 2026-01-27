@@ -101,7 +101,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({ dealId, isOpen
   const contact = deal ? (contactsById.get(deal.contactId) ?? null) : null;
 
   // Follow-up scheduling data
-  const { data: scheduledMessages = [], refetch: refetchFollowUps } = useScheduledMessages(dealId ?? undefined);
+  const { data: scheduledMessages = [], refetch: refetchFollowUps } = useScheduledMessages(deal?.id);
   const cancelFollowUp = useCancelFollowUp();
   const nextFollowUp = scheduledMessages[0];
 
@@ -113,6 +113,13 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({ dealId, isOpen
 
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [isEditingValue, setIsEditingValue] = useState(false);
+
+  // Sync follow-ups when modal opens
+  useEffect(() => {
+    if (isOpen && dealId) {
+      refetchFollowUps();
+    }
+  }, [isOpen, dealId, refetchFollowUps]);
   const [editTitle, setEditTitle] = useState('');
   const [editValue, setEditValue] = useState('');
 
@@ -848,7 +855,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({ dealId, isOpen
                   </div>
 
                   {/* Scheduled Follow-up Section */}
-                  {nextFollowUp && (
+                  {nextFollowUp ? (
                     <div className="rounded-lg border border-primary-100 bg-white p-6 shadow-sm dark:border-primary-900/20 dark:bg-gray-950 animate-in fade-in zoom-in duration-300">
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
@@ -892,6 +899,16 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({ dealId, isOpen
                           </button>
                         </div>
                       </div>
+                    </div>
+                  ) : (
+                    <div className="py-8 text-center border-2 border-dashed border-slate-100 dark:border-white/5 rounded-xl">
+                      <Calendar size={24} className="mx-auto mb-2 text-slate-300 dark:text-slate-700 opacity-50" />
+                      <p className="text-sm text-slate-400">Nenhum follow-up pendente para este negócio.</p>
+                      {scheduledMessages.length > 0 && (
+                        <p className="text-[10px] text-primary-500 mt-2 font-bold px-2 py-1 bg-primary-50 dark:bg-primary-900/20 rounded inline-block">
+                          {scheduledMessages.length} mensagem(ns) encontrada(s) no cache
+                        </p>
+                      )}
                     </div>
                   )}
                 </div>
