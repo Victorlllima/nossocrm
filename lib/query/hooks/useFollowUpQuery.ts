@@ -17,7 +17,7 @@ export const useScheduledMessages = (dealId: string | undefined) => {
             return data || [];
         },
         enabled: !!dealId,
-        staleTime: 30 * 1000, // 30 seconds
+        staleTime: 5 * 1000, // 5 seconds
     });
 };
 
