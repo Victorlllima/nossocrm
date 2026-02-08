@@ -181,7 +181,7 @@ export const FollowUpModal: React.FC<FollowUpModalProps> = ({
             .eq('id', dealId)
             .single();
 
-          // @ts-ignore
+          // @ts-expect-error - dealData type inference issue with inner join
           const phone = dealData?.phone || dealData?.contacts?.phone;
           setHasValidPhone(!!phone);
 

@@ -25,7 +25,7 @@ const eslintConfig = defineConfig([
 
   // Scripts are CommonJS by design; allow require() there.
   {
-    files: ["scripts/**/*.cjs"],
+    files: ["scripts/**/*.cjs", "**/*.cjs"],
     rules: {
       "@typescript-eslint/no-require-imports": "off",
     },
