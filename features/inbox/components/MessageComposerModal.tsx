@@ -1,9 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Copy, ExternalLink, Mail, MessageCircle, Sparkles, Loader2, AlertCircle } from 'lucide-react';
+import { Copy, ExternalLink, Mail, MessageCircle, Sparkles, Loader2, AlertCircle, FileText, Plus, Search, Trash2, Pencil, ChevronRight } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { rewriteMessageDraft, type RewriteMessageDraftInput } from '@/lib/ai/actionsClient';
 import { isConsentError, isRateLimitError } from '@/lib/supabase/ai-proxy';
 import { toWhatsAppPhone } from '@/lib/phone';
+import { quickScriptsService, type QuickScript, type ScriptCategory } from '@/lib/supabase/quickScripts';
+import { ScriptEditorModal, type ScriptFormData } from './ScriptEditorModal';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { cn } from '@/lib/utils'; // Assuming cn is available, or import from local utility
 
 export type MessageChannel = 'WHATSAPP' | 'EMAIL';
 
@@ -191,6 +194,14 @@ export function MessageComposerModal({
     const [rewriteError, setRewriteError] = useState<string | null>(null);
     const [aiBadge, setAiBadge] = useState(false);
 
+    // Templates state
+    const [scripts, setScripts] = useState<QuickScript[]>([]);
+    const [isLoadingScripts, setIsLoadingScripts] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [isScriptEditorOpen, setIsScriptEditorOpen] = useState(false);
+    const [editingScript, setEditingScript] = useState<ScriptFormData | null>(null);
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
     const phone = useMemo(() => formatPhoneForWhatsApp(contactPhone), [contactPhone]);
     const contactValue = useMemo(() => {
         return channel === 'WHATSAPP' ? phone : (contactEmail ?? '');
@@ -208,7 +219,71 @@ export function MessageComposerModal({
         setSubject(typeof initialSubject === 'string' ? initialSubject : '');
         const nextMsg = typeof initialMessage === 'string' ? initialMessage : '';
         setMessage(channel === 'WHATSAPP' ? formatForWhatsApp(nextMsg) : formatForEmail(nextMsg));
+
+        loadScripts();
     }, [isOpen, initialSubject, initialMessage, channel]);
+
+    const loadScripts = async () => {
+        setIsLoadingScripts(true);
+        const { data } = await quickScriptsService.getScripts();
+        if (data) setScripts(data);
+        setIsLoadingScripts(false);
+    };
+
+    const handleSaveScript = async (data: ScriptFormData) => {
+        if (data.id) {
+            await quickScriptsService.updateScript(data.id, data);
+        } else {
+            await quickScriptsService.createScript(data);
+        }
+        await loadScripts();
+    };
+
+    const handleDeleteScript = async (id: string, e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (!confirm('Tem certeza que deseja excluir este template?')) return;
+        await quickScriptsService.deleteScript(id);
+        await loadScripts();
+    };
+
+    const handleSelectScript = (script: QuickScript) => {
+        const vars = {
+            nome: contactName?.split(' ')[0] || '',
+            empresa: '',
+        };
+        const text = quickScriptsService.applyVariables(script.template, vars);
+        setMessage(channel === 'WHATSAPP' ? formatForWhatsApp(text) : formatForEmail(text));
+        setIsPopoverOpen(false);
+    };
+
+    const handleOpenNewScript = () => {
+        setEditingScript({
+            title: '',
+            category: 'other',
+            template: message,
+            icon: 'MessageSquare',
+        });
+        setIsScriptEditorOpen(true);
+        setIsPopoverOpen(false);
+    };
+
+    const handleOpenEditScript = (script: QuickScript, e: React.MouseEvent) => {
+        e.stopPropagation();
+        setEditingScript({
+            id: script.id,
+            title: script.title,
+            category: script.category,
+            template: script.template,
+            icon: script.icon,
+        });
+        setIsScriptEditorOpen(true);
+        setIsPopoverOpen(false);
+    };
+
+    const filteredScripts = scripts.filter(s =>
+        s.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        s.template.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     const canOpen = useMemo(() => {
         if (channel === 'WHATSAPP') return Boolean(phone);
@@ -293,176 +368,280 @@ export function MessageComposerModal({
     const Icon = icon;
 
     return (
-        <Modal
-            isOpen={isOpen}
-            onClose={onClose}
-            title={title}
-            size="xl"
-            className="max-h-[90vh]"
-            bodyClassName="overflow-y-auto"
-            initialFocus="#message-composer-textarea"
-        >
-            <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                    <div
-                        className={
-                            channel === 'WHATSAPP'
-                                ? 'p-2 rounded-xl bg-green-500/10 text-green-400 border border-green-500/20'
-                                : 'p-2 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'
-                        }
-                    >
-                        <Icon size={18} />
-                    </div>
-                    <div className="min-w-0">
-                        <p className="text-sm font-semibold text-slate-900 dark:text-white">
-                            {contactName || 'Contato'}
-                        </p>
-                        <div className="flex items-center gap-2">
-                            <p className="text-xs text-slate-500 dark:text-slate-400">
-                                {channel === 'WHATSAPP'
-                                    ? phone
-                                        ? `WhatsApp: ${phone}`
-                                        : 'Sem telefone para WhatsApp'
-                                    : contactEmail
-                                        ? `Email: ${contactEmail}`
-                                        : 'Sem email cadastrado'}
+        <>
+            <Modal
+                isOpen={isOpen}
+                onClose={onClose}
+                title={title}
+                size="xl"
+                className="max-h-[90vh]"
+                bodyClassName="overflow-y-auto"
+                initialFocus="#message-composer-textarea"
+            >
+                <div className="space-y-4">
+                    <div className="flex items-start gap-3">
+                        <div
+                            className={
+                                channel === 'WHATSAPP'
+                                    ? 'p-2 rounded-xl bg-green-500/10 text-green-400 border border-green-500/20'
+                                    : 'p-2 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'
+                            }
+                        >
+                            <Icon size={18} />
+                        </div>
+                        <div className="min-w-0">
+                            <p className="text-sm font-semibold text-slate-900 dark:text-white">
+                                {contactName || 'Contato'}
                             </p>
-                            {contactValue && (
-                                <>
-                                    <button
-                                        type="button"
-                                        onClick={() => handleCopy('contact')}
-                                        className="p-1 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition-colors"
-                                        title={copied === 'contact' ? 'Copiado' : 'Copiar contato'}
-                                    >
-                                        <Copy size={12} />
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={handleOpen}
-                                        disabled={!canOpen}
-                                        className="p-1 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                                        title={channel === 'WHATSAPP' ? 'Abrir no WhatsApp' : 'Abrir no email'}
-                                    >
-                                        <ExternalLink size={12} />
-                                    </button>
-                                </>
+                            <div className="flex items-center gap-2">
+                                <p className="text-xs text-slate-500 dark:text-slate-400">
+                                    {channel === 'WHATSAPP'
+                                        ? phone
+                                            ? `WhatsApp: ${phone}`
+                                            : 'Sem telefone para WhatsApp'
+                                        : contactEmail
+                                            ? `Email: ${contactEmail}`
+                                            : 'Sem email cadastrado'}
+                                </p>
+                                {contactValue && (
+                                    <>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleCopy('contact')}
+                                            className="p-1 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition-colors"
+                                            title={copied === 'contact' ? 'Copiado' : 'Copiar contato'}
+                                        >
+                                            <Copy size={12} />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={handleOpen}
+                                            disabled={!canOpen}
+                                            className="p-1 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                                            title={channel === 'WHATSAPP' ? 'Abrir no WhatsApp' : 'Abrir no email'}
+                                        >
+                                            <ExternalLink size={12} />
+                                        </button>
+                                    </>
+                                )}
+                            </div>
+                            {aiBadge && (
+                                <p className="mt-1 text-[11px] text-primary-600 dark:text-primary-400 flex items-center gap-1">
+                                    <Sparkles size={12} /> Reescrito com IA
+                                </p>
                             )}
                         </div>
-                        {aiBadge && (
-                            <p className="mt-1 text-[11px] text-primary-600 dark:text-primary-400 flex items-center gap-1">
-                                <Sparkles size={12} /> Reescrito com IA
-                            </p>
-                        )}
                     </div>
-                </div>
 
-                {channel === 'EMAIL' && (
+                    {channel === 'EMAIL' && (
+                        <div className="space-y-2">
+                            <label className="text-xs font-medium text-slate-600 dark:text-slate-400">
+                                Assunto
+                            </label>
+                            <div className="flex gap-2">
+                                <input
+                                    value={subject}
+                                    onChange={(e) => setSubject(e.target.value)}
+                                    className="flex-1 px-3 py-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-white text-sm focus:outline-none focus-visible-ring"
+                                    placeholder="Ex: Próximos passos"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => handleCopy('subject')}
+                                    className="px-3 py-2 rounded-lg text-sm border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300 transition-colors"
+                                    title="Copiar assunto"
+                                >
+                                    <Copy size={16} />
+                                </button>
+                            </div>
+                            {copied === 'subject' && (
+                                <p className="text-[11px] text-emerald-600 dark:text-emerald-400">Assunto copiado</p>
+                            )}
+                        </div>
+                    )}
+
                     <div className="space-y-2">
                         <label className="text-xs font-medium text-slate-600 dark:text-slate-400">
-                            Assunto
+                            Mensagem
                         </label>
-                        <div className="flex gap-2">
-                            <input
-                                value={subject}
-                                onChange={(e) => setSubject(e.target.value)}
-                                className="flex-1 px-3 py-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-white text-sm focus:outline-none focus-visible-ring"
-                                placeholder="Ex: Próximos passos"
-                            />
+                        <textarea
+                            id="message-composer-textarea"
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            rows={12}
+                            className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-white text-sm focus:outline-none focus-visible-ring resize-y min-h-80 max-h-[60vh]"
+                            placeholder={
+                                channel === 'WHATSAPP'
+                                    ? 'Ex: Oi! Podemos falar rapidinho hoje?'
+                                    : 'Ex: Olá, tudo bem? Seguem os próximos passos...'
+                            }
+                        />
+                        <div className="flex items-center justify-between">
+                            <div className="text-[11px] text-slate-500 dark:text-slate-500">
+                                {message.length} caracteres
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    type="button"
+                                    onClick={() => handleCopy('message')}
+                                    className="px-3 py-1.5 rounded-lg text-xs border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300 transition-colors flex items-center gap-2"
+                                >
+                                    <Copy size={14} />
+                                    {copied === 'message' ? 'Copiado' : 'Copiar'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="sticky bottom-0 z-10 -mx-4 sm:-mx-5 -mb-4 sm:-mb-5 px-4 sm:px-5 py-4 bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-white/5 flex items-center justify-between mt-4">
+                        <div className="flex items-center gap-2">
                             <button
                                 type="button"
-                                onClick={() => handleCopy('subject')}
-                                className="px-3 py-2 rounded-lg text-sm border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300 transition-colors"
-                                title="Copiar assunto"
+                                onClick={handleRewriteWithAI}
+                                disabled={isRewriting}
+                                className="px-3 py-2 rounded-lg text-sm border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300 transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                title="Reescrever com IA usando o contexto do cockpit"
                             >
-                                <Copy size={16} />
+                                {isRewriting ? (
+                                    <Loader2 size={16} className="animate-spin" />
+                                ) : (
+                                    <Sparkles size={16} />
+                                )}
+                                Reescrever com IA
                             </button>
-                        </div>
-                        {copied === 'subject' && (
-                            <p className="text-[11px] text-emerald-600 dark:text-emerald-400">Assunto copiado</p>
-                        )}
-                    </div>
-                )}
 
-                <div className="space-y-2">
-                    <label className="text-xs font-medium text-slate-600 dark:text-slate-400">
-                        Mensagem
-                    </label>
-                    <textarea
-                        id="message-composer-textarea"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        rows={12}
-                            className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-white text-sm focus:outline-none focus-visible-ring resize-y min-h-80 max-h-[60vh]"
-                        placeholder={
-                            channel === 'WHATSAPP'
-                                ? 'Ex: Oi! Podemos falar rapidinho hoje?'
-                                : 'Ex: Olá, tudo bem? Seguem os próximos passos...'
-                        }
-                    />
-                    <div className="flex items-center justify-between">
-                        <div className="text-[11px] text-slate-500 dark:text-slate-500">
-                            {message.length} caracteres
+                            <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+                                <PopoverTrigger asChild>
+                                    <button
+                                        type="button"
+                                        className="px-3 py-2 rounded-lg text-sm border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300 transition-colors flex items-center gap-2"
+                                        title="Usar template salvo"
+                                    >
+                                        <FileText size={16} />
+                                        Templates
+                                    </button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-80 p-0" align="start">
+                                    <div className="p-3 border-b border-slate-200 dark:border-slate-800">
+                                        <h4 className="font-medium text-sm text-slate-900 dark:text-white mb-2">Templates de Mensagem</h4>
+                                        <div className="flex gap-2">
+                                            <div className="relative flex-1">
+                                                <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                                                <input
+                                                    className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-100 dark:bg-slate-900 border-none rounded-md focus:ring-1 focus:ring-primary-500"
+                                                    placeholder="Buscar..."
+                                                    value={searchTerm}
+                                                    onChange={e => setSearchTerm(e.target.value)}
+                                                />
+                                            </div>
+                                            <button
+                                                onClick={handleOpenNewScript}
+                                                className="p-1.5 bg-primary-500 text-white rounded-md hover:bg-primary-600 transition-colors"
+                                                title="Salvar atual como template"
+                                            >
+                                                <Plus size={16} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="max-h-[300px] overflow-y-auto p-1">
+                                        {isLoadingScripts ? (
+                                            <div className="p-4 text-center text-slate-500">
+                                                <Loader2 size={20} className="animate-spin mx-auto mb-2" />
+                                                <span className="text-xs">Carregando...</span>
+                                            </div>
+                                        ) : filteredScripts.length === 0 ? (
+                                            <div className="p-8 text-center text-slate-500 text-xs">
+                                                Nenhum template encontrado
+                                            </div>
+                                        ) : (
+                                            <div className="space-y-1">
+                                                {filteredScripts.map(script => {
+                                                    const catInfo = quickScriptsService.getCategoryInfo(script.category);
+                                                    return (
+                                                        <div
+                                                            key={script.id}
+                                                            onClick={() => handleSelectScript(script)}
+                                                            className="group flex items-center justify-between p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors"
+                                                        >
+                                                            <div className="flex items-center gap-3 overflow-hidden">
+                                                                <div className={`w-1 h-8 rounded-full bg-${catInfo.color}-500 shrink-0`} />
+                                                                <div className="min-w-0">
+                                                                    <p className="text-sm font-medium text-slate-900 dark:text-slate-200 truncate">{script.title}</p>
+                                                                    <p className="text-[10px] text-slate-500 truncate mt-0.5">{catInfo.label}</p>
+                                                                </div>
+                                                            </div>
+
+                                                            {!script.is_system && (
+                                                                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                                    <button
+                                                                        onClick={(e) => handleOpenEditScript(script, e)}
+                                                                        className="p-1 text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded"
+                                                                    >
+                                                                        <Pencil size={12} />
+                                                                    </button>
+                                                                    <button
+                                                                        onClick={(e) => handleDeleteScript(script.id, e)}
+                                                                        className="p-1 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded"
+                                                                    >
+                                                                        <Trash2 size={12} />
+                                                                    </button>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
+                                    </div>
+                                </PopoverContent>
+                            </Popover>
                         </div>
                         <div className="flex items-center gap-2">
                             <button
                                 type="button"
-                                onClick={() => handleCopy('message')}
-                                className="px-3 py-1.5 rounded-lg text-xs border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300 transition-colors flex items-center gap-2"
+                                onClick={onClose}
+                                className="px-4 py-2 rounded-lg text-sm border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300 transition-colors"
                             >
-                                <Copy size={14} />
-                                {copied === 'message' ? 'Copiado' : 'Copiar'}
+                                Cancelar
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleOpen}
+                                disabled={!canOpen}
+                                className={
+                                    channel === 'WHATSAPP'
+                                        ? 'px-4 py-2 rounded-lg text-sm font-semibold bg-green-500 hover:bg-green-600 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center gap-2'
+                                        : 'px-4 py-2 rounded-lg text-sm font-semibold bg-cyan-500 hover:bg-cyan-600 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center gap-2'
+                                }
+                            >
+                                <ExternalLink size={16} />
+                                {channel === 'WHATSAPP' ? 'Abrir no WhatsApp' : 'Abrir no email'}
                             </button>
                         </div>
                     </div>
-                </div>
 
-                <div className="flex items-center gap-2 justify-end pt-2">
-                    <div className="mr-auto">
-                        <button
-                            type="button"
-                            onClick={handleRewriteWithAI}
-                            disabled={isRewriting}
-                            className="px-3 py-2 rounded-lg text-sm border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300 transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                            title="Reescrever com IA usando o contexto do cockpit"
-                        >
-                            {isRewriting ? (
-                                <Loader2 size={16} className="animate-spin" />
-                            ) : (
-                                <Sparkles size={16} />
-                            )}
-                            Reescrever com IA
-                        </button>
-                    </div>
-                    <button
-                        type="button"
-                        onClick={onClose}
-                        className="px-4 py-2 rounded-lg text-sm border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300 transition-colors"
-                    >
-                        Cancelar
-                    </button>
-                    <button
-                        type="button"
-                        onClick={handleOpen}
-                        disabled={!canOpen}
-                        className={
-                            channel === 'WHATSAPP'
-                                ? 'px-4 py-2 rounded-lg text-sm font-semibold bg-green-500 hover:bg-green-600 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center gap-2'
-                                : 'px-4 py-2 rounded-lg text-sm font-semibold bg-cyan-500 hover:bg-cyan-600 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center gap-2'
-                        }
-                    >
-                        <ExternalLink size={16} />
-                        {channel === 'WHATSAPP' ? 'Abrir no WhatsApp' : 'Abrir no email'}
-                    </button>
+                    {rewriteError && (
+                        <div className="flex items-start gap-2 rounded-lg border border-red-200 dark:border-red-500/20 bg-red-50 dark:bg-red-950/20 p-3">
+                            <AlertCircle size={16} className="text-red-600 dark:text-red-400 mt-0.5" />
+                            <p className="text-sm text-red-700 dark:text-red-300">{rewriteError}</p>
+                        </div>
+                    )}
                 </div>
+            </Modal>
 
-                {rewriteError && (
-                    <div className="flex items-start gap-2 rounded-lg border border-red-200 dark:border-red-500/20 bg-red-50 dark:bg-red-950/20 p-3">
-                        <AlertCircle size={16} className="text-red-600 dark:text-red-400 mt-0.5" />
-                        <p className="text-sm text-red-700 dark:text-red-300">{rewriteError}</p>
-                    </div>
-                )}
-            </div>
-        </Modal>
+            {isScriptEditorOpen && (
+                <ScriptEditorModal
+                    isOpen={isScriptEditorOpen}
+                    onClose={() => setIsScriptEditorOpen(false)}
+                    onSave={handleSaveScript}
+                    initialData={editingScript}
+                    previewVariables={{
+                        nome: contactName?.split(' ')[0] || 'Cliente',
+                        empresa: 'Empresa'
+                    }}
+                />
+            )
+            }
+        </>
     );
 }
