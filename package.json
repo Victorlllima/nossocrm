@@ -46,6 +46,7 @@
     "date-fns": "^4.1.0",
     "focus-trap-react": "^11.0.4",
     "framer-motion": "^12.23.26",
+    "googleapis": "^171.4.0",
     "immer": "^11.0.1",
     "jspdf": "^4.0.0",
     "jspdf-autotable": "^5.0.2",
