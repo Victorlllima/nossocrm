@@ -18,6 +18,9 @@ import {
   Sparkles,
   StickyNote,
   X,
+  Calendar,
+  Clock,
+  MessageSquareDashed,
 } from 'lucide-react';
 
 import { useAuth } from '@/context/AuthContext';
@@ -34,11 +37,18 @@ import { UIChat } from '@/components/ai/UIChat';
 import { CallModal, type CallLogData } from '@/features/inbox/components/CallModal';
 import { MessageComposerModal, type MessageChannel, type MessageExecutedEvent } from '@/features/inbox/components/MessageComposerModal';
 import { ScheduleModal, type ScheduleData, type ScheduleType } from '@/features/inbox/components/ScheduleModal';
+import { FollowUpModal } from '@/components/FollowUpModal';
 
 import type { QuickScript, ScriptCategory } from '@/lib/supabase/quickScripts';
 import type { Activity, Board, BoardStage, Contact, DealView } from '@/types';
 
-type Tab = 'chat' | 'notas' | 'scripts' | 'arquivos';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { supabase } from '@/lib/supabase';
+import { useQueryClient } from '@tanstack/react-query';
+import { useScheduledMessages } from '@/lib/query/hooks/useFollowUpQuery';
+
+type Tab = 'chat' | 'notas' | 'scripts' | 'arquivos' | 'followup';
 
 // Performance: reuse Intl formatter instances (avoid creating them per call).
 const PT_BR_DATE_FORMATTER = new Intl.DateTimeFormat('pt-BR');
@@ -609,6 +619,8 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
   const [noteDraftTimeline, setNoteDraftTimeline] = useState('');
   const [dealNoteDraft, setDealNoteDraft] = useState('');
 
+  const [followUpDealId, setFollowUpDealId] = useState<string | null>(null);
+
   const [isCallModalOpen, setIsCallModalOpen] = useState(false);
   const [callSuggestedTitle, setCallSuggestedTitle] = useState('Ligação');
 
@@ -793,33 +805,33 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
 
     const boardInfo = selectedBoard
       ? {
-          id: selectedBoard.id,
-          name: selectedBoard.name,
-          description: selectedBoard.description,
-          wonStageId: selectedBoard.wonStageId,
-          lostStageId: selectedBoard.lostStageId,
-          stages: (selectedBoard.stages ?? []).map((s) => ({ id: s.id, label: s.label, color: s.color })),
-        }
+        id: selectedBoard.id,
+        name: selectedBoard.name,
+        description: selectedBoard.description,
+        wonStageId: selectedBoard.wonStageId,
+        lostStageId: selectedBoard.lostStageId,
+        stages: (selectedBoard.stages ?? []).map((s) => ({ id: s.id, label: s.label, color: s.color })),
+      }
       : undefined;
 
     const contactInfo = selectedContact
       ? {
-          id: selectedContact.id,
-          name: selectedContact.name,
-          role: selectedContact.role,
-          email: selectedContact.email,
-          phone: selectedContact.phone,
-          avatar: selectedContact.avatar,
-          status: selectedContact.status,
-          stage: selectedContact.stage,
-          source: selectedContact.source,
-          notes: selectedContact.notes,
-          lastInteraction: selectedContact.lastInteraction,
-          birthDate: selectedContact.birthDate,
-          lastPurchaseDate: selectedContact.lastPurchaseDate,
-          totalValue: selectedContact.totalValue,
-          clientCompanyId: selectedContact.clientCompanyId,
-        }
+        id: selectedContact.id,
+        name: selectedContact.name,
+        role: selectedContact.role,
+        email: selectedContact.email,
+        phone: selectedContact.phone,
+        avatar: selectedContact.avatar,
+        status: selectedContact.status,
+        stage: selectedContact.stage,
+        source: selectedContact.source,
+        notes: selectedContact.notes,
+        lastInteraction: selectedContact.lastInteraction,
+        birthDate: selectedContact.birthDate,
+        lastPurchaseDate: selectedContact.lastPurchaseDate,
+        totalValue: selectedContact.totalValue,
+        clientCompanyId: selectedContact.clientCompanyId,
+      }
       : undefined;
 
     const dealInfo = {
@@ -1035,6 +1047,11 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
     setTemplatePickerMode(mode);
     setIsTemplatePickerOpen(true);
   }, []);
+
+  // Follow-up information
+  const { data: scheduled_messages_query = [] } = useScheduledMessages(selectedDeal?.id || '');
+  const pendingFollowUp = scheduled_messages_query[0];
+  const queryClient = useQueryClient();
 
   const handlePickTemplate = useCallback(
     (script: QuickScript) => {
@@ -1266,9 +1283,8 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
           dealTitle: selectedDeal.title,
           type: 'CALL',
           title: data.title,
-          description: `${outcomeLabels[data.outcome]} - Duração: ${Math.floor(data.duration / 60)}min ${data.duration % 60}s${
-            data.notes ? `\n\n${data.notes}` : ''
-          }`,
+          description: `${outcomeLabels[data.outcome]} - Duração: ${Math.floor(data.duration / 60)}min ${data.duration % 60}s${data.notes ? `\n\n${data.notes}` : ''
+            }`,
           date: new Date().toISOString(),
           completed: true,
           user: actor,
@@ -1580,15 +1596,14 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
             >
               <div className="h-2 w-full rounded-full bg-white/10">
                 <div
-                  className={`h-2 rounded-full ${
-                    health.status === 'excellent'
-                      ? 'bg-emerald-500'
-                      : health.status === 'good'
-                        ? 'bg-green-500'
-                        : health.status === 'warning'
-                          ? 'bg-amber-500'
-                          : 'bg-rose-500'
-                  }`}
+                  className={`h-2 rounded-full ${health.status === 'excellent'
+                    ? 'bg-emerald-500'
+                    : health.status === 'good'
+                      ? 'bg-green-500'
+                      : health.status === 'warning'
+                        ? 'bg-amber-500'
+                        : 'bg-rose-500'
+                    }`}
                   style={{ width: `${health.score}%` }}
                 />
               </div>
@@ -1914,56 +1929,56 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
 
             <div className="flex min-h-0 flex-1 flex-col rounded-2xl border border-white/10 bg-white/3">
               <div className="flex-1 min-h-0 overflow-auto divide-y divide-white/10">
-                  {filteredTimelineItems.length === 0 ? (
-                    <div className="px-6 py-10 text-center">
-                      <div className="text-sm font-semibold text-slate-200">
-                        {timelineItems.length === 0 ? 'Sem atividades ainda' : 'Sem resultados'}
-                      </div>
-                      <div className="mt-2 text-xs text-slate-500">
-                        {timelineItems.length === 0
-                          ? 'Quando você registrar uma nota, ligação ou mudança de etapa, ela aparece aqui.'
-                          : 'Tente limpar busca e filtros para ver tudo novamente.'}
-                      </div>
-                      {timelineItems.length !== 0 ? (
-                        <div className="mt-4 flex items-center justify-center gap-2">
-                          <button
-                            type="button"
-                            className="rounded-xl bg-white px-4 py-2 text-xs font-semibold text-slate-900 hover:bg-slate-100"
-                            onClick={() => {
-                              setQuery('');
-                              setKindFilter('all');
-                              setShowSystemEvents(false);
-                            }}
-                          >
-                            Limpar filtros
-                          </button>
-                        </div>
-                      ) : null}
+                {filteredTimelineItems.length === 0 ? (
+                  <div className="px-6 py-10 text-center">
+                    <div className="text-sm font-semibold text-slate-200">
+                      {timelineItems.length === 0 ? 'Sem atividades ainda' : 'Sem resultados'}
                     </div>
-                  ) : (
-                    filteredTimelineItems.map((t) => (
-                      <div key={t.id} className="px-4 py-3">
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="min-w-0">
-                            <div className="flex items-center gap-2">
-                              <span className="text-xs font-semibold text-slate-200">{t.title}</span>
-                              {t.subtitle ? (
-                                t.title === 'Moveu para' ? (
-                                  <Chip tone={t.tone === 'success' ? 'success' : t.tone === 'danger' ? 'danger' : 'neutral'}>{t.subtitle}</Chip>
-                                ) : (
-                                  <span className="truncate text-xs text-slate-400">{t.subtitle}</span>
-                                )
-                              ) : null}
-                            </div>
-                            {t.title !== 'Moveu para' && t.subtitle ? (
-                              <div className="mt-0.5 text-[11px] text-slate-500">{t.subtitle}</div>
+                    <div className="mt-2 text-xs text-slate-500">
+                      {timelineItems.length === 0
+                        ? 'Quando você registrar uma nota, ligação ou mudança de etapa, ela aparece aqui.'
+                        : 'Tente limpar busca e filtros para ver tudo novamente.'}
+                    </div>
+                    {timelineItems.length !== 0 ? (
+                      <div className="mt-4 flex items-center justify-center gap-2">
+                        <button
+                          type="button"
+                          className="rounded-xl bg-white px-4 py-2 text-xs font-semibold text-slate-900 hover:bg-slate-100"
+                          onClick={() => {
+                            setQuery('');
+                            setKindFilter('all');
+                            setShowSystemEvents(false);
+                          }}
+                        >
+                          Limpar filtros
+                        </button>
+                      </div>
+                    ) : null}
+                  </div>
+                ) : (
+                  filteredTimelineItems.map((t) => (
+                    <div key={t.id} className="px-4 py-3">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-semibold text-slate-200">{t.title}</span>
+                            {t.subtitle ? (
+                              t.title === 'Moveu para' ? (
+                                <Chip tone={t.tone === 'success' ? 'success' : t.tone === 'danger' ? 'danger' : 'neutral'}>{t.subtitle}</Chip>
+                              ) : (
+                                <span className="truncate text-xs text-slate-400">{t.subtitle}</span>
+                              )
                             ) : null}
                           </div>
-                          <div className="shrink-0 text-[11px] text-slate-500">{t.at}</div>
+                          {t.title !== 'Moveu para' && t.subtitle ? (
+                            <div className="mt-0.5 text-[11px] text-slate-500">{t.subtitle}</div>
+                          ) : null}
                         </div>
+                        <div className="shrink-0 text-[11px] text-slate-500">{t.at}</div>
                       </div>
-                    ))
-                  )}
+                    </div>
+                  ))
+                )}
               </div>
 
               <div className="border-t border-white/10 px-4 py-3">
@@ -2261,6 +2276,9 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                 <TabButton active={tab === 'chat'} onClick={() => setTab('chat')}>
                   Chat IA
                 </TabButton>
+                <TabButton active={tab === 'followup'} onClick={() => setTab('followup')}>
+                  Follow-up
+                </TabButton>
                 <TabButton active={tab === 'notas'} onClick={() => setTab('notas')}>
                   Notas
                 </TabButton>
@@ -2284,6 +2302,100 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                       floating={false}
                       startMinimized={false}
                     />
+                  </div>
+                ) : tab === 'followup' ? (
+                  <div className="h-full min-h-0 rounded-2xl border border-white/10 bg-white/2 p-4 overflow-auto">
+                    <div className="space-y-4">
+                      {pendingFollowUp ? (
+                        <div className="rounded-lg border border-pink-100 bg-pink-50/50 p-6 shadow-sm dark:border-pink-900/30 dark:bg-pink-950/20">
+                          <div className="flex justify-between items-start mb-4">
+                            <h3 className="flex items-center gap-2 text-lg font-semibold text-pink-900 dark:text-pink-300">
+                              <CalendarClock className="h-5 w-5 text-pink-600" />
+                              Próximo Follow-up Agendado
+                            </h3>
+                            <div className="flex items-center gap-2">
+                              <button
+                                onClick={async () => {
+                                  if (!window.confirm('Tem certeza que deseja cancelar este agendamento automático?')) return;
+                                  const { error } = await supabase
+                                    .from('scheduled_messages')
+                                    .update({ status: 'CANCELLED_MANUAL' })
+                                    .eq('deal_id', selectedDeal?.id)
+                                    .eq('status', 'PENDING');
+
+                                  if (error) {
+                                    pushToast('Erro ao cancelar: ' + error.message, 'danger');
+                                  } else {
+                                    pushToast('Agendamento cancelado com sucesso!', 'success');
+                                    queryClient.invalidateQueries({ queryKey: ['scheduled_messages', selectedDeal?.id] });
+                                  }
+                                }}
+                                className="text-[10px] font-bold px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors shadow-sm"
+                              >
+                                Cancelar Agendamento
+                              </button>
+                              <button
+                                onClick={() => {
+                                  if (selectedDeal) {
+                                    setFollowUpDealId(selectedDeal.id);
+                                  }
+                                }}
+                                className="text-[10px] font-bold px-3 py-1 rounded-full bg-white dark:bg-pink-900/50 text-pink-600 dark:text-pink-300 border border-pink-200 dark:border-pink-800 hover:bg-pink-100 transition-colors shadow-sm"
+                              >
+                                Editar Agendamento
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="space-y-4">
+                            <div className="flex items-center gap-6 text-sm">
+                              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
+                                <Calendar className="h-4 w-4" />
+                                <span className="font-medium">
+                                  {format(new Date(pendingFollowUp.scheduled_at), "eeee, dd 'de' MMMM", { locale: ptBR })}
+                                </span>
+                              </div>
+                              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
+                                <Clock className="h-4 w-4" />
+                                <span className="font-medium">{format(new Date(pendingFollowUp.scheduled_at), 'HH:mm')}</span>
+                              </div>
+                            </div>
+
+                            <div className="bg-white/80 dark:bg-black/20 rounded-lg p-4 border border-pink-100 dark:border-pink-900/30">
+                              <div className="flex items-center gap-2 text-[10px] font-bold text-pink-500 uppercase mb-2">
+                                <MessageSquareDashed className="h-3 w-3" /> Conteúdo da Mensagem
+                              </div>
+                              <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed italic">
+                                "{pendingFollowUp.message_content}"
+                              </p>
+                            </div>
+
+                            <p className="text-[10px] text-slate-500 italic">
+                              * Esta mensagem será enviada automaticamente via WhatsApp no horário agendado. Se o cliente responder antes disso, o envio será cancelado
+                              automaticamente pela IA.
+                            </p>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col items-center justify-center py-20 text-center bg-white dark:bg-gray-950 border border-slate-100 dark:border-white/5 rounded-xl">
+                          <CalendarClock className="mb-4 h-12 w-12 text-slate-300 dark:text-slate-700" />
+                          <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Sem Follow-up Agendado</h4>
+                          <p className="text-sm text-slate-500 mb-6 max-w-xs">
+                            Mantenha o lead engajado agendando um retorno automático inteligente.
+                          </p>
+                          <button
+                            onClick={() => {
+                              if (selectedDeal) {
+                                setFollowUpDealId(selectedDeal.id);
+                              }
+                            }}
+                            className="px-6 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-lg text-sm font-bold transition-all shadow-lg shadow-pink-600/20"
+                          >
+                            Agendar Agora
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 ) : tab === 'notas' ? (
                   <div className="h-full min-h-0 rounded-2xl border border-white/10 bg-white/2 p-4 overflow-auto">
@@ -2535,6 +2647,14 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
         initialType={scheduleInitial?.type}
         initialTitle={scheduleInitial?.title}
         initialDescription={scheduleInitial?.description}
+      />
+
+      <FollowUpModal
+        isOpen={!!followUpDealId}
+        onClose={() => setFollowUpDealId(null)}
+        dealId={followUpDealId}
+        dealTitle={selectedDeal?.title}
+        contactName={selectedDeal?.contactName}
       />
     </div>
   );

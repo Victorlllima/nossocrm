@@ -393,6 +393,7 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
         onClose={() => setFollowUpDealId(null)}
         dealId={followUpDealId}
         dealTitle={filteredDeals.find(d => d.id === followUpDealId)?.title}
+        contactName={filteredDeals.find(d => d.id === followUpDealId)?.contactName}
       />
 
       <CreateBoardModal

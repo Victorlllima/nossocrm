@@ -39,6 +39,8 @@ import {
   MessageSquareDashed,
   CalendarClock,
   Clock,
+  FileText,
+  History,
 } from 'lucide-react';
 import { StageProgressBar } from '../StageProgressBar';
 import { ActivityRow } from '@/features/activities/components/ActivityRow';
@@ -126,7 +128,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
   const [aiResult, setAiResult] = useState<{ suggestion: string; score: number } | null>(null);
   const [emailDraft, setEmailDraft] = useState<string | null>(null);
   const [newNote, setNewNote] = useState('');
-  const [activeTab, setActiveTab] = useState<'summary' | 'timeline' | 'products' | 'info'>('summary');
+  const [activeTab, setActiveTab] = useState<'summary' | 'followup' | 'timeline' | 'products' | 'info'>('summary');
   const noteTextareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const [objection, setObjection] = useState('');
@@ -798,27 +800,33 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
               <div className="flex gap-6">
                 <button
                   onClick={() => setActiveTab('summary')}
-                  className={`text-sm font-bold h-14 border-b-2 transition-colors ${activeTab === 'summary' ? 'border-primary-500 text-primary-600 dark:text-white' : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-white'}`}
+                  className={`text-sm font-bold h-14 border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'summary' ? 'border-primary-500 text-primary-600 dark:text-white' : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-white'}`}
                 >
-                  Resumo
+                  <FileText size={16} /> Resumo
+                </button>
+                <button
+                  onClick={() => setActiveTab('followup')}
+                  className={`text-sm font-bold h-14 border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'followup' ? 'border-primary-500 text-primary-600 dark:text-white' : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-white'}`}
+                >
+                  <CalendarClock size={16} /> Follow-up
                 </button>
                 <button
                   onClick={() => setActiveTab('timeline')}
-                  className={`text-sm font-bold h-14 border-b-2 transition-colors ${activeTab === 'timeline' ? 'border-primary-500 text-primary-600 dark:text-white' : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-white'}`}
+                  className={`text-sm font-bold h-14 border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'timeline' ? 'border-primary-500 text-primary-600 dark:text-white' : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-white'}`}
                 >
-                  Timeline
+                  <History size={16} /> Timeline
                 </button>
                 <button
                   onClick={() => setActiveTab('products')}
-                  className={`text-sm font-bold h-14 border-b-2 transition-colors ${activeTab === 'products' ? 'border-primary-500 text-primary-600 dark:text-white' : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-white'}`}
+                  className={`text-sm font-bold h-14 border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'products' ? 'border-primary-500 text-primary-600 dark:text-white' : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-white'}`}
                 >
-                  Produtos
+                  <Package size={16} /> Produtos
                 </button>
                 <button
                   onClick={() => setActiveTab('info')}
-                  className={`text-sm font-bold h-14 border-b-2 transition-colors ${activeTab === 'info' ? 'border-primary-500 text-primary-600 dark:text-white' : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-white'}`}
+                  className={`text-sm font-bold h-14 border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'info' ? 'border-primary-500 text-primary-600 dark:text-white' : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-white'}`}
                 >
-                  IA Insights
+                  <Bot size={16} /> IA Insights
                 </button>
               </div>
             </div>
@@ -826,8 +834,30 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
             <div className="flex-1 overflow-y-auto p-6 bg-slate-50/30 dark:bg-black/10">
               {activeTab === 'summary' && (
                 <div className="space-y-4">
-                  {/* Follow-up Section */}
-                  {pendingFollowUp && (
+                  <div className="rounded-lg border border-indigo-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-950">
+                    <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
+                      <FileText className="h-5 w-5 text-indigo-600" />
+                      Resumo dos Dados (Planilha)
+                    </h3>
+
+                    {deal.aiSummary ? (
+                      <div className="prose prose-sm max-w-none text-gray-600 dark:prose-invert dark:text-gray-300 whitespace-pre-wrap font-mono bg-slate-50 dark:bg-black/20 p-4 rounded-lg border border-slate-100 dark:border-white/5">
+                        {deal.aiSummary}
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center py-12 text-center">
+                        <MessageSquareDashed className="mb-3 h-10 w-10 text-gray-300 dark:text-gray-700" />
+                        <p className="text-sm text-gray-500">Nenhum resumo de dados disponível.</p>
+                        <p className="text-xs text-gray-400">Dados importados aparecerão aqui automaticamente.</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'followup' && (
+                <div className="space-y-4">
+                  {pendingFollowUp ? (
                     <div className="rounded-lg border border-pink-100 bg-pink-50/50 p-6 shadow-sm dark:border-pink-900/30 dark:bg-pink-950/20">
                       <div className="flex justify-between items-start mb-4">
                         <h3 className="flex items-center gap-2 text-lg font-semibold text-pink-900 dark:text-pink-300">
@@ -841,7 +871,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
                               const { error } = await supabase
                                 .from('scheduled_messages')
                                 .update({ status: 'CANCELLED_MANUAL' })
-                                .eq('deal_id', dealId)
+                                .eq('deal_id', (dealId as string))
                                 .eq('status', 'PENDING');
 
                               if (error) {
@@ -858,7 +888,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
                           <button
                             onClick={() => {
                               if (setFollowUpDealId) {
-                                setFollowUpDealId(deal.id);
+                                setFollowUpDealId(dealId as string);
                               }
                             }}
                             className="text-[10px] font-bold px-3 py-1 rounded-full bg-white dark:bg-pink-900/50 text-pink-600 dark:text-pink-300 border border-pink-200 dark:border-pink-800 hover:bg-pink-100 transition-colors shadow-sm"
@@ -899,26 +929,23 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
                         </p>
                       </div>
                     </div>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center py-20 text-center bg-white dark:bg-gray-950 border border-slate-100 dark:border-white/5 rounded-xl">
+                      <CalendarClock className="mb-4 h-12 w-12 text-slate-300 dark:text-slate-700" />
+                      <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Sem Follow-up Agendado</h4>
+                      <p className="text-sm text-slate-500 mb-6 max-w-xs">Mantenha o lead engajado agendando um retorno automático inteligente.</p>
+                      <button
+                        onClick={() => {
+                          if (setFollowUpDealId) {
+                            setFollowUpDealId(dealId as string);
+                          }
+                        }}
+                        className="px-6 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-lg text-sm font-bold transition-all shadow-lg shadow-pink-600/20"
+                      >
+                        Agendar Agora
+                      </button>
+                    </div>
                   )}
-
-                  <div className="rounded-lg border border-indigo-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-950">
-                    <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
-                      <Bot className="h-5 w-5 text-indigo-600" />
-                      Resumo da Conversa
-                    </h3>
-
-                    {deal.aiSummary ? (
-                      <div className="prose prose-sm max-w-none text-gray-600 dark:prose-invert dark:text-gray-300 whitespace-pre-wrap">
-                        {deal.aiSummary}
-                      </div>
-                    ) : (
-                      <div className="flex flex-col items-center justify-center py-12 text-center">
-                        <MessageSquareDashed className="mb-3 h-10 w-10 text-gray-300 dark:text-gray-700" />
-                        <p className="text-sm text-gray-500">Nenhum resumo de conversa disponível ainda.</p>
-                        <p className="text-xs text-gray-400">Finalize uma conversa no WhatsApp para gerar.</p>
-                      </div>
-                    )}
-                  </div>
                 </div>
               )}
 
