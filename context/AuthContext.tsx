@@ -173,6 +173,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     useEffect(() => {
+        // BYPASS: Se DEV_MODE estiver ativo, simular usuário logado
+        if (process.env.NEXT_PUBLIC_DEV_MODE === 'true') {
+            const devUserId = process.env.NEXT_PUBLIC_DEV_USER_ID || '00000000-0000-0000-0000-000000000002';
+            console.log(`[AuthContext] DEV_MODE bypass active. Mocking user: ${devUserId}`);
+
+            setLoading(true);
+            setUser({ id: devUserId, email: 'dev@test.com' } as any);
+            setSession({ user: { id: devUserId } } as any);
+
+            // Buscar o perfil do usuário fake para ter organization_id
+            fetchProfile(devUserId);
+            return;
+        }
+
         if (!sb) {
             // Sem Supabase configurado: mantém app em estado "deslogado".
             setSession(null);

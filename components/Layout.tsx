@@ -156,6 +156,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   // This prevents rendering fallbacks like "Usuário" while unauthenticated.
   useEffect(() => {
     if (loading) return;
+    // Bypass redirect if in dev mode
+    if (process.env.NEXT_PUBLIC_DEV_MODE === 'true' && user) return;
     if (!user) router.replace('/login');
   }, [loading, user, router]);
 

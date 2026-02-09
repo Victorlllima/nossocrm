@@ -19,6 +19,12 @@ export async function updateSession(request: NextRequest) {
         return NextResponse.next({ request })
     }
 
+    // DEV MODE: Bypass authentication in development
+    if (process.env.DEV_MODE === 'true' || process.env.NEXT_PUBLIC_DEV_MODE === 'true') {
+        console.log('[proxy] DEV_MODE active - bypassing auth checks')
+        return NextResponse.next({ request })
+    }
+
     // Check if Supabase is properly configured
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
     const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
