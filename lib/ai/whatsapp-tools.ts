@@ -69,7 +69,7 @@ ${index + 1}. ${property.titulo || property.tipo}
    - Relevância: ${(property.similarity * 100).toFixed(0)}%
       `).join('\n---\n');
     }
-});
+} as any);
 
 /**
  * Tool: acionar_humano
@@ -95,7 +95,7 @@ export const acionarHumano = tool({
 
         return `Transbordo solicitado. Motivo: ${motivo}. O Max será notificado.`;
     }
-});
+} as any);
 
 /**
  * Export all tools as an object
