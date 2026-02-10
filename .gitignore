@@ -84,3 +84,5 @@ scripts/
 test/*.md
 
 nul.*
+
+google-sheets-credentials.json
