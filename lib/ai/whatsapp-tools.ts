@@ -4,7 +4,7 @@
  */
 
 import { tool } from 'ai';
-import { z } from 'zod';
+import { z } from 'zod'; // Zod v3.x (Correct version)
 import { createStaticAdminClient } from '@/lib/supabase/server';
 import { hybridSearchProperties } from './whatsapp-vector-search';
 
