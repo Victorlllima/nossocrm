@@ -3,7 +3,8 @@
  * Migrated from N8n workflow tools
  */
 
-import { tool, jsonSchema } from 'ai';
+import { tool } from 'ai';
+import { z } from 'zod';
 import { createStaticAdminClient } from '@/lib/supabase/server';
 import { hybridSearchProperties } from './whatsapp-vector-search';
 
@@ -11,21 +12,14 @@ import { hybridSearchProperties } from './whatsapp-vector-search';
  * Tool: Consultar_Base_Imoveis
  * Searches properties in the Supabase database
  * 
- * Uses explicit JSON Schema to avoid Zod version conflicts
+ * Uses Zod + 'as any' to ensure compatibility with AI SDK v3
  */
 export const consultarBaseImoveis = tool({
     description: 'Busca informações detalhadas sobre imóveis (características, preço, localização, comodidades). Use quando o lead perguntar sobre imóveis específicos ou características.',
-    parameters: jsonSchema({
-        type: 'object',
-        properties: {
-            query: {
-                type: 'string',
-                description: 'Termo de busca: pode ser ID do imóvel, bairro, tipo, ou características'
-            },
-        },
-        required: ['query'],
+    parameters: z.object({
+        query: z.string().describe('Termo de busca: pode ser ID do imóvel, bairro, tipo, ou características'),
     }),
-    execute: async ({ query }: any) => {
+    execute: async ({ query }: { query: string }) => {
         const supabase = createStaticAdminClient();
 
         // Check if query is an ID
@@ -79,21 +73,14 @@ ${index + 1}. ${property.titulo || property.tipo}
  * Tool: acionar_humano
  * Notifies human agent to take over the conversation
  * 
- * Uses explicit JSON Schema to avoid Zod version conflicts
+ * Uses Zod + 'as any' to ensure compatibility with AI SDK v3
  */
 export const acionarHumano = tool({
     description: 'Notifica humano para assumir o atendimento. Use quando o lead pedir explicitamente para falar com humano ou quando você não conseguir resolver a solicitação.',
-    parameters: jsonSchema({
-        type: 'object',
-        properties: {
-            motivo: {
-                type: 'string',
-                description: 'Motivo do transbordo para humano'
-            },
-        },
-        required: ['motivo'],
+    parameters: z.object({
+        motivo: z.string().describe('Motivo do transbordo para humano'),
     }),
-    execute: async ({ motivo }: any) => {
+    execute: async ({ motivo }: { motivo: string }) => {
         const MAX_PHONE = process.env.MAX_PHONE_NUMBER || '5561992978796';
 
         // Simulação de transbordo (TODO: Integração real Evolution API)
