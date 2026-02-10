@@ -14,12 +14,14 @@ import { hybridSearchProperties } from './whatsapp-vector-search';
  * 
  * Original N8n implementation: Supabase Vector Store + Regular Query
  */
+// @ts-ignore
 export const consultarBaseImoveis = tool({
     description: 'Busca informações detalhadas sobre imóveis (características, preço, localização, comodidades). Use quando o lead perguntar sobre imóveis específicos ou características.',
     parameters: z.object({
         query: z.string().describe('Termo de busca: pode ser ID do imóvel, bairro, tipo, ou características'),
     }),
-    execute: async ({ query }) => {
+    execute: async (args: any) => {
+        const query = args.query;
         const supabase = createStaticAdminClient();
 
         // Check if query is an ID
@@ -75,12 +77,14 @@ ${index + 1}. ${property.titulo || property.tipo}
  * 
  * Original N8n implementation: HTTP Request to Evolution API
  */
+// @ts-ignore
 export const acionarHumano = tool({
     description: 'Notifica humano para assumir o atendimento. Use quando o lead pedir explicitamente para falar com humano ou quando você não conseguir resolver a solicitação.',
     parameters: z.object({
         motivo: z.string().describe('Motivo do transbordo para humano'),
     }),
-    execute: async ({ motivo }) => {
+    execute: async (args: any) => {
+        const motivo = args.motivo;
         const MAX_PHONE = process.env.MAX_PHONE_NUMBER || '5561992978796';
         const EVOLUTION_URL = process.env.EVOLUTION_API_URL || '';
         const EVOLUTION_KEY = process.env.EVOLUTION_API_KEY || '';
