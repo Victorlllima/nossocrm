@@ -1,0 +1,4951 @@
+{
+  "name": "Agente_Max_Corretor",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Mensagem e bairros').first().json.message }}",
+        "options": {
+          "systemMessage": "={{ $('Preparar_Contexto_Lead').item.json.contexto_lead }}\n\n# PERSONA E OBJETIVO\nVocê é o Assistente Virtual do Max Lima, corretor parceiro da RE/MAX. Seu objetivo é atender leads usando a ferramenta Consultar_Base_Imoveis com um tom profissional, consultivo e neutro.\n\n# ANÁLISE DE FLUIDEZ (DEDUÇÃO LÓGICA DE CONTINUIDADE)\nO sistema pode não informar se nós (CRM/Assistente) enviamos uma mensagem anterior. POR ISSO, ANALISE A MENSAGEM DO LEAD PARA DEDUZIR O STATUS:\n\n1. **SINAIS DE RESPOSTA (O lead está respondendo a um DISPARO ou FOLLOW-UP nosso):**\n   - Se o lead inicia com verbos de resposta, concordância ou negação: \"Sim\", \"Não\", \"Consegui\", \"Vi sim\", \"Gostei\", \"Achei caro\", \"Pode ser\", \"Ainda não\", \"Tenho dúvida\", \"Obrigado\", \"Ok\".\n   - Se o lead fala sobre um tema contínuo: \"Qual o valor?\", \"Tem piscina?\", \"Manda fotos\".\n   - **AÇÃO IMEDIATA:** ASSUMA que a conversa JÁ ESTÁ EM ANDAMENTO.\n   - **PROIBIDO:** Dar \"Bom dia/tarde/noite\" ou se apresentar (\"Sou o assistente...\").\n   - **EFEITO:** Responda APENAS ao conteúdo, como se fosse um amigo continuando o papo.\n     *Exemplo:* Lead: \"Consegui mas tenho dúvida\" -> Você: \"Entendi. Quais dúvidas ficaram pendentes?\"\n\n2. **SINAIS DE INÍCIO (O lead está iniciando do zero):**\n   - Se o lead diz APENAS: \"Olá\", \"Bom dia\", \"Boa tarde\", \"Boa noite\", \"Oi\".\n   - Se o lead manda um link de imóvel da RE/MAX sem nenhum texto.\n   - **AÇÃO:** Siga o Protocolo de Saudação Completa.\n\n**REGRA DE OURO DA DÚVIDA:** Se você não tiver certeza se é início ou meio de conversa, **NÃO SE APRESENTE NOVAMENTE**.\nÉ melhor dizer apenas: \"Olá! Como posso ajudar com sua busca hoje?\" (Serve para ambos).\n\n# PROTOCOLO DE SAUDAÇÃO COMPLETA (USAR APENAS EM SINAIS DE INÍCIO)\n*Horário atual:* {{ $now.setZone('America/Recife').toFormat('HH:mm') }}\n*Dia da semana:* {{ $now.setZone('America/Recife').setLocale('pt-BR').toFormat('EEEE') }}\n\n1. Inicie: \"[Saudação] {{ $('Webhook').item.json.body.data.pushName || 'visitante' }}, sou assistente virtual do Max.\"\n2. Responda em UMA mensagem curta.\n3. PROIBIDO: Emojis, listas ou quebras de linha.\n\n# PROTOCOLO DE RECIPROCIDADE\n*Se o lead iniciar/retornar com saudação:*\n- Lead: \"Bom dia\" → Você: \"Bom dia!\"\n- Lead: \"Obrigado\" → Você: \"De nada!\"\n- Complete com: \"Como posso te ajudar?\"\n\n# CONTROLE DE CONTEXTO (ANTI-LOOP)\n1. **Verifique o histórico** (se disponível).\n2. **NÃO repita** perguntas óbvias (ex: se ele disse \"Pode agendar\", não pergunte \"Quer agendar?\").\n3. Se o disparo foi \"Quer agendar?\" e ele disse \"Sim\", responda: \"Perfeito! Qual o melhor período?\" \n\n# FERRAMENTA ÚNICA: Consultar_Base_Imoveis\n*QUANDO USAR:*\n- Buscas gerais, detalhes, fotos, ou dúvidas sobre imóveis.\n\n*LINKS E IDs (TRAVA DE SEGURANÇA):*\n- Se vier link/ID: Chame a tool com \"ID: [NÚMERO]\".\n- Valide se o retorno é EXATAMENTE o ID pedido. Se não, chame transbordo.\n\n*INSTRUÇÕES DE VALIDAÇÃO (CÉREBRO DO AGENTE):*\nAo receber dados da tool:\n1. **Finalidade:** Venda vs Aluguel (Se incompatível → Transbordo).\n2. **Repetição:** Não mostre imóvel já apresentado nas últimas 3 mensagens.\n3. **Requisitos:** Se a tool trouxe errado (ex: 2 quartos ao invés de 3) → Avise e Transborde.\n4. **Vazio:** Sem resultados → Transbordo.\n\n*RESPOSTA:*\n- Sem \"vômito de dados\". Responda SÓ o perguntado.\n- Preço/Link: Só libere se pedido (\"qual valor?\", \"quero ver\").\n- Inicial: Tipo, Bairro, Quartos, Metragem.\n\n# CENÁRIOS DE RESPOSTA TÍPICOS\n\n*CENÁRIO 0. RESPOSTA A DISPARO (CONTINUIDADE)*\n*Contexto Implícito:* Nós perguntamos algo antes.\n*Lead:* \"Sim, pode falar\"\n*IA:* \"Ótimo! Sobre o imóvel que mencionei, o que mais chamou sua atenção?\"\n\n*CENÁRIO 1. DÚVIDA APÓS DISPARO*\n*Lead:* \"Consegui ver mas tenho dúvidas\"\n*IA:* \"Sem problemas. O que você gostaria de saber mais detalhadamente?\"\n\n*CENÁRIO 2. BUSCA / INTERESSE*\n\"Tenho essa opção no [Bairro] com [X] quartos e [Y]m². O que acha?\"\n\n*CENÁRIO 3. NADA ENCONTRADO / ERRO*\n\"Não encontrei esse perfil exato agora. Como o Max tem acesso a toda rede, vou pedir para ele buscar opções para você. Pode me detalhar melhor?\"\n\n*CENÁRIO 4. PEDIDO DE FOTOS/LINK*\n\"Aqui estão as fotos e detalhes completos: [Link].\"\n\n*CENÁRIO 5. CAPTAÇÃO (QUER VENDER)*\n*Lead:* \"Quero vender meu ap\"\n*IA:* \"Excelente! O Max pode fazer uma análise de mercado. Me conta: quantos quartos, tamanho e localização?\"\n\n*CENÁRIO 6. TRANSBORDO GERAL*\n\"Como sou assistente virtual, vou encaminhar sua mensagem para o Max te responder pessoalmente.\""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        5040,
+        496
+      ],
+      "id": "14aed770-ac2e-49c4-b95d-746097f6d24e",
+      "name": "AI Agent1",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output.mensagens",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        5904,
+        496
+      ],
+      "id": "e15c773c-fea7-4b04-8eaf-255c56037ddc",
+      "name": "Split Out1",
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        6160,
+        496
+      ],
+      "id": "cf30d68d-477c-4873-b469-bea723077793",
+      "name": "Loop Over Items1",
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        6608,
+        720
+      ],
+      "id": "50fb0661-f351-4cf8-b0a0-4cf78dfc4ca8",
+      "name": "Wait3",
+      "webhookId": "33c5308c-6ef7-4028-8fb7-f0f46b8d615d",
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Dados Lead').first().json.IdConversa }}_memory",
+        "tableName": "=dialogos",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        5024,
+        736
+      ],
+      "id": "181ddf9a-a6d3-4c9c-acd9-fe5041d463a7",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "iJoJWSYmV1xIam5k",
+          "name": "Max_corretor_memory"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "24aa4532-80db-4c1e-977a-0036b82a8e5f",
+              "leftValue": "=",
+              "rightValue": "false",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "afd7360c-4329-46c9-90db-709b3a01744d",
+      "name": "Filtro Inicial1",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.1,
+      "position": [
+        -1040,
+        560
+      ],
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "AgenteStatus",
+        "key": "={{ $('Parametros Fluxo').item.json.IdAgente }}_status_{{ $('Dados Lead').item.json.IdConversa }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -416,
+        560
+      ],
+      "id": "8897cc92-7452-4d4f-8a10-7bb1dd79b031",
+      "name": "Redis",
+      "credentials": {
+        "redis": {
+          "id": "lrzCSJ6CT3dooBbL",
+          "name": "Redis_ArcoGeek"
+        }
+      },
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "756ab323-31a2-4a59-92e8-c2c695027962",
+              "leftValue": "={{ $json.AgenteStatus }}",
+              "rightValue": "Desativado",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -144,
+        560
+      ],
+      "id": "1c4fcb72-dc92-495c-958f-f41d70c53397",
+      "name": "Bot Desativado?1",
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9f488c5c-0b3b-48e9-87b1-5a22d513d1ec",
+              "name": "IdConversa",
+              "value": "={{ (() => {\n  const rawJid = ($('Webhook').item.json.body.data.key.remoteJid || '').trim();\n  const rawAlt = ($('Webhook').item.json.body.data.key.remoteJidAlt || '').trim();\n  const final = rawJid || rawAlt;\n  \n  // Limpa o ID: remove @, espaços, quebras de linha e caracteres especiais\n  return final\n    .split('@')[0]\n    .trim()\n    .replace(/\\n/g, '')\n    .replace(/\\r/g, '')\n    .replace(/\\s/g, '');\n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "69f6217f-9063-423f-abf4-e94f6b70f94e",
+              "name": "LeadNome",
+              "value": "={{ $('Webhook').item.json.body.data.pushName || 'Lead Instagram' }}",
+              "type": "string"
+            },
+            {
+              "id": "1ae75c75-07d2-43b8-8ae1-4c09b81cc369",
+              "name": "LeadTelefone",
+              "value": "={{ (() => {\n  const jid = ($('Webhook').item.json.body.data.key.remoteJid || '').trim();\n  const alt = ($('Webhook').item.json.body.data.key.remoteJidAlt || '').trim();\n  \n  // 1. Se o ALT tem número real (começa com 55), usa só os dígitos limpos\n  if (alt && alt.startsWith('55')) {\n    return alt.split('@')[0].trim().replace(/\\n/g, '').replace(/\\r/g, '');\n  }\n  \n  // 2. Se o JID tem número real (começa com 55), usa só os dígitos limpos  \n  if (jid && jid.startsWith('55')) {\n    return jid.split('@')[0].trim().replace(/\\n/g, '').replace(/\\r/g, '');\n  }\n  \n  // 3. Se for LID, retorna o JID COMPLETO (com @lid) mas limpo\n  const finalJid = jid || alt || 'SEM_NUMERO';\n  return finalJid.trim().replace(/\\n/g, '').replace(/\\r/g, '');\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "48f35a6a-c4c7-4797-9510-bc1ea97e1cef",
+      "name": "Dados Lead",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -720,
+        560
+      ],
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        80,
+        368
+      ],
+      "id": "21ea70a3-722c-49b6-b7fd-bf5acd98342f",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3bdce7b6-d0f1-442c-aafd-8cd123aa21b6",
+              "name": "EsperaBuffer",
+              "value": 15,
+              "type": "number"
+            },
+            {
+              "id": "c38e8985-4494-40a4-878e-f25467849842",
+              "name": "TempoInatividadeAgente",
+              "value": 3600,
+              "type": "number"
+            },
+            {
+              "id": "c031cb9a-c60f-4969-9913-714884ec919a",
+              "name": "ModeloTemperatura",
+              "value": 0.2,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1312,
+        560
+      ],
+      "id": "95903a85-a800-4632-acfd-c79f5d1fc6b6",
+      "name": "Parametros Fluxo",
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "Max_corretor",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -2736,
+        576
+      ],
+      "id": "fb1a5d33-6ec4-4240-8746-474db8995204",
+      "name": "Webhook",
+      "webhookId": "e08a4cc8-a904-4cf7-8343-65a57198df10"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://evolution.app.info.pl/message/sendText/Max_vendedor",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Edit Fields').item.json.whatsapp_jid }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json['output.mensagens'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6e96e0b7-5993-4617-8be7-0f4fb74c61b6",
+      "name": "(EVO) Enviar Mensagem1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        6416,
+        512
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "6q8DkTBc2OGVwB39",
+          "name": "Max_corretor_evo"
+        }
+      },
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9e5cbf60-e017-4396-8c4b-e49706f393e7",
+              "leftValue": "={{ $('Webhook').item.json.body.data.key.fromMe }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "0f017be6-5748-448f-813b-345817ca5fd1",
+              "leftValue": "={{ $('Webhook').item.json.body.data.key.remoteJid }}",
+              "rightValue": "@g.us",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2016,
+        560
+      ],
+      "id": "7a9b3a84-de8c-43fa-a484-2d7c46d78058",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "bc64f125-d93c-4d1d-97ae-65c0adb08b79",
+                    "leftValue": "={{ $('Webhook').item.json.body.data.messageType }}",
+                    "rightValue": "conversation",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "texto"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "f7053057-3e82-49ad-a2bf-07bafc958f06",
+                    "leftValue": "={{ $('Webhook').item.json.body.data.messageType }}",
+                    "rightValue": "extendedTextMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "texto"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "137aec3f-e95e-4d59-b9ba-1140f9fc4fb4",
+                    "leftValue": "={{ $('Webhook').item.json.body.data.messageType }}",
+                    "rightValue": "audioMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Webhook').item.json.body.data.messageType }}",
+                    "rightValue": "imageMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "40b284c8-fdf7-49e5-9ac3-8c5051f51521"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "imagem"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "7babc8fd-200c-4cb8-bc63-f999f57d5217",
+                    "leftValue": "={{ $('Webhook').item.json.body.data.message.documentWithCaptionMessage.message.documentMessage.mimetype }}",
+                    "rightValue": "application/pdf",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "PDF"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "Outro"
+        }
+      },
+      "id": "506dc61f-2fd2-4758-9e9d-a9e127eda2b0",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.1,
+      "position": [
+        288,
+        528
+      ],
+      "notesInFlow": true,
+      "notes": "Ajustar condições para cada tipo de mensagem a depender da sua entrada de dados\n\nTEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "binaryPropertyName": "=data",
+        "options": {
+          "language": "pt"
+        }
+      },
+      "id": "7aeebb93-b78f-47e4-9a9f-6cbeb5842e68",
+      "name": "Transcrever Áudio",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.4,
+      "position": [
+        1440,
+        512
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "bBfh1WNyot9B1mKd",
+          "name": "Max_corretor_openai"
+        }
+      },
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "text": "=#Instruções\nO usuário te enviou uma imagem a qual você deve descrever.\n\nA imagem pode vir acompanhada de uma mensagem de texto (<MensagemUsuario>)\n\nCaso venha, utilize a mensagem anexa como contexto extra, tente capturar o sentimento da mensagem e objetivo pelo qual o usuário esteja enviando esta imagem na conversa.\n\nCrie uma resposta descrevendo as informações enviadas para que estas sejam utilizadas por um agente no futuro.\n\nLembre-se:\nEste agente apenas terá as informações que você fornecer, portanto repasse toda informação que julgar importante.\n\n#Dados\n<MensagemUsuario>\n{{ $json.MensagemImagem }}\n</MensagemUsuario>\n",
+        "inputType": "base64",
+        "options": {}
+      },
+      "id": "0d0cd100-79ff-43fb-882a-b454bcdc778e",
+      "name": "OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.4,
+      "position": [
+        1440,
+        672
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "bBfh1WNyot9B1mKd",
+          "name": "Max_corretor_openai"
+        }
+      },
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "amount": "={{ $('Parametros Fluxo').item.json.EsperaBuffer }}"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2240,
+        592
+      ],
+      "id": "e0b38219-81ef-47a8-a5d9-494b25d7b9b0",
+      "name": "Wait",
+      "webhookId": "169ea291-c3dc-4bca-854f-05520c979d7d",
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1bd6c365-d077-4284-9dfe-94db1cbe39bd",
+              "leftValue": "={{ $('Buffer 4').item.json.messages.last() }}",
+              "rightValue": "={{ $('Buffer 1').item.json.messages.last() }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2688,
+        592
+      ],
+      "id": "05d3140f-034f-4801-a130-315015e889dd",
+      "name": "ComparandoMensagens",
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "messages",
+        "key": "={{ $('Dados Lead').item.json.IdConversa }}_buffer",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2016,
+        592
+      ],
+      "id": "d2d900c3-3338-42c8-88e6-316f150e6f09",
+      "name": "Buffer 1",
+      "credentials": {
+        "redis": {
+          "id": "lrzCSJ6CT3dooBbL",
+          "name": "Redis_ArcoGeek"
+        }
+      },
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "messages",
+        "key": "={{ $('Dados Lead').item.json.IdConversa }}_buffer",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2464,
+        592
+      ],
+      "id": "fccdef91-62d3-4a93-859f-6172e702e167",
+      "name": "Buffer 4",
+      "credentials": {
+        "redis": {
+          "id": "lrzCSJ6CT3dooBbL",
+          "name": "Redis_ArcoGeek"
+        }
+      },
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Dados Lead').item.json.IdConversa }}_buffer",
+        "messageData": "={{ $json.Texto }}",
+        "tail": true
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1744,
+        192
+      ],
+      "id": "c7a5d5a8-2048-43cc-b45a-3065f9580508",
+      "name": "Add Texto Buffer",
+      "credentials": {
+        "redis": {
+          "id": "lrzCSJ6CT3dooBbL",
+          "name": "Redis_ArcoGeek"
+        }
+      },
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Dados Lead').item.json.IdConversa }}_buffer"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2896,
+        496
+      ],
+      "id": "641c144f-b57e-4487-bad3-8f764ceefd7f",
+      "name": "Apagar Buffer",
+      "credentials": {
+        "redis": {
+          "id": "lrzCSJ6CT3dooBbL",
+          "name": "Redis_ArcoGeek"
+        }
+      },
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c1ce011b-bd95-468e-863e-f2076f644cf9",
+              "name": "Texto",
+              "value": "={{ $('Webhook').item.json.body.data.message.conversation }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        960,
+        192
+      ],
+      "id": "4f5f1e39-4335-4267-8fb2-b7995aeab992",
+      "name": "Mensagem Texto",
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5efc6961-1ff7-4ef2-a772-7e9761592a3e",
+              "name": "Audio",
+              "value": "={{ $('Webhook').item.json.body.data.message.base64 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        960,
+        512
+      ],
+      "id": "ab0492bb-3647-4a88-b48f-b1a424ccbe94",
+      "name": "Mensagem Audio",
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5efc6961-1ff7-4ef2-a772-7e9761592a3e",
+              "name": "Imagem",
+              "value": "={{ $('Webhook').item.json.body.data.message.base64 }}",
+              "type": "string"
+            },
+            {
+              "id": "f5c70ab5-7671-4bc8-9d23-65b8954ddb08",
+              "name": "MensagemImagem",
+              "value": "={{ $('Webhook').item.json.body.data.message.imageMessage.caption }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        960,
+        672
+      ],
+      "id": "11b780a6-7f63-4ee4-a066-8b3017dc7826",
+      "name": "Mensagem Imagem",
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Dados Lead').item.json.IdConversa }}_buffer",
+        "messageData": "={{ $json.text }}",
+        "tail": true
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1744,
+        512
+      ],
+      "id": "5647490a-b327-4ca9-8f84-dec29d0f8794",
+      "name": "Add Audio Buffer",
+      "credentials": {
+        "redis": {
+          "id": "lrzCSJ6CT3dooBbL",
+          "name": "Redis_ArcoGeek"
+        }
+      },
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Dados Lead').item.json.IdConversa }}_buffer",
+        "messageData": "={{ $json.Erro }}",
+        "tail": true
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1744,
+        1008
+      ],
+      "id": "f174456a-cd91-4ab2-87b5-3fa825a071d5",
+      "name": "Add Error Buffer",
+      "credentials": {
+        "redis": {
+          "id": "lrzCSJ6CT3dooBbL",
+          "name": "Redis_ArcoGeek"
+        }
+      },
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        832
+      ],
+      "id": "4265fe50-c085-4236-8d58-681ae6a8afc3",
+      "name": "Extract from File1",
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "11dc126a-e72e-431b-8db5-c78168c69439",
+              "name": "Erro",
+              "value": "<ErroFormatoMensagem>",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        960,
+        1008
+      ],
+      "id": "c3e6fcd9-b1bb-4b66-b26a-106297a25f29",
+      "name": "Mensagem Erro",
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Dados Lead').item.json.IdConversa }}_buffer",
+        "messageData": "=<ContextoPDF>\n  <TranscricaoPDF>\n{{ $json.text }}\n  </TranscricaoPDF>\nContexto Extra: O usuário encaminhou a mensagem a seguir junto ao PDF.\n  <MensagemUsuario>\n{{ $('Mensagem Documento PDF1').item.json.MensagemDocumento }}\n  </MensagemUsuario>\n</ContextoPDF>",
+        "tail": true
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1744,
+        832
+      ],
+      "id": "adf334ef-b1ac-4aea-8b04-f38457641dab",
+      "name": "Add PDF Buffer",
+      "credentials": {
+        "redis": {
+          "id": "lrzCSJ6CT3dooBbL",
+          "name": "Redis_ArcoGeek"
+        }
+      },
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Dados Lead').item.json.IdConversa }}_buffer",
+        "messageData": "=<ContextoImagem>\n\n  <DetalheImagem>\n{{ $json.content }}\n  </DetalheImagem>\n\nContexto Extra: O usuário encaminhou a mensagem a seguir junto á imagem.\n  <MensagemUsuario>\n{{ $('Mensagem Imagem').item.json.MensagemImagem }}\n  </MensagemUsuario>\n\n</ContextoImagem>",
+        "tail": true
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1744,
+        672
+      ],
+      "id": "de0cff24-0f3e-483b-90aa-7760c07afef6",
+      "name": "Add Imagem Buffer",
+      "credentials": {
+        "redis": {
+          "id": "lrzCSJ6CT3dooBbL",
+          "name": "Redis_ArcoGeek"
+        }
+      },
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2896,
+        688
+      ],
+      "id": "b3c9098b-a44b-4ba2-b699-d62fe324b816",
+      "name": "No Operation, do nothing7",
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5efc6961-1ff7-4ef2-a772-7e9761592a3e",
+              "name": "Documento",
+              "value": "={{ $('Webhook').item.json.body.data.message.base64 }}",
+              "type": "string"
+            },
+            {
+              "id": "003323ec-ffbe-4c91-b8b5-623466b5014d",
+              "name": "MensagemDocumento",
+              "value": "={{ $('Webhook').item.json.body.data.message.documentWithCaptionMessage.message.documentMessage.caption }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        960,
+        832
+      ],
+      "id": "26d570b4-f11e-49c7-9829-aa9d328417c4",
+      "name": "Mensagem Documento PDF1",
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "Imagem",
+        "options": {
+          "mimeType": "image/png"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1216,
+        672
+      ],
+      "id": "aad9893b-c191-4d2b-9481-a030d800da4d",
+      "name": "Convert to File3"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "Audio",
+        "options": {
+          "mimeType": "audio/mp4"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1216,
+        512
+      ],
+      "id": "b42a7503-95b3-434c-a9a5-e0a0f4aafdcf",
+      "name": "Convert to File4"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "Documento",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1216,
+        832
+      ],
+      "id": "b33e2f21-83a9-4171-89e9-2d9dd18a9ccb",
+      "name": "Convert to File5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c1ce011b-bd95-468e-863e-f2076f644cf9",
+              "name": "Texto",
+              "value": "={{ $('Webhook').item.json.body.data.message.extendedTextMessage.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        960,
+        352
+      ],
+      "id": "e49f0aa3-830b-4b53-b13e-4f3e3ac56341",
+      "name": "Mensagem Texto3",
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "isBlocked",
+        "key": "={{ $('Edit Fields').item.json.whatsapp_jid }}_block",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -1760,
+        544
+      ],
+      "id": "158ebd87-e72e-4182-9d16-35688e25f069",
+      "name": "Redis1",
+      "credentials": {
+        "redis": {
+          "id": "lrzCSJ6CT3dooBbL",
+          "name": "Redis_ArcoGeek"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a873352c-4ce4-4247-b868-5c39bb1503f4",
+              "leftValue": "={{ $json.isBlocked }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1552,
+        544
+      ],
+      "id": "78aa4910-59de-439c-afdb-68ba13641f46",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -1312,
+        288
+      ],
+      "id": "72b6c49c-975f-4c82-9c98-e60cf7d47615",
+      "name": "No Operation, do nothing1"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "leads",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "whatsapp_id",
+              "condition": "eq",
+              "keyValue": "={{ $('Dados Lead').item.json.LeadTelefone }}"
+            }
+          ]
+        }
+      },
+      "id": "d3649a40-2fba-4b04-8216-223d46398331",
+      "name": "Encontrar Cliente1",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        3504,
+        496
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "KH1q7XFF1QeS79mG",
+          "name": "max_corretor"
+        }
+      },
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "3419c30f-4400-401b-bf40-db1579507f96",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "f2ecdb4c-46e3-4c68-9069-d68d2d5027a3",
+      "name": "Cliente Existe?1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.1,
+      "position": [
+        4128,
+        496
+      ],
+      "alwaysOutputData": false,
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "tableId": "leads",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "whatsapp_id",
+              "fieldValue": "={{ $('Dados Lead').item.json.LeadTelefone }}"
+            },
+            {
+              "fieldId": "name",
+              "fieldValue": "={{ $('Webhook').item.json.body.data.pushName || '' }}"
+            },
+            {
+              "fieldId": "source",
+              "fieldValue": "whatsapp"
+            },
+            {
+              "fieldId": "status",
+              "fieldValue": "NEW"
+            }
+          ]
+        }
+      },
+      "id": "3a99a580-0b24-4fac-8390-915b35cda33f",
+      "name": "Criar Cliente1",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        4416,
+        656
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "KH1q7XFF1QeS79mG",
+          "name": "max_corretor"
+        }
+      },
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {},
+      "id": "02cc9d25-96c3-451e-9fb3-a51bc2176fff",
+      "name": "Merge1",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        4736,
+        496
+      ],
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "66a91f66-e755-4120-b22f-44c814f56162",
+              "name": "message",
+              "value": "={{ (() => {\n  const msgs = $('Apagar Buffer').item.json.messages.join('\\n\\n');\n  const raw = JSON.stringify($('Webhook').first().json);\n  const match = raw.match(/\"quotedMessage\"[\\s\\S]*?\"conversation\":\\s*\"([^\"]+)\"/);\n  const quoted = match ? match[1].replace(/\\\\n/g, ' ') : '';\n  if (quoted && quoted.length > 0) {\n    return msgs + '\\n\\n[CONTEXTO: Cliente respondendo a: \"' + quoted + '\"]';\n  }\n  return msgs;\n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "e8d3e550-b3ef-416d-a7d4-f13a50daa962",
+              "name": "statusAgente",
+              "value": "=DISPONÍVEL 24/7",
+              "type": "string"
+            },
+            {
+              "id": "56e301ce-725d-4ec8-880f-b9df8c5ad4c4",
+              "name": "diaSemana",
+              "value": "={{ $now.setZone('America/Recife').setLocale('pt-BR').toFormat('EEEE') }}",
+              "type": "string"
+            },
+            {
+              "id": "a0076da6-8dc4-4f94-b689-b3e1791c7c4f",
+              "name": "horaAtual",
+              "value": "={{ $now.setZone('America/Recife').toFormat('HH:mm') }}",
+              "type": "string"
+            },
+            {
+              "id": "dfaa4a67-47b4-468c-a80c-fc383eed2317",
+              "name": "dataCompleta",
+              "value": "={{ $now.setZone('America/Recife').toFormat('dd/MM/yyyy') }}",
+              "type": "string"
+            },
+            {
+              "id": "a28d9725-4ea6-4e8b-8581-4afc404e1cd0",
+              "name": "saudacao",
+              "value": "=saudacao: {{ (() => {   const hora = Number($now.setZone('America/Sao_Paulo').toFormat('HH'));   if (hora >= 6 && hora < 12) return 'Bom dia';   if (hora >= 12 && hora < 18) return 'Boa tarde';   return 'Boa noite'; })() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3168,
+        496
+      ],
+      "id": "7a9fc1c5-d595-44a5-b43b-44b501741ce9",
+      "name": "Mensagem e bairros",
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "=ArcoGeek_{{ $('Webhook').item.json.body.data.key.remoteJid }}_block"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -1088,
+        288
+      ],
+      "id": "fcddb144-a7ab-43a9-857c-6a55a3c40934",
+      "name": "Redis2",
+      "credentials": {
+        "redis": {
+          "id": "lrzCSJ6CT3dooBbL",
+          "name": "Redis_ArcoGeek"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ce4a8904-7f69-4cc2-be69-b39a0068c439",
+              "name": "whatsapp_jid",
+              "value": "={{ $json.body.data.key.addressingMode === 'lid' ? $json.body.data.key.remoteJidAlt : $json.body.data.key.remoteJid }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2480,
+        576
+      ],
+      "id": "f5046717-a920-4878-8ef7-c04eec2866ac",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "model": "gpt-4.1-mini",
+        "options": {
+          "maxTokens": 3000,
+          "temperature": "={{ Number($('Parametros Fluxo').first().json.ModeloTemperatura) }}"
+        }
+      },
+      "id": "42653f10-6316-4359-a275-8c5f7a3de1fd",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        4848,
+        832
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "bBfh1WNyot9B1mKd",
+          "name": "Max_corretor_openai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Notifica humano para assumir o atendimento.",
+        "method": "POST",
+        "url": "https://evolution.app.info.pl/message/sendText/Max_corretor",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "=558799205292"
+            },
+            {
+              "name": "text",
+              "value": "=O número {{ $('Webhook').first().json.body.data.key.remoteJid.split('@')[0] }}\n solicitou atendimento humano.\nFavor assumir a conversa assim que possível."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        5376,
+        720
+      ],
+      "id": "0f410689-5ba0-4ce0-8381-80f32996262d",
+      "name": "acionar_humano",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "6q8DkTBc2OGVwB39",
+          "name": "Max_corretor_evo"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserAutofixing",
+      "typeVersion": 1,
+      "position": [
+        5568,
+        736
+      ],
+      "id": "100fedc6-7fa4-40d1-bda4-3b122e983a77",
+      "name": "Auto-fixing Output Parser1",
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"mensagens\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    }\n  },\n  \"required\": [\"mensagens\"]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        5600,
+        912
+      ],
+      "id": "a5735635-0882-4124-ba03-e4f8b3426835",
+      "name": "Structured Output Parser [Schema]",
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=<mensagem_do_usuario>\n{{ $json.output }}\n</mensagem_do_usuario>",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "Apenas estruture a <mensagem_do_usuario> no formato JSON solicitado no output parser e seguindo as instruções de formatação abaixo. Não altere nada mais na mensagem\n\n# Formatação\n- Divida as mensagens para que fiquem naturais e humanizadas;\n- Divida as mensagens conforme estrutura do output parser para que não fiquem muito longas (maiores que 240 caractéres);\n- Não separe mensagens vazias;\n- Use quebras de linhas (\\n\\n) após pontos finais;\n- Para negrito (bold) use apenas um '' nunca duas '' (exemplo: *negrito).\n\nExemplo de formato JSON:\n{\n\"mensagens\": [\"Mensagem 0\", \"Mensagem 1\", \"Mensagem 2\"]\n}"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.6,
+      "position": [
+        5488,
+        496
+      ],
+      "id": "94b585cc-0ab6-4a18-8c47-57130fc4cfba",
+      "name": "Basic LLM Chain",
+      "retryOnFail": true,
+      "notes": "TEMPLATE DESENVOLVIDO POR NOCODE STARTUP\nhttps://nocodestartup.io/\n\nFORMAÇÃO GESTOR DE AGENTES DE IA:\nhttps://nocodestartup.io/formacao-gestor-agentes-ia/"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "leads",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "whatsapp_id",
+              "condition": "eq",
+              "keyValue": "={{ $('Dados Lead').first().json.LeadTelefone }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "ultima_interacao_at",
+              "fieldValue": "=={{ $now.toISO() }}"
+            },
+            {
+              "fieldId": "followup_count",
+              "fieldValue": "0"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        4400,
+        368
+      ],
+      "id": "3c957b39-e84f-4fae-9ec0-cf1b4c6545dc",
+      "name": "Atualizar Ultima Interacao",
+      "credentials": {
+        "supabaseApi": {
+          "id": "KH1q7XFF1QeS79mG",
+          "name": "max_corretor"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $('Edit Fields').item.json.whatsapp_jid }}_block",
+        "value": "true",
+        "expire": true,
+        "ttl": 3600
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -1744,
+        784
+      ],
+      "id": "a05827e4-a546-4a06-8929-accde45c58bc",
+      "name": "Block",
+      "credentials": {
+        "redis": {
+          "id": "lrzCSJ6CT3dooBbL",
+          "name": "Redis_ArcoGeek"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f4d3583b-6b16-429f-8c04-48d482044fed",
+              "leftValue": "={{ $('Webhook').item.json.body.data.messageType }}",
+              "rightValue": "reactionMessage",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "e020488b-4d9c-41c3-8e80-a34fce42b015",
+              "leftValue": "={{ $('Webhook').item.json.body.data.messageType }}",
+              "rightValue": "stickerMessage",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2272,
+        576
+      ],
+      "id": "fee59453-2f95-4e67-a32f-31b97843a72b",
+      "name": "If2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -2064,
+        736
+      ],
+      "id": "80a895af-0ffb-4111-9299-680b0f6dd3ed",
+      "name": "No Operation, do nothing2"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "SEMPRE que receber uma mensagem consulte essa ferramenta\nNUNCA responda sem consultar essa ferramenta",
+        "operation": "getAll",
+        "tableId": "imoveis_catalogo",
+        "returnAll": true,
+        "matchType": "allFilters"
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        5216,
+        960
+      ],
+      "id": "92409e38-3b20-4807-9baf-d256a6b3b9e6",
+      "name": "Consultar_Lista_Imoveis",
+      "credentials": {
+        "supabaseApi": {
+          "id": "KH1q7XFF1QeS79mG",
+          "name": "max_corretor"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "dimensions": 1536
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        4624,
+        896
+      ],
+      "id": "3d6225ef-74e3-4e70-8bcd-b5d46d88ffa7",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "g86qXrzGqRRL3Reh",
+          "name": "OpenAi_Geral"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Busca informações detalhadas sobre imóveis (características, preço, localização, comodidades)",
+        "tableName": {
+          "__rl": true,
+          "value": "imoveis_embeddings",
+          "mode": "list",
+          "cachedResultName": "imoveis_embeddings"
+        },
+        "topK": 12,
+        "options": {
+          "queryName": "match_imoveis"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        4656,
+        720
+      ],
+      "id": "6555e9cf-4ca4-456e-9827-b6a1c0d00c8e",
+      "name": "Consultar_Base_Imoveis",
+      "credentials": {
+        "supabaseApi": {
+          "id": "KH1q7XFF1QeS79mG",
+          "name": "max_corretor"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        6416,
+        272
+      ],
+      "id": "2d8ae57f-1db8-4ff6-b225-f9f881eb6b41",
+      "name": "No Operation, do nothing3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pegar dados do lead do nó \"Encontrar Cliente1\"\nconst leadData = $('Encontrar Cliente1').first()?.json;\n\n// Construir contexto dinâmico\nlet contextoLead = '';\n\nif (leadData && leadData.imovel_interesse_id) {\n  contextoLead = `\n# CONTEXTO IMPORTANTE DO LEAD\nEste lead demonstrou interesse no imóvel **\"${leadData.imovel_interesse_nome || 'ID: ' + leadData.imovel_interesse_id}\"** através da campanha \"${leadData.campanha_origem || 'Meta Ads'}\".\n\n**REGRA CRÍTICA:** Quando o lead perguntar sobre \"o imóvel\", \"o apartamento\", \"a casa\", \"esse imóvel\", \"preço\", \"fotos\", \"características\" SEM especificar qual, você DEVE:\n1. Usar a tool Consultar_Base_Imoveis com o termo: \"ID: ${leadData.imovel_interesse_id}\"\n2. Mencionar o nome do imóvel nas respostas: \"${leadData.imovel_interesse_nome}\"\n3. NUNCA perguntar \"De qual imóvel você está falando?\"\n\nExemplo:\n- Lead: \"Qual o preço?\"\n- Você: \"O ${leadData.imovel_interesse_nome} está no valor de [buscar na tool]\"\n`;\n} else if (leadData && leadData.bairros_interesse) {\n  contextoLead = `\n# CONTEXTO DO LEAD\nLead interessado em: ${leadData.bairros_interesse}\nTipo de interesse: ${leadData.tipo_interesse || 'Não especificado'}\n`;\n} else {\n  contextoLead = '';\n}\n\n// IMPORTANTE: Retornar os dados de entrada também\nreturn $input.all().map((item, index) => ({\n  json: {\n    ...item.json,\n    contexto_lead: contextoLead,\n    imovel_id: leadData?.imovel_interesse_id || null,\n    imovel_nome: leadData?.imovel_interesse_nome || null\n  },\n  pairedItem: index\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3808,
+        496
+      ],
+      "id": "3b16cb0e-2665-42c2-9023-468099cfcd32",
+      "name": "Preparar_Contexto_Lead"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.app.info.pl",
+            "user-agent": "axios/1.12.2",
+            "content-length": "26955",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.25.0.1",
+            "x-forwarded-host": "n8n.app.info.pl",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "4bc8f28035c7",
+            "x-real-ip": "172.25.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "Max_corretor",
+            "data": {
+              "key": {
+                "remoteJid": "86560804495488@lid",
+                "fromMe": false,
+                "id": "A5077D2DDBD31D479225B03DAFDF0640"
+              },
+              "pushName": null,
+              "status": "DELIVERY_ACK",
+              "message": {
+                "messageContextInfo": {
+                  "deviceListMetadata": {
+                    "senderKeyIndexes": [],
+                    "recipientKeyIndexes": [],
+                    "senderKeyHash": {
+                      "0": 208,
+                      "1": 10,
+                      "2": 100,
+                      "3": 194,
+                      "4": 108,
+                      "5": 32,
+                      "6": 203,
+                      "7": 32,
+                      "8": 166,
+                      "9": 26
+                    },
+                    "senderTimestamp": {
+                      "low": 1767619191,
+                      "high": 0,
+                      "unsigned": true
+                    }
+                  },
+                  "deviceListMetadataVersion": 2,
+                  "messageSecret": {
+                    "0": 43,
+                    "1": 147,
+                    "2": 28,
+                    "3": 23,
+                    "4": 121,
+                    "5": 151,
+                    "6": 38,
+                    "7": 214,
+                    "8": 124,
+                    "9": 153,
+                    "10": 201,
+                    "11": 130,
+                    "12": 17,
+                    "13": 215,
+                    "14": 66,
+                    "15": 19,
+                    "16": 160,
+                    "17": 156,
+                    "18": 19,
+                    "19": 102,
+                    "20": 177,
+                    "21": 88,
+                    "22": 89,
+                    "23": 190,
+                    "24": 72,
+                    "25": 69,
+                    "26": 179,
+                    "27": 24,
+                    "28": 137,
+                    "29": 248,
+                    "30": 245,
+                    "31": 67
+                  }
+                },
+                "conversation": "Olá! Tenho interesse no Residencial Paradiso Club."
+              },
+              "contextInfo": {
+                "mentionedJid": [],
+                "groupMentions": [],
+                "conversionSource": "FB_Ads",
+                "conversionData": {
+                  "0": 65,
+                  "1": 102,
+                  "2": 102,
+                  "3": 56,
+                  "4": 106,
+                  "5": 118,
+                  "6": 75,
+                  "7": 66,
+                  "8": 70,
+                  "9": 121,
+                  "10": 97,
+                  "11": 112,
+                  "12": 83,
+                  "13": 65,
+                  "14": 88,
+                  "15": 70,
+                  "16": 55,
+                  "17": 115,
+                  "18": 116,
+                  "19": 95,
+                  "20": 78,
+                  "21": 102,
+                  "22": 107,
+                  "23": 121,
+                  "24": 84,
+                  "25": 55,
+                  "26": 57,
+                  "27": 53,
+                  "28": 73,
+                  "29": 109,
+                  "30": 101,
+                  "31": 107,
+                  "32": 98,
+                  "33": 74,
+                  "34": 75,
+                  "35": 109,
+                  "36": 53,
+                  "37": 54,
+                  "38": 89,
+                  "39": 51,
+                  "40": 80,
+                  "41": 85,
+                  "42": 103,
+                  "43": 115,
+                  "44": 118,
+                  "45": 65,
+                  "46": 80,
+                  "47": 85,
+                  "48": 50,
+                  "49": 74,
+                  "50": 75,
+                  "51": 67,
+                  "52": 119,
+                  "53": 115,
+                  "54": 116,
+                  "55": 109,
+                  "56": 98,
+                  "57": 112,
+                  "58": 76,
+                  "59": 106,
+                  "60": 95,
+                  "61": 70,
+                  "62": 52,
+                  "63": 101,
+                  "64": 109,
+                  "65": 119,
+                  "66": 80,
+                  "67": 55,
+                  "68": 106,
+                  "69": 56,
+                  "70": 65,
+                  "71": 72,
+                  "72": 51,
+                  "73": 98,
+                  "74": 55,
+                  "75": 105,
+                  "76": 72,
+                  "77": 85,
+                  "78": 76,
+                  "79": 49,
+                  "80": 119,
+                  "81": 99,
+                  "82": 76,
+                  "83": 65,
+                  "84": 83,
+                  "85": 104,
+                  "86": 97,
+                  "87": 89,
+                  "88": 99,
+                  "89": 77,
+                  "90": 116,
+                  "91": 57,
+                  "92": 52,
+                  "93": 100,
+                  "94": 102,
+                  "95": 78,
+                  "96": 84,
+                  "97": 87,
+                  "98": 122,
+                  "99": 52,
+                  "100": 100,
+                  "101": 114,
+                  "102": 95,
+                  "103": 67,
+                  "104": 81,
+                  "105": 77,
+                  "106": 77,
+                  "107": 78,
+                  "108": 75,
+                  "109": 66,
+                  "110": 111,
+                  "111": 54,
+                  "112": 81,
+                  "113": 76,
+                  "114": 50,
+                  "115": 80,
+                  "116": 104,
+                  "117": 99,
+                  "118": 67,
+                  "119": 57,
+                  "120": 89,
+                  "121": 98,
+                  "122": 50,
+                  "123": 114,
+                  "124": 80,
+                  "125": 115,
+                  "126": 78,
+                  "127": 82,
+                  "128": 69,
+                  "129": 50,
+                  "130": 79,
+                  "131": 105,
+                  "132": 120,
+                  "133": 107,
+                  "134": 54,
+                  "135": 66,
+                  "136": 78,
+                  "137": 82,
+                  "138": 115,
+                  "139": 70,
+                  "140": 119,
+                  "141": 81,
+                  "142": 78,
+                  "143": 97,
+                  "144": 116,
+                  "145": 57,
+                  "146": 78,
+                  "147": 90,
+                  "148": 67,
+                  "149": 117,
+                  "150": 106,
+                  "151": 80,
+                  "152": 80,
+                  "153": 72,
+                  "154": 109,
+                  "155": 97,
+                  "156": 81,
+                  "157": 97,
+                  "158": 51,
+                  "159": 68,
+                  "160": 82,
+                  "161": 103,
+                  "162": 45,
+                  "163": 68,
+                  "164": 88,
+                  "165": 66,
+                  "166": 87,
+                  "167": 83,
+                  "168": 53,
+                  "169": 73,
+                  "170": 120,
+                  "171": 105,
+                  "172": 111,
+                  "173": 73,
+                  "174": 89,
+                  "175": 73,
+                  "176": 98,
+                  "177": 104,
+                  "178": 98,
+                  "179": 48,
+                  "180": 89,
+                  "181": 86,
+                  "182": 80,
+                  "183": 69,
+                  "184": 83,
+                  "185": 66,
+                  "186": 115,
+                  "187": 81,
+                  "188": 73,
+                  "189": 77,
+                  "190": 82,
+                  "191": 69,
+                  "192": 84,
+                  "193": 103,
+                  "194": 119,
+                  "195": 115,
+                  "196": 65,
+                  "197": 114,
+                  "198": 48,
+                  "199": 76,
+                  "200": 118,
+                  "201": 114,
+                  "202": 67,
+                  "203": 72,
+                  "204": 113,
+                  "205": 79,
+                  "206": 111,
+                  "207": 115,
+                  "208": 88,
+                  "209": 85,
+                  "210": 90,
+                  "211": 98,
+                  "212": 74,
+                  "213": 73,
+                  "214": 89,
+                  "215": 120,
+                  "216": 80,
+                  "217": 72,
+                  "218": 56,
+                  "219": 103,
+                  "220": 95,
+                  "221": 122,
+                  "222": 72,
+                  "223": 45,
+                  "224": 68,
+                  "225": 89,
+                  "226": 86,
+                  "227": 67,
+                  "228": 84,
+                  "229": 70,
+                  "230": 74,
+                  "231": 75,
+                  "232": 70,
+                  "233": 55,
+                  "234": 69,
+                  "235": 69,
+                  "236": 114,
+                  "237": 118,
+                  "238": 120,
+                  "239": 118,
+                  "240": 100,
+                  "241": 83,
+                  "242": 106,
+                  "243": 117,
+                  "244": 109,
+                  "245": 86,
+                  "246": 122,
+                  "247": 98,
+                  "248": 113,
+                  "249": 49,
+                  "250": 83,
+                  "251": 68,
+                  "252": 105,
+                  "253": 73,
+                  "254": 110,
+                  "255": 118,
+                  "256": 54,
+                  "257": 103,
+                  "258": 108,
+                  "259": 57,
+                  "260": 117,
+                  "261": 79,
+                  "262": 121,
+                  "263": 52,
+                  "264": 106,
+                  "265": 66,
+                  "266": 67,
+                  "267": 75,
+                  "268": 84,
+                  "269": 79,
+                  "270": 106,
+                  "271": 97,
+                  "272": 118,
+                  "273": 98,
+                  "274": 83,
+                  "275": 45,
+                  "276": 69,
+                  "277": 74,
+                  "278": 79,
+                  "279": 87,
+                  "280": 98,
+                  "281": 74,
+                  "282": 102,
+                  "283": 54,
+                  "284": 119,
+                  "285": 80,
+                  "286": 51,
+                  "287": 51,
+                  "288": 82,
+                  "289": 85,
+                  "290": 113,
+                  "291": 119,
+                  "292": 85,
+                  "293": 119,
+                  "294": 98,
+                  "295": 70,
+                  "296": 105,
+                  "297": 69,
+                  "298": 120,
+                  "299": 45,
+                  "300": 110,
+                  "301": 71,
+                  "302": 68,
+                  "303": 49,
+                  "304": 108,
+                  "305": 110,
+                  "306": 88,
+                  "307": 87,
+                  "308": 70,
+                  "309": 108,
+                  "310": 105,
+                  "311": 99,
+                  "312": 114,
+                  "313": 73,
+                  "314": 101,
+                  "315": 99,
+                  "316": 115,
+                  "317": 90,
+                  "318": 66,
+                  "319": 112,
+                  "320": 85,
+                  "321": 115,
+                  "322": 121,
+                  "323": 78,
+                  "324": 72,
+                  "325": 114,
+                  "326": 50,
+                  "327": 113,
+                  "328": 89,
+                  "329": 69,
+                  "330": 85,
+                  "331": 81,
+                  "332": 48,
+                  "333": 120,
+                  "334": 90,
+                  "335": 78,
+                  "336": 66,
+                  "337": 82,
+                  "338": 65,
+                  "339": 111,
+                  "340": 83,
+                  "341": 115,
+                  "342": 86,
+                  "343": 75,
+                  "344": 66,
+                  "345": 90,
+                  "346": 89,
+                  "347": 53,
+                  "348": 102,
+                  "349": 84,
+                  "350": 76,
+                  "351": 106,
+                  "352": 83,
+                  "353": 108,
+                  "354": 105,
+                  "355": 109,
+                  "356": 48,
+                  "357": 116,
+                  "358": 68,
+                  "359": 105,
+                  "360": 70,
+                  "361": 67,
+                  "362": 57,
+                  "363": 52,
+                  "364": 98,
+                  "365": 79,
+                  "366": 106,
+                  "367": 112,
+                  "368": 57,
+                  "369": 82,
+                  "370": 80,
+                  "371": 85,
+                  "372": 88,
+                  "373": 116,
+                  "374": 113,
+                  "375": 57,
+                  "376": 105,
+                  "377": 81
+                },
+                "conversionDelaySeconds": 3,
+                "externalAdReply": {
+                  "title": "Agende sua Visita 🏡",
+                  "body": "Residencial Paradiso Club, QNC 1, Taguatinga.\n\nApartamento Garden (térreo) com 2 quartos, sendo 1 suíte, 89,50m² de área privativa, banheiro social e uma excelente varanda reformada. Unidade conta com 1 vaga de garagem.\n\nImóvel: \n\n- 89,50m² de área privativa\n- 2 quartos sendo 1 suíte;\n- 2 banheiros;\n- Varanda reformada com telha de acrílico e abertura elétrica\n- Cozinha com armários;\n- Área de serviço;\n- Armários em todos os ambientes\n- 1 vaga de Garagem\n\nCondomínio conta:\n\n- Churrasqueira;\n- Brinquedoteca;\n- Sauna;\n- Academia;\n- Salão de Festas;\n- Salão de Jogos;\n- Pista de skate; \n- Elevador;\n- Quadra poliesportiva;\n- Campo Society; \n- Guarita com porteiro 24h;\n- Piscina \n\nACEITA FINANCIAMENTO & FGTS\n\nInvestimento: R$ 545.000",
+                  "mediaType": 2,
+                  "thumbnailUrl": "https://scontent.xx.fbcdn.net/v/t15.5256-10/591280239_1341692054303325_5722024068334208026_n.jpg?stp=dst-jpg_p180x540_tt6&_nc_cat=109&ccb=1-7&_nc_sid=40cf1a&_nc_ohc=A3JoBRjMAI4Q7kNvwE3ooA4&_nc_oc=Adkzr_aBRQxoG0OW0JOwW1VBx1H6FycWETX4RnXLz2KoN00Hx47UyHLr7DPj1HW717_PjiFKOsto8HQfJgs1uMVO&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent.xx&_nc_gid=q4fYFFBi1Zf_j09wZO9RBg&oh=00_AfqkMAjcOuma5KncmG2pFVK539pKWR-tgZOUCQht9qUTOA&oe=696FDF3F",
+                  "mediaUrl": "https://www.facebook.com/reel/1194536802262802/",
+                  "thumbnail": {
+                    "0": 255,
+                    "1": 216,
+                    "2": 255,
+                    "3": 224,
+                    "4": 0,
+                    "5": 16,
+                    "6": 74,
+                    "7": 70,
+                    "8": 73,
+                    "9": 70,
+                    "10": 0,
+                    "11": 1,
+                    "12": 1,
+                    "13": 0,
+                    "14": 0,
+                    "15": 1,
+                    "16": 0,
+                    "17": 1,
+                    "18": 0,
+                    "19": 0,
+                    "20": 255,
+                    "21": 237,
+                    "22": 0,
+                    "23": 132,
+                    "24": 80,
+                    "25": 104,
+                    "26": 111,
+                    "27": 116,
+                    "28": 111,
+                    "29": 115,
+                    "30": 104,
+                    "31": 111,
+                    "32": 112,
+                    "33": 32,
+                    "34": 51,
+                    "35": 46,
+                    "36": 48,
+                    "37": 0,
+                    "38": 56,
+                    "39": 66,
+                    "40": 73,
+                    "41": 77,
+                    "42": 4,
+                    "43": 4,
+                    "44": 0,
+                    "45": 0,
+                    "46": 0,
+                    "47": 0,
+                    "48": 0,
+                    "49": 104,
+                    "50": 28,
+                    "51": 2,
+                    "52": 40,
+                    "53": 0,
+                    "54": 98,
+                    "55": 70,
+                    "56": 66,
+                    "57": 77,
+                    "58": 68,
+                    "59": 48,
+                    "60": 97,
+                    "61": 48,
+                    "62": 48,
+                    "63": 48,
+                    "64": 97,
+                    "65": 55,
+                    "66": 102,
+                    "67": 48,
+                    "68": 49,
+                    "69": 48,
+                    "70": 48,
+                    "71": 48,
+                    "72": 48,
+                    "73": 102,
+                    "74": 101,
+                    "75": 48,
+                    "76": 49,
+                    "77": 48,
+                    "78": 48,
+                    "79": 48,
+                    "80": 48,
+                    "81": 98,
+                    "82": 52,
+                    "83": 48,
+                    "84": 50,
+                    "85": 48,
+                    "86": 48,
+                    "87": 48,
+                    "88": 48,
+                    "89": 99,
+                    "90": 100,
+                    "91": 48,
+                    "92": 50,
+                    "93": 48,
+                    "94": 48,
+                    "95": 48,
+                    "96": 48,
+                    "97": 101,
+                    "98": 56,
+                    "99": 48,
+                    "100": 50,
+                    "101": 48,
+                    "102": 48,
+                    "103": 48,
+                    "104": 48,
+                    "105": 53,
+                    "106": 101,
+                    "107": 48,
+                    "108": 51,
+                    "109": 48,
+                    "110": 48,
+                    "111": 48,
+                    "112": 48,
+                    "113": 97,
+                    "114": 50,
+                    "115": 48,
+                    "116": 52,
+                    "117": 48,
+                    "118": 48,
+                    "119": 48,
+                    "120": 48,
+                    "121": 99,
+                    "122": 50,
+                    "123": 48,
+                    "124": 52,
+                    "125": 48,
+                    "126": 48,
+                    "127": 48,
+                    "128": 48,
+                    "129": 101,
+                    "130": 50,
+                    "131": 48,
+                    "132": 52,
+                    "133": 48,
+                    "134": 48,
+                    "135": 48,
+                    "136": 48,
+                    "137": 48,
+                    "138": 50,
+                    "139": 48,
+                    "140": 53,
+                    "141": 48,
+                    "142": 48,
+                    "143": 48,
+                    "144": 48,
+                    "145": 57,
+                    "146": 53,
+                    "147": 48,
+                    "148": 54,
+                    "149": 48,
+                    "150": 48,
+                    "151": 48,
+                    "152": 48,
+                    "153": 0,
+                    "154": 255,
+                    "155": 219,
+                    "156": 0,
+                    "157": 132,
+                    "158": 0,
+                    "159": 5,
+                    "160": 6,
+                    "161": 6,
+                    "162": 11,
+                    "163": 8,
+                    "164": 11,
+                    "165": 11,
+                    "166": 11,
+                    "167": 11,
+                    "168": 11,
+                    "169": 13,
+                    "170": 11,
+                    "171": 11,
+                    "172": 11,
+                    "173": 13,
+                    "174": 14,
+                    "175": 14,
+                    "176": 13,
+                    "177": 13,
+                    "178": 14,
+                    "179": 14,
+                    "180": 15,
+                    "181": 13,
+                    "182": 14,
+                    "183": 14,
+                    "184": 14,
+                    "185": 13,
+                    "186": 15,
+                    "187": 16,
+                    "188": 16,
+                    "189": 16,
+                    "190": 17,
+                    "191": 17,
+                    "192": 16,
+                    "193": 16,
+                    "194": 16,
+                    "195": 16,
+                    "196": 15,
+                    "197": 19,
+                    "198": 18,
+                    "199": 19,
+                    "200": 15,
+                    "201": 16,
+                    "202": 17,
+                    "203": 19,
+                    "204": 20,
+                    "205": 20,
+                    "206": 19,
+                    "207": 17,
+                    "208": 19,
+                    "209": 22,
+                    "210": 22,
+                    "211": 22,
+                    "212": 19,
+                    "213": 22,
+                    "214": 21,
+                    "215": 21,
+                    "216": 22,
+                    "217": 25,
+                    "218": 22,
+                    "219": 25,
+                    "220": 22,
+                    "221": 22,
+                    "222": 18,
+                    "223": 1,
+                    "224": 5,
+                    "225": 5,
+                    "226": 5,
+                    "227": 10,
+                    "228": 7,
+                    "229": 10,
+                    "230": 8,
+                    "231": 9,
+                    "232": 9,
+                    "233": 8,
+                    "234": 11,
+                    "235": 8,
+                    "236": 10,
+                    "237": 8,
+                    "238": 11,
+                    "239": 10,
+                    "240": 10,
+                    "241": 9,
+                    "242": 9,
+                    "243": 10,
+                    "244": 10,
+                    "245": 12,
+                    "246": 9,
+                    "247": 10,
+                    "248": 9,
+                    "249": 10,
+                    "250": 9,
+                    "251": 12,
+                    "252": 13,
+                    "253": 11,
+                    "254": 10,
+                    "255": 11,
+                    "256": 11,
+                    "257": 10,
+                    "258": 11,
+                    "259": 13,
+                    "260": 12,
+                    "261": 11,
+                    "262": 11,
+                    "263": 8,
+                    "264": 11,
+                    "265": 11,
+                    "266": 12,
+                    "267": 12,
+                    "268": 12,
+                    "269": 13,
+                    "270": 13,
+                    "271": 12,
+                    "272": 12,
+                    "273": 13,
+                    "274": 10,
+                    "275": 11,
+                    "276": 10,
+                    "277": 13,
+                    "278": 12,
+                    "279": 13,
+                    "280": 13,
+                    "281": 12,
+                    "282": 19,
+                    "283": 20,
+                    "284": 19,
+                    "285": 19,
+                    "286": 19,
+                    "287": 156,
+                    "288": 255,
+                    "289": 194,
+                    "290": 0,
+                    "291": 17,
+                    "292": 8,
+                    "293": 0,
+                    "294": 89,
+                    "295": 0,
+                    "296": 50,
+                    "297": 3,
+                    "298": 1,
+                    "299": 34,
+                    "300": 0,
+                    "301": 2,
+                    "302": 17,
+                    "303": 1,
+                    "304": 3,
+                    "305": 17,
+                    "306": 1,
+                    "307": 255,
+                    "308": 196,
+                    "309": 0,
+                    "310": 74,
+                    "311": 0,
+                    "312": 0,
+                    "313": 1,
+                    "314": 5,
+                    "315": 1,
+                    "316": 1,
+                    "317": 0,
+                    "318": 0,
+                    "319": 0,
+                    "320": 0,
+                    "321": 0,
+                    "322": 0,
+                    "323": 0,
+                    "324": 0,
+                    "325": 0,
+                    "326": 0,
+                    "327": 0,
+                    "328": 4,
+                    "329": 1,
+                    "330": 2,
+                    "331": 3,
+                    "332": 5,
+                    "333": 6,
+                    "334": 0,
+                    "335": 7,
+                    "336": 16,
+                    "337": 0,
+                    "338": 1,
+                    "339": 2,
+                    "340": 3,
+                    "341": 6,
+                    "342": 4,
+                    "343": 5,
+                    "344": 4,
+                    "345": 2,
+                    "346": 3,
+                    "347": 0,
+                    "348": 0,
+                    "349": 0,
+                    "350": 0,
+                    "351": 0,
+                    "352": 0,
+                    "353": 1,
+                    "354": 0,
+                    "355": 17,
+                    "356": 2,
+                    "357": 33,
+                    "358": 49,
+                    "359": 3,
+                    "360": 16,
+                    "361": 65,
+                    "362": 81,
+                    "363": 97,
+                    "364": 113,
+                    "365": 129,
+                    "366": 145,
+                    "367": 177,
+                    "368": 240,
+                    "369": 4,
+                    "370": 18,
+                    "371": 32,
+                    "372": 161,
+                    "373": 193,
+                    "374": 34,
+                    "375": 50,
+                    "376": 209,
+                    "377": 225,
+                    "378": 5,
+                    "379": 241,
+                    "380": 19,
+                    "381": 20,
+                    "382": 48,
+                    "383": 255,
+                    "384": 218,
+                    "385": 0,
+                    "386": 12,
+                    "387": 3,
+                    "388": 1,
+                    "389": 0,
+                    "390": 2,
+                    "391": 0,
+                    "392": 3,
+                    "393": 0,
+                    "394": 0,
+                    "395": 0,
+                    "396": 1,
+                    "397": 200,
+                    "398": 91,
+                    "399": 217,
+                    "400": 212,
+                    "401": 177,
+                    "402": 73,
+                    "403": 146,
+                    "404": 194,
+                    "405": 237,
+                    "406": 233,
+                    "407": 140,
+                    "408": 75,
+                    "409": 24,
+                    "410": 83,
+                    "411": 130,
+                    "412": 185,
+                    "413": 0,
+                    "414": 254,
+                    "415": 93,
+                    "416": 84,
+                    "417": 147,
+                    "418": 154,
+                    "419": 230,
+                    "420": 121,
+                    "421": 195,
+                    "422": 125,
+                    "423": 39,
+                    "424": 206,
+                    "425": 152,
+                    "426": 230,
+                    "427": 196,
+                    "428": 125,
+                    "429": 191,
+                    "430": 59,
+                    "431": 44,
+                    "432": 105,
+                    "433": 35,
+                    "434": 34,
+                    "435": 239,
+                    "436": 202,
+                    "437": 243,
+                    "438": 210,
+                    "439": 31,
+                    "440": 27,
+                    "441": 204,
+                    "442": 171,
+                    "443": 189,
+                    "444": 107,
+                    "445": 152,
+                    "446": 76,
+                    "447": 215,
+                    "448": 156,
+                    "449": 252,
+                    "450": 246,
+                    "451": 71,
+                    "452": 89,
+                    "453": 147,
+                    "454": 229,
+                    "455": 146,
+                    "456": 187,
+                    "457": 29,
+                    "458": 63,
+                    "459": 70,
+                    "460": 115,
+                    "461": 230,
+                    "462": 215,
+                    "463": 39,
+                    "464": 0,
+                    "465": 67,
+                    "466": 194,
+                    "467": 73,
+                    "468": 2,
+                    "469": 176,
+                    "470": 183,
+                    "471": 168,
+                    "472": 86,
+                    "473": 213,
+                    "474": 217,
+                    "475": 104,
+                    "476": 213,
+                    "477": 16,
+                    "478": 184,
+                    "479": 27,
+                    "480": 88,
+                    "481": 215,
+                    "482": 65,
+                    "483": 29,
+                    "484": 132,
+                    "485": 209,
+                    "486": 73,
+                    "487": 159,
+                    "488": 144,
+                    "489": 192,
+                    "490": 251,
+                    "491": 174,
+                    "492": 37,
+                    "493": 8,
+                    "494": 217,
+                    "495": 161,
+                    "496": 28,
+                    "497": 81,
+                    "498": 111,
+                    "499": 34,
+                    "500": 149,
+                    "501": 204,
+                    "502": 36,
+                    "503": 86,
+                    "504": 184,
+                    "505": 90,
+                    "506": 235,
+                    "507": 186,
+                    "508": 78,
+                    "509": 239,
+                    "510": 255,
+                    "511": 218,
+                    "512": 0,
+                    "513": 8,
+                    "514": 1,
+                    "515": 1,
+                    "516": 0,
+                    "517": 1,
+                    "518": 5,
+                    "519": 2,
+                    "520": 133,
+                    "521": 66,
+                    "522": 29,
+                    "523": 121,
+                    "524": 81,
+                    "525": 178,
+                    "526": 45,
+                    "527": 229,
+                    "528": 94,
+                    "529": 84,
+                    "530": 202,
+                    "531": 211,
+                    "532": 194,
+                    "533": 58,
+                    "534": 99,
+                    "535": 1,
+                    "536": 178,
+                    "537": 137,
+                    "538": 18,
+                    "539": 17,
+                    "540": 23,
+                    "541": 136,
+                    "542": 84,
+                    "543": 118,
+                    "544": 16,
+                    "545": 218,
+                    "546": 11,
+                    "547": 95,
+                    "548": 15,
+                    "549": 21,
+                    "550": 138,
+                    "551": 22,
+                    "552": 174,
+                    "553": 158,
+                    "554": 246,
+                    "555": 64,
+                    "556": 34,
+                    "557": 29,
+                    "558": 91,
+                    "559": 217,
+                    "560": 52,
+                    "561": 118,
+                    "562": 54,
+                    "563": 14,
+                    "564": 162,
+                    "565": 240,
+                    "566": 240,
+                    "567": 194,
+                    "568": 188,
+                    "569": 129,
+                    "570": 53,
+                    "571": 222,
+                    "572": 49,
+                    "573": 224,
+                    "574": 143,
+                    "575": 200,
+                    "576": 84,
+                    "577": 80,
+                    "578": 33,
+                    "579": 98,
+                    "580": 235,
+                    "581": 253,
+                    "582": 84,
+                    "583": 35,
+                    "584": 141,
+                    "585": 127,
+                    "586": 154,
+                    "587": 209,
+                    "588": 24,
+                    "589": 140,
+                    "590": 106,
+                    "591": 23,
+                    "592": 42,
+                    "593": 42,
+                    "594": 5,
+                    "595": 105,
+                    "596": 111,
+                    "597": 16,
+                    "598": 137,
+                    "599": 212,
+                    "600": 126,
+                    "601": 46,
+                    "602": 206,
+                    "603": 21,
+                    "604": 23,
+                    "605": 242,
+                    "606": 46,
+                    "607": 172,
+                    "608": 191,
+                    "609": 145,
+                    "610": 181,
+                    "611": 71,
+                    "612": 196,
+                    "613": 218,
+                    "614": 71,
+                    "615": 103,
+                    "616": 5,
+                    "617": 181,
+                    "618": 161,
+                    "619": 132,
+                    "620": 143,
+                    "621": 16,
+                    "622": 141,
+                    "623": 148,
+                    "624": 81,
+                    "625": 161,
+                    "626": 96,
+                    "627": 2,
+                    "628": 178,
+                    "629": 176,
+                    "630": 117,
+                    "631": 101,
+                    "632": 224,
+                    "633": 132,
+                    "634": 43,
+                    "635": 197,
+                    "636": 253,
+                    "637": 182,
+                    "638": 5,
+                    "639": 151,
+                    "640": 153,
+                    "641": 90,
+                    "642": 248,
+                    "643": 120,
+                    "644": 236,
+                    "645": 226,
+                    "646": 178,
+                    "647": 240,
+                    "648": 110,
+                    "649": 160,
+                    "650": 132,
+                    "651": 66,
+                    "652": 140,
+                    "653": 72,
+                    "654": 159,
+                    "655": 58,
+                    "656": 138,
+                    "657": 205,
+                    "658": 147,
+                    "659": 39,
+                    "660": 243,
+                    "661": 35,
+                    "662": 19,
+                    "663": 35,
+                    "664": 19,
+                    "665": 171,
+                    "666": 88,
+                    "667": 148,
+                    "668": 48,
+                    "669": 50,
+                    "670": 136,
+                    "671": 47,
+                    "672": 42,
+                    "673": 49,
+                    "674": 47,
+                    "675": 181,
+                    "676": 71,
+                    "677": 24,
+                    "678": 179,
+                    "679": 22,
+                    "680": 86,
+                    "681": 101,
+                    "682": 81,
+                    "683": 27,
+                    "684": 172,
+                    "685": 145,
+                    "686": 251,
+                    "687": 188,
+                    "688": 79,
+                    "689": 221,
+                    "690": 113,
+                    "691": 170,
+                    "692": 255,
+                    "693": 218,
+                    "694": 0,
+                    "695": 8,
+                    "696": 1,
+                    "697": 3,
+                    "698": 0,
+                    "699": 1,
+                    "700": 63,
+                    "701": 1,
+                    "702": 244,
+                    "703": 130,
+                    "704": 247,
+                    "705": 50,
+                    "706": 100,
+                    "707": 84,
+                    "708": 33,
+                    "709": 56,
+                    "710": 202,
+                    "711": 240,
+                    "712": 37,
+                    "713": 120,
+                    "714": 30,
+                    "715": 129,
+                    "716": 127,
+                    "717": 255,
+                    "718": 218,
+                    "719": 0,
+                    "720": 8,
+                    "721": 1,
+                    "722": 2,
+                    "723": 0,
+                    "724": 1,
+                    "725": 63,
+                    "726": 1,
+                    "727": 167,
+                    "728": 164,
+                    "729": 134,
+                    "730": 189,
+                    "731": 238,
+                    "732": 41,
+                    "733": 141,
+                    "734": 199,
+                    "735": 185,
+                    "736": 167,
+                    "737": 79,
+                    "738": 113,
+                    "739": 41,
+                    "740": 239,
+                    "741": 138,
+                    "742": 255,
+                    "743": 0,
+                    "744": 255,
+                    "745": 218,
+                    "746": 0,
+                    "747": 8,
+                    "748": 1,
+                    "749": 1,
+                    "750": 0,
+                    "751": 6,
+                    "752": 63,
+                    "753": 2,
+                    "754": 189,
+                    "755": 253,
+                    "756": 31,
+                    "757": 76,
+                    "758": 148,
+                    "759": 253,
+                    "760": 108,
+                    "761": 83,
+                    "762": 214,
+                    "763": 28,
+                    "764": 255,
+                    "765": 0,
+                    "766": 63,
+                    "767": 240,
+                    "768": 32,
+                    "769": 93,
+                    "770": 95,
+                    "771": 71,
+                    "772": 154,
+                    "773": 19,
+                    "774": 83,
+                    "775": 240,
+                    "776": 167,
+                    "777": 51,
+                    "778": 125,
+                    "779": 66,
+                    "780": 170,
+                    "781": 251,
+                    "782": 148,
+                    "783": 216,
+                    "784": 167,
+                    "785": 205,
+                    "786": 114,
+                    "787": 186,
+                    "788": 33,
+                    "789": 169,
+                    "790": 194,
+                    "791": 234,
+                    "792": 252,
+                    "793": 175,
+                    "794": 162,
+                    "795": 30,
+                    "796": 106,
+                    "797": 142,
+                    "798": 162,
+                    "799": 112,
+                    "800": 33,
+                    "801": 249,
+                    "802": 64,
+                    "803": 8,
+                    "804": 141,
+                    "805": 23,
+                    "806": 221,
+                    "807": 15,
+                    "808": 186,
+                    "809": 250,
+                    "810": 138,
+                    "811": 101,
+                    "812": 244,
+                    "813": 205,
+                    "814": 60,
+                    "815": 73,
+                    "816": 148,
+                    "817": 242,
+                    "818": 187,
+                    "819": 202,
+                    "820": 199,
+                    "821": 73,
+                    "822": 84,
+                    "823": 102,
+                    "824": 190,
+                    "825": 174,
+                    "826": 88,
+                    "827": 115,
+                    "828": 198,
+                    "829": 253,
+                    "830": 6,
+                    "831": 55,
+                    "832": 246,
+                    "833": 231,
+                    "834": 116,
+                    "835": 193,
+                    "836": 48,
+                    "837": 94,
+                    "838": 72,
+                    "839": 106,
+                    "840": 125,
+                    "841": 130,
+                    "842": 107,
+                    "843": 216,
+                    "844": 45,
+                    "845": 123,
+                    "846": 154,
+                    "847": 238,
+                    "848": 101,
+                    "849": 57,
+                    "850": 169,
+                    "851": 173,
+                    "852": 248,
+                    "853": 174,
+                    "854": 40,
+                    "855": 240,
+                    "856": 232,
+                    "857": 172,
+                    "858": 247,
+                    "859": 244,
+                    "860": 255,
+                    "861": 0,
+                    "862": 255,
+                    "863": 218,
+                    "864": 0,
+                    "865": 8,
+                    "866": 1,
+                    "867": 1,
+                    "868": 0,
+                    "869": 1,
+                    "870": 63,
+                    "871": 33,
+                    "872": 38,
+                    "873": 188,
+                    "874": 66,
+                    "875": 145,
+                    "876": 33,
+                    "877": 207,
+                    "878": 208,
+                    "879": 65,
+                    "880": 52,
+                    "881": 195,
+                    "882": 134,
+                    "883": 7,
+                    "884": 240,
+                    "885": 131,
+                    "886": 48,
+                    "887": 49,
+                    "888": 201,
+                    "889": 1,
+                    "890": 193,
+                    "891": 170,
+                    "892": 20,
+                    "893": 102,
+                    "894": 248,
+                    "895": 32,
+                    "896": 138,
+                    "897": 81,
+                    "898": 16,
+                    "899": 153,
+                    "900": 80,
+                    "901": 239,
+                    "902": 4,
+                    "903": 208,
+                    "904": 118,
+                    "905": 56,
+                    "906": 141,
+                    "907": 138,
+                    "908": 54,
+                    "909": 205,
+                    "910": 135,
+                    "911": 195,
+                    "912": 14,
+                    "913": 137,
+                    "914": 162,
+                    "915": 46,
+                    "916": 69,
+                    "917": 50,
+                    "918": 20,
+                    "919": 119,
+                    "920": 133,
+                    "921": 192,
+                    "922": 28,
+                    "923": 57,
+                    "924": 166,
+                    "925": 162,
+                    "926": 194,
+                    "927": 94,
+                    "928": 225,
+                    "929": 16,
+                    "930": 231,
+                    "931": 68,
+                    "932": 50,
+                    "933": 149,
+                    "934": 170,
+                    "935": 133,
+                    "936": 29,
+                    "937": 224,
+                    "938": 128,
+                    "939": 71,
+                    "940": 40,
+                    "941": 88,
+                    "942": 4,
+                    "943": 100,
+                    "944": 213,
+                    "945": 56,
+                    "946": 78,
+                    "947": 25,
+                    "948": 228,
+                    "949": 7,
+                    "950": 60,
+                    "951": 20,
+                    "952": 128,
+                    "953": 217,
+                    "954": 245,
+                    "955": 162,
+                    "956": 51,
+                    "957": 131,
+                    "958": 14,
+                    "959": 127,
+                    "960": 164,
+                    "961": 255,
+                    "962": 0,
+                    "963": 208,
+                    "964": 179,
+                    "965": 84,
+                    "966": 213,
+                    "967": 9,
+                    "968": 55,
+                    "969": 54,
+                    "970": 124,
+                    "971": 201,
+                    "972": 112,
+                    "973": 104,
+                    "974": 216,
+                    "975": 16,
+                    "976": 158,
+                    "977": 18,
+                    "978": 106,
+                    "979": 24,
+                    "980": 12,
+                    "981": 24,
+                    "982": 50,
+                    "983": 200,
+                    "984": 96,
+                    "985": 196,
+                    "986": 167,
+                    "987": 144,
+                    "988": 51,
+                    "989": 66,
+                    "990": 28,
+                    "991": 160,
+                    "992": 192,
+                    "993": 134,
+                    "994": 0,
+                    "995": 18,
+                    "996": 80,
+                    "997": 29,
+                    "998": 147,
+                    "999": 69,
+                    "1000": 74,
+                    "1001": 170,
+                    "1002": 137,
+                    "1003": 219,
+                    "1004": 240,
+                    "1005": 84,
+                    "1006": 166,
+                    "1007": 39,
+                    "1008": 57,
+                    "1009": 27,
+                    "1010": 132,
+                    "1011": 211,
+                    "1012": 54,
+                    "1013": 105,
+                    "1014": 80,
+                    "1015": 61,
+                    "1016": 57,
+                    "1017": 126,
+                    "1018": 209,
+                    "1019": 0,
+                    "1020": 232,
+                    "1021": 144,
+                    "1022": 33,
+                    "1023": 203,
+                    "1024": 13,
+                    "1025": 100,
+                    "1026": 85,
+                    "1027": 22,
+                    "1028": 67,
+                    "1029": 205,
+                    "1030": 158,
+                    "1031": 91,
+                    "1032": 20,
+                    "1033": 232,
+                    "1034": 179,
+                    "1035": 24,
+                    "1036": 75,
+                    "1037": 243,
+                    "1038": 68,
+                    "1039": 166,
+                    "1040": 158,
+                    "1041": 46,
+                    "1042": 155,
+                    "1043": 42,
+                    "1044": 212,
+                    "1045": 162,
+                    "1046": 17,
+                    "1047": 0,
+                    "1048": 199,
+                    "1049": 216,
+                    "1050": 15,
+                    "1051": 222,
+                    "1052": 129,
+                    "1053": 214,
+                    "1054": 32,
+                    "1055": 28,
+                    "1056": 144,
+                    "1057": 78,
+                    "1058": 2,
+                    "1059": 70,
+                    "1060": 82,
+                    "1061": 193,
+                    "1062": 213,
+                    "1063": 60,
+                    "1064": 148,
+                    "1065": 4,
+                    "1066": 204,
+                    "1067": 199,
+                    "1068": 52,
+                    "1069": 66,
+                    "1070": 248,
+                    "1071": 190,
+                    "1072": 86,
+                    "1073": 147,
+                    "1074": 33,
+                    "1075": 185,
+                    "1076": 146,
+                    "1077": 36,
+                    "1078": 198,
+                    "1079": 250,
+                    "1080": 40,
+                    "1081": 222,
+                    "1082": 162,
+                    "1083": 208,
+                    "1084": 113,
+                    "1085": 65,
+                    "1086": 100,
+                    "1087": 59,
+                    "1088": 211,
+                    "1089": 36,
+                    "1090": 249,
+                    "1091": 97,
+                    "1092": 133,
+                    "1093": 79,
+                    "1094": 198,
+                    "1095": 234,
+                    "1096": 125,
+                    "1097": 132,
+                    "1098": 230,
+                    "1099": 25,
+                    "1100": 136,
+                    "1101": 171,
+                    "1102": 108,
+                    "1103": 164,
+                    "1104": 46,
+                    "1105": 18,
+                    "1106": 55,
+                    "1107": 46,
+                    "1108": 6,
+                    "1109": 165,
+                    "1110": 247,
+                    "1111": 152,
+                    "1112": 108,
+                    "1113": 21,
+                    "1114": 23,
+                    "1115": 60,
+                    "1116": 176,
+                    "1117": 3,
+                    "1118": 85,
+                    "1119": 214,
+                    "1120": 7,
+                    "1121": 45,
+                    "1122": 55,
+                    "1123": 232,
+                    "1124": 168,
+                    "1125": 74,
+                    "1126": 4,
+                    "1127": 219,
+                    "1128": 138,
+                    "1129": 119,
+                    "1130": 52,
+                    "1131": 28,
+                    "1132": 208,
+                    "1133": 64,
+                    "1134": 4,
+                    "1135": 155,
+                    "1136": 146,
+                    "1137": 121,
+                    "1138": 130,
+                    "1139": 226,
+                    "1140": 247,
+                    "1141": 69,
+                    "1142": 39,
+                    "1143": 23,
+                    "1144": 19,
+                    "1145": 128,
+                    "1146": 64,
+                    "1147": 0,
+                    "1148": 106,
+                    "1149": 150,
+                    "1150": 125,
+                    "1151": 95,
+                    "1152": 25,
+                    "1153": 236,
+                    "1154": 159,
+                    "1155": 60,
+                    "1156": 0,
+                    "1157": 196,
+                    "1158": 136,
+                    "1159": 7,
+                    "1160": 155,
+                    "1161": 60,
+                    "1162": 186,
+                    "1163": 13,
+                    "1164": 130,
+                    "1165": 15,
+                    "1166": 33,
+                    "1167": 154,
+                    "1168": 39,
+                    "1169": 215,
+                    "1170": 76,
+                    "1171": 84,
+                    "1172": 179,
+                    "1173": 74,
+                    "1174": 78,
+                    "1175": 229,
+                    "1176": 221,
+                    "1177": 105,
+                    "1178": 94,
+                    "1179": 231,
+                    "1180": 209,
+                    "1181": 12,
+                    "1182": 17,
+                    "1183": 162,
+                    "1184": 165,
+                    "1185": 119,
+                    "1186": 255,
+                    "1187": 218,
+                    "1188": 0,
+                    "1189": 12,
+                    "1190": 3,
+                    "1191": 1,
+                    "1192": 0,
+                    "1193": 2,
+                    "1194": 0,
+                    "1195": 3,
+                    "1196": 0,
+                    "1197": 0,
+                    "1198": 0,
+                    "1199": 16,
+                    "1200": 239,
+                    "1201": 9,
+                    "1202": 192,
+                    "1203": 41,
+                    "1204": 246,
+                    "1205": 43,
+                    "1206": 167,
+                    "1207": 94,
+                    "1208": 35,
+                    "1209": 149,
+                    "1210": 17,
+                    "1211": 40,
+                    "1212": 123,
+                    "1213": 74,
+                    "1214": 67,
+                    "1215": 127,
+                    "1216": 23,
+                    "1217": 130,
+                    "1218": 255,
+                    "1219": 218,
+                    "1220": 0,
+                    "1221": 8,
+                    "1222": 1,
+                    "1223": 3,
+                    "1224": 0,
+                    "1225": 1,
+                    "1226": 63,
+                    "1227": 16,
+                    "1228": 173,
+                    "1229": 47,
+                    "1230": 100,
+                    "1231": 237,
+                    "1232": 114,
+                    "1233": 13,
+                    "1234": 122,
+                    "1235": 201,
+                    "1236": 108,
+                    "1237": 158,
+                    "1238": 2,
+                    "1239": 241,
+                    "1240": 221,
+                    "1241": 19,
+                    "1242": 30,
+                    "1243": 132,
+                    "1244": 19,
+                    "1245": 47,
+                    "1246": 148,
+                    "1247": 55,
+                    "1248": 255,
+                    "1249": 0,
+                    "1250": 255,
+                    "1251": 218,
+                    "1252": 0,
+                    "1253": 8,
+                    "1254": 1,
+                    "1255": 2,
+                    "1256": 0,
+                    "1257": 1,
+                    "1258": 63,
+                    "1259": 16,
+                    "1260": 115,
+                    "1261": 87,
+                    "1262": 52,
+                    "1263": 47,
+                    "1264": 103,
+                    "1265": 88,
+                    "1266": 52,
+                    "1267": 199,
+                    "1268": 209,
+                    "1269": 37,
+                    "1270": 173,
+                    "1271": 115,
+                    "1272": 57,
+                    "1273": 106,
+                    "1274": 29,
+                    "1275": 43,
+                    "1276": 233,
+                    "1277": 169,
+                    "1278": 175,
+                    "1279": 43,
+                    "1280": 255,
+                    "1281": 0,
+                    "1282": 255,
+                    "1283": 218,
+                    "1284": 0,
+                    "1285": 8,
+                    "1286": 1,
+                    "1287": 1,
+                    "1288": 0,
+                    "1289": 1,
+                    "1290": 63,
+                    "1291": 16,
+                    "1292": 225,
+                    "1293": 144,
+                    "1294": 2,
+                    "1295": 87,
+                    "1296": 75,
+                    "1297": 37,
+                    "1298": 76,
+                    "1299": 99,
+                    "1300": 131,
+                    "1301": 53,
+                    "1302": 50,
+                    "1303": 55,
+                    "1304": 20,
+                    "1305": 91,
+                    "1306": 217,
+                    "1307": 39,
+                    "1308": 237,
+                    "1309": 68,
+                    "1310": 224,
+                    "1311": 226,
+                    "1312": 169,
+                    "1313": 117,
+                    "1314": 25,
+                    "1315": 141,
+                    "1316": 66,
+                    "1317": 37,
+                    "1318": 136,
+                    "1319": 248,
+                    "1320": 126,
+                    "1321": 212,
+                    "1322": 252,
+                    "1323": 100,
+                    "1324": 81,
+                    "1325": 57,
+                    "1326": 28,
+                    "1327": 209,
+                    "1328": 67,
+                    "1329": 152,
+                    "1330": 91,
+                    "1331": 65,
+                    "1332": 123,
+                    "1333": 19,
+                    "1334": 239,
+                    "1335": 249,
+                    "1336": 41,
+                    "1337": 224,
+                    "1338": 228,
+                    "1339": 72,
+                    "1340": 249,
+                    "1341": 246,
+                    "1342": 3,
+                    "1343": 136,
+                    "1344": 88,
+                    "1345": 252,
+                    "1346": 168,
+                    "1347": 83,
+                    "1348": 177,
+                    "1349": 52,
+                    "1350": 4,
+                    "1351": 201,
+                    "1352": 20,
+                    "1353": 20,
+                    "1354": 11,
+                    "1355": 141,
+                    "1356": 157,
+                    "1357": 231,
+                    "1358": 170,
+                    "1359": 224,
+                    "1360": 100,
+                    "1361": 131,
+                    "1362": 128,
+                    "1363": 86,
+                    "1364": 163,
+                    "1365": 16,
+                    "1366": 169,
+                    "1367": 242,
+                    "1368": 147,
+                    "1369": 10,
+                    "1370": 84,
+                    "1371": 42,
+                    "1372": 108,
+                    "1373": 54,
+                    "1374": 34,
+                    "1375": 104,
+                    "1376": 16,
+                    "1377": 193,
+                    "1378": 36,
+                    "1379": 36,
+                    "1380": 59,
+                    "1381": 4,
+                    "1382": 84,
+                    "1383": 157,
+                    "1384": 188,
+                    "1385": 245,
+                    "1386": 93,
+                    "1387": 79,
+                    "1388": 161,
+                    "1389": 49,
+                    "1390": 131,
+                    "1391": 66,
+                    "1392": 67,
+                    "1393": 199,
+                    "1394": 194,
+                    "1395": 104,
+                    "1396": 136,
+                    "1397": 60,
+                    "1398": 107,
+                    "1399": 92,
+                    "1400": 14,
+                    "1401": 148,
+                    "1402": 118,
+                    "1403": 82,
+                    "1404": 16,
+                    "1405": 147,
+                    "1406": 1,
+                    "1407": 14,
+                    "1408": 213,
+                    "1409": 1,
+                    "1410": 238,
+                    "1411": 78,
+                    "1412": 192,
+                    "1413": 229,
+                    "1414": 82,
+                    "1415": 69,
+                    "1416": 63,
+                    "1417": 180,
+                    "1418": 32,
+                    "1419": 155,
+                    "1420": 9,
+                    "1421": 0,
+                    "1422": 210,
+                    "1423": 53,
+                    "1424": 54,
+                    "1425": 9,
+                    "1426": 21,
+                    "1427": 173,
+                    "1428": 64,
+                    "1429": 102,
+                    "1430": 153,
+                    "1431": 60,
+                    "1432": 118,
+                    "1433": 20,
+                    "1434": 194,
+                    "1435": 64,
+                    "1436": 98,
+                    "1437": 39,
+                    "1438": 0,
+                    "1439": 130,
+                    "1440": 162,
+                    "1441": 113,
+                    "1442": 13,
+                    "1443": 12,
+                    "1444": 78,
+                    "1445": 76,
+                    "1446": 2,
+                    "1447": 10,
+                    "1448": 80,
+                    "1449": 85,
+                    "1450": 113,
+                    "1451": 184,
+                    "1452": 102,
+                    "1453": 64,
+                    "1454": 228,
+                    "1455": 68,
+                    "1456": 23,
+                    "1457": 96,
+                    "1458": 102,
+                    "1459": 75,
+                    "1460": 14,
+                    "1461": 105,
+                    "1462": 226,
+                    "1463": 80,
+                    "1464": 48,
+                    "1465": 153,
+                    "1466": 178,
+                    "1467": 193,
+                    "1468": 238,
+                    "1469": 166,
+                    "1470": 140,
+                    "1471": 153,
+                    "1472": 65,
+                    "1473": 169,
+                    "1474": 159,
+                    "1475": 36,
+                    "1476": 8,
+                    "1477": 211,
+                    "1478": 179,
+                    "1479": 1,
+                    "1480": 216,
+                    "1481": 154,
+                    "1482": 48,
+                    "1483": 208,
+                    "1484": 20,
+                    "1485": 252,
+                    "1486": 65,
+                    "1487": 160,
+                    "1488": 12,
+                    "1489": 187,
+                    "1490": 2,
+                    "1491": 146,
+                    "1492": 154,
+                    "1493": 114,
+                    "1494": 130,
+                    "1495": 106,
+                    "1496": 102,
+                    "1497": 229,
+                    "1498": 9,
+                    "1499": 172,
+                    "1500": 80,
+                    "1501": 6,
+                    "1502": 106,
+                    "1503": 24,
+                    "1504": 40,
+                    "1505": 177,
+                    "1506": 5,
+                    "1507": 184,
+                    "1508": 253,
+                    "1509": 229,
+                    "1510": 200,
+                    "1511": 45,
+                    "1512": 96,
+                    "1513": 106,
+                    "1514": 79,
+                    "1515": 36,
+                    "1516": 83,
+                    "1517": 68,
+                    "1518": 101,
+                    "1519": 57,
+                    "1520": 169,
+                    "1521": 160,
+                    "1522": 99,
+                    "1523": 246,
+                    "1524": 151,
+                    "1525": 124,
+                    "1526": 201,
+                    "1527": 212,
+                    "1528": 32,
+                    "1529": 72,
+                    "1530": 12,
+                    "1531": 97,
+                    "1532": 50,
+                    "1533": 71,
+                    "1534": 79,
+                    "1535": 37,
+                    "1536": 8,
+                    "1537": 2,
+                    "1538": 19,
+                    "1539": 86,
+                    "1540": 101,
+                    "1541": 253,
+                    "1542": 1,
+                    "1543": 16,
+                    "1544": 143,
+                    "1545": 231,
+                    "1546": 251,
+                    "1547": 216,
+                    "1548": 117,
+                    "1549": 55,
+                    "1550": 10,
+                    "1551": 64,
+                    "1552": 27,
+                    "1553": 83,
+                    "1554": 247,
+                    "1555": 194,
+                    "1556": 128,
+                    "1557": 64,
+                    "1558": 224,
+                    "1559": 39,
+                    "1560": 1,
+                    "1561": 157,
+                    "1562": 128,
+                    "1563": 97,
+                    "1564": 144,
+                    "1565": 9,
+                    "1566": 6,
+                    "1567": 131,
+                    "1568": 138,
+                    "1569": 45,
+                    "1570": 100,
+                    "1571": 108,
+                    "1572": 159,
+                    "1573": 39,
+                    "1574": 86,
+                    "1575": 91,
+                    "1576": 161,
+                    "1577": 156,
+                    "1578": 230,
+                    "1579": 69,
+                    "1580": 123,
+                    "1581": 96,
+                    "1582": 165,
+                    "1583": 170,
+                    "1584": 97,
+                    "1585": 39,
+                    "1586": 21,
+                    "1587": 222,
+                    "1588": 67,
+                    "1589": 240,
+                    "1590": 167,
+                    "1591": 111,
+                    "1592": 215,
+                    "1593": 176,
+                    "1594": 15,
+                    "1595": 206,
+                    "1596": 165,
+                    "1597": 128,
+                    "1598": 45,
+                    "1599": 249,
+                    "1600": 47,
+                    "1601": 195,
+                    "1602": 20,
+                    "1603": 66,
+                    "1604": 113,
+                    "1605": 155,
+                    "1606": 245,
+                    "1607": 154,
+                    "1608": 145,
+                    "1609": 231,
+                    "1610": 213,
+                    "1611": 167,
+                    "1612": 104,
+                    "1613": 125,
+                    "1614": 196,
+                    "1615": 23,
+                    "1616": 13,
+                    "1617": 144,
+                    "1618": 12,
+                    "1619": 67,
+                    "1620": 106,
+                    "1621": 33,
+                    "1622": 136,
+                    "1623": 69,
+                    "1624": 58,
+                    "1625": 241,
+                    "1626": 68,
+                    "1627": 198,
+                    "1628": 28,
+                    "1629": 137,
+                    "1630": 218,
+                    "1631": 170,
+                    "1632": 243,
+                    "1633": 58,
+                    "1634": 38,
+                    "1635": 211,
+                    "1636": 19,
+                    "1637": 217,
+                    "1638": 228,
+                    "1639": 197,
+                    "1640": 160,
+                    "1641": 169,
+                    "1642": 13,
+                    "1643": 78,
+                    "1644": 76,
+                    "1645": 6,
+                    "1646": 228,
+                    "1647": 212,
+                    "1648": 241,
+                    "1649": 68,
+                    "1650": 73,
+                    "1651": 117,
+                    "1652": 164,
+                    "1653": 56,
+                    "1654": 26,
+                    "1655": 18,
+                    "1656": 8,
+                    "1657": 112,
+                    "1658": 134,
+                    "1659": 184,
+                    "1660": 236,
+                    "1661": 86,
+                    "1662": 73,
+                    "1663": 131,
+                    "1664": 20,
+                    "1665": 131,
+                    "1666": 98,
+                    "1667": 142,
+                    "1668": 159,
+                    "1669": 137,
+                    "1670": 93,
+                    "1671": 243,
+                    "1672": 75,
+                    "1673": 173,
+                    "1674": 238,
+                    "1675": 217,
+                    "1676": 21,
+                    "1677": 105,
+                    "1678": 213,
+                    "1679": 43,
+                    "1680": 222,
+                    "1681": 35,
+                    "1682": 85,
+                    "1683": 255,
+                    "1684": 217
+                  },
+                  "sourceType": "ad",
+                  "sourceId": "120236552858900087",
+                  "sourceUrl": "https://www.instagram.com/p/DTJBDEMgIUV/",
+                  "containsAutoReply": false,
+                  "renderLargerThumbnail": true,
+                  "showAdAttribution": true,
+                  "ctwaClid": "AfdUBVsTIA4IhqM3buntyip9IS-pxOZAteH2FbVG3yueIOfTanEAo9RmCm7yoDMt4LAKTeJ2e17yAz8nltvikTQcO7aQpdHTctmXflCuRNufdrOjrLDTeTu5GApXQzYn7wDDkif5KQ",
+                  "adContextPreviewDismissed": false,
+                  "sourceApp": "instagram",
+                  "automatedGreetingMessageShown": true,
+                  "greetingMessageBody": "Olá! Como posso ajudar?",
+                  "originalImageUrl": "https://scontent.xx.fbcdn.net/v/t15.5256-10/591280239_1341692054303325_5722024068334208026_n.jpg?stp=dst-jpg_p180x540_tt6&_nc_cat=109&ccb=1-7&_nc_sid=40cf1a&_nc_ohc=A3JoBRjMAI4Q7kNvwE3ooA4&_nc_oc=Adkzr_aBRQxoG0OW0JOwW1VBx1H6FycWETX4RnXLz2KoN00Hx47UyHLr7DPj1HW717_PjiFKOsto8HQfJgs1uMVO&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent.xx&_nc_gid=q4fYFFBi1Zf_j09wZO9RBg&oh=00_AfqkMAjcOuma5KncmG2pFVK539pKWR-tgZOUCQht9qUTOA&oe=696FDF3F",
+                  "wtwaAdFormat": false,
+                  "clickToWhatsappCall": true,
+                  "disableNudge": false
+                },
+                "entryPointConversionSource": "ctwa_ad",
+                "entryPointConversionApp": "instagram",
+                "entryPointConversionDelaySeconds": 2,
+                "ctwaSignals": "all,all",
+                "ctwaPayload": {
+                  "0": 65,
+                  "1": 102,
+                  "2": 102,
+                  "3": 56,
+                  "4": 106,
+                  "5": 118,
+                  "6": 75,
+                  "7": 66,
+                  "8": 70,
+                  "9": 121,
+                  "10": 97,
+                  "11": 112,
+                  "12": 83,
+                  "13": 65,
+                  "14": 88,
+                  "15": 70,
+                  "16": 55,
+                  "17": 115,
+                  "18": 116,
+                  "19": 95,
+                  "20": 78,
+                  "21": 102,
+                  "22": 107,
+                  "23": 121,
+                  "24": 84,
+                  "25": 55,
+                  "26": 57,
+                  "27": 53,
+                  "28": 73,
+                  "29": 109,
+                  "30": 101,
+                  "31": 107,
+                  "32": 98,
+                  "33": 74,
+                  "34": 75,
+                  "35": 109,
+                  "36": 53,
+                  "37": 54,
+                  "38": 89,
+                  "39": 51,
+                  "40": 80,
+                  "41": 85,
+                  "42": 103,
+                  "43": 115,
+                  "44": 118,
+                  "45": 65,
+                  "46": 80,
+                  "47": 85,
+                  "48": 50,
+                  "49": 74,
+                  "50": 75,
+                  "51": 67,
+                  "52": 119,
+                  "53": 115,
+                  "54": 116,
+                  "55": 109,
+                  "56": 98,
+                  "57": 112,
+                  "58": 76,
+                  "59": 106,
+                  "60": 95,
+                  "61": 70,
+                  "62": 52,
+                  "63": 101,
+                  "64": 109,
+                  "65": 119,
+                  "66": 80,
+                  "67": 55,
+                  "68": 106,
+                  "69": 56,
+                  "70": 65,
+                  "71": 72,
+                  "72": 51,
+                  "73": 98,
+                  "74": 55,
+                  "75": 105,
+                  "76": 72,
+                  "77": 85,
+                  "78": 76,
+                  "79": 49,
+                  "80": 119,
+                  "81": 99,
+                  "82": 76,
+                  "83": 65,
+                  "84": 83,
+                  "85": 104,
+                  "86": 97,
+                  "87": 89,
+                  "88": 99,
+                  "89": 77,
+                  "90": 116,
+                  "91": 57,
+                  "92": 52,
+                  "93": 100,
+                  "94": 102,
+                  "95": 78,
+                  "96": 84,
+                  "97": 87,
+                  "98": 122,
+                  "99": 52,
+                  "100": 100,
+                  "101": 114,
+                  "102": 95,
+                  "103": 67,
+                  "104": 81,
+                  "105": 77,
+                  "106": 77,
+                  "107": 78,
+                  "108": 75,
+                  "109": 66,
+                  "110": 111,
+                  "111": 54,
+                  "112": 81,
+                  "113": 76,
+                  "114": 50,
+                  "115": 80,
+                  "116": 104,
+                  "117": 99,
+                  "118": 67,
+                  "119": 57,
+                  "120": 89,
+                  "121": 98,
+                  "122": 50,
+                  "123": 114,
+                  "124": 80,
+                  "125": 115,
+                  "126": 78,
+                  "127": 82,
+                  "128": 69,
+                  "129": 50,
+                  "130": 79,
+                  "131": 105,
+                  "132": 120,
+                  "133": 107,
+                  "134": 54,
+                  "135": 66,
+                  "136": 78,
+                  "137": 82,
+                  "138": 115,
+                  "139": 70,
+                  "140": 119,
+                  "141": 81,
+                  "142": 78,
+                  "143": 97,
+                  "144": 116,
+                  "145": 57,
+                  "146": 78,
+                  "147": 90,
+                  "148": 67,
+                  "149": 117,
+                  "150": 106,
+                  "151": 80,
+                  "152": 80,
+                  "153": 72,
+                  "154": 109,
+                  "155": 97,
+                  "156": 81,
+                  "157": 97,
+                  "158": 51,
+                  "159": 68,
+                  "160": 82,
+                  "161": 103,
+                  "162": 45,
+                  "163": 68,
+                  "164": 88,
+                  "165": 66,
+                  "166": 87,
+                  "167": 83,
+                  "168": 53,
+                  "169": 73,
+                  "170": 120,
+                  "171": 105,
+                  "172": 111,
+                  "173": 73,
+                  "174": 89,
+                  "175": 73,
+                  "176": 98,
+                  "177": 104,
+                  "178": 98,
+                  "179": 48,
+                  "180": 89,
+                  "181": 86,
+                  "182": 80,
+                  "183": 69,
+                  "184": 83,
+                  "185": 66,
+                  "186": 115,
+                  "187": 81,
+                  "188": 73,
+                  "189": 77,
+                  "190": 82,
+                  "191": 69,
+                  "192": 84,
+                  "193": 103,
+                  "194": 119,
+                  "195": 115,
+                  "196": 65,
+                  "197": 114,
+                  "198": 48,
+                  "199": 76,
+                  "200": 118,
+                  "201": 114,
+                  "202": 67,
+                  "203": 72,
+                  "204": 113,
+                  "205": 79,
+                  "206": 111,
+                  "207": 115,
+                  "208": 88,
+                  "209": 85,
+                  "210": 90,
+                  "211": 98,
+                  "212": 74,
+                  "213": 73,
+                  "214": 89,
+                  "215": 120,
+                  "216": 80,
+                  "217": 72,
+                  "218": 56,
+                  "219": 103,
+                  "220": 95,
+                  "221": 122,
+                  "222": 72,
+                  "223": 45,
+                  "224": 68,
+                  "225": 89,
+                  "226": 86,
+                  "227": 67,
+                  "228": 84,
+                  "229": 70,
+                  "230": 74,
+                  "231": 75,
+                  "232": 70,
+                  "233": 55,
+                  "234": 69,
+                  "235": 69,
+                  "236": 114,
+                  "237": 118,
+                  "238": 120,
+                  "239": 118,
+                  "240": 100,
+                  "241": 83,
+                  "242": 106,
+                  "243": 117,
+                  "244": 109,
+                  "245": 86,
+                  "246": 122,
+                  "247": 98,
+                  "248": 113,
+                  "249": 49,
+                  "250": 83,
+                  "251": 68,
+                  "252": 105,
+                  "253": 73,
+                  "254": 110,
+                  "255": 118,
+                  "256": 54,
+                  "257": 103,
+                  "258": 108,
+                  "259": 57,
+                  "260": 117,
+                  "261": 79,
+                  "262": 121,
+                  "263": 52,
+                  "264": 106,
+                  "265": 66,
+                  "266": 67,
+                  "267": 75,
+                  "268": 84,
+                  "269": 79,
+                  "270": 106,
+                  "271": 97,
+                  "272": 118,
+                  "273": 98,
+                  "274": 83,
+                  "275": 45,
+                  "276": 69,
+                  "277": 74,
+                  "278": 79,
+                  "279": 87,
+                  "280": 98,
+                  "281": 74,
+                  "282": 102,
+                  "283": 54,
+                  "284": 119,
+                  "285": 80,
+                  "286": 51,
+                  "287": 51,
+                  "288": 82,
+                  "289": 85,
+                  "290": 113,
+                  "291": 119,
+                  "292": 85,
+                  "293": 119,
+                  "294": 98,
+                  "295": 70,
+                  "296": 105,
+                  "297": 69,
+                  "298": 120,
+                  "299": 45,
+                  "300": 110,
+                  "301": 71,
+                  "302": 68,
+                  "303": 49,
+                  "304": 108,
+                  "305": 110,
+                  "306": 88,
+                  "307": 87,
+                  "308": 70,
+                  "309": 108,
+                  "310": 105,
+                  "311": 99,
+                  "312": 114,
+                  "313": 73,
+                  "314": 101,
+                  "315": 99,
+                  "316": 115,
+                  "317": 90,
+                  "318": 66,
+                  "319": 112,
+                  "320": 85,
+                  "321": 115,
+                  "322": 121,
+                  "323": 78,
+                  "324": 72,
+                  "325": 114,
+                  "326": 50,
+                  "327": 113,
+                  "328": 89,
+                  "329": 69,
+                  "330": 85,
+                  "331": 81,
+                  "332": 48,
+                  "333": 120,
+                  "334": 90,
+                  "335": 78,
+                  "336": 66,
+                  "337": 82,
+                  "338": 65,
+                  "339": 111,
+                  "340": 83,
+                  "341": 115,
+                  "342": 86,
+                  "343": 75,
+                  "344": 66,
+                  "345": 90,
+                  "346": 89,
+                  "347": 53,
+                  "348": 102,
+                  "349": 84,
+                  "350": 76,
+                  "351": 106,
+                  "352": 83,
+                  "353": 108,
+                  "354": 105,
+                  "355": 109,
+                  "356": 48,
+                  "357": 116,
+                  "358": 68,
+                  "359": 105,
+                  "360": 70,
+                  "361": 67,
+                  "362": 57,
+                  "363": 52,
+                  "364": 98,
+                  "365": 79,
+                  "366": 106,
+                  "367": 112,
+                  "368": 57,
+                  "369": 82,
+                  "370": 80,
+                  "371": 85,
+                  "372": 88,
+                  "373": 116,
+                  "374": 113,
+                  "375": 57,
+                  "376": 105,
+                  "377": 81
+                },
+                "trustBannerAction": 4294967295
+              },
+              "messageType": "conversation",
+              "messageTimestamp": 1768560427,
+              "instanceId": "45d52ea1-475e-48c5-a44e-5db6f05c8d6e",
+              "source": "android"
+            },
+            "destination": "https://n8n.app.info.pl/webhook/Max_corretor",
+            "date_time": "2026-01-16T07:47:19.113Z",
+            "sender": "556192956268@s.whatsapp.net",
+            "server_url": "https://evolution.app.info.pl",
+            "apikey": "3768E3BC7CEF-4D89-AE0F-A3D39668E0D2"
+          },
+          "webhookUrl": "https://n8n.app.info.pl/webhook/Max_corretor",
+          "executionMode": "production"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "(EVO) Enviar Mensagem1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtro Inicial1": {
+      "main": [
+        [
+          {
+            "node": "Dados Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis": {
+      "main": [
+        [
+          {
+            "node": "Bot Desativado?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bot Desativado?1": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados Lead": {
+      "main": [
+        [
+          {
+            "node": "Redis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parametros Fluxo": {
+      "main": [
+        [
+          {
+            "node": "Filtro Inicial1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "(EVO) Enviar Mensagem1": {
+      "main": [
+        [
+          {
+            "node": "Wait3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Redis1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Block",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Mensagem Texto",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mensagem Texto3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mensagem Audio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mensagem Imagem",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mensagem Documento PDF1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mensagem Erro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcrever Áudio": {
+      "main": [
+        [
+          {
+            "node": "Add Audio Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Add Imagem Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Buffer 4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ComparandoMensagens": {
+      "main": [
+        [
+          {
+            "node": "Apagar Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buffer 1": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buffer 4": {
+      "main": [
+        [
+          {
+            "node": "ComparandoMensagens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Texto Buffer": {
+      "main": [
+        [
+          {
+            "node": "Buffer 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apagar Buffer": {
+      "main": [
+        [
+          {
+            "node": "Mensagem e bairros",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem Texto": {
+      "main": [
+        [
+          {
+            "node": "Add Texto Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem Audio": {
+      "main": [
+        [
+          {
+            "node": "Convert to File4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem Imagem": {
+      "main": [
+        [
+          {
+            "node": "Convert to File3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Audio Buffer": {
+      "main": [
+        [
+          {
+            "node": "Buffer 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Error Buffer": {
+      "main": [
+        [
+          {
+            "node": "Buffer 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File1": {
+      "main": [
+        [
+          {
+            "node": "Add PDF Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem Erro": {
+      "main": [
+        [
+          {
+            "node": "Add Error Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add PDF Buffer": {
+      "main": [
+        [
+          {
+            "node": "Buffer 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Imagem Buffer": {
+      "main": [
+        [
+          {
+            "node": "Buffer 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem Documento PDF1": {
+      "main": [
+        [
+          {
+            "node": "Convert to File5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File3": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File4": {
+      "main": [
+        [
+          {
+            "node": "Transcrever Áudio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File5": {
+      "main": [
+        [
+          {
+            "node": "Extract from File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem Texto3": {
+      "main": [
+        [
+          {
+            "node": "Add Texto Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Parametros Fluxo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing1": {
+      "main": [
+        [
+          {
+            "node": "Redis2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Encontrar Cliente1": {
+      "main": [
+        [
+          {
+            "node": "Preparar_Contexto_Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cliente Existe?1": {
+      "main": [
+        [
+          {
+            "node": "Atualizar Ultima Interacao",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Criar Cliente1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar Cliente1": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem e bairros": {
+      "main": [
+        [
+          {
+            "node": "Encontrar Cliente1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Auto-fixing Output Parser1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "acionar_humano": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auto-fixing Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser [Schema]": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Auto-fixing Output Parser1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualizar Ultima Interacao": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consultar_Lista_Imoveis": {
+      "ai_tool": [
+        []
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Consultar_Base_Imoveis",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consultar_Base_Imoveis": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar_Contexto_Lead": {
+      "main": [
+        [
+          {
+            "node": "Cliente Existe?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "timeSavedMode": "fixed",
+    "timezone": "America/Sao_Paulo",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "1d3999dc-dc9f-4f93-a302-7ee593b2dfc5",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a7274cdb6cf3b6367dab2f651afec2b8cc876e24efaa01f0a08d3fc349947e63"
+  },
+  "id": "RrX3Q5O2uXAn1zB0",
+  "tags": []
+}
