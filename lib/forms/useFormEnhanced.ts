@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Enhanced useForm hook with real-time validation
  *
  * Features:
@@ -106,7 +106,7 @@ interface UseFormEnhancedReturn<TFormData extends FieldValues> extends UseFormRe
 // ============ HOOK ============
 
 /**
- * Hook React `useFormEnhanced` que encapsula uma lógica reutilizável.
+ * Hook React `useFormEnhanced` que encapsula uma lÃ³gica reutilizÃ¡vel.
  *
  * @param {UseFormOptions<TFormData>} {
   schema,
@@ -119,7 +119,7 @@ interface UseFormEnhancedReturn<TFormData extends FieldValues> extends UseFormRe
   onInvalid,
   defaultValues,
   ...options
-} - Parâmetro `{
+} - ParÃ¢metro `{
   schema,
   formId,
   autoSave = false,
@@ -165,7 +165,7 @@ export function useFormEnhanced<TFormData extends FieldValues>({
 
   // Initialize form
   const form = useRHForm<TFormData>({
-    // @ts-expect-error - zodResolver type variance issue with TFormData generic, safe at runtime
+    // Validating form state manually if needed - zodResolver type variance issue with TFormData generic, safe at runtime
     resolver: zodResolver(schema),
     mode,
     defaultValues: defaultValues as DefaultValues<TFormData>,
