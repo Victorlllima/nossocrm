@@ -19,13 +19,27 @@ export class GoogleSheetsClient {
   private spreadsheetId: string;
 
   constructor() {
-    const credentialsPath = process.env.GOOGLE_SHEETS_CREDENTIALS_PATH || './google-sheets-credentials.json';
-    const keyFile = path.resolve(process.cwd(), credentialsPath);
+    // Prioridade 1: JSON direto da env var (para Vercel/serverless)
+    // Prioridade 2: Arquivo físico (para desenvolvimento local)
+    const credentialsJson = process.env.GOOGLE_SHEETS_CREDENTIALS_JSON;
 
-    const auth = new google.auth.GoogleAuth({
-      keyFile,
-      scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
-    });
+    let auth;
+    if (credentialsJson) {
+      // Serverless: usa credenciais da variável de ambiente
+      const credentials = JSON.parse(credentialsJson);
+      auth = new google.auth.GoogleAuth({
+        credentials,
+        scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
+      });
+    } else {
+      // Local: usa arquivo físico
+      const credentialsPath = process.env.GOOGLE_SHEETS_CREDENTIALS_PATH || './google-sheets-credentials.json';
+      const keyFile = path.resolve(process.cwd(), credentialsPath);
+      auth = new google.auth.GoogleAuth({
+        keyFile,
+        scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
+      });
+    }
 
     this.sheets = google.sheets({ version: 'v4', auth });
     this.spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID || '';
