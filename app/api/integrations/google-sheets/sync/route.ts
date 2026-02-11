@@ -130,54 +130,129 @@ export async function POST(request: NextRequest) {
           contactId = newContact.id;
         }
 
-        // 2. Formatar Resumo AI
-        const aiSummary = `📱 NOVO LEAD DO FACEBOOK\n\n👤 Cliente: ${lead.full_name}\n🏢 Interesse: ${lead.form_name}\n📅 Chegada: ${new Date(lead.created_time).toLocaleString('pt-BR')}\n\n✅ Importado via Planilha`;
-
-        // 3. Criar deal
-        const { data: newDeal, error: dealError } = await supabase
+        // 2. Verificar se já existe deal em aberto para este contato
+        const { data: existingDeal } = await supabase
           .from('deals')
-          .insert({
-            organization_id: organizationId,
-            board_id: defaultBoard.id,
-            stage_id: firstStageId,
-            contact_id: contactId,
-            title: `${lead.full_name} - ${lead.form_name}`,
-            status: 'open',
-            priority: 'medium',
-            ai_summary: aiSummary,
-            custom_fields: {
-              google_sheets_id: lead.id,
-              ad_name: lead.ad_name,
+          .select('id, title, ai_summary, custom_fields')
+          .eq('organization_id', organizationId)
+          .eq('contact_id', contactId)
+          .eq('status', 'open')
+          .maybeSingle();
+
+        let dealId: string;
+        const newInterestInfo = `🏢 Interesse: ${lead.form_name}\n📅 ${new Date(lead.created_time).toLocaleString('pt-BR')}`;
+
+        if (existingDeal) {
+          // LEAD REINCIDENTE: Atualizar deal existente com novo interesse
+          const currentInterests = existingDeal.custom_fields?.interests || [];
+          const updatedInterests = [
+            ...currentInterests,
+            {
               form_name: lead.form_name,
+              ad_name: lead.ad_name,
               created_time: lead.created_time,
-              form_responses: aiSummary,
-            },
-          })
-          .select('id')
-          .single();
+              google_sheets_id: lead.id,
+            }
+          ];
 
-        if (dealError) throw new Error(`Erro ao criar deal: ${dealError.message}`);
+          const updatedSummary = `${existingDeal.ai_summary}\n\n📍 NOVO INTERESSE:\n${newInterestInfo}`;
 
-        // 4. Nota
+          await supabase
+            .from('deals')
+            .update({
+              title: `${lead.full_name} - Múltiplos interesses`,
+              ai_summary: updatedSummary,
+              updated_at: new Date().toISOString(),
+              custom_fields: {
+                ...existingDeal.custom_fields,
+                interests: updatedInterests,
+                latest_interest: lead.form_name,
+                latest_google_sheets_id: lead.id,
+              },
+            })
+            .eq('id', existingDeal.id);
+
+          dealId = existingDeal.id;
+
+          // Atualizar contato
+          await supabase
+            .from('contacts')
+            .update({
+              name: lead.full_name,
+              updated_at: new Date().toISOString(),
+            })
+            .eq('id', contactId);
+
+        } else {
+          // LEAD NOVO: Criar deal novo
+          const aiSummary = `📱 NOVO LEAD DO FACEBOOK\n\n👤 Cliente: ${lead.full_name}\n${newInterestInfo}\n\n✅ Importado via Planilha`;
+
+          const { data: newDeal, error: dealError } = await supabase
+            .from('deals')
+            .insert({
+              organization_id: organizationId,
+              board_id: defaultBoard.id,
+              stage_id: firstStageId,
+              contact_id: contactId,
+              title: `${lead.full_name} - ${lead.form_name}`,
+              status: 'open',
+              priority: 'medium',
+              ai_summary: aiSummary,
+              custom_fields: {
+                google_sheets_id: lead.id,
+                ad_name: lead.ad_name,
+                form_name: lead.form_name,
+                created_time: lead.created_time,
+                interests: [{
+                  form_name: lead.form_name,
+                  ad_name: lead.ad_name,
+                  created_time: lead.created_time,
+                  google_sheets_id: lead.id,
+                }],
+              },
+            })
+            .select('id')
+            .single();
+
+          if (dealError) throw new Error(`Erro ao criar deal: ${dealError.message}`);
+          dealId = newDeal.id;
+        }
+
+        // 3. Adicionar nota sobre o interesse (novo ou adicional)
+        const noteContent = existingDeal
+          ? `📍 NOVO INTERESSE REGISTRADO:\n${newInterestInfo}\n\nCliente demonstrou interesse adicional.`
+          : `📱 NOVO LEAD DO FACEBOOK\n\n👤 Cliente: ${lead.full_name}\n${newInterestInfo}\n\n✅ Importado via Planilha`;
+
         await supabase.from('deal_notes').insert({
-          deal_id: newDeal.id,
-          content: aiSummary,
+          deal_id: dealId,
+          content: noteContent,
         });
 
-        // 5. Notificação Max
-        const maxNumbers = [process.env.MAX_PHONE_NUMBER, process.env.MAX_PHONE_NUMBER_2].filter(Boolean) as string[];
+        // 4. Determinar destinatários (HML ou Produção)
+        const IS_HML = process.env.HML_MODE === 'true';
+        const RED_AUDIT_PHONE = process.env.RED_AUDIT_PHONE || process.env.MAX_PHONE_NUMBER;
+        const MAX_REAL_PHONE = process.env.MAX_PHONE_NUMBER;
+
+        // Em HML: todas mensagens vão apenas para Red
+        // Em Produção: Max + Red recebem notificação, Lead recebe contato inicial
+        const targetMaxNumbers = IS_HML ? [RED_AUDIT_PHONE] : [MAX_REAL_PHONE, RED_AUDIT_PHONE].filter(Boolean);
+        const targetLeadPhone = IS_HML ? RED_AUDIT_PHONE : lead.phone_number;
+
+        // 5. Notificação Max (SEMPRE envia, seja lead novo ou reincidente)
+        const notificationPrefix = existingDeal ? '🔄 INTERESSE ADICIONAL' : '🆕 NOVO LEAD';
         await evolutionClient.sendLeadNotificationToMax({
           nome: lead.full_name,
           telefone: lead.phone_number,
           empreendimento: lead.form_name,
           data: new Date(lead.created_time).toLocaleString('pt-BR'),
-          respostas: 'Importado via Planilha',
-        }, maxNumbers);
+          respostas: existingDeal ? `${notificationPrefix} - Cliente demonstrou interesse em mais um imóvel` : 'Importado via Planilha',
+        }, targetMaxNumbers as string[]);
 
-        // 6. Contato Lead (Sem delay para homologação/teste rápido)
+        // 6. Contato Lead (SEMPRE envia, seja lead novo ou reincidente)
+        // Cliente recebe mensagem sobre o novo imóvel de interesse
         await evolutionClient.sendInitialContactToLead({
           nome: lead.full_name,
-          telefone: lead.phone_number,
+          telefone: targetLeadPhone!,
           empreendimento: lead.form_name,
         });
 
