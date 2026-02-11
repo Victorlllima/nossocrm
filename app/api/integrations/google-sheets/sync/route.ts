@@ -76,11 +76,31 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Erro ao verificar duplicatas' }, { status: 500 });
     }
 
-    const existingGoogleSheetsIds = new Set(
-      (existingDeals || [])
-        .map((deal: any) => deal.custom_fields?.google_sheets_id)
-        .filter(Boolean)
-    );
+    // Coletar TODOS os google_sheets_id já processados (principal + interests[])
+    const existingGoogleSheetsIds = new Set<string>();
+    (existingDeals || []).forEach((deal: any) => {
+      const customFields = deal.custom_fields;
+      if (!customFields) return;
+
+      // Adicionar google_sheets_id principal
+      if (customFields.google_sheets_id) {
+        existingGoogleSheetsIds.add(customFields.google_sheets_id);
+      }
+
+      // Adicionar google_sheets_id de interests[] (leads reincidentes)
+      if (Array.isArray(customFields.interests)) {
+        customFields.interests.forEach((interest: any) => {
+          if (interest.google_sheets_id) {
+            existingGoogleSheetsIds.add(interest.google_sheets_id);
+          }
+        });
+      }
+
+      // Adicionar latest_google_sheets_id (backup)
+      if (customFields.latest_google_sheets_id) {
+        existingGoogleSheetsIds.add(customFields.latest_google_sheets_id);
+      }
+    });
 
     // Filtrar apenas leads novos
     const newLeads = leads.filter(lead => !existingGoogleSheetsIds.has(lead.id));
