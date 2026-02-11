@@ -1,4 +1,4 @@
-import type { ComponentType } from 'react';
+﻿import type { ComponentType } from 'react';
 import {
   Inbox,
   KanbanSquare,
@@ -40,8 +40,8 @@ export interface SecondaryNavItem {
 
 /** Mirrors non-primary destinations available in the desktop sidebar/user menu. */
 export const SECONDARY_NAV: SecondaryNavItem[] = [
-  { id: 'dashboard', label: 'Visão Geral', href: '/dashboard', icon: LayoutDashboard },
-  { id: 'reports', label: 'Relatórios', href: '/reports', icon: BarChart3 },
-  { id: 'settings', label: 'Configurações', href: '/settings', icon: Settings },
+  { id: 'dashboard', label: 'VisÃ£o Geral', href: '/dashboard', icon: LayoutDashboard },
+  { id: 'reports', label: 'RelatÃ³rios', href: '/reports', icon: BarChart3 },
+  { id: 'settings', label: 'ConfiguraÃ§Ãµes', href: '/settings', icon: Settings },
   { id: 'profile', label: 'Perfil', href: '/profile', icon: User },
 ];

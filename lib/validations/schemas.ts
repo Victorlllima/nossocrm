@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Zod validation schemas for FlowCRM forms
  *
  * Features:
@@ -36,7 +36,7 @@ const msg = (code: keyof typeof ERROR_CODES, params?: Record<string, string | nu
 export const emailSchema = z
   .string({ message: msg('EMAIL_REQUIRED') })
   .min(1, msg('EMAIL_REQUIRED'))
-  .max(MAX_LENGTHS.EMAIL, `Email deve ter no máximo ${MAX_LENGTHS.EMAIL} caracteres`)
+  .max(MAX_LENGTHS.EMAIL, `Email deve ter no mÃ¡ximo ${MAX_LENGTHS.EMAIL} caracteres`)
   .email(msg('EMAIL_INVALID'));
 
 export const phoneSchema = z
@@ -45,65 +45,65 @@ export const phoneSchema = z
   .transform(val => val || '')
   .pipe(
     z.string()
-      .max(MAX_LENGTHS.PHONE, `Telefone deve ter no máximo ${MAX_LENGTHS.PHONE} caracteres`)
+      .max(MAX_LENGTHS.PHONE, `Telefone deve ter no mÃ¡ximo ${MAX_LENGTHS.PHONE} caracteres`)
       .refine(val => val === '' || /^[\d\s\-\(\)\+]+$/.test(val), msg('PHONE_INVALID'))
   )
   .transform(val => normalizePhoneE164(val))
   .refine(val => val === '' || isE164(val), msg('PHONE_INVALID'));
 
 /**
- * Função pública `requiredString` do projeto.
+ * FunÃ§Ã£o pÃºblica `requiredString` do projeto.
  *
- * @param {string} field - Parâmetro `field`.
- * @param {number} maxLength - Parâmetro `maxLength`.
+ * @param {string} field - ParÃ¢metro `field`.
+ * @param {number} maxLength - ParÃ¢metro `maxLength`.
  * @returns {ZodString} Retorna um valor do tipo `ZodString`.
  */
 export const requiredString = (field: string, maxLength: number = MAX_LENGTHS.NAME) =>
   z.string({ message: msg('FIELD_REQUIRED', { field }) })
     .min(1, msg('FIELD_REQUIRED', { field }))
-    .max(maxLength, `${field} deve ter no máximo ${maxLength} caracteres`);
+    .max(maxLength, `${field} deve ter no mÃ¡ximo ${maxLength} caracteres`);
 
 export const optionalString = z
   .string()
-  .max(MAX_LENGTHS.MEDIUM_TEXT, `Texto deve ter no máximo ${MAX_LENGTHS.MEDIUM_TEXT} caracteres`)
+  .max(MAX_LENGTHS.MEDIUM_TEXT, `Texto deve ter no mÃ¡ximo ${MAX_LENGTHS.MEDIUM_TEXT} caracteres`)
   .optional()
   .transform(val => val || '');
 
 export const optionalLongString = z
   .string()
-  .max(MAX_LENGTHS.DESCRIPTION, `Texto deve ter no máximo ${MAX_LENGTHS.DESCRIPTION} caracteres`)
+  .max(MAX_LENGTHS.DESCRIPTION, `Texto deve ter no mÃ¡ximo ${MAX_LENGTHS.DESCRIPTION} caracteres`)
   .optional()
   .transform(val => val || '');
 
 export const currencySchema = z.coerce
   .number({ message: msg('NUMBER_REQUIRED', { field: 'Valor' }) })
   .min(0, msg('NUMBER_MUST_BE_POSITIVE', { field: 'Valor' }))
-  .max(999999999999, 'Valor máximo excedido') // Max ~1 trillion
+  .max(999999999999, 'Valor mÃ¡ximo excedido') // Max ~1 trillion
   .optional()
   .transform(val => val ?? 0);
 
 /**
- * Função pública `requiredSelect` do projeto.
+ * FunÃ§Ã£o pÃºblica `requiredSelect` do projeto.
  *
- * @param {string} field - Parâmetro `field`.
+ * @param {string} field - ParÃ¢metro `field`.
  * @returns {ZodString} Retorna um valor do tipo `ZodString`.
  */
 export const requiredSelect = (field: string) =>
   z
     .string({ message: msg('SELECTION_REQUIRED', { field }) })
     .min(1, msg('SELECTION_REQUIRED', { field }))
-    .max(100, 'Seleção inválida');
+    .max(100, 'SeleÃ§Ã£o invÃ¡lida');
 
 /**
- * Função pública `requiredDate` do projeto.
+ * FunÃ§Ã£o pÃºblica `requiredDate` do projeto.
  *
- * @param {string} field - Parâmetro `field`.
+ * @param {string} field - ParÃ¢metro `field`.
  * @returns {ZodString} Retorna um valor do tipo `ZodString`.
  */
 export const requiredDate = (field: string) =>
   z.string({ message: msg('DATE_REQUIRED', { field }) })
     .min(1, msg('DATE_REQUIRED', { field }))
-    .max(30, 'Data inválida');
+    .max(30, 'Data invÃ¡lida');
 
 // ============ CONTACT SCHEMAS ============
 
@@ -124,14 +124,14 @@ export const companyFormSchema = z.object({
   industry: optionalString.pipe(z.string().max(MAX_LENGTHS.SHORT_TEXT)),
   website: z
     .string()
-    .max(MAX_LENGTHS.URL, `Website deve ter no máximo ${MAX_LENGTHS.URL} caracteres`)
+    .max(MAX_LENGTHS.URL, `Website deve ter no mÃ¡ximo ${MAX_LENGTHS.URL} caracteres`)
     .optional()
     .or(z.literal(''))
     .transform(val => (val || '').trim())
     .transform(val => val.replace(/^https?:\/\//i, '').replace(/\/+$/g, ''))
     .refine(
       val => val === '' || /^[a-z0-9.-]+\.[a-z]{2,}.*$/i.test(val),
-      'Website inválido'
+      'Website invÃ¡lido'
     ),
 });
 
@@ -140,12 +140,12 @@ export type CompanyFormData = z.infer<typeof companyFormSchema>;
 // ============ DEAL SCHEMAS ============
 
 export const dealFormSchema = z.object({
-  title: requiredString('Nome do negócio', MAX_LENGTHS.TITLE),
+  title: requiredString('Nome do negÃ³cio', MAX_LENGTHS.TITLE),
   companyName: requiredString('Empresa', MAX_LENGTHS.COMPANY_NAME),
   value: currencySchema,
   contactName: optionalString.pipe(z.string().max(MAX_LENGTHS.NAME)),
   email: z.string()
-    .max(MAX_LENGTHS.EMAIL, `Email deve ter no máximo ${MAX_LENGTHS.EMAIL} caracteres`)
+    .max(MAX_LENGTHS.EMAIL, `Email deve ter no mÃ¡ximo ${MAX_LENGTHS.EMAIL} caracteres`)
     .email(msg('EMAIL_INVALID'))
     .optional()
     .or(z.literal('')),
@@ -170,12 +170,12 @@ export const activityFormTypeSchema = z.enum(['CALL', 'MEETING', 'EMAIL', 'TASK'
 });
 
 export const activityFormSchema = z.object({
-  title: requiredString('Título', MAX_LENGTHS.TITLE),
+  title: requiredString('TÃ­tulo', MAX_LENGTHS.TITLE),
   type: activityFormTypeSchema,
   date: requiredDate('Data'),
   time: requiredString('Hora', 10),
   description: z.string().max(MAX_LENGTHS.DESCRIPTION).default(''),
-  dealId: requiredSelect('Negócio'),
+  dealId: requiredSelect('NegÃ³cio'),
 });
 
 export type ActivityFormData = z.infer<typeof activityFormSchema>;
@@ -192,7 +192,7 @@ export type BoardFormData = z.infer<typeof boardFormSchema>;
 // ============ SETTINGS SCHEMAS ============
 
 export const lifecycleStageSchema = z.object({
-  name: requiredString('Nome do estágio', MAX_LENGTHS.SHORT_TEXT),
+  name: requiredString('Nome do estÃ¡gio', MAX_LENGTHS.SHORT_TEXT),
   color: requiredString('Cor', 20),
 });
 
@@ -204,8 +204,8 @@ export const aiConfigSchema = z.object({
   provider: z.enum(['gemini', 'openai', 'anthropic'], {
     message: msg('SELECTION_INVALID'),
   }),
-  apiKey: z.string().max(200, 'API Key inválida').optional(),
-  model: z.string().max(100, 'Modelo inválido').optional(),
+  apiKey: z.string().max(200, 'API Key invÃ¡lida').optional(),
+  model: z.string().max(100, 'Modelo invÃ¡lido').optional(),
 });
 
 export type AIConfigFormData = z.infer<typeof aiConfigSchema>;

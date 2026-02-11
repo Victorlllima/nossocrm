@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useRouter } from 'next/navigation';
 import { Trash2, X } from 'lucide-react';
 import { useContactsController } from './hooks/useContactsController';
@@ -88,7 +88,7 @@ export const ContactsPage: React.FC = () => {
                             onClick={controller.clearSelection}
                             className="text-xs text-primary-600 dark:text-primary-400 hover:underline"
                         >
-                            Limpar seleção
+                            Limpar seleÃ§Ã£o
                         </button>
                     </div>
                     <div className="flex items-center gap-2">
@@ -165,7 +165,7 @@ export const ContactsPage: React.FC = () => {
                 onClose={() => controller.setDeleteId(null)}
                 onConfirm={controller.confirmDelete}
                 title="Excluir Contato"
-                message="Tem certeza que deseja excluir este contato? Esta ação não pode ser desfeita."
+                message="Tem certeza que deseja excluir este contato? Esta aÃ§Ã£o nÃ£o pode ser desfeita."
                 confirmText="Excluir"
                 variant="danger"
             />
@@ -175,7 +175,7 @@ export const ContactsPage: React.FC = () => {
                 onClose={() => controller.setDeleteCompanyId(null)}
                 onConfirm={controller.confirmDeleteCompany}
                 title="Excluir Empresa"
-                message="Tem certeza que deseja excluir esta empresa? Esta ação não pode ser desfeita."
+                message="Tem certeza que deseja excluir esta empresa? Esta aÃ§Ã£o nÃ£o pode ser desfeita."
                 confirmText="Excluir"
                 variant="danger"
             />
@@ -185,10 +185,10 @@ export const ContactsPage: React.FC = () => {
                 isOpen={!!controller.deleteWithDeals}
                 onClose={() => controller.setDeleteWithDeals(null)}
                 onConfirm={controller.confirmDeleteWithDeals}
-                title="Contato com Negócios"
+                title="Contato com NegÃ³cios"
                 message={
                     <div className="space-y-3">
-                        <p>Este contato possui {controller.deleteWithDeals?.dealCount || 0} negócio(s) vinculado(s):</p>
+                        <p>Este contato possui {controller.deleteWithDeals?.dealCount || 0} negÃ³cio(s) vinculado(s):</p>
                         <ul className="text-left bg-slate-100 dark:bg-slate-800/50 rounded-lg p-3 space-y-1 max-h-32 overflow-y-auto">
                             {controller.deleteWithDeals?.deals.map((deal) => (
                                 <li key={deal.id} className="text-sm">
@@ -196,12 +196,12 @@ export const ContactsPage: React.FC = () => {
                                         onClick={() => goToDeal(deal.id)}
                                         className="text-primary-600 dark:text-primary-400 hover:underline font-medium text-left"
                                     >
-                                        • {deal.title}
+                                        â€¢ {deal.title}
                                     </button>
                                 </li>
                             ))}
                         </ul>
-                        <p className="text-red-500 dark:text-red-400 font-medium">Ao excluir, todos os negócios também serão excluídos.</p>
+                        <p className="text-red-500 dark:text-red-400 font-medium">Ao excluir, todos os negÃ³cios tambÃ©m serÃ£o excluÃ­dos.</p>
                     </div>
                 }
                 confirmText="Excluir Tudo"
@@ -222,11 +222,11 @@ export const ContactsPage: React.FC = () => {
                         </p>
                         {controller.viewMode === 'people' ? (
                             <p className="text-red-500 dark:text-red-400 text-sm">
-                                Todos os negócios vinculados também serão excluídos. Esta ação não pode ser desfeita.
+                                Todos os negÃ³cios vinculados tambÃ©m serÃ£o excluÃ­dos. Esta aÃ§Ã£o nÃ£o pode ser desfeita.
                             </p>
                         ) : (
                             <p className="text-red-500 dark:text-red-400 text-sm">
-                                Contatos/negócios vinculados serão desvinculados da empresa antes da exclusão. Esta ação não pode ser desfeita.
+                                Contatos/negÃ³cios vinculados serÃ£o desvinculados da empresa antes da exclusÃ£o. Esta aÃ§Ã£o nÃ£o pode ser desfeita.
                             </p>
                         )}
                     </div>

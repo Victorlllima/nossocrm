@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { DealDetailModal } from './Modals/DealDetailModal';
 import { CreateDealModal } from './Modals/CreateDealModal';
 import { CreateBoardModal } from './Modals/CreateBoardModal';
@@ -140,7 +140,7 @@ interface PipelineViewProps {
   lossReasonModal,
   handleLossReasonConfirm,
   handleLossReasonClose,
-} - Parâmetro `{
+} - ParÃ¢metro `{
   // Boards
   boards,
   activeBoard,
@@ -301,20 +301,20 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
       {!activeBoard ? (
         <div className="flex-1 flex flex-col items-center justify-center text-center p-8">
           <div className="w-24 h-24 bg-primary-50 dark:bg-primary-900/20 rounded-full flex items-center justify-center mb-6">
-            <span className="text-4xl">🚀</span>
+            <span className="text-4xl">ðŸš€</span>
           </div>
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
             Bem-vindo ao seu CRM
           </h2>
           <p className="text-slate-500 dark:text-slate-400 max-w-md mb-8">
-            Você ainda não tem nenhum board criado. Comece criando seu primeiro fluxo de trabalho
-            para organizar seus negócios.
+            VocÃª ainda nÃ£o tem nenhum board criado. Comece criando seu primeiro fluxo de trabalho
+            para organizar seus negÃ³cios.
           </p>
           <button
             onClick={() => setIsWizardOpen(true)}
             className="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl transition-colors flex items-center gap-2 shadow-lg shadow-primary-600/20"
           >
-            ✨ Criar meu primeiro Board
+            âœ¨ Criar meu primeiro Board
           </button>
         </div>
       ) : (

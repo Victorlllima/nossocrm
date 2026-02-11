@@ -1,4 +1,4 @@
-/**
+﻿/**
  * AI Deal Analysis Hook
  * Fetches real AI analysis for a deal using the AI Proxy
  */
@@ -7,8 +7,8 @@ import { analyzeLead } from '@/lib/ai/tasksClient';
 import { Deal, DealView } from '@/types';
 
 export interface AIAnalysis {
-    action: string;       // Ação curta (max 50 chars)
-    reason: string;       // Razão breve (max 80 chars)
+    action: string;       // AÃ§Ã£o curta (max 50 chars)
+    reason: string;       // RazÃ£o breve (max 80 chars)
     actionType: 'CALL' | 'MEETING' | 'EMAIL' | 'TASK' | 'WHATSAPP';
     urgency: 'low' | 'medium' | 'high';
     probabilityScore: number;
@@ -47,7 +47,7 @@ export function useAIDealAnalysis(
                 console.error('[AI Analysis] Error:', error);
                 return {
                     action: 'Analisar deal manualmente',
-                    reason: 'Não foi possível obter análise da IA',
+                    reason: 'NÃ£o foi possÃ­vel obter anÃ¡lise da IA',
                     actionType: 'TASK' as const,
                     urgency: 'low' as const,
                     probabilityScore: deal.probability || 50,

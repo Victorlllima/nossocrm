@@ -1,8 +1,8 @@
-/**
+﻿/**
  * @fileoverview Contexto de Tema (Dark Mode)
  * 
- * Provider React que gerencia preferência de tema (claro/escuro) com
- * persistência em localStorage e sincronização com classe CSS do documento.
+ * Provider React que gerencia preferÃªncia de tema (claro/escuro) com
+ * persistÃªncia em localStorage e sincronizaÃ§Ã£o com classe CSS do documento.
  * 
  * @module context/ThemeContext
  * 
@@ -19,7 +19,7 @@
  *   
  *   return (
  *     <button onClick={toggleDarkMode}>
- *       {darkMode ? '☀️ Claro' : '🌙 Escuro'}
+ *       {darkMode ? 'â˜€ï¸ Claro' : 'ðŸŒ™ Escuro'}
  *     </button>
  *   );
  * }
@@ -33,7 +33,7 @@ import { usePersistedState } from '../hooks/usePersistedState';
  * Tipo do contexto de tema
  * 
  * @interface ThemeContextType
- * @property {boolean} darkMode - Se o modo escuro está ativo
+ * @property {boolean} darkMode - Se o modo escuro estÃ¡ ativo
  * @property {() => void} toggleDarkMode - Alterna entre claro e escuro
  */
 interface ThemeContextType {
@@ -44,11 +44,11 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 /**
- * Provider de tema da aplicação
+ * Provider de tema da aplicaÃ§Ã£o
  * 
- * Gerencia preferência de tema e aplica classe 'dark' ao documento.
- * O tema é persistido em localStorage com a chave 'crm_dark_mode'.
- * O padrão é modo escuro (true).
+ * Gerencia preferÃªncia de tema e aplica classe 'dark' ao documento.
+ * O tema Ã© persistido em localStorage com a chave 'crm_dark_mode'.
+ * O padrÃ£o Ã© modo escuro (true).
  * 
  * @param {Object} props - Props do componente
  * @param {ReactNode} props.children - Componentes filhos
@@ -76,7 +76,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 /**
  * Hook para acessar contexto de tema
  * 
- * Retorna estado do tema e função para alternar.
+ * Retorna estado do tema e funÃ§Ã£o para alternar.
  * Deve ser usado dentro de um ThemeProvider.
  * 
  * @returns {ThemeContextType} Estado e controles do tema

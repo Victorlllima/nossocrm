@@ -1,4 +1,4 @@
-import React, { useState, useId } from 'react';
+﻿import React, { useState, useId } from 'react';
 import { X, Plus, Trash2, ArrowUp, ArrowDown, Check } from 'lucide-react';
 import { useCRM } from '@/context/CRMContext';
 import { LifecycleStage } from '@/types';
@@ -25,7 +25,7 @@ const STAGE_COLORS = [
 /**
  * Componente React `LifecycleSettingsModal`.
  *
- * @param {LifecycleSettingsModalProps} { isOpen, onClose } - Parâmetro `{ isOpen, onClose }`.
+ * @param {LifecycleSettingsModalProps} { isOpen, onClose } - ParÃ¢metro `{ isOpen, onClose }`.
  * @returns {Element | null} Retorna um valor do tipo `Element | null`.
  */
 export const LifecycleSettingsModal: React.FC<LifecycleSettingsModalProps> = ({ isOpen, onClose }) => {
@@ -36,7 +36,7 @@ export const LifecycleSettingsModal: React.FC<LifecycleSettingsModalProps> = ({ 
     const [newStageName, setNewStageName] = useState('');
     const [isAdding, setIsAdding] = useState(false);
 
-    // Calcular contagem de contatos por estágio
+    // Calcular contagem de contatos por estÃ¡gio
     const stageCounts = React.useMemo(() => {
         const counts: Record<string, number> = {};
         contacts.forEach(contact => {
@@ -94,8 +94,8 @@ export const LifecycleSettingsModal: React.FC<LifecycleSettingsModalProps> = ({ 
 
                     <div className="p-4 space-y-3 max-h-[60vh] overflow-y-auto">
                         <div className="text-xs text-slate-500 dark:text-slate-400 mb-4">
-                            Defina os estágios de maturidade dos seus contatos (ex: Lead, Cliente).
-                            A ordem aqui define a progressão no funil.
+                            Defina os estÃ¡gios de maturidade dos seus contatos (ex: Lead, Cliente).
+                            A ordem aqui define a progressÃ£o no funil.
                         </div>
 
                         {lifecycleStages.map((stage, index) => (
@@ -125,7 +125,7 @@ export const LifecycleSettingsModal: React.FC<LifecycleSettingsModalProps> = ({ 
                                 {/* Count Badge */}
                                 <span
                                     className="text-[10px] font-medium text-slate-500 bg-white dark:bg-slate-900 px-2 py-0.5 rounded-full border border-slate-200 dark:border-slate-700"
-                                    title={`${stageCounts[stage.id] || 0} contatos neste estágio`}
+                                    title={`${stageCounts[stage.id] || 0} contatos neste estÃ¡gio`}
                                 >
                                     {stageCounts[stage.id] || 0}
                                 </span>
@@ -155,10 +155,10 @@ export const LifecycleSettingsModal: React.FC<LifecycleSettingsModalProps> = ({ 
                                         className="p-1.5 text-slate-400 hover:text-red-500 disabled:opacity-30 disabled:cursor-not-allowed ml-1"
                                         title={
                                             stage.isDefault
-                                                ? "Estágio padrão não pode ser removido"
+                                                ? "EstÃ¡gio padrÃ£o nÃ£o pode ser removido"
                                                 : (stageCounts[stage.id] || 0) > 0
-                                                    ? "Não é possível remover estágio com contatos vinculados"
-                                                    : "Remover estágio"
+                                                    ? "NÃ£o Ã© possÃ­vel remover estÃ¡gio com contatos vinculados"
+                                                    : "Remover estÃ¡gio"
                                         }
                                     >
                                         <Trash2 size={14} />
@@ -177,7 +177,7 @@ export const LifecycleSettingsModal: React.FC<LifecycleSettingsModalProps> = ({ 
                                     value={newStageName}
                                     onChange={(e) => setNewStageName(e.target.value)}
                                     onKeyDown={(e) => e.key === 'Enter' && handleAdd()}
-                                    placeholder="Nome do novo estágio..."
+                                    placeholder="Nome do novo estÃ¡gio..."
                                     className="flex-1 bg-transparent text-sm outline-none text-slate-900 dark:text-white placeholder:text-slate-400"
                                 />
                                 <button
@@ -200,7 +200,7 @@ export const LifecycleSettingsModal: React.FC<LifecycleSettingsModalProps> = ({ 
                                 className="w-full py-2 flex items-center justify-center gap-2 text-sm text-slate-500 hover:text-primary-600 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg border border-dashed border-slate-300 dark:border-slate-700 transition-all"
                             >
                                 <Plus size={16} />
-                                Adicionar Estágio
+                                Adicionar EstÃ¡gio
                             </button>
                         )}
                     </div>

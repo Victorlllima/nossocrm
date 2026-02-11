@@ -1,4 +1,4 @@
-import React, {
+﻿import React, {
   createContext,
   useContext,
   useMemo,
@@ -47,7 +47,7 @@ const BoardsContext = createContext<BoardsContextType | undefined>(undefined);
 /**
  * Componente React `BoardsProvider`.
  *
- * @param {{ children: ReactNode; }} { children } - Parâmetro `{ children }`.
+ * @param {{ children: ReactNode; }} { children } - ParÃ¢metro `{ children }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const BoardsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -56,7 +56,7 @@ export const BoardsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const { addToast } = useToast();
 
   // ============================================
-  // TanStack Query como fonte única de verdade
+  // TanStack Query como fonte Ãºnica de verdade
   // ============================================
   const {
     data: boards = [],
@@ -74,16 +74,16 @@ export const BoardsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
   // Wrapper que valida antes de setar
   const setActiveBoardId = useCallback((id: string) => {
-    // Só seta se for um UUID válido que existe nos boards
+    // SÃ³ seta se for um UUID vÃ¡lido que existe nos boards
     if (id && isValidUUID(id) && boards.some(b => b.id === id)) {
       setActiveBoardIdRaw(id);
     } else if (boards.length > 0) {
-      // Fallback para primeiro board se ID inválido
+      // Fallback para primeiro board se ID invÃ¡lido
       setActiveBoardIdRaw(boards[0].id);
     }
   }, [boards]);
 
-  // Auto-seleciona primeiro board quando carrega ou quando activeBoardId é inválido
+  // Auto-seleciona primeiro board quando carrega ou quando activeBoardId Ã© invÃ¡lido
   useEffect(() => {
     if (boards.length > 0) {
       const currentBoardExists = boards.some(b => b.id === activeBoardId);
@@ -105,7 +105,7 @@ export const BoardsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const addBoard = useCallback(
     async (board: Omit<Board, 'id' | 'createdAt'>, order?: number): Promise<Board | null> => {
       if (!profile) {
-        console.error('Usuário não autenticado');
+        console.error('UsuÃ¡rio nÃ£o autenticado');
         return null;
       }
 
@@ -146,7 +146,7 @@ export const BoardsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
     // Invalida cache para TanStack Query atualizar
     await queryClient.invalidateQueries({ queryKey: queryKeys.boards.all });
-    // Também invalida deals pois referenciam boards
+    // TambÃ©m invalida deals pois referenciam boards
     await queryClient.invalidateQueries({ queryKey: queryKeys.deals.all });
   }, [queryClient]);
 
@@ -252,7 +252,7 @@ export const BoardsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 };
 
 /**
- * Hook React `useBoards` que encapsula uma lógica reutilizável.
+ * Hook React `useBoards` que encapsula uma lÃ³gica reutilizÃ¡vel.
  * @returns {BoardsContextType} Retorna um valor do tipo `BoardsContextType`.
  */
 export const useBoards = () => {

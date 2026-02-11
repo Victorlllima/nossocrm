@@ -1,27 +1,27 @@
-/**
+﻿/**
  * @fileoverview Stores Zustand para Estado Global
  * 
  * Sistema de gerenciamento de estado otimizado usando Zustand.
- * Separado em múltiplos stores especializados para re-renders seletivos.
+ * Separado em mÃºltiplos stores especializados para re-renders seletivos.
  * 
  * @module stores
  * 
- * Benefícios sobre Context API:
- * - Subscrições seletivas (componentes re-renderizam apenas quando seu slice muda)
+ * BenefÃ­cios sobre Context API:
+ * - SubscriÃ§Ãµes seletivas (componentes re-renderizam apenas quando seu slice muda)
  * - Sem necessidade de aninhamento de providers
  * - Suporte nativo a devtools
- * - Actions assíncronos mais simples
+ * - Actions assÃ­ncronos mais simples
  * 
- * Stores disponíveis:
+ * Stores disponÃ­veis:
  * - {@link useUIStore} - Estado de UI (sidebar, modais, busca)
- * - {@link useFormStore} - Drafts e submissão de formulários
- * - {@link useNotificationStore} - Sistema de notificações
+ * - {@link useFormStore} - Drafts e submissÃ£o de formulÃ¡rios
+ * - {@link useNotificationStore} - Sistema de notificaÃ§Ãµes
  * 
  * @example
  * ```tsx
  * import { useSidebarOpen, useUIStore } from '@/lib/stores';
  * 
- * // Seletor fino - só re-renderiza quando sidebar muda
+ * // Seletor fino - sÃ³ re-renderiza quando sidebar muda
  * const sidebarOpen = useSidebarOpen();
  * 
  * // Acesso a actions
@@ -34,11 +34,11 @@ import { devtools, persist, subscribeWithSelector } from 'zustand/middleware';
 // ============ UI STATE STORE ============
 
 /**
- * Estado de interface do usuário
+ * Estado de interface do usuÃ¡rio
  * 
  * @interface UIState
- * @property {boolean} sidebarOpen - Se a sidebar está aberta
- * @property {boolean} aiAssistantOpen - Se o assistente de IA está aberto
+ * @property {boolean} sidebarOpen - Se a sidebar estÃ¡ aberta
+ * @property {boolean} aiAssistantOpen - Se o assistente de IA estÃ¡ aberto
  * @property {string | null} activeModal - ID do modal ativo
  * @property {Record<string, unknown>} modalData - Dados passados ao modal
  * @property {string} globalSearchQuery - Query de busca global
@@ -73,8 +73,8 @@ interface UIState {
 /**
  * Store de estado de UI
  * 
- * Gerencia estado efêmero de interface como sidebar, modais e busca.
- * Não persiste entre sessões.
+ * Gerencia estado efÃªmero de interface como sidebar, modais e busca.
+ * NÃ£o persiste entre sessÃµes.
  * 
  * @example
  * ```tsx
@@ -122,11 +122,11 @@ export const useUIStore = create<UIState>()(
 // ============ FORM STATE STORE ============
 
 /**
- * Rascunho de formulário salvo
+ * Rascunho de formulÃ¡rio salvo
  * 
  * @interface FormDraft
- * @property {Record<string, unknown>} data - Dados do formulário
- * @property {number} savedAt - Timestamp do último salvamento
+ * @property {Record<string, unknown>} data - Dados do formulÃ¡rio
+ * @property {number} savedAt - Timestamp do Ãºltimo salvamento
  */
 interface FormDraft {
   data: Record<string, unknown>;
@@ -134,34 +134,34 @@ interface FormDraft {
 }
 
 /**
- * Estado de formulários
+ * Estado de formulÃ¡rios
  * 
  * @interface FormState
  */
 interface FormState {
   /** Rascunhos salvos por formId */
   drafts: Record<string, FormDraft>;
-  /** Salva rascunho de formulário */
+  /** Salva rascunho de formulÃ¡rio */
   saveDraft: (formId: string, data: Record<string, unknown>) => void;
   /** Recupera rascunho existente */
   getDraft: (formId: string) => FormDraft | null;
-  /** Limpa rascunho específico */
+  /** Limpa rascunho especÃ­fico */
   clearDraft: (formId: string) => void;
   /** Limpa todos os rascunhos */
   clearAllDrafts: () => void;
-  /** Status de submissão por formulário */
+  /** Status de submissÃ£o por formulÃ¡rio */
   submitting: Record<string, boolean>;
-  /** Define status de submissão */
+  /** Define status de submissÃ£o */
   setSubmitting: (formId: string, submitting: boolean) => void;
-  /** Verifica se está submetendo */
+  /** Verifica se estÃ¡ submetendo */
   isSubmitting: (formId: string) => boolean;
 }
 
 /**
- * Store de formulários com persistência
+ * Store de formulÃ¡rios com persistÃªncia
  * 
- * Gerencia rascunhos de formulários e estados de submissão.
- * Rascunhos são persistidos em localStorage para recuperação.
+ * Gerencia rascunhos de formulÃ¡rios e estados de submissÃ£o.
+ * Rascunhos sÃ£o persistidos em localStorage para recuperaÃ§Ã£o.
  * 
  * @example
  * ```tsx
@@ -216,15 +216,15 @@ export const useFormStore = create<FormState>()(
 // ============ NOTIFICATIONS STORE ============
 
 /**
- * Notificação do sistema
+ * NotificaÃ§Ã£o do sistema
  * 
  * @interface Notification
- * @property {string} id - UUID único da notificação
+ * @property {string} id - UUID Ãºnico da notificaÃ§Ã£o
  * @property {'success' | 'error' | 'warning' | 'info'} type - Tipo visual
- * @property {string} title - Título da notificação
+ * @property {string} title - TÃ­tulo da notificaÃ§Ã£o
  * @property {string} [message] - Mensagem detalhada opcional
- * @property {number} [duration] - Duração em ms (0 = persistente)
- * @property {Object} [action] - Ação clicável opcional
+ * @property {number} [duration] - DuraÃ§Ã£o em ms (0 = persistente)
+ * @property {Object} [action] - AÃ§Ã£o clicÃ¡vel opcional
  */
 export interface Notification {
   id: string;
@@ -239,24 +239,24 @@ export interface Notification {
 }
 
 /**
- * Estado de notificações
+ * Estado de notificaÃ§Ãµes
  * @interface NotificationState
  */
 interface NotificationState {
-  /** Lista de notificações ativas */
+  /** Lista de notificaÃ§Ãµes ativas */
   notifications: Notification[];
-  /** Adiciona notificação e retorna seu ID */
+  /** Adiciona notificaÃ§Ã£o e retorna seu ID */
   addNotification: (notification: Omit<Notification, 'id'>) => string;
-  /** Remove notificação por ID */
+  /** Remove notificaÃ§Ã£o por ID */
   removeNotification: (id: string) => void;
-  /** Limpa todas as notificações */
+  /** Limpa todas as notificaÃ§Ãµes */
   clearAll: () => void;
 }
 
 /**
- * Store de notificações com auto-dismiss
+ * Store de notificaÃ§Ãµes com auto-dismiss
  * 
- * Gerencia notificações toast com remoção automática após duração.
+ * Gerencia notificaÃ§Ãµes toast com remoÃ§Ã£o automÃ¡tica apÃ³s duraÃ§Ã£o.
  * 
  * @example
  * ```tsx
@@ -304,11 +304,11 @@ export const useNotificationStore = create<NotificationState>()(
 );
 
 // ============ SELECTOR HOOKS ============
-// Seletores de granulação fina para performance ótima de re-render
+// Seletores de granulaÃ§Ã£o fina para performance Ã³tima de re-render
 
-/** @returns {boolean} Se a sidebar está aberta */
+/** @returns {boolean} Se a sidebar estÃ¡ aberta */
 export const useSidebarOpen = () => useUIStore(state => state.sidebarOpen);
-/** @returns {boolean} Se o assistente de IA está aberto */
+/** @returns {boolean} Se o assistente de IA estÃ¡ aberto */
 export const useAIAssistantOpen = () => useUIStore(state => state.aiAssistantOpen);
 /** @returns {string | null} ID do modal ativo */
 export const useActiveModal = () => useUIStore(state => state.activeModal);
@@ -317,24 +317,24 @@ export const useModalData = () => useUIStore(state => state.modalData);
 /** @returns {string} Query de busca global */
 export const useGlobalSearch = () => useUIStore(state => state.globalSearchQuery);
 
-/** @returns {FormDraft | null} Rascunho do formulário especificado */
+/** @returns {FormDraft | null} Rascunho do formulÃ¡rio especificado */
 export const useFormDraft = (formId: string) => useFormStore(state => state.drafts[formId] ?? null);
-/** @returns {boolean} Se o formulário está sendo submetido */
+/** @returns {boolean} Se o formulÃ¡rio estÃ¡ sendo submetido */
 export const useIsFormSubmitting = (formId: string) =>
   useFormStore(state => state.submitting[formId] ?? false);
 
-/** @returns {Notification[]} Lista de notificações ativas */
+/** @returns {Notification[]} Lista de notificaÃ§Ãµes ativas */
 export const useNotifications = () => useNotificationStore(state => state.notifications);
 
 // ============ HELPER HOOKS ============
 
 /**
- * Hook para auto-save de rascunhos de formulário
+ * Hook para auto-save de rascunhos de formulÃ¡rio
  * 
- * Salva automaticamente os dados do formulário após período de debounce.
+ * Salva automaticamente os dados do formulÃ¡rio apÃ³s perÃ­odo de debounce.
  * 
- * @param {string} formId - Identificador único do formulário
- * @param {Record<string, unknown>} data - Dados atuais do formulário
+ * @param {string} formId - Identificador Ãºnico do formulÃ¡rio
+ * @param {Record<string, unknown>} data - Dados atuais do formulÃ¡rio
  * @param {number} [debounceMs=1000] - Delay em ms antes de salvar
  * 
  * @example
@@ -342,7 +342,7 @@ export const useNotifications = () => useNotificationStore(state => state.notifi
  * function DealForm() {
  *   const [formData, setFormData] = useState({});
  *   
- *   // Salva automaticamente após 1s sem alterações
+ *   // Salva automaticamente apÃ³s 1s sem alteraÃ§Ãµes
  *   useFormDraftAutoSave('deal-form', formData);
  *   
  *   return <form>...</form>;

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * TanStack Query hooks for Deals - Supabase Edition
  *
  * Features:
@@ -104,7 +104,7 @@ export const useDealsView = (filters?: DealsFilters) => {
           companyName: company?.name || 'Sem empresa',
           contactName: contact?.name || 'Sem contato',
           contactEmail: contact?.email || '',
-          stageLabel: stageMap.get(deal.status) || 'Estágio não identificado',
+          stageLabel: stageMap.get(deal.status) || 'EstÃ¡gio nÃ£o identificado',
         };
       });
 
@@ -156,12 +156,12 @@ export const useDeal = (id: string | undefined) => {
  * 
  * IMPORTANTE: Este hook usa a MESMA query key que useDealsView para garantir
  * que todos os componentes compartilhem o mesmo cache (Single Source of Truth).
- * A filtragem por boardId é feita via `select` no cliente.
+ * A filtragem por boardId Ã© feita via `select` no cliente.
  */
 export const useDealsByBoard = (boardId: string) => {
   const { user, loading: authLoading } = useAuth();
   return useQuery<DealView[], Error, DealView[]>({
-    // CRÍTICO: Usar a mesma query key que useDealsView para compartilhar cache
+    // CRÃTICO: Usar a mesma query key que useDealsView para compartilhar cache
     queryKey: [...queryKeys.deals.lists(), 'view'],
     queryFn: async () => {
       // Fetch all data in parallel (including all stages)
@@ -193,12 +193,12 @@ export const useDealsByBoard = (boardId: string) => {
           companyName: company?.name || 'Sem empresa',
           contactName: contact?.name || 'Sem contato',
           contactEmail: contact?.email || '',
-          stageLabel: stageMap.get(deal.status) || 'Estágio não identificado',
+          stageLabel: stageMap.get(deal.status) || 'EstÃ¡gio nÃ£o identificado',
         };
       });
       return enrichedDeals;
     },
-    // Filtrar por boardId no cliente (compartilha cache mas retorna só os deals do board)
+    // Filtrar por boardId no cliente (compartilha cache mas retorna sÃ³ os deals do board)
     select: (data) => {
       if (!boardId || boardId.startsWith('temp-')) return [];
       return data.filter(d => d.boardId === boardId);
@@ -236,12 +236,12 @@ export const useCreateDeal = () => {
       // #region agent log
       if (process.env.NODE_ENV !== 'production') {
         const logData = { title: deal.title, status: deal.status?.slice(0, 8) || 'null' };
-        console.log(`[useCreateDeal] 📤 Sending create to server`, logData);
+        console.log(`[useCreateDeal] ðŸ“¤ Sending create to server`, logData);
         fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useDealsQuery.ts:230',message:'Sending create to server',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'create-deal',hypothesisId:'CD1'})}).catch(()=>{});
       }
       // #endregion
 
-      // Passa null ao invés de '' - o trigger vai preencher automaticamente
+      // Passa null ao invÃ©s de '' - o trigger vai preencher automaticamente
       const { data, error } = await dealsService.create(fullDeal);
 
       if (error) throw error;
@@ -249,7 +249,7 @@ export const useCreateDeal = () => {
       // #region agent log
       if (process.env.NODE_ENV !== 'production') {
         const logData = { dealId: data?.id?.slice(0, 8) || 'null', title: data?.title };
-        console.log(`[useCreateDeal] ✅ Server confirmed creation`, logData);
+        console.log(`[useCreateDeal] âœ… Server confirmed creation`, logData);
         fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useDealsQuery.ts:240',message:'Server confirmed creation',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'create-deal',hypothesisId:'CD2'})}).catch(()=>{});
       }
       // #endregion
@@ -259,7 +259,7 @@ export const useCreateDeal = () => {
     onMutate: async newDeal => {
       await queryClient.cancelQueries({ queryKey: queryKeys.deals.all });
 
-      // Usa DEALS_VIEW_KEY - a única fonte de verdade
+      // Usa DEALS_VIEW_KEY - a Ãºnica fonte de verdade
       const previousDeals = queryClient.getQueryData<DealView[]>(DEALS_VIEW_KEY);
 
       // Optimistic update with temp ID - cria DealView parcial
@@ -271,7 +271,7 @@ export const useCreateDeal = () => {
         updatedAt: new Date().toISOString(),
         isWon: newDeal.isWon ?? false,
         isLost: newDeal.isLost ?? false,
-        // Campos enriquecidos ficam vazios até Realtime atualizar
+        // Campos enriquecidos ficam vazios atÃ© Realtime atualizar
         companyName: '',
         contactName: '',
         contactEmail: '',
@@ -282,7 +282,7 @@ export const useCreateDeal = () => {
       // #region agent log
       if (process.env.NODE_ENV !== 'production') {
         const logData = { tempId: tempId.slice(0, 15), title: newDeal.title, status: newDeal.status?.slice(0, 8) || 'null' };
-        console.log(`[useCreateDeal] 🔄 Optimistic insert with temp ID`, logData);
+        console.log(`[useCreateDeal] ðŸ”„ Optimistic insert with temp ID`, logData);
         fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useDealsQuery.ts:260',message:'Optimistic insert with temp ID',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'create-deal',hypothesisId:'CD3'})}).catch(()=>{});
       }
       // #endregion
@@ -299,12 +299,12 @@ export const useCreateDeal = () => {
       // #region agent log
       if (process.env.NODE_ENV !== 'production') {
         const logData = { tempId: tempId?.slice(0, 15) || 'null', realId: data.id?.slice(0, 8) || 'null', title: data.title };
-        console.log(`[useCreateDeal] 🔄 Replacing temp deal with real one`, logData);
+        console.log(`[useCreateDeal] ðŸ”„ Replacing temp deal with real one`, logData);
         fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useDealsQuery.ts:280',message:'Replacing temp deal with real one',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'create-deal',hypothesisId:'CD4'})}).catch(()=>{});
       }
       // #endregion
       
-      // Usa DEALS_VIEW_KEY - a única fonte de verdade
+      // Usa DEALS_VIEW_KEY - a Ãºnica fonte de verdade
       // Converte Deal para DealView parcial (Realtime vai enriquecer depois)
       const dealAsView: DealView = {
         ...data,
@@ -324,11 +324,11 @@ export const useCreateDeal = () => {
           // Deal already exists (Realtime beat us), keep the existing one (it has enriched data)
           // #region agent log
           if (process.env.NODE_ENV !== 'production') {
-            console.log(`[useCreateDeal] ⚠️ Deal already exists in cache (Realtime beat us)`, { dealId: data.id?.slice(0, 8) });
+            console.log(`[useCreateDeal] âš ï¸ Deal already exists in cache (Realtime beat us)`, { dealId: data.id?.slice(0, 8) });
             fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useDealsQuery.ts:290',message:'Deal already exists in cache',data:{dealId:data.id?.slice(0,8)},timestamp:Date.now(),sessionId:'debug-session',runId:'create-deal',hypothesisId:'CD5'})}).catch(()=>{});
           }
           // #endregion
-          return old; // Não sobrescreve - Realtime já tem dados enriquecidos
+          return old; // NÃ£o sobrescreve - Realtime jÃ¡ tem dados enriquecidos
         }
         
         if (tempId) {
@@ -336,7 +336,7 @@ export const useCreateDeal = () => {
           const withoutTemp = old.filter(d => d.id !== tempId);
           // #region agent log
           if (process.env.NODE_ENV !== 'production') {
-            console.log(`[useCreateDeal] ✅ Swapped temp for real deal`, { tempId: tempId.slice(0, 15), realId: data.id?.slice(0, 8), cacheSize: withoutTemp.length + 1 });
+            console.log(`[useCreateDeal] âœ… Swapped temp for real deal`, { tempId: tempId.slice(0, 15), realId: data.id?.slice(0, 8), cacheSize: withoutTemp.length + 1 });
             fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useDealsQuery.ts:300',message:'Swapped temp for real deal',data:{tempId:tempId.slice(0,15),realId:data.id?.slice(0,8),cacheSize:withoutTemp.length+1},timestamp:Date.now(),sessionId:'debug-session',runId:'create-deal',hypothesisId:'CD6'})}).catch(()=>{});
           }
           // #endregion
@@ -354,7 +354,7 @@ export const useCreateDeal = () => {
       }
     },
     onSettled: () => {
-      // NÃO fazer invalidateQueries para deals - Realtime gerencia a sincronização
+      // NÃƒO fazer invalidateQueries para deals - Realtime gerencia a sincronizaÃ§Ã£o
       // Isso evita race conditions onde o refetch sobrescreve o cache otimista
       // Apenas atualiza stats do dashboard
       queryClient.invalidateQueries({ queryKey: queryKeys.dashboard.stats });
@@ -364,7 +364,7 @@ export const useCreateDeal = () => {
 
 /**
  * Hook to update a deal
- * Usa DEALS_VIEW_KEY como única fonte de verdade
+ * Usa DEALS_VIEW_KEY como Ãºnica fonte de verdade
  */
 export const useUpdateDeal = () => {
   const queryClient = useQueryClient();
@@ -378,7 +378,7 @@ export const useUpdateDeal = () => {
     onMutate: async ({ id, updates }) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.deals.all });
 
-      // Usa DEALS_VIEW_KEY - a única fonte de verdade
+      // Usa DEALS_VIEW_KEY - a Ãºnica fonte de verdade
       const previousDeals = queryClient.getQueryData<DealView[]>(DEALS_VIEW_KEY);
 
       queryClient.setQueryData<DealView[]>(DEALS_VIEW_KEY, (old = []) =>
@@ -400,8 +400,8 @@ export const useUpdateDeal = () => {
       }
     },
     onSettled: (_data, _error, { id }) => {
-      // NÃO fazer invalidateQueries para deals - Realtime gerencia a sincronização
-      // Apenas invalidar o detalhe específico se necessário
+      // NÃƒO fazer invalidateQueries para deals - Realtime gerencia a sincronizaÃ§Ã£o
+      // Apenas invalidar o detalhe especÃ­fico se necessÃ¡rio
       queryClient.invalidateQueries({ queryKey: queryKeys.deals.detail(id) });
     },
   });
@@ -410,7 +410,7 @@ export const useUpdateDeal = () => {
 /**
  * Hook to update deal status (for drag & drop in Kanban)
  * @deprecated Use useMoveDeal instead - this hook is not used anywhere
- * Usa DEALS_VIEW_KEY como única fonte de verdade
+ * Usa DEALS_VIEW_KEY como Ãºnica fonte de verdade
  */
 export const useUpdateDealStatus = () => {
   const queryClient = useQueryClient();
@@ -454,7 +454,7 @@ export const useUpdateDealStatus = () => {
     onMutate: async ({ id, status, lossReason, isWon, isLost }) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.deals.all });
 
-      // Usa DEALS_VIEW_KEY - única fonte de verdade
+      // Usa DEALS_VIEW_KEY - Ãºnica fonte de verdade
       const previousDeals = queryClient.getQueryData<DealView[]>(DEALS_VIEW_KEY);
 
       queryClient.setQueryData<DealView[]>(DEALS_VIEW_KEY, (old = []) =>
@@ -480,7 +480,7 @@ export const useUpdateDealStatus = () => {
       }
     },
     onSettled: () => {
-      // NÃO fazer invalidateQueries - Realtime gerencia a sincronização
+      // NÃƒO fazer invalidateQueries - Realtime gerencia a sincronizaÃ§Ã£o
       queryClient.invalidateQueries({ queryKey: queryKeys.dashboard.stats });
     },
   });
@@ -488,7 +488,7 @@ export const useUpdateDealStatus = () => {
 
 /**
  * Hook to delete a deal
- * Usa DEALS_VIEW_KEY como única fonte de verdade
+ * Usa DEALS_VIEW_KEY como Ãºnica fonte de verdade
  */
 export const useDeleteDeal = () => {
   const queryClient = useQueryClient();
@@ -502,7 +502,7 @@ export const useDeleteDeal = () => {
     onMutate: async id => {
       await queryClient.cancelQueries({ queryKey: queryKeys.deals.all });
 
-      // Usa DEALS_VIEW_KEY - a única fonte de verdade
+      // Usa DEALS_VIEW_KEY - a Ãºnica fonte de verdade
       const previousDeals = queryClient.getQueryData<DealView[]>(DEALS_VIEW_KEY);
 
       queryClient.setQueryData<DealView[]>(DEALS_VIEW_KEY, (old = []) =>
@@ -517,7 +517,7 @@ export const useDeleteDeal = () => {
       }
     },
     onSettled: () => {
-      // NÃO fazer invalidateQueries para deals - Realtime gerencia a sincronização
+      // NÃƒO fazer invalidateQueries para deals - Realtime gerencia a sincronizaÃ§Ã£o
       // Apenas atualiza stats do dashboard
       queryClient.invalidateQueries({ queryKey: queryKeys.dashboard.stats });
     },

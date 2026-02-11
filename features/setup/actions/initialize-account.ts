@@ -1,21 +1,21 @@
-'use server'
+﻿'use server'
 
 import { createClient } from '@/lib/supabase/server'
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 
 /**
- * Schema de validação para onboarding/setup
+ * Schema de validaÃ§Ã£o para onboarding/setup
  */
 const setupSchema = z.object({
     organizationName: z
         .string()
-        .min(2, 'Nome da empresa deve ter no mínimo 2 caracteres')
-        .max(100, 'Nome da empresa deve ter no máximo 100 caracteres'),
+        .min(2, 'Nome da empresa deve ter no mÃ­nimo 2 caracteres')
+        .max(100, 'Nome da empresa deve ter no mÃ¡ximo 100 caracteres'),
     fullName: z
         .string()
-        .min(2, 'Nome completo deve ter no mínimo 2 caracteres')
-        .max(100, 'Nome completo deve ter no máximo 100 caracteres'),
+        .min(2, 'Nome completo deve ter no mÃ­nimo 2 caracteres')
+        .max(100, 'Nome completo deve ter no mÃ¡ximo 100 caracteres'),
 })
 
 export type SetupFormData = z.infer<typeof setupSchema>
@@ -30,33 +30,33 @@ export type SetupState = {
 }
 
 /**
- * Gera um slug único a partir do nome da organização
+ * Gera um slug Ãºnico a partir do nome da organizaÃ§Ã£o
  */
 function generateSlug(name: string): string {
     const base = name
         .toLowerCase()
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '') // Remove acentos
-        .replace(/[^a-z0-9]+/g, '-') // Substitui caracteres especiais por hífen
-        .replace(/^-+|-+$/g, '') // Remove hífens do início e fim
+        .replace(/[^a-z0-9]+/g, '-') // Substitui caracteres especiais por hÃ­fen
+        .replace(/^-+|-+$/g, '') // Remove hÃ­fens do inÃ­cio e fim
         .substring(0, 50)
 
-    // Adiciona um sufixo único baseado no timestamp
+    // Adiciona um sufixo Ãºnico baseado no timestamp
     const suffix = Date.now().toString(36).substring(-4)
     return `${base}-${suffix}`
 }
 
 /**
- * Server Action para inicializar a conta do usuário após o signup
+ * Server Action para inicializar a conta do usuÃ¡rio apÃ³s o signup
  * 
  * Cria:
- * 1. Organization (empresa do usuário)
- * 2. Profile (perfil do usuário vinculado à org)
- * 3. Board padrão "Vendas" para não começar vazio
+ * 1. Organization (empresa do usuÃ¡rio)
+ * 2. Profile (perfil do usuÃ¡rio vinculado Ã  org)
+ * 3. Board padrÃ£o "Vendas" para nÃ£o comeÃ§ar vazio
  * 
  * @param prevState - Estado anterior
- * @param formData - Dados do formulário
- * @returns Estado com resultado da operação
+ * @param formData - Dados do formulÃ¡rio
+ * @returns Estado com resultado da operaÃ§Ã£o
  */
 export async function initializeAccount(
     prevState: SetupState | null,
@@ -83,17 +83,17 @@ export async function initializeAccount(
     try {
         const supabase = await createClient()
 
-        // Obtém o usuário atual
+        // ObtÃ©m o usuÃ¡rio atual
         const { data: { user }, error: userError } = await supabase.auth.getUser()
 
         if (userError || !user) {
             return {
                 success: false,
-                message: 'Sessão expirada. Faça login novamente.',
+                message: 'SessÃ£o expirada. FaÃ§a login novamente.',
             }
         }
 
-        // Verifica se já tem organização
+        // Verifica se jÃ¡ tem organizaÃ§Ã£o
         const { data: existingProfile } = await supabase
             .from('profiles')
             .select('organization_id')
@@ -103,11 +103,11 @@ export async function initializeAccount(
         if (existingProfile?.organization_id) {
             return {
                 success: false,
-                message: 'Sua conta já está configurada.',
+                message: 'Sua conta jÃ¡ estÃ¡ configurada.',
             }
         }
 
-        // Gera slug único
+        // Gera slug Ãºnico
         const slug = generateSlug(organizationName)
 
         // 1. Criar Organization
@@ -127,14 +127,14 @@ export async function initializeAccount(
             if (orgError.code === '23505') { // Unique violation
                 return {
                     success: false,
-                    message: 'Uma organização com esse nome já existe. Tente outro nome.',
-                    errors: { organizationName: ['Nome já está em uso'] },
+                    message: 'Uma organizaÃ§Ã£o com esse nome jÃ¡ existe. Tente outro nome.',
+                    errors: { organizationName: ['Nome jÃ¡ estÃ¡ em uso'] },
                 }
             }
 
             return {
                 success: false,
-                message: 'Erro ao criar organização. Tente novamente.',
+                message: 'Erro ao criar organizaÃ§Ã£o. Tente novamente.',
             }
         }
 
@@ -169,25 +169,25 @@ export async function initializeAccount(
             }
         }
 
-        // 3. Criar Board padrão "Vendas"
+        // 3. Criar Board padrÃ£o "Vendas"
         const { data: board, error: boardError } = await supabase
             .from('boards')
             .insert({
                 organization_id: org.id,
                 name: 'Vendas',
-                description: 'Pipeline de vendas padrão',
+                description: 'Pipeline de vendas padrÃ£o',
                 is_default: true,
             })
             .select('id')
             .single()
 
         if (!boardError && board) {
-            // Criar estágios padrão
+            // Criar estÃ¡gios padrÃ£o
             const defaultStages = [
                 { name: 'Novo', order: 0, color: '#3B82F6' },
                 { name: 'Contato Feito', order: 1, color: '#8B5CF6' },
                 { name: 'Proposta Enviada', order: 2, color: '#F59E0B' },
-                { name: 'Negociação', order: 3, color: '#10B981' },
+                { name: 'NegociaÃ§Ã£o', order: 3, color: '#10B981' },
                 { name: 'Fechado Ganho', order: 4, color: '#22C55E' },
                 { name: 'Fechado Perdido', order: 5, color: '#EF4444' },
             ]

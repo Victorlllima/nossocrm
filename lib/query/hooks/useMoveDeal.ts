@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Unified hook for moving deals between stages
  * 
  * This is the SINGLE SOURCE OF TRUTH for deal movement logic.
@@ -44,7 +44,7 @@ interface MoveDealContext {
 }
 
 /**
- * Hook React `useMoveDeal` que encapsula uma lógica reutilizável.
+ * Hook React `useMoveDeal` que encapsula uma lÃ³gica reutilizÃ¡vel.
  * @returns {UseMutationResult<MoveDealResult, Error, MoveDealParams, MoveDealContext>} Retorna um valor do tipo `UseMutationResult<MoveDealResult, Error, MoveDealParams, MoveDealContext>`.
  */
 export const useMoveDeal = () => {
@@ -112,7 +112,7 @@ export const useMoveDeal = () => {
           targetStageId: targetStageId.slice(0, 8),
           updates: { status: targetStageId.slice(0, 8), isWon, isLost },
         };
-        console.log(`[useMoveDeal] 📤 Sending update to server`, logData);
+        console.log(`[useMoveDeal] ðŸ“¤ Sending update to server`, logData);
         fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useMoveDeal.ts:108',message:'Sending update to server',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'move-deal',hypothesisId:'H'})}).catch(()=>{});
       }
       // #endregion
@@ -122,7 +122,7 @@ export const useMoveDeal = () => {
         // #region agent log
         if (process.env.NODE_ENV !== 'production') {
           const logData = { dealId: dealId.slice(0, 8), error: String(dealError) };
-          console.log(`[useMoveDeal] ❌ Server update failed`, logData);
+          console.log(`[useMoveDeal] âŒ Server update failed`, logData);
           fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useMoveDeal.ts:110',message:'Server update failed',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'move-deal',hypothesisId:'I'})}).catch(()=>{});
         }
         // #endregion
@@ -132,7 +132,7 @@ export const useMoveDeal = () => {
       // #region agent log
       if (process.env.NODE_ENV !== 'production') {
         const logData = { dealId: dealId.slice(0, 8), targetStageId: targetStageId.slice(0, 8) };
-        console.log(`[useMoveDeal] ✅ Server update confirmed`, logData);
+        console.log(`[useMoveDeal] âœ… Server update confirmed`, logData);
         fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useMoveDeal.ts:112',message:'Server update confirmed',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'move-deal',hypothesisId:'J'})}).catch(()=>{});
       }
       // #endregion
@@ -165,7 +165,7 @@ export const useMoveDeal = () => {
           dealTitle: deal.title,
           type: 'STATUS_CHANGE',
           title: `Contato promovido para ${lifecycleStageName}`,
-          description: `Automático via LinkedStage da etapa "${targetStage.label}"`,
+          description: `AutomÃ¡tico via LinkedStage da etapa "${targetStage.label}"`,
           date: new Date().toISOString(),
           completed: true,
           user: { name: 'Sistema', avatar: '' },
@@ -190,7 +190,7 @@ export const useMoveDeal = () => {
                 value: deal.value,
                 contactId: deal.contactId,
                 boardId: targetBoard.id,
-                // Status/stage devem refletir o board de destino (não o stage do board anterior)
+                // Status/stage devem refletir o board de destino (nÃ£o o stage do board anterior)
                 status: entryStageId,
                 priority: deal.priority,
                 // Compat: DealView/Deal ainda pode ter companyId legado
@@ -199,7 +199,7 @@ export const useMoveDeal = () => {
                 owner: deal.owner || { name: 'Unknown', avatar: '' },
                 items: deal.items || [],
                 tags: deal.tags || [],
-                // Rastreabilidade (ajuda também a prevenir duplicidade no futuro)
+                // Rastreabilidade (ajuda tambÃ©m a prevenir duplicidade no futuro)
                 customFields: {
                   originDealId: deal.id,
                   originBoardId: board.id,
@@ -217,7 +217,7 @@ export const useMoveDeal = () => {
                   dealTitle: deal.title,
                   type: 'STATUS_CHANGE',
                   title: `Enviado para ${targetBoard.name}`,
-                  description: `Automação: Ao ganhar neste board, criou carta em "${targetBoard.name}"`,
+                  description: `AutomaÃ§Ã£o: Ao ganhar neste board, criou carta em "${targetBoard.name}"`,
                   date: new Date().toISOString(),
                   completed: true,
                   user: { name: 'Sistema', avatar: '' },
@@ -242,7 +242,7 @@ export const useMoveDeal = () => {
           targetStageId: targetStageId.slice(0, 8),
           currentStatus: deal.status?.slice(0, 8) || 'null',
         };
-        console.log(`[useMoveDeal] 🚀 Starting optimistic update`, logData);
+        console.log(`[useMoveDeal] ðŸš€ Starting optimistic update`, logData);
         fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useMoveDeal.ts:210',message:'Starting optimistic update',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'move-deal',hypothesisId:'F'})}).catch(()=>{});
       }
       // #endregion
@@ -250,7 +250,7 @@ export const useMoveDeal = () => {
       // Cancel any outgoing refetches
       await queryClient.cancelQueries({ queryKey: queryKeys.deals.all });
 
-      // Snapshot previous state - usa DEALS_VIEW_KEY (única fonte de verdade)
+      // Snapshot previous state - usa DEALS_VIEW_KEY (Ãºnica fonte de verdade)
       const previousDeals = queryClient.getQueryData<DealView[]>(DEALS_VIEW_KEY);
 
       // Determine new status
@@ -266,7 +266,7 @@ export const useMoveDeal = () => {
         explicitLost
         || (board.lostStageId ? targetStageId === board.lostStageId : targetStage?.linkedLifecycleStage === 'OTHER');
 
-      // Optimistically update APENAS DEALS_VIEW_KEY (única fonte de verdade)
+      // Optimistically update APENAS DEALS_VIEW_KEY (Ãºnica fonte de verdade)
       queryClient.setQueryData<DealView[]>(DEALS_VIEW_KEY, (old) => {
         if (!old) return old;
         
@@ -278,7 +278,7 @@ export const useMoveDeal = () => {
             dealFound: !!dealInCache,
             currentStatus: dealInCache?.status?.slice(0, 8) || 'null',
           };
-          console.log(`[useMoveDeal] 📊 Processing DEALS_VIEW_KEY cache`, logData);
+          console.log(`[useMoveDeal] ðŸ“Š Processing DEALS_VIEW_KEY cache`, logData);
           fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useMoveDeal.ts:280',message:'Processing cache for optimistic update',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'move-deal',hypothesisId:'OPT'})}).catch(()=>{});
         }
         // #endregion
@@ -301,7 +301,7 @@ export const useMoveDeal = () => {
                 newStatus: targetStageId.slice(0, 8),
                 updatedAt: newDeal.updatedAt,
               };
-              console.log(`[useMoveDeal] ✅ Optimistic update applied`, logData);
+              console.log(`[useMoveDeal] âœ… Optimistic update applied`, logData);
               fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useMoveDeal.ts:235',message:'Optimistic update applied',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'move-deal',hypothesisId:'G'})}).catch(()=>{});
             }
             // #endregion
@@ -311,7 +311,7 @@ export const useMoveDeal = () => {
         });
       });
 
-      // Também atualizar o detail cache se existir
+      // TambÃ©m atualizar o detail cache se existir
       queryClient.setQueryData<Deal>(queryKeys.deals.detail(dealId), (old) => {
         if (!old) return old;
         return {
@@ -340,13 +340,13 @@ export const useMoveDeal = () => {
     // Invalidating here causes the deal to "jump back" because:
     // 1. Optimistic update moves deal visually
     // 2. Server confirms update
-    // 3. onSettled invalidates → refetch (may get stale data if timing is off)
-    // 4. Realtime UPDATE arrives → invalidates again → refetch (may overwrite with old data)
+    // 3. onSettled invalidates â†’ refetch (may get stale data if timing is off)
+    // 4. Realtime UPDATE arrives â†’ invalidates again â†’ refetch (may overwrite with old data)
     // By skipping invalidation here, we let Realtime handle sync naturally.
     onSettled: () => {
       // #region agent log
       if (process.env.NODE_ENV !== 'production') {
-        console.log(`[useMoveDeal] ⏸️ onSettled called (skipping invalidation, waiting for Realtime)`);
+        console.log(`[useMoveDeal] â¸ï¸ onSettled called (skipping invalidation, waiting for Realtime)`);
         fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useMoveDeal.ts:276',message:'onSettled called',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'move-deal',hypothesisId:'K'})}).catch(()=>{});
       }
       // #endregion
@@ -356,10 +356,10 @@ export const useMoveDeal = () => {
 };
 
 /**
- * Hook React `useMoveDealSimple` que encapsula uma lógica reutilizável.
+ * Hook React `useMoveDealSimple` que encapsula uma lÃ³gica reutilizÃ¡vel.
  *
- * @param {Board | null} board - Parâmetro `board`.
- * @param {{ id: string; name: string; }[] | undefined} lifecycleStages - Parâmetro `lifecycleStages`.
+ * @param {Board | null} board - ParÃ¢metro `board`.
+ * @param {{ id: string; name: string; }[] | undefined} lifecycleStages - ParÃ¢metro `lifecycleStages`.
  * @returns {{ moveDeal: (deal: Deal | DealView, targetStageId: string, lossReason?: string | undefined, explicitWin?: boolean | undefined, explicitLost?: boolean | undefined) => Promise<...>; isMoving: boolean; error: Error | null; }} Retorna um valor do tipo `{ moveDeal: (deal: Deal | DealView, targetStageId: string, lossReason?: string | undefined, explicitWin?: boolean | undefined, explicitLost?: boolean | undefined) => Promise<...>; isMoving: boolean; error: Error | null; }`.
  */
 export const useMoveDealSimple = (

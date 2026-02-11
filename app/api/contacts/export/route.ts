@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { stringifyCsv, withUtf8Bom, type CsvDelimiter } from '@/lib/utils/csv';
 
@@ -22,7 +22,7 @@ function parseSortOrder(v: string | undefined): SortOrder {
 /**
  * Handler HTTP `GET` deste endpoint (Next.js Route Handler).
  *
- * @param {Request} req - Objeto da requisição.
+ * @param {Request} req - Objeto da requisiÃ§Ã£o.
  * @returns {Promise<NextResponse<unknown>>} Retorna um valor do tipo `Promise<NextResponse<unknown>>`.
  */
 export async function GET(req: Request) {

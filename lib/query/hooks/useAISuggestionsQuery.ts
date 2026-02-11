@@ -1,4 +1,4 @@
-/**
+﻿/**
  * TanStack Query hooks for AI Suggestion Interactions
  * Provides cached access to dismissed/accepted suggestions
  */

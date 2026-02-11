@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+﻿import React, { useCallback } from 'react';
 
 export interface SkipLinkProps {
   /** Target element ID (without #) */
@@ -24,7 +24,7 @@ export interface SkipLinkProps {
  */
 export const SkipLink: React.FC<SkipLinkProps> = ({
   targetId,
-  children = 'Pular para conteúdo principal',
+  children = 'Pular para conteÃºdo principal',
 }) => {
   const handleClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();

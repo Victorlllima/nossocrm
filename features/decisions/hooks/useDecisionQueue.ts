@@ -1,6 +1,6 @@
-/**
+﻿/**
  * useDecisionQueue Hook
- * Hook principal para gerenciar a fila de decisões
+ * Hook principal para gerenciar a fila de decisÃµes
  */
 
 import { useState, useCallback, useMemo } from 'react';
@@ -10,7 +10,7 @@ import decisionQueueService from '../services/decisionQueueService';
 import { runAllAnalyzers } from '../analyzers';
 
 /**
- * Hook React `useDecisionQueue` que encapsula uma lógica reutilizável.
+ * Hook React `useDecisionQueue` que encapsula uma lÃ³gica reutilizÃ¡vel.
  * @returns {{ decisions: Decision[]; stats: DecisionStats; lastAnalyzedAt: string | undefined; isAnalyzing: boolean; executingIds: Set<string>; runAnalyzers: () => Promise<{ ...; }>; ... 5 more ...; refreshDecisions: () => void; }} Retorna um valor do tipo `{ decisions: Decision[]; stats: DecisionStats; lastAnalyzedAt: string | undefined; isAnalyzing: boolean; executingIds: Set<string>; runAnalyzers: () => Promise<{ ...; }>; ... 5 more ...; refreshDecisions: () => void; }`.
  */
 export function useDecisionQueue() {
@@ -97,7 +97,7 @@ export function useDecisionQueue() {
               title: payload.activityTitle,
               description: payload.activityDescription,
               date: payload.activityDate,
-              user: { name: 'Você', avatar: '' },
+              user: { name: 'VocÃª', avatar: '' },
               completed: false,
             };
             addActivity(newActivity);
@@ -115,7 +115,7 @@ export function useDecisionQueue() {
         }
 
         case 'dismiss': {
-          // "Marcar como Feita" - marca a atividade original como concluída
+          // "Marcar como Feita" - marca a atividade original como concluÃ­da
           if (decision.activityId) {
             updateActivity(decision.activityId, { completed: true });
           }
@@ -123,10 +123,10 @@ export function useDecisionQueue() {
         }
 
         case 'send_message': {
-          // Abre WhatsApp Web com a mensagem pré-preenchida
+          // Abre WhatsApp Web com a mensagem prÃ©-preenchida
           if (payload.channel === 'whatsapp' && payload.messageTemplate) {
             const message = encodeURIComponent(payload.messageTemplate);
-            // Se tiver número de telefone, usa; senão abre só com a mensagem
+            // Se tiver nÃºmero de telefone, usa; senÃ£o abre sÃ³ com a mensagem
             const phone = payload.recipient?.replace(/\D/g, '') || '';
             const url = phone
               ? `https://wa.me/${phone}?text=${message}`

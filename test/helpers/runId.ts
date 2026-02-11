@@ -1,11 +1,11 @@
-import { randomUUID } from 'node:crypto';
+﻿import { randomUUID } from 'node:crypto';
 
 let cached: string | null = null;
 
 /**
- * Função pública `getRunId` do projeto.
+ * FunÃ§Ã£o pÃºblica `getRunId` do projeto.
  *
- * @param {string} prefix - Parâmetro `prefix`.
+ * @param {string} prefix - ParÃ¢metro `prefix`.
  * @returns {string} Retorna um valor do tipo `string`.
  */
 export function getRunId(prefix = 'vitest'): string {

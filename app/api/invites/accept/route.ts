@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { createStaticAdminClient } from '@/lib/supabase/server';
 import { isAllowedOrigin } from '@/lib/security/sameOrigin';
 
@@ -21,11 +21,11 @@ const AcceptInviteSchema = z
 /**
  * Handler HTTP `POST` deste endpoint (Next.js Route Handler).
  *
- * @param {Request} req - Objeto da requisição.
+ * @param {Request} req - Objeto da requisiÃ§Ã£o.
  * @returns {Promise<Response>} Retorna um valor do tipo `Promise<Response>`.
  */
 export async function POST(req: Request) {
-  // Mitigação CSRF: cria usuário (efeito colateral), só aceita same-origin.
+  // MitigaÃ§Ã£o CSRF: cria usuÃ¡rio (efeito colateral), sÃ³ aceita same-origin.
   if (!isAllowedOrigin(req)) return json({ error: 'Forbidden' }, 403);
 
   const raw = await req.json().catch(() => null);
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
     .single();
 
   if (inviteError || !invite) {
-    return json({ error: 'Convite inválido ou já foi utilizado' }, 400);
+    return json({ error: 'Convite invÃ¡lido ou jÃ¡ foi utilizado' }, 400);
   }
 
   // Performance: avoid multiple Date allocations.
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
   }
 
   if (invite.email && invite.email.toLowerCase() !== email.toLowerCase()) {
-    return json({ error: 'Este convite não é válido para este email' }, 400);
+    return json({ error: 'Este convite nÃ£o Ã© vÃ¡lido para este email' }, 400);
   }
 
   const { data: authData, error: createError } = await admin.auth.admin.createUser({

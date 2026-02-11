@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render } from '@testing-library/react';
 
@@ -77,12 +77,12 @@ vi.mock('@/context/CRMContext', () => ({
 
     const deal = {
       id: 'deal-1',
-      title: 'Pequeno Chapéu',
+      title: 'Pequeno ChapÃ©u',
       value: 1000,
       status: 'stage-1',
       boardId: 'board-1',
       contactId: 'contact-1',
-      companyName: 'Moreira Comércio',
+      companyName: 'Moreira ComÃ©rcio',
       contactName: 'Fulano',
       contactEmail: 'fulano@example.com',
       createdAt: new Date().toISOString(),
@@ -126,7 +126,7 @@ describe('DealDetailModal', () => {
     expect(document.body.textContent).not.toContain('Application error');
 
     rerender(<DealDetailModal dealId="deal-1" isOpen={true} onClose={() => {}} />);
-    expect(document.body.textContent).toContain('Pequeno Chapéu');
+    expect(document.body.textContent).toContain('Pequeno ChapÃ©u');
 
     rerender(<DealDetailModal dealId="deal-1" isOpen={false} onClose={() => {}} />);
     expect(document.body.textContent).not.toContain('Application error');

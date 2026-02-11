@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Minimal CSV utilities (no external deps).
  *
  * Goals:
@@ -12,9 +12,9 @@
 export type CsvDelimiter = ',' | ';' | '\t';
 
 /**
- * Função pública `detectCsvDelimiter` do projeto.
+ * FunÃ§Ã£o pÃºblica `detectCsvDelimiter` do projeto.
  *
- * @param {string} sample - Parâmetro `sample`.
+ * @param {string} sample - ParÃ¢metro `sample`.
  * @returns {CsvDelimiter} Retorna um valor do tipo `CsvDelimiter`.
  */
 export function detectCsvDelimiter(sample: string): CsvDelimiter {
@@ -31,10 +31,10 @@ export function detectCsvDelimiter(sample: string): CsvDelimiter {
 }
 
 /**
- * Função pública `parseCsv` do projeto.
+ * FunÃ§Ã£o pÃºblica `parseCsv` do projeto.
  *
- * @param {string} input - Parâmetro `input`.
- * @param {CsvDelimiter} delimiter - Parâmetro `delimiter`.
+ * @param {string} input - ParÃ¢metro `input`.
+ * @param {CsvDelimiter} delimiter - ParÃ¢metro `delimiter`.
  * @returns {{ headers: string[]; rows: string[][]; }} Retorna um valor do tipo `{ headers: string[]; rows: string[][]; }`.
  */
 export function parseCsv(input: string, delimiter: CsvDelimiter): { headers: string[]; rows: string[][] } {
@@ -123,10 +123,10 @@ function escapeCsvCell(value: string, delimiter: CsvDelimiter): string {
 }
 
 /**
- * Função pública `stringifyCsv` do projeto.
+ * FunÃ§Ã£o pÃºblica `stringifyCsv` do projeto.
  *
- * @param {string[][]} rows - Parâmetro `rows`.
- * @param {CsvDelimiter} delimiter - Parâmetro `delimiter`.
+ * @param {string[][]} rows - ParÃ¢metro `rows`.
+ * @param {CsvDelimiter} delimiter - ParÃ¢metro `delimiter`.
  * @returns {string} Retorna um valor do tipo `string`.
  */
 export function stringifyCsv(rows: string[][], delimiter: CsvDelimiter = ','): string {
@@ -136,9 +136,9 @@ export function stringifyCsv(rows: string[][], delimiter: CsvDelimiter = ','): s
 }
 
 /**
- * Função pública `withUtf8Bom` do projeto.
+ * FunÃ§Ã£o pÃºblica `withUtf8Bom` do projeto.
  *
- * @param {string} text - Parâmetro `text`.
+ * @param {string} text - ParÃ¢metro `text`.
  * @returns {string} Retorna um valor do tipo `string`.
  */
 export function withUtf8Bom(text: string): string {

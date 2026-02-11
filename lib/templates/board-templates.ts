@@ -1,12 +1,12 @@
-import { BoardStage, AgentPersona, BoardGoal } from '@/types';
+﻿import { BoardStage, AgentPersona, BoardGoal } from '@/types';
 
 export type BoardTemplateType = 'PRE_SALES' | 'SALES' | 'ONBOARDING' | 'CS' | 'CUSTOM';
 
-// Template vazio para boards customizados (não usa template)
+// Template vazio para boards customizados (nÃ£o usa template)
 export const CUSTOM_TEMPLATE: BoardTemplate = {
   name: 'Personalizado',
   description: 'Board personalizado sem template',
-  emoji: '⚙️',
+  emoji: 'âš™ï¸',
   stages: [],
   tags: [],
 };
@@ -32,11 +32,11 @@ export interface BoardTemplate {
 
 export const BOARD_TEMPLATES: Record<BoardTemplateType, BoardTemplate> = {
   PRE_SALES: {
-    name: 'Pré-venda',
-    description: 'Qualificação de leads até tornarem-se MQL',
-    emoji: '🎯',
+    name: 'PrÃ©-venda',
+    description: 'QualificaÃ§Ã£o de leads atÃ© tornarem-se MQL',
+    emoji: 'ðŸŽ¯',
     linkedLifecycleStage: 'LEAD',
-    tags: ['SDR', 'Qualificação', 'Outbound'],
+    tags: ['SDR', 'QualificaÃ§Ã£o', 'Outbound'],
     stages: [
       { label: 'Novos Leads', color: 'bg-blue-500', linkedLifecycleStage: 'LEAD' },
       { label: 'Contatado', color: 'bg-yellow-500', linkedLifecycleStage: 'LEAD' },
@@ -45,9 +45,9 @@ export const BOARD_TEMPLATES: Record<BoardTemplateType, BoardTemplate> = {
     ],
     agentPersona: {
       name: 'SDR Bot',
-      role: 'Pré-vendas e Qualificação',
+      role: 'PrÃ©-vendas e QualificaÃ§Ã£o',
       behavior:
-        'Seja rápido e objetivo. Seu foco é qualificar o lead fazendo perguntas chave sobre orçamento, autoridade, necessidade e tempo (BANT). Se o lead for qualificado, mova para MQL.',
+        'Seja rÃ¡pido e objetivo. Seu foco Ã© qualificar o lead fazendo perguntas chave sobre orÃ§amento, autoridade, necessidade e tempo (BANT). Se o lead for qualificado, mova para MQL.',
     },
     goal: {
       description: 'Qualificar leads frios e identificar oportunidades reais.',
@@ -55,19 +55,19 @@ export const BOARD_TEMPLATES: Record<BoardTemplateType, BoardTemplate> = {
       targetValue: '50',
       type: 'number',
     },
-    entryTrigger: 'Novos leads capturados via formulário do site ou LinkedIn.',
+    entryTrigger: 'Novos leads capturados via formulÃ¡rio do site ou LinkedIn.',
   },
 
   SALES: {
     name: 'Pipeline de Vendas',
-    description: 'MQL até fechamento ou perda',
-    emoji: '💰',
+    description: 'MQL atÃ© fechamento ou perda',
+    emoji: 'ðŸ’°',
     linkedLifecycleStage: 'MQL',
     tags: ['Vendas', 'CRM', 'Fechamento'],
     stages: [
       { label: 'Descoberta', color: 'bg-blue-500', linkedLifecycleStage: 'MQL' },
       { label: 'Proposta', color: 'bg-purple-500', linkedLifecycleStage: 'PROSPECT' },
-      { label: 'Negociação', color: 'bg-orange-500', linkedLifecycleStage: 'PROSPECT' },
+      { label: 'NegociaÃ§Ã£o', color: 'bg-orange-500', linkedLifecycleStage: 'PROSPECT' },
       { label: 'Ganho', color: 'bg-green-500', linkedLifecycleStage: 'CUSTOMER' },
       { label: 'Perdido', color: 'bg-red-500', linkedLifecycleStage: 'OTHER' },
     ],
@@ -77,7 +77,7 @@ export const BOARD_TEMPLATES: Record<BoardTemplateType, BoardTemplate> = {
       name: 'Closer Bot',
       role: 'Executivo de Vendas',
       behavior:
-        'Atue como um consultor experiente. Foque em entender a dor do cliente, apresentar a solução de valor e negociar termos. Use gatilhos mentais de urgência e escassez quando apropriado.',
+        'Atue como um consultor experiente. Foque em entender a dor do cliente, apresentar a soluÃ§Ã£o de valor e negociar termos. Use gatilhos mentais de urgÃªncia e escassez quando apropriado.',
     },
     goal: {
       description: 'Maximizar a receita recorrente mensal (MRR).',
@@ -85,18 +85,18 @@ export const BOARD_TEMPLATES: Record<BoardTemplateType, BoardTemplate> = {
       targetValue: '50000',
       type: 'currency',
     },
-    entryTrigger: 'Leads qualificados (MQL) vindos da Pré-venda.',
+    entryTrigger: 'Leads qualificados (MQL) vindos da PrÃ©-venda.',
   },
 
   ONBOARDING: {
     name: 'Onboarding de Clientes',
-    description: 'Ativação e implementação de novos clientes',
-    emoji: '🚀',
+    description: 'AtivaÃ§Ã£o e implementaÃ§Ã£o de novos clientes',
+    emoji: 'ðŸš€',
     linkedLifecycleStage: 'CUSTOMER',
-    tags: ['CS', 'Implementação', 'Sucesso'],
+    tags: ['CS', 'ImplementaÃ§Ã£o', 'Sucesso'],
     stages: [
       { label: 'Kickoff', color: 'bg-blue-500', linkedLifecycleStage: 'CUSTOMER' },
-      { label: 'Implementação', color: 'bg-purple-500', linkedLifecycleStage: 'CUSTOMER' },
+      { label: 'ImplementaÃ§Ã£o', color: 'bg-purple-500', linkedLifecycleStage: 'CUSTOMER' },
       { label: 'Treinamento', color: 'bg-yellow-500', linkedLifecycleStage: 'CUSTOMER' },
       { label: 'Go Live', color: 'bg-green-500', linkedLifecycleStage: 'CUSTOMER' },
     ],
@@ -106,10 +106,10 @@ export const BOARD_TEMPLATES: Record<BoardTemplateType, BoardTemplate> = {
       name: 'CS Manager',
       role: 'Gerente de Sucesso do Cliente',
       behavior:
-        'Seja acolhedor e didático. Guie o cliente passo a passo na configuração da ferramenta. Garanta que ele veja valor rápido (First Value).',
+        'Seja acolhedor e didÃ¡tico. Guie o cliente passo a passo na configuraÃ§Ã£o da ferramenta. Garanta que ele veja valor rÃ¡pido (First Value).',
     },
     goal: {
-      description: 'Garantir que o cliente complete a configuração inicial em até 7 dias.',
+      description: 'Garantir que o cliente complete a configuraÃ§Ã£o inicial em atÃ© 7 dias.',
       kpi: 'Clientes Ativados',
       targetValue: '20',
       type: 'number',
@@ -118,15 +118,15 @@ export const BOARD_TEMPLATES: Record<BoardTemplateType, BoardTemplate> = {
   },
 
   CS: {
-    name: 'CS (Saúde da Conta)',
-    description: 'Gestão de saúde do cliente e risco de churn (não é pipeline comercial)',
-    emoji: '❤️',
+    name: 'CS (SaÃºde da Conta)',
+    description: 'GestÃ£o de saÃºde do cliente e risco de churn (nÃ£o Ã© pipeline comercial)',
+    emoji: 'â¤ï¸',
     linkedLifecycleStage: 'CUSTOMER',
-    tags: ['Retenção', 'Health Score', 'Churn'],
+    tags: ['RetenÃ§Ã£o', 'Health Score', 'Churn'],
     stages: [
-      { label: 'Saudável', color: 'bg-green-500', linkedLifecycleStage: 'CUSTOMER' },
+      { label: 'SaudÃ¡vel', color: 'bg-green-500', linkedLifecycleStage: 'CUSTOMER' },
       { label: 'Em Risco', color: 'bg-yellow-500', linkedLifecycleStage: 'CUSTOMER' },
-      { label: 'Crítico', color: 'bg-orange-500', linkedLifecycleStage: 'CUSTOMER' },
+      { label: 'CrÃ­tico', color: 'bg-orange-500', linkedLifecycleStage: 'CUSTOMER' },
       { label: 'Churn', color: 'bg-red-500', linkedLifecycleStage: 'OTHER' },
     ],
     // For CS boards, "Churn" behaves like a loss stage.
@@ -135,15 +135,15 @@ export const BOARD_TEMPLATES: Record<BoardTemplateType, BoardTemplate> = {
       name: 'Account Manager',
       role: 'Gerente de Contas',
       behavior:
-        'Monitore a saúde da conta com sinais objetivos (uso, tickets, engajamento). Aja proativamente para evitar churn e garantir valor contínuo.',
+        'Monitore a saÃºde da conta com sinais objetivos (uso, tickets, engajamento). Aja proativamente para evitar churn e garantir valor contÃ­nuo.',
     },
     goal: {
-      description: 'Reduzir churn e manter saúde da base (GRR).',
+      description: 'Reduzir churn e manter saÃºde da base (GRR).',
       kpi: 'GRR',
       targetValue: '95',
       type: 'percentage',
     },
-    entryTrigger: 'Clientes após o Go Live (fim do Onboarding).',
+    entryTrigger: 'Clientes apÃ³s o Go Live (fim do Onboarding).',
   },
 
   CUSTOM: CUSTOM_TEMPLATE,

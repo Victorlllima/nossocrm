@@ -1,4 +1,4 @@
-import { readFileSync, existsSync } from 'node:fs';
+﻿import { readFileSync, existsSync } from 'node:fs';
 
 function parseDotEnv(contents: string): Record<string, string> {
   const out: Record<string, string> = {};
@@ -28,11 +28,11 @@ function parseDotEnv(contents: string): Record<string, string> {
 }
 
 /**
- * Função pública `loadEnvFile` do projeto.
+ * FunÃ§Ã£o pÃºblica `loadEnvFile` do projeto.
  *
- * @param {string} filePath - Parâmetro `filePath`.
- * @param {{ override?: boolean | undefined; } | undefined} opts - Parâmetro `opts`.
- * @returns {void} Não retorna valor.
+ * @param {string} filePath - ParÃ¢metro `filePath`.
+ * @param {{ override?: boolean | undefined; } | undefined} opts - ParÃ¢metro `opts`.
+ * @returns {void} NÃ£o retorna valor.
  */
 export function loadEnvFile(filePath: string, opts?: { override?: boolean }) {
   if (!existsSync(filePath)) return;
@@ -44,9 +44,9 @@ export function loadEnvFile(filePath: string, opts?: { override?: boolean }) {
 }
 
 /**
- * Função pública `requireEnv` do projeto.
+ * FunÃ§Ã£o pÃºblica `requireEnv` do projeto.
  *
- * @param {string} name - Parâmetro `name`.
+ * @param {string} name - ParÃ¢metro `name`.
  * @returns {string} Retorna um valor do tipo `string`.
  */
 export function requireEnv(name: string): string {
@@ -56,7 +56,7 @@ export function requireEnv(name: string): string {
 }
 
 /**
- * Função pública `getSupabaseUrl` do projeto.
+ * FunÃ§Ã£o pÃºblica `getSupabaseUrl` do projeto.
  * @returns {string} Retorna um valor do tipo `string`.
  */
 export function getSupabaseUrl(): string {
@@ -68,7 +68,7 @@ export function getSupabaseUrl(): string {
 }
 
 /**
- * Função pública `getServiceRoleKey` do projeto.
+ * FunÃ§Ã£o pÃºblica `getServiceRoleKey` do projeto.
  * @returns {string} Retorna um valor do tipo `string`.
  */
 export function getServiceRoleKey(): string {
@@ -76,9 +76,9 @@ export function getServiceRoleKey(): string {
 }
 
 /**
- * Função pública `isPlaceholderApiKey` do projeto.
+ * FunÃ§Ã£o pÃºblica `isPlaceholderApiKey` do projeto.
  *
- * @param {string | null | undefined} value - Parâmetro `value`.
+ * @param {string | null | undefined} value - ParÃ¢metro `value`.
  * @returns {boolean} Retorna um valor do tipo `boolean`.
  */
 export function isPlaceholderApiKey(value?: string | null): boolean {

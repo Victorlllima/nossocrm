@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useCRM } from '@/context/CRMContext';
 import { useAuth } from '@/context/AuthContext';
 import { Deal, Board, Contact, Company } from '@/types';
@@ -17,7 +17,7 @@ interface CreateDealModalProps {
 }
 
 /**
- * Modal para criação de um novo negócio (Deal).
+ * Modal para criaÃ§Ã£o de um novo negÃ³cio (Deal).
  * Permite buscar contatos existentes ou criar novos.
  */
 export const CreateDealModal: React.FC<CreateDealModalProps> = ({
@@ -37,7 +37,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
     const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
     const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
     
-    // Estado para criação de novo contato
+    // Estado para criaÃ§Ã£o de novo contato
     const [isCreatingNew, setIsCreatingNew] = useState(false);
     const [newContactData, setNewContactData] = useState({
         name: '',
@@ -99,13 +99,13 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
 
     if (!isOpen) return null;
 
-    // Guard: não permite criar deal sem board ativo
+    // Guard: nÃ£o permite criar deal sem board ativo
     if (!activeBoard || !activeBoard.stages?.length) {
         return (
             <div className="fixed inset-0 md:left-[var(--app-sidebar-width,0px)] z-[9999] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
                 <div className="bg-white dark:bg-dark-card border border-slate-200 dark:border-white/10 rounded-2xl shadow-2xl w-full max-w-md p-5">
                     <p className="text-slate-700 dark:text-slate-300 text-center">
-                        Nenhum board selecionado ou board sem estágios.
+                        Nenhum board selecionado ou board sem estÃ¡gios.
                     </p>
                     <button
                         onClick={onClose}
@@ -124,7 +124,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
         setIsSubmitting(true);
 
         try {
-            // Usa o primeiro estágio do board ativo
+            // Usa o primeiro estÃ¡gio do board ativo
             const firstStage = activeBoard.stages[0];
 
             const ownerName = profile?.nickname ||
@@ -180,16 +180,16 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
                 });
             }
             
-            // Se retornou null, houve erro (já logado no console)
+            // Se retornou null, houve erro (jÃ¡ logado no console)
             if (result === null) {
-                setError('Já existe um negócio com este título para este contato. Altere o título ou selecione outro contato.');
+                setError('JÃ¡ existe um negÃ³cio com este tÃ­tulo para este contato. Altere o tÃ­tulo ou selecione outro contato.');
                 return;
             }
 
             onClose();
             resetForm();
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Erro ao criar negócio. Tente novamente.');
+            setError(err instanceof Error ? err.message : 'Erro ao criar negÃ³cio. Tente novamente.');
         } finally {
             setIsSubmitting(false);
         }
@@ -210,7 +210,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
             >
                 <div className="p-5 border-b border-slate-200 dark:border-white/10 flex justify-between items-center sticky top-0 bg-white dark:bg-dark-card z-10">
                     <div className="flex items-center gap-2">
-                        <h2 className="text-lg font-bold text-slate-900 dark:text-white font-display">Novo Negócio</h2>
+                        <h2 className="text-lg font-bold text-slate-900 dark:text-white font-display">Novo NegÃ³cio</h2>
                         <DebugFillButton onClick={fillWithFakeData} />
                     </div>
                     <button onClick={() => { onClose(); resetForm(); }} className="text-slate-400 hover:text-slate-600 dark:hover:text-white">
@@ -287,7 +287,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
                                         }}
                                         className="text-slate-400 hover:text-red-500 transition-colors"
                                     >
-                                        ✕
+                                        âœ•
                                     </button>
                                 </div>
                                 
@@ -360,13 +360,13 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
                         )}
                     </div>
 
-                    {/* Dados do Negócio */}
+                    {/* Dados do NegÃ³cio */}
                     <div className="pt-3 border-t border-slate-100 dark:border-white/5">
-                        <h3 className="text-xs font-bold text-slate-400 uppercase mb-3">Dados do Negócio</h3>
+                        <h3 className="text-xs font-bold text-slate-400 uppercase mb-3">Dados do NegÃ³cio</h3>
                         
                         <div className="space-y-3">
                             <div>
-                                <label className="block text-xs font-medium text-slate-500 mb-1">Nome do Negócio *</label>
+                                <label className="block text-xs font-medium text-slate-500 mb-1">Nome do NegÃ³cio *</label>
                                 <input
                                     required
                                     type="text"
@@ -409,7 +409,7 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
                                 Criando...
                             </>
                         ) : (
-                            'Criar Negócio'
+                            'Criar NegÃ³cio'
                         )}
                     </button>
                 </form>

@@ -1,7 +1,7 @@
-/**
- * @fileoverview Utilitário de Classes CSS
+﻿/**
+ * @fileoverview UtilitÃ¡rio de Classes CSS
  * 
- * Função auxiliar para combinar classes Tailwind de forma inteligente,
+ * FunÃ§Ã£o auxiliar para combinar classes Tailwind de forma inteligente,
  * mesclando classes conflitantes corretamente.
  * 
  * @module utils/cn
@@ -30,12 +30,12 @@ import { twMerge } from "tailwind-merge"
  * Usa clsx para processar condicionais e tailwind-merge para
  * resolver conflitos de classes Tailwind.
  * 
- * @param {...ClassValue[]} inputs - Classes, objetos ou expressões condicionais
+ * @param {...ClassValue[]} inputs - Classes, objetos ou expressÃµes condicionais
  * @returns {string} String de classes combinadas
  * 
  * @example
  * ```tsx
- * // Uso básico
+ * // Uso bÃ¡sico
  * <div className={cn('p-4', className)} />
  * 
  * // Com variantes

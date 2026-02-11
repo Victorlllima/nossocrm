@@ -1,4 +1,4 @@
-function getByPath(obj: any, path: string): unknown {
+﻿function getByPath(obj: any, path: string): unknown {
   if (!path) return undefined;
   const parts = path.split('.');
   let cur: any = obj;
@@ -11,8 +11,8 @@ function getByPath(obj: any, path: string): unknown {
 
 /**
  * Renderiza templates no formato `{{var}}` (com suporte a path `a.b.c`).
- * - Se a variável não existir, substitui por string vazia.
- * - Não executa lógica; é intencionalmente simples/seguro.
+ * - Se a variÃ¡vel nÃ£o existir, substitui por string vazia.
+ * - NÃ£o executa lÃ³gica; Ã© intencionalmente simples/seguro.
  */
 export function renderPromptTemplate(template: string, vars: Record<string, unknown>): string {
   return String(template || '').replace(/\{\{\s*([\w.]+)\s*\}\}/g, (_m, key) => {

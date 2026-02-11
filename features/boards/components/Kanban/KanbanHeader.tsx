@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Plus, Search, LayoutGrid, Table as TableIcon, User, Settings, Lightbulb, Download, CalendarClock } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Board } from '@/types';
@@ -44,7 +44,7 @@ interface KanbanHeaderProps {
     ownerFilter, setOwnerFilter,
     statusFilter, setStatusFilter,
     onNewDeal
-} - Parâmetro `{
+} - ParÃ¢metro `{
     boards,
     activeBoard,
     onSelectBoard,
@@ -94,7 +94,7 @@ export const KanbanHeader: React.FC<KanbanHeaderProps> = ({
                     <button
                         onClick={() => onEditBoard(activeBoard)}
                         className="p-2 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg transition-colors"
-                        title="Configurações do Board"
+                        title="ConfiguraÃ§Ãµes do Board"
                     >
                         <Settings size={20} />
                     </button>
@@ -117,7 +117,7 @@ export const KanbanHeader: React.FC<KanbanHeaderProps> = ({
                         <PopoverTrigger asChild>
                             <button
                                 className="p-2 text-yellow-600 hover:text-yellow-700 dark:text-yellow-400 dark:hover:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 rounded-lg transition-colors relative group"
-                                title="Automações Sugeridas"
+                                title="AutomaÃ§Ãµes Sugeridas"
                             >
                                 <Lightbulb size={20} className="fill-current" />
                                 <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
@@ -127,7 +127,7 @@ export const KanbanHeader: React.FC<KanbanHeaderProps> = ({
                             <div className="p-4 border-b border-slate-100 dark:border-white/10 bg-slate-50 dark:bg-slate-900/50">
                                 <h4 className="font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                                     <Lightbulb size={16} className="text-yellow-500" />
-                                    Automações Sugeridas
+                                    AutomaÃ§Ãµes Sugeridas
                                 </h4>
                                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                                     Dicas da IA para otimizar este processo.
@@ -137,7 +137,7 @@ export const KanbanHeader: React.FC<KanbanHeaderProps> = ({
                                 <ul className="space-y-1">
                                     {activeBoard.automationSuggestions.map((suggestion, idx) => (
                                         <li key={idx} className="text-sm text-slate-700 dark:text-slate-300 p-2 hover:bg-slate-50 dark:hover:bg-white/5 rounded-md flex gap-2 items-start">
-                                            <span className="text-slate-400 mt-0.5">•</span>
+                                            <span className="text-slate-400 mt-0.5">â€¢</span>
                                             <span>{suggestion}</span>
                                         </li>
                                     ))}
@@ -151,7 +151,7 @@ export const KanbanHeader: React.FC<KanbanHeaderProps> = ({
                 <div className="flex bg-slate-100 dark:bg-white/5 p-1 rounded-lg border border-slate-200 dark:border-white/10">
                     <button
                         onClick={() => setViewMode('kanban')}
-                        aria-label="Visualização em quadro Kanban"
+                        aria-label="VisualizaÃ§Ã£o em quadro Kanban"
                         aria-pressed={viewMode === 'kanban'}
                         className={`p-1.5 rounded-md transition-all ${viewMode === 'kanban' ? 'bg-white dark:bg-slate-700 shadow-sm text-primary-600 dark:text-white' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}
                     >
@@ -159,7 +159,7 @@ export const KanbanHeader: React.FC<KanbanHeaderProps> = ({
                     </button>
                     <button
                         onClick={() => setViewMode('list')}
-                        aria-label="Visualização em lista"
+                        aria-label="VisualizaÃ§Ã£o em lista"
                         aria-pressed={viewMode === 'list'}
                         className={`p-1.5 rounded-md transition-all ${viewMode === 'list' ? 'bg-white dark:bg-slate-700 shadow-sm text-primary-600 dark:text-white' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}
                     >
@@ -172,7 +172,7 @@ export const KanbanHeader: React.FC<KanbanHeaderProps> = ({
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
                     <input
                         type="text"
-                        placeholder="Filtrar negócios ou empresas..."
+                        placeholder="Filtrar negÃ³cios ou empresas..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-white/5 text-sm outline-none focus:ring-2 focus:ring-primary-500 dark:text-white backdrop-blur-sm"
@@ -202,11 +202,11 @@ export const KanbanHeader: React.FC<KanbanHeaderProps> = ({
                     <select
                         value={ownerFilter}
                         onChange={(e) => setOwnerFilter(e.target.value as 'all' | 'mine')}
-                        aria-label="Filtrar negócios por proprietário"
+                        aria-label="Filtrar negÃ³cios por proprietÃ¡rio"
                         className="pl-3 pr-8 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-white/5 text-sm outline-none focus:ring-2 focus:ring-primary-500 dark:text-white backdrop-blur-sm appearance-none cursor-pointer"
                     >
                         <option value="all">Todos os Donos</option>
-                        <option value="mine">Meus Negócios</option>
+                        <option value="mine">Meus NegÃ³cios</option>
                     </select>
                     <User className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={14} />
                 </div>
@@ -217,14 +217,14 @@ export const KanbanHeader: React.FC<KanbanHeaderProps> = ({
                         <select
                             value={conversationPeriodFilter || 'all'}
                             onChange={(e) => setConversationPeriodFilter(e.target.value as PeriodFilter)}
-                            aria-label="Filtrar por período de conversas"
+                            aria-label="Filtrar por perÃ­odo de conversas"
                             className="pl-9 pr-4 py-2 rounded-lg border border-primary-300/30 dark:border-primary-500/20 bg-primary-50/50 dark:bg-primary-900/10 text-sm outline-none focus:ring-2 focus:ring-primary-500 dark:text-white backdrop-blur-sm appearance-none cursor-pointer"
                         >
-                            <option value="all">Todo Período</option>
+                            <option value="all">Todo PerÃ­odo</option>
                             <option value="today">Conversas de Hoje</option>
-                            <option value="last_7_days">Últimos 7 dias</option>
-                            <option value="last_30_days">Últimos 30 dias</option>
-                            <option value="this_month">Este Mês</option>
+                            <option value="last_7_days">Ãšltimos 7 dias</option>
+                            <option value="last_30_days">Ãšltimos 30 dias</option>
+                            <option value="this_month">Este MÃªs</option>
                         </select>
                         <CalendarClock className="absolute left-3 top-1/2 -translate-y-1/2 text-primary-500 dark:text-primary-400 pointer-events-none" size={16} />
                     </div>
@@ -236,7 +236,7 @@ export const KanbanHeader: React.FC<KanbanHeaderProps> = ({
                     onClick={onNewDeal}
                     className="bg-primary-700 hover:bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all shadow-lg shadow-primary-700/20"
                 >
-                    <Plus size={18} aria-hidden="true" /> Novo Negócio
+                    <Plus size={18} aria-hidden="true" /> Novo NegÃ³cio
                 </button>
             </div>
         </div>

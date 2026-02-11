@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { LucideIcon } from 'lucide-react';
 
 interface SettingsSectionProps {
@@ -10,7 +10,7 @@ interface SettingsSectionProps {
 /**
  * Componente React `SettingsSection`.
  *
- * @param {SettingsSectionProps} { title, icon: Icon, children } - Parâmetro `{ title, icon: Icon, children }`.
+ * @param {SettingsSectionProps} { title, icon: Icon, children } - ParÃ¢metro `{ title, icon: Icon, children }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const SettingsSection: React.FC<SettingsSectionProps> = ({ title, icon: Icon, children }) => (
@@ -22,7 +22,7 @@ export const SettingsSection: React.FC<SettingsSectionProps> = ({ title, icon: I
             <Icon className="h-5 w-5" /> {title}
           </h3>
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            Gerencie suas configurações de {title.toLowerCase()}.
+            Gerencie suas configuraÃ§Ãµes de {title.toLowerCase()}.
           </p>
         </div>
       </div>

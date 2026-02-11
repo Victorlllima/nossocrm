@@ -1,11 +1,11 @@
-/**
+﻿/**
  * Cache Integrity Tests
  * 
- * Estes testes detectam regressões no gerenciamento de cache de deals.
- * O objetivo é garantir que:
+ * Estes testes detectam regressÃµes no gerenciamento de cache de deals.
+ * O objetivo Ã© garantir que:
  * 1. Todos os pontos de escrita usam DEALS_VIEW_KEY
- * 2. Não há setQueriesData com prefix matchers para deals
- * 3. A arquitetura de "única fonte de verdade" é mantida
+ * 2. NÃ£o hÃ¡ setQueriesData com prefix matchers para deals
+ * 3. A arquitetura de "Ãºnica fonte de verdade" Ã© mantida
  */
 
 import { describe, it, expect } from 'vitest';
@@ -16,7 +16,7 @@ const LIB_QUERY_DIR = path.join(__dirname, '..');
 const CONTEXT_DIR = path.join(__dirname, '../../../context');
 const REALTIME_DIR = path.join(__dirname, '../../realtime');
 
-// Arquivos críticos que gerenciam o cache de deals
+// Arquivos crÃ­ticos que gerenciam o cache de deals
 const CRITICAL_FILES = [
   path.join(LIB_QUERY_DIR, 'hooks/useDealsQuery.ts'),
   path.join(LIB_QUERY_DIR, 'hooks/useMoveDeal.ts'),
@@ -25,7 +25,7 @@ const CRITICAL_FILES = [
   path.join(REALTIME_DIR, 'useRealtimeSync.ts'),
 ];
 
-// Padrões problemáticos que indicam regressão
+// PadrÃµes problemÃ¡ticos que indicam regressÃ£o
 const DANGEROUS_PATTERNS = [
   // setQueriesData com prefix matcher (pode atualizar caches errados)
   {
@@ -47,7 +47,7 @@ const DANGEROUS_PATTERNS = [
   },
 ];
 
-// Padrões obrigatórios que devem estar presentes
+// PadrÃµes obrigatÃ³rios que devem estar presentes
 const REQUIRED_PATTERNS = [
   {
     files: ['useDealsQuery.ts', 'useMoveDeal.ts', 'DealsContext.tsx', 'useRealtimeSync.ts'],
@@ -57,13 +57,13 @@ const REQUIRED_PATTERNS = [
 ];
 
 describe('Cache Integrity - Deals', () => {
-  describe('Padrões Perigosos', () => {
+  describe('PadrÃµes Perigosos', () => {
     CRITICAL_FILES.forEach((filePath) => {
       const fileName = path.basename(filePath);
       
-      it(`${fileName}: não deve usar setQueriesData com prefix matcher`, () => {
+      it(`${fileName}: nÃ£o deve usar setQueriesData com prefix matcher`, () => {
         if (!fs.existsSync(filePath)) {
-          console.warn(`⚠️ Arquivo não encontrado: ${filePath}`);
+          console.warn(`âš ï¸ Arquivo nÃ£o encontrado: ${filePath}`);
           return;
         }
 
@@ -73,7 +73,7 @@ describe('Cache Integrity - Deals', () => {
           const matches = content.match(pattern);
           
           if (matches && severity === 'error') {
-            // Ignora comentários (linhas que começam com //)
+            // Ignora comentÃ¡rios (linhas que comeÃ§am com //)
             const nonCommentMatches = matches.filter(match => {
               const lineIndex = content.indexOf(match);
               const lineStart = content.lastIndexOf('\n', lineIndex) + 1;
@@ -83,9 +83,9 @@ describe('Cache Integrity - Deals', () => {
             
             if (nonCommentMatches.length > 0) {
               expect.fail(
-                `❌ ${fileName}: ${description}\n` +
+                `âŒ ${fileName}: ${description}\n` +
                 `   Encontrado: ${nonCommentMatches.join(', ')}\n` +
-                `   Solução: Use setQueryData(DEALS_VIEW_KEY, ...) em vez disso`
+                `   SoluÃ§Ã£o: Use setQueryData(DEALS_VIEW_KEY, ...) em vez disso`
               );
             }
           }
@@ -94,14 +94,14 @@ describe('Cache Integrity - Deals', () => {
     });
   });
 
-  describe('Padrões Obrigatórios', () => {
+  describe('PadrÃµes ObrigatÃ³rios', () => {
     REQUIRED_PATTERNS.forEach(({ files, pattern, description }) => {
       files.forEach((fileName) => {
         it(`${fileName}: ${description}`, () => {
           const filePath = CRITICAL_FILES.find(f => f.endsWith(fileName));
           
           if (!filePath || !fs.existsSync(filePath)) {
-            console.warn(`⚠️ Arquivo não encontrado: ${fileName}`);
+            console.warn(`âš ï¸ Arquivo nÃ£o encontrado: ${fileName}`);
             return;
           }
 
@@ -114,18 +114,18 @@ describe('Cache Integrity - Deals', () => {
     });
   });
 
-  describe('Consistência de Query Keys', () => {
+  describe('ConsistÃªncia de Query Keys', () => {
     it('DEALS_VIEW_KEY deve ser usado para todas as mutations de deals', () => {
       const dealsQueryPath = path.join(LIB_QUERY_DIR, 'hooks/useDealsQuery.ts');
       
       if (!fs.existsSync(dealsQueryPath)) {
-        console.warn('⚠️ useDealsQuery.ts não encontrado');
+        console.warn('âš ï¸ useDealsQuery.ts nÃ£o encontrado');
         return;
       }
 
       const content = fs.readFileSync(dealsQueryPath, 'utf-8');
       
-      // Conta quantas vezes setQueryData é chamado com DEALS_VIEW_KEY
+      // Conta quantas vezes setQueryData Ã© chamado com DEALS_VIEW_KEY
       const dealsViewKeyUsage = (content.match(/setQueryData[^)]*DEALS_VIEW_KEY/g) || []).length;
       
       // A maioria dos setQueryData<DealView[]> deve usar DEALS_VIEW_KEY
@@ -139,7 +139,7 @@ describe('Cache Integrity - Deals', () => {
       const moveDealPath = path.join(LIB_QUERY_DIR, 'hooks/useMoveDeal.ts');
       
       if (!fs.existsSync(moveDealPath)) {
-        console.warn('⚠️ useMoveDeal.ts não encontrado');
+        console.warn('âš ï¸ useMoveDeal.ts nÃ£o encontrado');
         return;
       }
 
@@ -148,11 +148,11 @@ describe('Cache Integrity - Deals', () => {
       // Deve importar DEALS_VIEW_KEY
       expect(content).toMatch(/DEALS_VIEW_KEY/);
       
-      // Não deve usar setQueriesData
+      // NÃ£o deve usar setQueriesData
       const setQueriesDataUsage = content.match(/setQueriesData\s*<[^>]*Deal/g);
       expect(
         setQueriesDataUsage,
-        'useMoveDeal não deve usar setQueriesData para deals'
+        'useMoveDeal nÃ£o deve usar setQueriesData para deals'
       ).toBeNull();
     });
 
@@ -160,7 +160,7 @@ describe('Cache Integrity - Deals', () => {
       const realtimePath = path.join(REALTIME_DIR, 'useRealtimeSync.ts');
       
       if (!fs.existsSync(realtimePath)) {
-        console.warn('⚠️ useRealtimeSync.ts não encontrado');
+        console.warn('âš ï¸ useRealtimeSync.ts nÃ£o encontrado');
         return;
       }
 
@@ -169,17 +169,17 @@ describe('Cache Integrity - Deals', () => {
       // Deve importar DEALS_VIEW_KEY
       expect(content).toMatch(/DEALS_VIEW_KEY/);
       
-      // Deve ter comentário sobre única fonte de verdade
-      expect(content).toMatch(/única fonte de verdade|single source of truth/i);
+      // Deve ter comentÃ¡rio sobre Ãºnica fonte de verdade
+      expect(content).toMatch(/Ãºnica fonte de verdade|single source of truth/i);
     });
   });
 
-  describe('Documentação', () => {
+  describe('DocumentaÃ§Ã£o', () => {
     it('AGENTS.md deve documentar a regra de cache', () => {
       const agentsPath = path.join(__dirname, '../../../../AGENTS.md');
       
       if (!fs.existsSync(agentsPath)) {
-        console.warn('⚠️ AGENTS.md não encontrado');
+        console.warn('âš ï¸ AGENTS.md nÃ£o encontrado');
         return;
       }
 
@@ -195,7 +195,7 @@ describe('Cache Integrity - Deals', () => {
       const crmContextPath = path.join(CONTEXT_DIR, 'CRMContext.tsx');
       
       if (!fs.existsSync(crmContextPath)) {
-        console.warn('⚠️ CRMContext.tsx não encontrado');
+        console.warn('âš ï¸ CRMContext.tsx nÃ£o encontrado');
         return;
       }
 
@@ -242,7 +242,7 @@ describe('Cache Integrity - Snapshot', () => {
       }
     });
     
-    // Snapshot do relatório de uso
+    // Snapshot do relatÃ³rio de uso
     expect(usageReport).toMatchSnapshot();
   });
 });

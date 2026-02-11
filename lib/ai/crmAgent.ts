@@ -1,4 +1,4 @@
-import { ToolLoopAgent, stepCountIs } from 'ai';
+﻿import { generateText, convertToCoreMessages } from 'ai';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { createOpenAI } from '@ai-sdk/openai';
 import { createAnthropic } from '@ai-sdk/anthropic';
@@ -119,235 +119,6 @@ function formatCockpitSnapshotForPrompt(snapshot: any): string[] {
     return lines;
 }
 
-function createRetryingFetch(
-    baseFetch: typeof fetch,
-    opts: {
-        label: string;
-        retries: number;
-        baseDelayMs: number;
-        maxDelayMs: number;
-        modelFallback?: {
-            /** Se o body JSON tiver esse model, substitui por `toModel` em retries (attempt >= 1). */
-            fromModels: string[];
-            toModel: string;
-            /** Só aplicar fallback em respostas com status retryable (default: 429 e 5xx) */
-            statuses?: number[];
-        };
-    }
-) {
-    const { label, retries, baseDelayMs, maxDelayMs } = opts;
-
-    const isRetryableStatus = (status: number) => {
-        // 408: timeout, 429: rate limit, 5xx: instabilidade do provedor.
-        return status === 408 || status === 429 || (status >= 500 && status <= 599);
-    };
-
-    const shouldApplyModelFallback = (status: number | undefined) => {
-        const fb = opts.modelFallback;
-        if (!fb) return false;
-        if (status == null) return false;
-
-        // Se o caller forneceu uma lista de status, respeitar.
-        if (Array.isArray(fb.statuses) && fb.statuses.length > 0) {
-            return fb.statuses.includes(status);
-        }
-
-        // Default: 429 e 5xx.
-        return status === 429 || (status >= 500 && status <= 599);
-    };
-
-    const maybeRewriteModelInBody = (body: unknown, attempt: number, lastStatus?: number) => {
-        const fb = opts.modelFallback;
-        if (!fb) return body;
-
-        // Só tentar fallback a partir do segundo attempt (attempt >= 1)
-        if (attempt < 1) return body;
-        if (!shouldApplyModelFallback(lastStatus)) return body;
-
-        if (typeof body !== 'string') return body;
-
-        try {
-            const parsed = JSON.parse(body);
-            const current = parsed?.model;
-            if (typeof current !== 'string') return body;
-            if (!fb.fromModels.includes(current)) return body;
-
-            parsed.model = fb.toModel;
-            const rewritten = JSON.stringify(parsed);
-
-            console.warn(`[${label}] Falling back model`, {
-                from: current,
-                to: fb.toModel,
-                attempt,
-                lastStatus,
-            });
-
-            return rewritten;
-        } catch {
-            return body;
-        }
-    };
-
-    const extractRequestId = (res: Response) => {
-        // OpenAI costuma enviar request-id em um desses headers.
-        return (
-            res.headers.get('x-request-id') ||
-            res.headers.get('openai-request-id') ||
-            res.headers.get('request-id') ||
-            undefined
-        );
-    };
-
-    const canRetryBody = (body: any): boolean => {
-        // Evitar retries quando o body é stream não-reutilizável.
-        // Strings/ArrayBuffer/Uint8Array/etc são OK.
-        if (body == null) return true;
-        if (typeof body === 'string') return true;
-        if (body instanceof ArrayBuffer) return true;
-        if (typeof Uint8Array !== 'undefined' && body instanceof Uint8Array) return true;
-        if (typeof Blob !== 'undefined' && body instanceof Blob) return true;
-        // FormData geralmente é reusável, mas em alguns ambientes pode falhar; preferir não retry.
-        if (typeof FormData !== 'undefined' && body instanceof FormData) return false;
-        // ReadableStream: não retry.
-        if (typeof ReadableStream !== 'undefined' && body instanceof ReadableStream) return false;
-        return false;
-    };
-
-    return async (input: RequestInfo | URL, init?: RequestInit) => {
-        const bodyRetryable = !(input instanceof Request) && !canRetryBody(init?.body);
-        if (bodyRetryable) {
-            // Melhor fazer uma chamada única do que tentar retry e falhar ao reusar body.
-            return baseFetch(input, init);
-        }
-
-        // Quando o SDK chama fetch passando um Request pronto, precisamos "bufferizar" o body
-        // para poder refazer a request (e aplicar fallback de model) em retries.
-        // Isso é especialmente importante para requests JSON do OpenAI.
-        let bufferedFromRequest:
-            | {
-                url: string;
-                init: RequestInit;
-                jsonBodyText?: string;
-                contentType?: string;
-            }
-            | undefined;
-
-        const getSignal = () => {
-            if (init?.signal) return init.signal;
-            if (input instanceof Request) return input.signal;
-            return undefined;
-        };
-
-        const makeRequest = async (attempt: number, lastStatus?: number) => {
-            if (input instanceof Request) {
-                // 1) Primeiro build: extrair headers/método/url e, se possível, o body JSON.
-                if (!bufferedFromRequest) {
-                    const headers = new Headers(input.headers);
-                    const contentType = headers.get('content-type') || undefined;
-
-                    let jsonBodyText: string | undefined;
-                    const method = input.method || 'GET';
-                    const hasBody = method !== 'GET' && method !== 'HEAD';
-
-                    if (hasBody) {
-                        try {
-                            // clone() para não consumir o Request original.
-                            const bodyText = await input.clone().text();
-                            // Só guardar se parece JSON; senão, não tentamos reescrever model.
-                            if (
-                                (contentType && /application\/json/i.test(contentType)) ||
-                                bodyText.trim().startsWith('{')
-                            ) {
-                                jsonBodyText = bodyText;
-                            }
-                        } catch {
-                            // Se não conseguimos ler o body, seguimos sem fallback de model.
-                            jsonBodyText = undefined;
-                        }
-                    }
-
-                    // Recriar RequestInit "mínimo". Não copiamos tudo porque alguns campos
-                    // podem não estar disponíveis/ser relevantes no runtime do Next.
-                    bufferedFromRequest = {
-                        url: input.url,
-                        contentType,
-                        jsonBodyText,
-                        init: {
-                            method,
-                            headers,
-                            // sinal/abort vem de getSignal(), aplicado no Request.
-                        },
-                    };
-                }
-
-                // 2) Se temos body JSON bufferizado, conseguimos aplicar fallback de model.
-                const rewritten = maybeRewriteModelInBody(bufferedFromRequest.jsonBodyText, attempt, lastStatus);
-                const nextInit: RequestInit = {
-                    ...bufferedFromRequest.init,
-                    body: rewritten as any,
-                    signal: getSignal(),
-                };
-
-                return new Request(bufferedFromRequest.url, nextInit);
-            }
-
-            const rewrittenBody = maybeRewriteModelInBody(init?.body, attempt, lastStatus);
-            const nextInit: RequestInit = rewrittenBody === init?.body ? init ?? {} : { ...(init ?? {}), body: rewrittenBody as any };
-            return new Request(input, nextInit);
-        };
-
-        let lastResponse: Response | undefined;
-        let lastStatus: number | undefined;
-        for (let attempt = 0; attempt <= retries; attempt++) {
-            if (getSignal()?.aborted) {
-                // Respeitar abort sem tentar novamente.
-                throw new DOMException('The operation was aborted.', 'AbortError');
-            }
-
-            try {
-                const req = await makeRequest(attempt, lastStatus);
-                const res = await baseFetch(req);
-                lastResponse = res;
-                lastStatus = res.status;
-
-                if (!isRetryableStatus(res.status) || attempt === retries) {
-                    return res;
-                }
-
-                const requestId = extractRequestId(res);
-                const delay = Math.min(maxDelayMs, baseDelayMs * Math.pow(2, attempt));
-                const jitter = Math.floor(Math.random() * 120);
-                console.warn(`[${label}] Retryable response (${res.status}). Retrying...`, {
-                    attempt: attempt + 1,
-                    retries,
-                    delayMs: delay + jitter,
-                    requestId,
-                });
-                await sleep(delay + jitter);
-            } catch (err: any) {
-                if (attempt === retries) throw err;
-
-                const delay = Math.min(maxDelayMs, baseDelayMs * Math.pow(2, attempt));
-                const jitter = Math.floor(Math.random() * 120);
-                console.warn(`[${label}] Fetch error. Retrying...`, {
-                    attempt: attempt + 1,
-                    retries,
-                    delayMs: delay + jitter,
-                    message: String(err?.message || err),
-                });
-                await sleep(delay + jitter);
-            }
-        }
-
-        // Segurança: nunca deve chegar aqui.
-        return lastResponse ?? baseFetch(input, init);
-    };
-}
-
-/**
- * Build context prompt from call options
- * This injects rich context into the system prompt at runtime
- */
 function buildContextPrompt(options: CRMCallOptions): string {
     const parts: string[] = [];
 
@@ -398,9 +169,6 @@ function buildContextPrompt(options: CRMCallOptions): string {
         : '';
 }
 
-/**
- * Base instructions for the CRM Agent
- */
 const BASE_INSTRUCTIONS = `Você é o NossoCRM Pilot, um assistente de vendas inteligente. 🚀
 
 PERSONALIDADE:
@@ -409,61 +177,19 @@ PERSONALIDADE:
 - Respostas naturais (evite listas robóticas)
 - Máximo 2 parágrafos por resposta
 
-FERRAMENTAS (15 disponíveis):
-📊 ANÁLISE: analyzePipeline, getBoardMetrics
-🔍 BUSCA: searchDeals, searchContacts, listDealsByStage, listStagnantDeals, listOverdueDeals, getDealDetails
-⚡ AÇÕES: moveDeal, createDeal, updateDeal, markDealAsWon, markDealAsLost, assignDeal, createTask
-
-MEMÓRIA DA CONVERSA (MUITO IMPORTANTE):
-- USE as informações das mensagens anteriores! Se você já buscou deals antes, use esses IDs.
-- Quando o usuário diz "esse deal", "ele", "o único", "o que acabei de ver" - use o ID do deal mencionado antes.
-- NÃO busque novamente se você já tem as informações na conversa.
-- Se a última busca retornou 1 deal, use o ID dele automaticamente.
-- Para markDealAsWon/Lost: passe o dealId que você já conhece da conversa.
-- Para moveDeal: use o dealId do deal que o usuário está se referindo.
-
 REGRAS:
 - Sempre explique os resultados das ferramentas
 - Se der erro, informe de forma amigável
 - Use o boardId do contexto automaticamente quando disponível
-- Para buscas (deals/contatos): ao chamar ferramentas de busca, passe APENAS o termo (ex.: "Nike"), sem frases como "buscar deal Nike".
-- Para ações que alteram dados (criar, mover, marcar, atualizar, atribuir, criar tarefa):
-    - NÃO peça confirmação em texto (não peça “sim/não”, “você confirma?”, etc.)
-    - Chame a ferramenta diretamente; a UI já vai mostrar um card único de Aprovar/Negar
-    - Só faça perguntas se faltar informação para executar (ex.: qual deal? qual estágio?)
-- PRIORIZE usar IDs que você já conhece antes de buscar novamente
+- APRESENTAÇÃO: NÃO mostre IDs/UUIDs; NÃO cite nomes de ferramentas.`;
 
-APRESENTAÇÃO (MUITO IMPORTANTE):
-- NÃO mostre IDs/UUIDs para o usuário final (ex.: "(ID: ...)")
-- NÃO cite nomes internos de tools (ex.: "listStagnantDeals", "markDealAsWon")
-- Sempre prefira: título do deal (nome do card) + contato + valor + estágio (quando fizer sentido)`;
-
-/**
- * Factory function to create a CRM Agent with dynamic context
- * 
- * @param context - Type-safe context from the request
- * @param userId - Current user ID
- * @param apiKey - Google AI API key from organization_settings
- * @param modelId - Model to use (default: gemini-2.0-flash-exp)
- */
 export async function createCRMAgent(
     context: CRMCallOptions,
     userId: string,
     apiKey: string,
-    modelId: string = 'gemini-2.0-flash-exp',
+    modelId: string = 'gemini-1.5-flash',
     provider: AIProvider = 'google'
 ) {
-    console.log('[CRMAgent] 🤖 Creating agent with context:', {
-        boardId: context.boardId,
-        boardName: context.boardName,
-        stagesCount: context.stages?.length,
-        userId,
-        modelId,
-        provider,
-    });
-
-    // Create provider client with org-specific API key
-    // NOTE: Model IDs are stored in organization_settings and passed through.
     const model = (() => {
         switch (provider) {
             case 'google': {
@@ -471,23 +197,7 @@ export async function createCRMAgent(
                 return google(modelId);
             }
             case 'openai': {
-                const openai = createOpenAI({
-                    apiKey,
-                    fetch: createRetryingFetch(fetch, {
-                        label: 'OpenAI',
-                        retries: 2,
-                        baseDelayMs: 350,
-                        maxDelayMs: 2000,
-                        modelFallback: {
-                            // Muitos modelos "preview"/novos oscilam mais; aqui fazemos fallback automático
-                            // para um modelo estável sem exigir intervenção do usuário.
-                            fromModels: [modelId],
-                            toModel: 'gpt-4o',
-                            // Default já cobre 429/5xx; manter explícito só para clareza.
-                            statuses: [429, 500, 502, 503, 504],
-                        },
-                    }),
-                });
+                const openai = createOpenAI({ apiKey });
                 return openai(modelId);
             }
             case 'anthropic': {
@@ -495,94 +205,17 @@ export async function createCRMAgent(
                 return anthropic(modelId);
             }
             default: {
-                // Should be unreachable due to type, but keep runtime safety.
                 const google = createGoogleGenerativeAI({ apiKey });
                 return google(modelId);
             }
         }
-    })();
+    })() as any;
 
-    // Create tools with context injected
     const tools = createCRMTools(context, userId);
 
-    console.log('[CRMAgent] 🛠️ Tools created. Checking markDealAsWon config:', {
-        needsApproval: (tools.markDealAsWon as any).needsApproval,
-        description: tools.markDealAsWon.description
-    });
-
-    return new ToolLoopAgent({
+    return {
         model,
-        callOptionsSchema: CRMCallOptionsSchema,
-        instructions: BASE_INSTRUCTIONS,
-        // prepareCall runs ONCE at the start - injects initial context
-        prepareCall: ({ options, ...settings }) => {
-            return {
-                ...settings,
-                instructions: settings.instructions + buildContextPrompt(options),
-            };
-        },
-        // prepareStep runs on EACH STEP - extracts and injects dynamic context
-        prepareStep: async ({ messages, stepNumber, steps }) => {
-            // Extract dealIds from previous tool results
-            const foundDealIds: string[] = [];
-            const foundDeals: Array<{ id: string; title: string }> = [];
-
-            for (const step of steps) {
-                // Check tool results for deal information
-                if (step.toolResults) {
-                    for (const result of step.toolResults) {
-                        const data = ((result as any).result ?? (result as any).output ?? (result as any).data ?? result) as any;
-                        // Extract deals from listDealsByStage, searchDeals, etc.
-                        if (data?.deals && Array.isArray(data.deals)) {
-                            for (const deal of data.deals) {
-                                if (deal.id && !foundDealIds.includes(deal.id)) {
-                                    foundDealIds.push(deal.id);
-                                    foundDeals.push({ id: deal.id, title: deal.title || 'Unknown' });
-                                }
-                            }
-                        }
-                        // Extract single deal from getDealDetails
-                        if (data?.id && data?.title && !foundDealIds.includes(data.id)) {
-                            foundDealIds.push(data.id);
-                            foundDeals.push({ id: data.id, title: data.title });
-                        }
-                    }
-                }
-            }
-
-            // If we found deals, inject a context reminder
-            if (foundDeals.length > 0) {
-                const lastDeal = foundDeals[foundDeals.length - 1];
-                const contextReminder = `\n\n[CONTEXTO DA CONVERSA: Você já obteve informações sobre ${foundDeals.length} deal(s). O último mencionado foi "${lastDeal.title}" (ID: ${lastDeal.id}). Use este ID automaticamente quando o usuário se referir a "esse deal", "ele", "o único", etc.]`;
-
-                console.log('[CRMAgent] 💡 Injecting context reminder:', {
-                    dealsFound: foundDeals.length,
-                    lastDeal
-                });
-
-                // Add a system message with context (modifying messages)
-                const systemMessage = messages[0];
-                if (systemMessage && systemMessage.role === 'system') {
-                    const enhancedSystem = {
-                        ...systemMessage,
-                        content: typeof systemMessage.content === 'string'
-                            ? systemMessage.content + contextReminder
-                            : systemMessage.content
-                    };
-                    return {
-                        messages: [enhancedSystem, ...messages.slice(1)]
-                    };
-                }
-            }
-
-            return {}; // No modifications needed
-        },
         tools,
-        stopWhen: stepCountIs(10),
-    });
+        instructions: BASE_INSTRUCTIONS + buildContextPrompt(context),
+    };
 }
-
-/**
- * Export type for frontend type-safety
- */
-export type CRMAgentType = Awaited<ReturnType<typeof createCRMAgent>>;

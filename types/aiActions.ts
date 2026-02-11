@@ -1,4 +1,4 @@
-export type ParsedActionType = 'CALL' | 'MEETING' | 'EMAIL' | 'TASK';
+﻿export type ParsedActionType = 'CALL' | 'MEETING' | 'EMAIL' | 'TASK';
 
 export interface ParsedAction {
   title: string;

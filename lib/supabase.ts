@@ -1,4 +1,4 @@
-// Re-export client
+﻿// Re-export client
 export { supabase } from './supabase/client';
 
 // Re-export all services

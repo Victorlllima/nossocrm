@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -27,7 +27,7 @@ export default function LoginPage() {
 
         try {
             if (!supabase) {
-                throw new Error('Supabase não configurado. Configure as variáveis de ambiente.')
+                throw new Error('Supabase nÃ£o configurado. Configure as variÃ¡veis de ambiente.')
             }
 
             const { error } = await supabase.auth.signInWithPassword({
@@ -117,7 +117,7 @@ export default function LoginPage() {
                                     aria-required="true"
                                     aria-describedby={error ? "login-error" : undefined}
                                     className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all sm:text-sm"
-                                    placeholder="••••••••"
+                                    placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
@@ -153,7 +153,7 @@ export default function LoginPage() {
 
                     {/* Link para cadastro */}
                     <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
-                        Não tem uma conta?{' '}
+                        NÃ£o tem uma conta?{' '}
                         <Link
                             href="/signup"
                             className="font-medium text-primary-600 dark:text-primary-400 hover:text-primary-500 transition-colors"

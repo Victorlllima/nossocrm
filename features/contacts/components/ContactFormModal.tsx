@@ -1,4 +1,4 @@
-import React, { useId, useState } from 'react';
+﻿import React, { useId, useState } from 'react';
 import { X } from 'lucide-react';
 import { Contact } from '@/types';
 import { DebugFillButton } from '@/components/debug/DebugFillButton';
@@ -34,7 +34,7 @@ interface ContactFormModalProps {
   formData,
   setFormData,
   editingContact,
-} - Parâmetro `{
+} - ParÃ¢metro `{
   isOpen,
   onClose,
   onSubmit,
@@ -179,7 +179,7 @@ export const ContactFormModal: React.FC<ContactFormModalProps> = ({
             <p className="text-[10px] text-slate-400 mt-1">
               {editingContact
                 ? 'Edite para alterar a empresa. Deixe em branco para desvincular.'
-                : 'Se a empresa já existir, o contato será vinculado a ela.'}
+                : 'Se a empresa jÃ¡ existir, o contato serÃ¡ vinculado a ela.'}
             </p>
           </div>
 
@@ -188,7 +188,7 @@ export const ContactFormModal: React.FC<ContactFormModalProps> = ({
               disabled={isSubmitting}
             className="w-full bg-primary-600 hover:bg-primary-500 text-white font-bold py-2.5 rounded-lg mt-2 shadow-lg shadow-primary-600/20 transition-all"
           >
-            {isSubmitting ? 'Criando...' : (editingContact ? 'Salvar Alterações' : 'Criar Contato')}
+            {isSubmitting ? 'Criando...' : (editingContact ? 'Salvar AlteraÃ§Ãµes' : 'Criar Contato')}
           </button>
         </form>
         </div>

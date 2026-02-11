@@ -1,22 +1,22 @@
-'use server'
+﻿'use server'
 
 import { createClient } from '@/lib/supabase/server'
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 
 /**
- * Schema de validação para atualização de senha
+ * Schema de validaÃ§Ã£o para atualizaÃ§Ã£o de senha
  */
 const updatePasswordSchema = z.object({
     newPassword: z
         .string()
-        .min(6, 'Senha deve ter no mínimo 6 caracteres')
-        .max(72, 'Senha deve ter no máximo 72 caracteres'),
+        .min(6, 'Senha deve ter no mÃ­nimo 6 caracteres')
+        .max(72, 'Senha deve ter no mÃ¡ximo 72 caracteres'),
     confirmPassword: z
         .string()
-        .min(1, 'Confirmação de senha é obrigatória'),
+        .min(1, 'ConfirmaÃ§Ã£o de senha Ã© obrigatÃ³ria'),
 }).refine((data) => data.newPassword === data.confirmPassword, {
-    message: 'As senhas não coincidem',
+    message: 'As senhas nÃ£o coincidem',
     path: ['confirmPassword'],
 })
 
@@ -30,7 +30,7 @@ export type UpdatePasswordState = {
 }
 
 /**
- * Server Action para atualização obrigatória de senha
+ * Server Action para atualizaÃ§Ã£o obrigatÃ³ria de senha
  * 
  * 1. Valida a nova senha
  * 2. Atualiza via supabase.auth.updateUser
@@ -62,13 +62,13 @@ export async function updatePassword(
     try {
         const supabase = await createClient()
 
-        // Obtém o usuário atual
+        // ObtÃ©m o usuÃ¡rio atual
         const { data: { user }, error: userError } = await supabase.auth.getUser()
 
         if (userError || !user) {
             return {
                 success: false,
-                message: 'Sessão expirada. Faça login novamente.',
+                message: 'SessÃ£o expirada. FaÃ§a login novamente.',
             }
         }
 
@@ -110,8 +110,8 @@ export async function updatePassword(
 
         if (profileError) {
             console.error('Error updating profile:', profileError)
-            // Não retorna erro pois a senha já foi atualizada
-            // O usuário pode tentar novamente
+            // NÃ£o retorna erro pois a senha jÃ¡ foi atualizada
+            // O usuÃ¡rio pode tentar novamente
         }
 
         // Revalida o cache para atualizar o AuthContext

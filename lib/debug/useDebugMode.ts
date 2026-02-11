@@ -1,4 +1,4 @@
-import { useSyncExternalStore } from 'react';
+﻿import { useSyncExternalStore } from 'react';
 import { DEBUG_MODE_EVENT, isDebugMode } from './index';
 
 function subscribe(callback: () => void) {
@@ -16,7 +16,7 @@ function subscribe(callback: () => void) {
 }
 
 /**
- * Hook React `useDebugMode` que encapsula uma lógica reutilizável.
+ * Hook React `useDebugMode` que encapsula uma lÃ³gica reutilizÃ¡vel.
  * @returns {boolean} Retorna um valor do tipo `boolean`.
  */
 export function useDebugMode(): boolean {

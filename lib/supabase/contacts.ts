@@ -1,12 +1,12 @@
-/**
- * @fileoverview Serviço Supabase para gerenciamento de contatos e empresas CRM.
+﻿/**
+ * @fileoverview ServiÃ§o Supabase para gerenciamento de contatos e empresas CRM.
  * 
- * Este módulo fornece operações CRUD para contatos e empresas (crm_companies),
- * com transformação automática entre o formato do banco e o formato da aplicação.
+ * Este mÃ³dulo fornece operaÃ§Ãµes CRUD para contatos e empresas (crm_companies),
+ * com transformaÃ§Ã£o automÃ¡tica entre o formato do banco e o formato da aplicaÃ§Ã£o.
  * 
  * ## Conceitos Multi-Tenant
  * 
- * - Contatos são isolados por `organization_id` (tenant)
+ * - Contatos sÃ£o isolados por `organization_id` (tenant)
  * - `client_company_id` vincula o contato a uma empresa cadastrada no CRM
  * 
  * @module lib/supabase/contacts
@@ -22,14 +22,14 @@ import { normalizePhoneE164 } from '@/lib/phone';
 // ============================================
 
 /**
- * Representação de contato no banco de dados.
+ * RepresentaÃ§Ã£o de contato no banco de dados.
  * 
  * @interface DbContact
  */
 export interface DbContact {
-  /** ID único do contato (UUID). */
+  /** ID Ãºnico do contato (UUID). */
   id: string;
-  /** ID da organização/tenant (para RLS). */
+  /** ID da organizaÃ§Ã£o/tenant (para RLS). */
   organization_id: string;
   /** Nome completo do contato. */
   name: string;
@@ -37,7 +37,7 @@ export interface DbContact {
   email: string | null;
   /** Telefone do contato. */
   phone: string | null;
-  /** Cargo/função do contato. */
+  /** Cargo/funÃ§Ã£o do contato. */
   role: string | null;
   /** Nome da empresa (texto livre, deprecado). */
   company_name: string | null;
@@ -45,59 +45,59 @@ export interface DbContact {
   client_company_id: string | null;
   /** URL do avatar. */
   avatar: string | null;
-  /** Observações sobre o contato. */
+  /** ObservaÃ§Ãµes sobre o contato. */
   notes: string | null;
   /** Status do contato (ACTIVE, INACTIVE). */
   status: string;
-  /** Estágio no funil (LEAD, MQL, etc). */
+  /** EstÃ¡gio no funil (LEAD, MQL, etc). */
   stage: string;
   /** Fonte de origem do contato. */
   source: string | null;
-  /** Data de aniversário. */
+  /** Data de aniversÃ¡rio. */
   birth_date: string | null;
-  /** Data da última interação. */
+  /** Data da Ãºltima interaÃ§Ã£o. */
   last_interaction: string | null;
-  /** Data da última compra. */
+  /** Data da Ãºltima compra. */
   last_purchase_date: string | null;
   /** Valor total de compras. */
   total_value: number;
-  /** Data de criação. */
+  /** Data de criaÃ§Ã£o. */
   created_at: string;
-  /** Data de atualização. */
+  /** Data de atualizaÃ§Ã£o. */
   updated_at: string;
-  /** ID do dono/responsável. */
+  /** ID do dono/responsÃ¡vel. */
   owner_id: string | null;
 }
 
 /**
- * Representação de empresa CRM no banco de dados.
+ * RepresentaÃ§Ã£o de empresa CRM no banco de dados.
  * 
  * @interface DbCRMCompany
  */
 export interface DbCRMCompany {
-  /** ID único da empresa (UUID). */
+  /** ID Ãºnico da empresa (UUID). */
   id: string;
-  /** ID da organização/tenant. */
+  /** ID da organizaÃ§Ã£o/tenant. */
   organization_id: string;
   /** Nome da empresa. */
   name: string;
-  /** Setor/indústria. */
+  /** Setor/indÃºstria. */
   industry: string | null;
   /** Website da empresa. */
   website: string | null;
-  /** Data de criação. */
+  /** Data de criaÃ§Ã£o. */
   created_at: string;
-  /** Data de atualização. */
+  /** Data de atualizaÃ§Ã£o. */
   updated_at: string;
-  /** ID do dono/responsável. */
+  /** ID do dono/responsÃ¡vel. */
   owner_id: string | null;
 }
 
 /**
- * Transforma contato do formato DB para o formato da aplicação.
+ * Transforma contato do formato DB para o formato da aplicaÃ§Ã£o.
  * 
  * @param db - Contato no formato do banco.
- * @returns Contato no formato da aplicação.
+ * @returns Contato no formato da aplicaÃ§Ã£o.
  */
 const transformContact = (db: DbContact): Contact => ({
   id: db.id,
@@ -122,10 +122,10 @@ const transformContact = (db: DbContact): Contact => ({
 });
 
 /**
- * Transforma empresa CRM do formato DB para o formato da aplicação.
+ * Transforma empresa CRM do formato DB para o formato da aplicaÃ§Ã£o.
  * 
  * @param db - Empresa no formato do banco.
- * @returns Empresa no formato da aplicação.
+ * @returns Empresa no formato da aplicaÃ§Ã£o.
  */
 const transformCRMCompany = (db: DbCRMCompany): CRMCompany => ({
   id: db.id,
@@ -138,9 +138,9 @@ const transformCRMCompany = (db: DbCRMCompany): CRMCompany => ({
 });
 
 /**
- * Transforma contato do formato da aplicação para o formato DB.
+ * Transforma contato do formato da aplicaÃ§Ã£o para o formato DB.
  * 
- * @param contact - Contato parcial no formato da aplicação.
+ * @param contact - Contato parcial no formato da aplicaÃ§Ã£o.
  * @returns Contato parcial no formato do banco.
  */
 const transformContactToDb = (contact: Partial<Contact>): Partial<DbContact> => {
@@ -170,10 +170,10 @@ const transformContactToDb = (contact: Partial<Contact>): Partial<DbContact> => 
 };
 
 /**
- * Serviço de contatos do Supabase.
+ * ServiÃ§o de contatos do Supabase.
  * 
- * Fornece operações CRUD para a tabela `contacts`.
- * Todos os dados são filtrados por RLS baseado no `organization_id`.
+ * Fornece operaÃ§Ãµes CRUD para a tabela `contacts`.
+ * Todos os dados sÃ£o filtrados por RLS baseado no `organization_id`.
  * 
  * @example
  * ```typescript
@@ -182,17 +182,17 @@ const transformContactToDb = (contact: Partial<Contact>): Partial<DbContact> => 
  * 
  * // Criar um novo contato
  * const { data, error } = await contactsService.create(
- *   { name: 'João', email: 'joao@email.com', status: 'ACTIVE', stage: 'LEAD' },
+ *   { name: 'JoÃ£o', email: 'joao@email.com', status: 'ACTIVE', stage: 'LEAD' },
  *   organizationId
  * );
  * ```
  */
 export const contactsService = {
   /**
-   * Busca contagens de contatos por estágio do funil.
+   * Busca contagens de contatos por estÃ¡gio do funil.
    * Usa RPC para query eficiente no servidor.
    * 
-   * @returns Promise com objeto de contagens por estágio.
+   * @returns Promise com objeto de contagens por estÃ¡gio.
    * 
    * @example
    * ```typescript
@@ -203,7 +203,7 @@ export const contactsService = {
   async getStageCounts(): Promise<{ data: Record<string, number> | null; error: Error | null }> {
     try {
       if (!supabase) {
-        return { data: null, error: new Error('Supabase não configurado') };
+        return { data: null, error: new Error('Supabase nÃ£o configurado') };
       }
       const { data, error } = await supabase.rpc('get_contact_stage_counts');
 
@@ -224,14 +224,14 @@ export const contactsService = {
   },
 
   /**
-   * Busca todos os contatos da organização.
+   * Busca todos os contatos da organizaÃ§Ã£o.
    * 
    * @returns Promise com array de contatos ou erro.
    */
   async getAll(): Promise<{ data: Contact[] | null; error: Error | null }> {
     try {
       if (!supabase) {
-        return { data: null, error: new Error('Supabase não configurado') };
+        return { data: null, error: new Error('Supabase nÃ£o configurado') };
       }
       const { data, error } = await supabase
         .from('contacts')
@@ -246,9 +246,9 @@ export const contactsService = {
   },
 
   /**
-   * Busca contatos com paginação e filtros server-side.
+   * Busca contatos com paginaÃ§Ã£o e filtros server-side.
    * 
-   * @param pagination - Estado de paginação { pageIndex, pageSize }.
+   * @param pagination - Estado de paginaÃ§Ã£o { pageIndex, pageSize }.
    * @param filters - Filtros opcionais (search, stage, status, dateRange).
    * @returns Promise com resposta paginada ou erro.
    * 
@@ -256,7 +256,7 @@ export const contactsService = {
    * ```typescript
    * const { data, error } = await contactsService.getAllPaginated(
    *   { pageIndex: 0, pageSize: 50 },
-   *   { search: 'João', stage: 'LEAD' }
+   *   { search: 'JoÃ£o', stage: 'LEAD' }
    * );
    * // data.data = Contact[]
    * // data.totalCount = 10000
@@ -269,7 +269,7 @@ export const contactsService = {
   ): Promise<{ data: PaginatedResponse<Contact> | null; error: Error | null }> {
     try {
       if (!supabase) {
-        return { data: null, error: new Error('Supabase não configurado') };
+        return { data: null, error: new Error('Supabase nÃ£o configurado') };
       }
       const { pageIndex, pageSize } = pagination;
       const from = pageIndex * pageSize;
@@ -359,7 +359,7 @@ export const contactsService = {
   async create(contact: Omit<Contact, 'id' | 'createdAt'>): Promise<{ data: Contact | null; error: Error | null }> {
     try {
       if (!supabase) {
-        return { data: null, error: new Error('Supabase não configurado') };
+        return { data: null, error: new Error('Supabase nÃ£o configurado') };
       }
       const phoneE164 = normalizePhoneE164(contact.phone);
       const insertData = {
@@ -403,7 +403,7 @@ export const contactsService = {
   async update(id: string, updates: Partial<Contact>): Promise<{ error: Error | null }> {
     try {
       if (!supabase) {
-        return { error: new Error('Supabase não configurado') };
+        return { error: new Error('Supabase nÃ£o configurado') };
       }
       const dbUpdates = transformContactToDb(updates);
       dbUpdates.updated_at = new Date().toISOString();
@@ -422,17 +422,17 @@ export const contactsService = {
   /**
    * Exclui um contato.
    * 
-   * @param id - ID do contato a ser excluído.
+   * @param id - ID do contato a ser excluÃ­do.
    * @returns Promise com erro, se houver.
    */
   async delete(id: string): Promise<{ error: Error | null }> {
     try {
       if (!supabase) {
-        return { error: new Error('Supabase não configurado') };
+        return { error: new Error('Supabase nÃ£o configurado') };
       }
-      // UX: ao excluir contato, também removemos atividades "contact-only"
-      // (FK em activities.contact_id é SET NULL, então deletamos explicitamente
-      // para evitar tarefas órfãs aparecerem no Inbox/Focus.)
+      // UX: ao excluir contato, tambÃ©m removemos atividades "contact-only"
+      // (FK em activities.contact_id Ã© SET NULL, entÃ£o deletamos explicitamente
+      // para evitar tarefas Ã³rfÃ£s aparecerem no Inbox/Focus.)
       const { error: activitiesError } = await supabase
         .from('activities')
         .delete()
@@ -454,7 +454,7 @@ export const contactsService = {
    * Verifica se o contato tem deals associados.
    * 
    * @param contactId - ID do contato.
-   * @returns Promise com informações sobre os deals associados.
+   * @returns Promise com informaÃ§Ãµes sobre os deals associados.
    */
   async hasDeals(contactId: string): Promise<{ hasDeals: boolean; dealCount: number; deals: Array<{ id: string; title: string }>; error: Error | null }> {
     try {
@@ -463,7 +463,7 @@ export const contactsService = {
           hasDeals: false,
           dealCount: 0,
           deals: [],
-          error: new Error('Supabase não configurado'),
+          error: new Error('Supabase nÃ£o configurado'),
         };
       }
       const { data, count, error } = await supabase
@@ -488,7 +488,7 @@ export const contactsService = {
   async deleteWithDeals(contactId: string): Promise<{ error: Error | null }> {
     try {
       if (!supabase) {
-        return { error: new Error('Supabase não configurado') };
+        return { error: new Error('Supabase nÃ£o configurado') };
       }
       // First delete all deals for this contact
       const { error: dealsError } = await supabase
@@ -512,10 +512,10 @@ export const contactsService = {
 };
 
 /**
- * Serviço de empresas CRM do Supabase.
+ * ServiÃ§o de empresas CRM do Supabase.
  * 
- * Fornece operações CRUD para a tabela `crm_companies`.
- * Empresas CRM são as empresas dos clientes, não o tenant.
+ * Fornece operaÃ§Ãµes CRUD para a tabela `crm_companies`.
+ * Empresas CRM sÃ£o as empresas dos clientes, nÃ£o o tenant.
  * 
  * @example
  * ```typescript
@@ -524,14 +524,14 @@ export const contactsService = {
  */
 export const companiesService = {
   /**
-   * Busca todas as empresas CRM da organização.
+   * Busca todas as empresas CRM da organizaÃ§Ã£o.
    * 
    * @returns Promise com array de empresas ou erro.
    */
   async getAll(): Promise<{ data: CRMCompany[] | null; error: Error | null }> {
     try {
       if (!supabase) {
-        return { data: null, error: new Error('Supabase não configurado') };
+        return { data: null, error: new Error('Supabase nÃ£o configurado') };
       }
       const { data, error } = await supabase
         .from('crm_companies')
@@ -554,7 +554,7 @@ export const companiesService = {
   async create(company: Omit<CRMCompany, 'id' | 'createdAt' | 'updatedAt'>): Promise<{ data: CRMCompany | null; error: Error | null }> {
     try {
       if (!supabase) {
-        return { data: null, error: new Error('Supabase não configurado') };
+        return { data: null, error: new Error('Supabase nÃ£o configurado') };
       }
       const insertData = {
         name: company.name,
@@ -585,7 +585,7 @@ export const companiesService = {
   async update(id: string, updates: Partial<CRMCompany>): Promise<{ error: Error | null }> {
     try {
       if (!supabase) {
-        return { error: new Error('Supabase não configurado') };
+        return { error: new Error('Supabase nÃ£o configurado') };
       }
       const dbUpdates: Partial<DbCRMCompany> = {};
       if (updates.name !== undefined) dbUpdates.name = updates.name;
@@ -613,10 +613,10 @@ export const companiesService = {
   async delete(id: string): Promise<{ error: Error | null }> {
     try {
       if (!supabase) {
-        return { error: new Error('Supabase não configurado') };
+        return { error: new Error('Supabase nÃ£o configurado') };
       }
 
-      // Primeiro, remove vínculo para evitar erro de FK.
+      // Primeiro, remove vÃ­nculo para evitar erro de FK.
       const { error: contactsUpdateError } = await supabase
         .from('contacts')
         .update({ client_company_id: null })

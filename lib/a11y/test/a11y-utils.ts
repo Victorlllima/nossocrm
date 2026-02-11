@@ -1,4 +1,4 @@
-import './vitest-axe';
+﻿import './vitest-axe';
 import { axe, configureAxe } from 'vitest-axe';
 import { expect } from 'vitest';
 import type { RenderResult } from '@testing-library/react';
@@ -42,53 +42,53 @@ export function expectAriaLabel(element: HTMLElement, label: string): void {
 }
 
 /**
- * Função pública `expectAriaLabelledBy` do projeto.
+ * FunÃ§Ã£o pÃºblica `expectAriaLabelledBy` do projeto.
  *
- * @param {HTMLElement} element - Parâmetro `element`.
+ * @param {HTMLElement} element - ParÃ¢metro `element`.
  * @param {string} id - Identificador do recurso.
- * @returns {void} Não retorna valor.
+ * @returns {void} NÃ£o retorna valor.
  */
 export function expectAriaLabelledBy(element: HTMLElement, id: string): void {
   expect(element).toHaveAttribute('aria-labelledby', id);
 }
 
 /**
- * Função pública `expectAriaDescribedBy` do projeto.
+ * FunÃ§Ã£o pÃºblica `expectAriaDescribedBy` do projeto.
  *
- * @param {HTMLElement} element - Parâmetro `element`.
+ * @param {HTMLElement} element - ParÃ¢metro `element`.
  * @param {string} id - Identificador do recurso.
- * @returns {void} Não retorna valor.
+ * @returns {void} NÃ£o retorna valor.
  */
 export function expectAriaDescribedBy(element: HTMLElement, id: string): void {
   expect(element).toHaveAttribute('aria-describedby', id);
 }
 
 /**
- * Função pública `expectRole` do projeto.
+ * FunÃ§Ã£o pÃºblica `expectRole` do projeto.
  *
- * @param {HTMLElement} element - Parâmetro `element`.
- * @param {string} role - Parâmetro `role`.
- * @returns {void} Não retorna valor.
+ * @param {HTMLElement} element - ParÃ¢metro `element`.
+ * @param {string} role - ParÃ¢metro `role`.
+ * @returns {void} NÃ£o retorna valor.
  */
 export function expectRole(element: HTMLElement, role: string): void {
   expect(element).toHaveAttribute('role', role);
 }
 
 /**
- * Função pública `expectFocusable` do projeto.
+ * FunÃ§Ã£o pÃºblica `expectFocusable` do projeto.
  *
- * @param {HTMLElement} element - Parâmetro `element`.
- * @returns {void} Não retorna valor.
+ * @param {HTMLElement} element - ParÃ¢metro `element`.
+ * @returns {void} NÃ£o retorna valor.
  */
 export function expectFocusable(element: HTMLElement): void {
   expect(element.tabIndex).toBeGreaterThanOrEqual(0);
 }
 
 /**
- * Função pública `expectNotFocusable` do projeto.
+ * FunÃ§Ã£o pÃºblica `expectNotFocusable` do projeto.
  *
- * @param {HTMLElement} element - Parâmetro `element`.
- * @returns {void} Não retorna valor.
+ * @param {HTMLElement} element - ParÃ¢metro `element`.
+ * @returns {void} NÃ£o retorna valor.
  */
 export function expectNotFocusable(element: HTMLElement): void {
   expect(element.tabIndex).toBe(-1);
@@ -119,8 +119,8 @@ export function simulateTab(shift = false): void {
 }
 
 /**
- * Função pública `simulateEscape` do projeto.
- * @returns {void} Não retorna valor.
+ * FunÃ§Ã£o pÃºblica `simulateEscape` do projeto.
+ * @returns {void} NÃ£o retorna valor.
  */
 export function simulateEscape(): void {
   document.activeElement?.dispatchEvent(
@@ -132,8 +132,8 @@ export function simulateEscape(): void {
 }
 
 /**
- * Função pública `simulateEnter` do projeto.
- * @returns {void} Não retorna valor.
+ * FunÃ§Ã£o pÃºblica `simulateEnter` do projeto.
+ * @returns {void} NÃ£o retorna valor.
  */
 export function simulateEnter(): void {
   document.activeElement?.dispatchEvent(
@@ -145,8 +145,8 @@ export function simulateEnter(): void {
 }
 
 /**
- * Função pública `simulateSpace` do projeto.
- * @returns {void} Não retorna valor.
+ * FunÃ§Ã£o pÃºblica `simulateSpace` do projeto.
+ * @returns {void} NÃ£o retorna valor.
  */
 export function simulateSpace(): void {
   document.activeElement?.dispatchEvent(

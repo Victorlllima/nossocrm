@@ -1,0 +1,17 @@
+{
+  "event": "messages.upsert",
+  "data": {
+    "key": {
+      "remoteJid": "5581999999999@s.whatsapp.net",
+      "fromMe": false,
+      "id": "3EB0A8BF3F1C5F2E"
+    },
+    "message": {
+      "conversation": "Oi, bom dia!"
+    },
+    "messageType": "conversation",
+    "messageTimestamp": 1707571200,
+    "pushName": "João Silva",
+    "status": "PENDING"
+  }
+}

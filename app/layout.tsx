@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { ServiceWorkerRegister } from '@/components/pwa/ServiceWorkerRegister'
@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
 export const metadata: Metadata = {
   title: 'Max Lima',
-  description: 'CRM Inteligente para Gestão de Vendas',
+  description: 'CRM Inteligente para GestÃ£o de Vendas',
 }
 
 /**
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
  *
  * @param {{ children: ReactNode; }} {
   children,
-} - Parâmetro `{
+} - ParÃ¢metro `{
   children,
 }`.
  * @returns {Element} Retorna um valor do tipo `Element`.

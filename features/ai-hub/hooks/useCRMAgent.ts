@@ -1,5 +1,5 @@
-import { useState, useCallback, useRef } from 'react';
-import { streamText, tool, ModelMessage, stepCountIs } from 'ai';
+﻿import { useState, useCallback, useRef } from 'react';
+import { streamText, tool, type CoreMessage } from 'ai';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { z } from 'zod';
 import { useCRM } from '@/context/CRMContext';
@@ -21,9 +21,9 @@ interface UseCRMAgentOptions {
 }
 
 /**
- * Hook React `useCRMAgent` que encapsula uma lógica reutilizável.
+ * Hook React `useCRMAgent` que encapsula uma lÃ³gica reutilizÃ¡vel.
  *
- * @param {UseCRMAgentOptions} options - Opções de configuração.
+ * @param {UseCRMAgentOptions} options - OpÃ§Ãµes de configuraÃ§Ã£o.
  * @returns {{ messages: AgentMessage[]; isLoading: boolean; error: Error | null; sendMessage: (content: string) => Promise<void>; clearMessages: () => void; stopGeneration: () => void; }} Retorna um valor do tipo `{ messages: AgentMessage[]; isLoading: boolean; error: Error | null; sendMessage: (content: string) => Promise<void>; clearMessages: () => void; stopGeneration: () => void; }`.
  */
 export function useCRMAgent(options: UseCRMAgentOptions = {}) {
@@ -47,7 +47,7 @@ export function useCRMAgent(options: UseCRMAgentOptions = {}) {
   // Cria o modelo Google com Gemini 2.5 Flash
   const getModel = useCallback(() => {
     if (!aiApiKey) {
-      throw new Error('API Key não configurada. Vá em Configurações > IA para adicionar.');
+      throw new Error('API Key nÃ£o configurada. VÃ¡ em ConfiguraÃ§Ãµes > IA para adicionar.');
     }
     const google = createGoogleGenerativeAI({ apiKey: aiApiKey });
     return google('gemini-2.5-flash');
@@ -109,7 +109,7 @@ export function useCRMAgent(options: UseCRMAgentOptions = {}) {
       );
 
       if (!found) {
-        return { found: false, message: `Contato "${query}" não encontrado.` };
+        return { found: false, message: `Contato "${query}" nÃ£o encontrado.` };
       }
 
       return {
@@ -194,7 +194,7 @@ export function useCRMAgent(options: UseCRMAgentOptions = {}) {
     getDealDetails: async ({ dealId }: { dealId: string }) => {
       const deal = deals.find(d => d.id === dealId);
       if (!deal) {
-        return { found: false, message: 'Deal não encontrado.' };
+        return { found: false, message: 'Deal nÃ£o encontrado.' };
       }
 
       const dealActivities = activities.filter(a => a.dealId === dealId);
@@ -250,21 +250,21 @@ export function useCRMAgent(options: UseCRMAgentOptions = {}) {
     completeActivity: async ({ activityId }: { activityId: string }) => {
       const activity = activities.find(a => a.id === activityId);
       if (!activity) {
-        return { success: false, message: 'Atividade não encontrada.' };
+        return { success: false, message: 'Atividade nÃ£o encontrada.' };
       }
 
       updateActivity(activityId, { completed: true });
 
       return {
         success: true,
-        message: `Atividade "${activity.title}" marcada como concluída!`,
+        message: `Atividade "${activity.title}" marcada como concluÃ­da!`,
       };
     },
 
     moveDeal: async ({ dealId, newStatus }: { dealId: string; newStatus: string }) => {
       const deal = deals.find(d => d.id === dealId);
       if (!deal) {
-        return { success: false, message: 'Deal não encontrado.' };
+        return { success: false, message: 'Deal nÃ£o encontrado.' };
       }
 
       updateDeal(dealId, { status: newStatus as Deal['status'] });
@@ -280,7 +280,7 @@ export function useCRMAgent(options: UseCRMAgentOptions = {}) {
     updateDealValue: async ({ dealId, newValue }: { dealId: string; newValue: number }) => {
       const deal = deals.find(d => d.id === dealId);
       if (!deal) {
-        return { success: false, message: 'Deal não encontrado.' };
+        return { success: false, message: 'Deal nÃ£o encontrado.' };
       }
 
       const oldValue = deal.value;
@@ -341,7 +341,7 @@ export function useCRMAgent(options: UseCRMAgentOptions = {}) {
       };
     },
 
-    // ANÁLISE
+    // ANÃLISE
     analyzeStagnantDeals: async ({ daysStagnant = 7 }: { daysStagnant?: number }) => {
       const now = new Date();
       const threshold = new Date(now.getTime() - daysStagnant * 24 * 60 * 60 * 1000);
@@ -370,7 +370,7 @@ export function useCRMAgent(options: UseCRMAgentOptions = {}) {
     suggestNextAction: async ({ dealId }: { dealId: string }) => {
       const deal = deals.find(d => d.id === dealId);
       if (!deal) {
-        return { success: false, message: 'Deal não encontrado.' };
+        return { success: false, message: 'Deal nÃ£o encontrado.' };
       }
 
       const dealActivities = activities.filter(a => a.dealId === dealId);
@@ -382,7 +382,7 @@ export function useCRMAgent(options: UseCRMAgentOptions = {}) {
       let priority = 'medium';
 
       if (!lastActivity) {
-        suggestion = 'Fazer primeiro contato - agendar reunião de descoberta';
+        suggestion = 'Fazer primeiro contato - agendar reuniÃ£o de descoberta';
         priority = 'high';
       } else {
         const daysSinceContact = Math.floor(
@@ -390,14 +390,14 @@ export function useCRMAgent(options: UseCRMAgentOptions = {}) {
         );
 
         if (daysSinceContact > 7) {
-          suggestion = `Fazer follow-up - último contato foi há ${daysSinceContact} dias`;
+          suggestion = `Fazer follow-up - Ãºltimo contato foi hÃ¡ ${daysSinceContact} dias`;
           priority = 'high';
         } else if (deal.probability >= 70) {
-          suggestion = 'Deal com alta probabilidade - verificar se está pronto para fechamento';
+          suggestion = 'Deal com alta probabilidade - verificar se estÃ¡ pronto para fechamento';
         } else if (deal.probability >= 40) {
-          suggestion = 'Continuar negociação e resolver possíveis objeções';
+          suggestion = 'Continuar negociaÃ§Ã£o e resolver possÃ­veis objeÃ§Ãµes';
         } else {
-          suggestion = 'Continuar nurturing com conteúdo relevante';
+          suggestion = 'Continuar nurturing com conteÃºdo relevante';
         }
       }
 
@@ -416,7 +416,7 @@ export function useCRMAgent(options: UseCRMAgentOptions = {}) {
   };
 
   // ============================================
-  // FUNÇÃO PRINCIPAL DE ENVIO
+  // FUNÃ‡ÃƒO PRINCIPAL DE ENVIO
   // ============================================
 
   const sendMessage = useCallback(async (content: string) => {
@@ -432,14 +432,14 @@ export function useCRMAgent(options: UseCRMAgentOptions = {}) {
     setIsLoading(true);
     setError(null);
 
-    // Abort controller para cancelar se necessário
+    // Abort controller para cancelar se necessÃ¡rio
     abortControllerRef.current = new AbortController();
 
     try {
       const model = getModel();
 
       // Converte mensagens para o formato do SDK
-      const coreMessages: ModelMessage[] = [
+      const coreMessages: CoreMessage[] = [
         ...messages.map(m => ({
           role: m.role as 'user' | 'assistant',
           content: m.content,
@@ -451,7 +451,7 @@ export function useCRMAgent(options: UseCRMAgentOptions = {}) {
       const tools = {
         searchDeals: tool({
           description: 'Busca deals/oportunidades no CRM',
-          inputSchema: z.object({
+          parameters: z.object({
             query: z.string().optional(),
             status: z.string().optional(),
             minValue: z.number().optional(),
@@ -461,41 +461,41 @@ export function useCRMAgent(options: UseCRMAgentOptions = {}) {
           execute: toolExecutors.searchDeals,
         }),
         getContact: tool({
-          description: 'Busca informações de um contato',
-          inputSchema: z.object({
+          description: 'Busca informaÃ§Ãµes de um contato',
+          parameters: z.object({
             query: z.string(),
           }),
           execute: toolExecutors.getContact,
         }),
         getActivitiesToday: tool({
           description: 'Retorna atividades de hoje',
-          inputSchema: z.object({
+          parameters: z.object({
             includeCompleted: z.boolean().default(false),
           }),
           execute: toolExecutors.getActivitiesToday,
         }),
         getOverdueActivities: tool({
           description: 'Retorna atividades atrasadas',
-          inputSchema: z.object({
+          parameters: z.object({
             limit: z.number().default(5),
           }),
           execute: toolExecutors.getOverdueActivities,
         }),
         getPipelineStats: tool({
-          description: 'Estatísticas do pipeline',
-          inputSchema: z.object({}),
+          description: 'EstatÃ­sticas do pipeline',
+          parameters: z.object({}),
           execute: toolExecutors.getPipelineStats,
         }),
         getDealDetails: tool({
           description: 'Detalhes de um deal',
-          inputSchema: z.object({
+          parameters: z.object({
             dealId: z.string(),
           }),
           execute: toolExecutors.getDealDetails,
         }),
         createActivity: tool({
           description: 'Cria uma nova atividade',
-          inputSchema: z.object({
+          parameters: z.object({
             title: z.string(),
             type: z.enum(['MEETING', 'CALL', 'TASK', 'EMAIL']),
             date: z.string(),
@@ -506,15 +506,15 @@ export function useCRMAgent(options: UseCRMAgentOptions = {}) {
           execute: toolExecutors.createActivity,
         }),
         completeActivity: tool({
-          description: 'Marca atividade como concluída',
-          inputSchema: z.object({
+          description: 'Marca atividade como concluÃ­da',
+          parameters: z.object({
             activityId: z.string(),
           }),
           execute: toolExecutors.completeActivity,
         }),
         moveDeal: tool({
-          description: 'Move deal para outro estágio',
-          inputSchema: z.object({
+          description: 'Move deal para outro estÃ¡gio',
+          parameters: z.object({
             dealId: z.string(),
             newStatus: z.enum(['LEAD', 'QUALIFIED', 'PROPOSAL', 'NEGOTIATION', 'CLOSED_WON', 'CLOSED_LOST']),
           }),
@@ -522,7 +522,7 @@ export function useCRMAgent(options: UseCRMAgentOptions = {}) {
         }),
         updateDealValue: tool({
           description: 'Atualiza valor do deal',
-          inputSchema: z.object({
+          parameters: z.object({
             dealId: z.string(),
             newValue: z.number(),
           }),
@@ -530,7 +530,7 @@ export function useCRMAgent(options: UseCRMAgentOptions = {}) {
         }),
         createDeal: tool({
           description: 'Cria novo deal',
-          inputSchema: z.object({
+          parameters: z.object({
             title: z.string(),
             value: z.number(),
             contactName: z.string().optional(),
@@ -541,14 +541,14 @@ export function useCRMAgent(options: UseCRMAgentOptions = {}) {
         }),
         analyzeStagnantDeals: tool({
           description: 'Analisa deals parados',
-          inputSchema: z.object({
+          parameters: z.object({
             daysStagnant: z.number().default(7),
           }),
           execute: toolExecutors.analyzeStagnantDeals,
         }),
         suggestNextAction: tool({
-          description: 'Sugere próxima ação para deal',
-          inputSchema: z.object({
+          description: 'Sugere prÃ³xima aÃ§Ã£o para deal',
+          parameters: z.object({
             dealId: z.string(),
           }),
           execute: toolExecutors.suggestNextAction,
@@ -556,33 +556,34 @@ export function useCRMAgent(options: UseCRMAgentOptions = {}) {
       };
 
       const result = streamText({
-        model,
-        system: `Você é o assistente inteligente do FlowCRM. Você tem acesso completo ao CRM e pode:
+        model: model as any,
+        system: `VocÃª Ã© o assistente inteligente do FlowCRM. VocÃª tem acesso completo ao CRM e pode:
 
 - Buscar e analisar deals, contatos e atividades
 - Criar novas atividades, deals e tarefas
-- Mover deals entre estágios do pipeline
-- Analisar riscos e sugerir próximas ações
+- Mover deals entre estÃ¡gios do pipeline
+- Analisar riscos e sugerir prÃ³ximas aÃ§Ãµes
 
 REGRAS:
-1. Sempre use as ferramentas disponíveis para buscar dados reais antes de responder
+1. Sempre use as ferramentas disponÃ­veis para buscar dados reais antes de responder
 2. Seja conciso e direto nas respostas
 3. Quando criar algo, confirme o que foi criado
-4. Quando analisar, forneça insights acionáveis
+4. Quando analisar, forneÃ§a insights acionÃ¡veis
 5. Use valores em Reais (R$) formatados
 6. Datas em formato brasileiro (dd/mm/aaaa)
 
-Você é proativo - se perceber oportunidades ou riscos, mencione-os.`,
+VocÃª Ã© proativo - se perceber oportunidades ou riscos, mencione-os.`,
         messages: coreMessages,
         tools,
-        stopWhen: stepCountIs(5), // Permite multi-step automático
+        maxSteps: 5,
         abortSignal: abortControllerRef.current.signal,
       });
 
       // Streaming da resposta
       let fullText = '';
+      const { textStream } = await result;
 
-      for await (const chunk of result.textStream) {
+      for await (const chunk of textStream) {
         fullText += chunk;
         // Atualiza a mensagem em tempo real
         setMessages(prev => {

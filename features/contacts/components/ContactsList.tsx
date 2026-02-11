@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Building2, Mail, Phone, Plus, Calendar, Pencil, Trash2, Globe, MoreHorizontal, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import { Contact, Company, ContactSortableColumn } from '@/types';
 import { StageBadge } from './ContactsStageTabs';
@@ -14,7 +14,7 @@ const PT_BR_DATE_TIME_FORMATTER = new Intl.DateTimeFormat('pt-BR', {
 });
 
 /**
- * Formata uma data para exibição relativa (ex: "Hoje", "Ontem", "Há 3 dias", "15/11/2024")
+ * Formata uma data para exibiÃ§Ã£o relativa (ex: "Hoje", "Ontem", "HÃ¡ 3 dias", "15/11/2024")
  */
 function formatRelativeDate(dateString: string | undefined | null, now: Date): string {
     if (!dateString) return '---';
@@ -30,8 +30,8 @@ function formatRelativeDate(dateString: string | undefined | null, now: Date): s
     
     if (diffDays === 0) return 'Hoje';
     if (diffDays === 1) return 'Ontem';
-    if (diffDays < 7) return `Há ${diffDays} dias`;
-    if (diffDays < 30) return `Há ${Math.floor(diffDays / 7)} sem.`;
+    if (diffDays < 7) return `HÃ¡ ${diffDays} dias`;
+    if (diffDays < 30) return `HÃ¡ ${Math.floor(diffDays / 7)} sem.`;
     
     // For older dates, show the actual date
     return PT_BR_DATE_FORMATTER.format(date);
@@ -110,7 +110,7 @@ interface ContactsListProps {
     sortBy = 'created_at',
     sortOrder = 'desc',
     onSort,
-} - Parâmetro `{
+} - ParÃ¢metro `{
     viewMode,
     filteredContacts,
     filteredCompanies,
@@ -193,7 +193,7 @@ export const ContactsList: React.FC<ContactsListProps> = ({
                                 ) : (
                                     <th scope="col" className="px-6 py-4 font-bold text-slate-700 dark:text-slate-200 font-display text-xs uppercase tracking-wider">Nome</th>
                                 )}
-                                <th scope="col" className="px-6 py-4 font-bold text-slate-700 dark:text-slate-200 font-display text-xs uppercase tracking-wider">Estágio</th>
+                                <th scope="col" className="px-6 py-4 font-bold text-slate-700 dark:text-slate-200 font-display text-xs uppercase tracking-wider">EstÃ¡gio</th>
                                 <th scope="col" className="px-6 py-4 font-bold text-slate-700 dark:text-slate-200 font-display text-xs uppercase tracking-wider">Cargo / Empresa</th>
                                 <th scope="col" className="px-6 py-4 font-bold text-slate-700 dark:text-slate-200 font-display text-xs uppercase tracking-wider">Contato</th>
                                 <th scope="col" className="px-6 py-4 font-bold text-slate-700 dark:text-slate-200 font-display text-xs uppercase tracking-wider">Status</th>
@@ -207,7 +207,7 @@ export const ContactsList: React.FC<ContactsListProps> = ({
                                 ) : (
                                     <th scope="col" className="px-6 py-4 font-bold text-slate-700 dark:text-slate-200 font-display text-xs uppercase tracking-wider">Modificado</th>
                                 )}
-                                <th scope="col" className="px-6 py-4 font-bold text-slate-700 dark:text-slate-200 font-display text-xs uppercase tracking-wider"><span className="sr-only">Ações</span></th>
+                                <th scope="col" className="px-6 py-4 font-bold text-slate-700 dark:text-slate-200 font-display text-xs uppercase tracking-wider"><span className="sr-only">AÃ§Ãµes</span></th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 dark:divide-white/5">
@@ -243,7 +243,7 @@ export const ContactsList: React.FC<ContactsListProps> = ({
                                     </td>
                                     <td className="px-6 py-4">
                                         <div>
-                                            <span className="text-slate-900 dark:text-white font-medium block">{contact.role || 'Cargo não inf.'}</span>
+                                            <span className="text-slate-900 dark:text-white font-medium block">{contact.role || 'Cargo nÃ£o inf.'}</span>
                                             <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                                                 <Building2 size={10} />
                                                 <span>{getCompanyName(contact.clientCompanyId)}</span>
@@ -342,7 +342,7 @@ export const ContactsList: React.FC<ContactsListProps> = ({
                                 <th scope="col" className="px-6 py-4 font-bold text-slate-700 dark:text-slate-200 font-display text-xs uppercase tracking-wider">Setor</th>
                                 <th scope="col" className="px-6 py-4 font-bold text-slate-700 dark:text-slate-200 font-display text-xs uppercase tracking-wider">Criado em</th>
                                 <th scope="col" className="px-6 py-4 font-bold text-slate-700 dark:text-slate-200 font-display text-xs uppercase tracking-wider">Pessoas Vinc.</th>
-                                <th scope="col" className="px-6 py-4 font-bold text-slate-700 dark:text-slate-200 font-display text-xs uppercase tracking-wider"><span className="sr-only">Ações</span></th>
+                                <th scope="col" className="px-6 py-4 font-bold text-slate-700 dark:text-slate-200 font-display text-xs uppercase tracking-wider"><span className="sr-only">AÃ§Ãµes</span></th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 dark:divide-white/5">
@@ -427,7 +427,7 @@ export const ContactsList: React.FC<ContactsListProps> = ({
                                                 </button>
                                             ))}
                                             {(contactsByCompanyId.get(company.id) ?? []).length === 0 && (
-                                                <span className="text-slate-400 text-xs italic">Ninguém</span>
+                                                <span className="text-slate-400 text-xs italic">NinguÃ©m</span>
                                             )}
                                         </div>
                                     </td>

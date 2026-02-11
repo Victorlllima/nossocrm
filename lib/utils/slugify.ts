@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ASCII-ish slugify helper (URL-safe, stable).
  *
  * - Avoids Unicode property escapes (\p{L}) for broader browser compatibility (Safari).

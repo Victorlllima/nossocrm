@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation'
+﻿import { redirect } from 'next/navigation'
 
 import { createClient } from '@/lib/supabase/server'
 
@@ -16,8 +16,8 @@ export default async function Home() {
 
     const installerEnabled = process.env.INSTALLER_ENABLED !== 'false'
 
-    // Detecta se a instância já foi inicializada.
-    // - Se falhar (env/supabase indisponível), tratamos como "não inicializada" quando o installer está enabled.
+    // Detecta se a instÃ¢ncia jÃ¡ foi inicializada.
+    // - Se falhar (env/supabase indisponÃ­vel), tratamos como "nÃ£o inicializada" quando o installer estÃ¡ enabled.
     let isInitialized: boolean | null = null
     try {
         const supabase = await createClient()
@@ -29,14 +29,14 @@ export default async function Home() {
         isInitialized = null
     }
 
-    // “Padrão ouro” pós-deploy:
-    // - Se o installer está habilitado e a instância confirmadamente NÃO está inicializada, manda pro /install.
-    // - Se já está inicializada ou houve erro na checagem, não força /install (evita loops em falhas de conexão).
+    // â€œPadrÃ£o ouroâ€ pÃ³s-deploy:
+    // - Se o installer estÃ¡ habilitado e a instÃ¢ncia confirmadamente NÃƒO estÃ¡ inicializada, manda pro /install.
+    // - Se jÃ¡ estÃ¡ inicializada ou houve erro na checagem, nÃ£o forÃ§a /install (evita loops em falhas de conexÃ£o).
     if (installerEnabled && isInitialized === false) {
         redirect('/install')
     }
 
-    // Após um reset do banco (ou instância não inicializada), leva para o setup interno.
+    // ApÃ³s um reset do banco (ou instÃ¢ncia nÃ£o inicializada), leva para o setup interno.
     if (isInitialized === false) {
         redirect('/setup')
     }

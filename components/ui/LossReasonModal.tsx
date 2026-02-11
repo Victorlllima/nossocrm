@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useId } from 'react';
+﻿import React, { useState, useEffect, useRef, useId } from 'react';
 import { X, ThumbsDown, DollarSign, Users, Clock, HelpCircle } from 'lucide-react';
 import { FocusTrap, useFocusReturn } from '@/lib/a11y';
 
@@ -10,10 +10,10 @@ interface LossReasonModalProps {
 }
 
 const QUICK_REASONS = [
-  { label: 'Preço', icon: DollarSign, value: 'Preço muito alto' },
-  { label: 'Concorrência', icon: Users, value: 'Perdeu para concorrente' },
+  { label: 'PreÃ§o', icon: DollarSign, value: 'PreÃ§o muito alto' },
+  { label: 'ConcorrÃªncia', icon: Users, value: 'Perdeu para concorrente' },
   { label: 'Timing', icon: Clock, value: 'Momento inadequado' },
-  { label: 'Desistência', icon: X, value: 'Cliente desistiu' },
+  { label: 'DesistÃªncia', icon: X, value: 'Cliente desistiu' },
   { label: 'Outro', icon: HelpCircle, value: '' },
 ];
 
@@ -79,7 +79,7 @@ export const LossReasonModal: React.FC<LossReasonModalProps> = ({
   };
 
   const handleSkip = () => {
-    onConfirm('Não informado');
+    onConfirm('NÃ£o informado');
     onClose();
   };
 
@@ -112,7 +112,7 @@ export const LossReasonModal: React.FC<LossReasonModalProps> = ({
                   id={titleId}
                   className="font-bold text-slate-900 dark:text-white font-display"
                 >
-                  Negócio Perdido
+                  NegÃ³cio Perdido
                 </h3>
                 {dealTitle && (
                   <p className="text-xs text-slate-500 dark:text-slate-400 truncate max-w-[200px]">
@@ -137,11 +137,11 @@ export const LossReasonModal: React.FC<LossReasonModalProps> = ({
               id={descId}
               className="text-sm text-slate-600 dark:text-slate-400 mb-4"
             >
-              Qual foi o motivo da perda? Isso ajuda a melhorar suas estratégias.
+              Qual foi o motivo da perda? Isso ajuda a melhorar suas estratÃ©gias.
             </p>
 
             {!showCustomInput ? (
-              <div className="grid grid-cols-2 gap-2" role="group" aria-label="Motivos rápidos">
+              <div className="grid grid-cols-2 gap-2" role="group" aria-label="Motivos rÃ¡pidos">
                 {QUICK_REASONS.map((item) => (
                   <button
                     key={item.label}

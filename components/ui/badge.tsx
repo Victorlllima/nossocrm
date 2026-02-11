@@ -1,4 +1,4 @@
-import * as React from "react"
+﻿import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
@@ -30,7 +30,7 @@ export interface BadgeProps
 /**
  * Componente React `Badge`.
  *
- * @param {BadgeProps} { className, variant, ...props } - Parâmetro `{ className, variant, ...props }`.
+ * @param {BadgeProps} { className, variant, ...props } - ParÃ¢metro `{ className, variant, ...props }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 function Badge({ className, variant, ...props }: BadgeProps) {

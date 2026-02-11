@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import {
   Target,
   Bot,
@@ -23,7 +23,7 @@ interface BoardStrategyHeaderProps {
 /**
  * Componente React `BoardStrategyHeader`.
  *
- * @param {BoardStrategyHeaderProps} { board } - Parâmetro `{ board }`.
+ * @param {BoardStrategyHeaderProps} { board } - ParÃ¢metro `{ board }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const BoardStrategyHeader: React.FC<BoardStrategyHeaderProps> = ({ board }) => {
@@ -103,7 +103,7 @@ export const BoardStrategyHeader: React.FC<BoardStrategyHeaderProps> = ({ board 
             <Target size={16} className="text-primary-500" />
           </div>
           <span className="font-medium text-sm">
-            Definir Estratégia do Board (Meta, Agente e Gatilhos)
+            Definir EstratÃ©gia do Board (Meta, Agente e Gatilhos)
           </span>
         </button>
       </div>
@@ -136,7 +136,7 @@ export const BoardStrategyHeader: React.FC<BoardStrategyHeaderProps> = ({ board 
           <button
             onClick={() => setIsEditing(true)}
             className="absolute top-2 right-2 p-1.5 text-slate-300 hover:text-white hover:bg-slate-800 rounded-full transition-all opacity-0 group-hover/header:opacity-100"
-            title="Editar Estratégia"
+            title="Editar EstratÃ©gia"
           >
             <Edit2 size={12} />
           </button>
@@ -155,7 +155,7 @@ export const BoardStrategyHeader: React.FC<BoardStrategyHeaderProps> = ({ board 
                 </div>
                 <div>
                   <h3 className="font-display font-bold text-sm text-slate-900 dark:text-white">
-                    Estratégia do Board
+                    EstratÃ©gia do Board
                   </h3>
                   <p className="text-[10px] text-slate-500 font-medium">
                     Defina como a IA deve trabalhar aqui
@@ -173,7 +173,7 @@ export const BoardStrategyHeader: React.FC<BoardStrategyHeaderProps> = ({ board 
                   onClick={handleSave}
                   className="px-4 py-1.5 bg-slate-900 dark:bg-white text-white dark:text-black text-xs font-bold rounded-lg hover:shadow-lg hover:-translate-y-0.5 transition-all"
                 >
-                  Salvar Alterações
+                  Salvar AlteraÃ§Ãµes
                 </button>
               </div>
             </div>
@@ -187,12 +187,12 @@ export const BoardStrategyHeader: React.FC<BoardStrategyHeaderProps> = ({ board 
                 <div className="relative">
                   <textarea
                     className="w-full h-24 bg-slate-50 dark:bg-white/5 rounded-xl p-4 text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500/20 resize-none leading-relaxed border border-slate-200 dark:border-white/5 transition-all"
-                    placeholder="Descreva as regras para a IA: Quem deve entrar aqui? Quais critérios de qualidade? (ex: Apenas leads B2B com budget > 50k)"
+                    placeholder="Descreva as regras para a IA: Quem deve entrar aqui? Quais critÃ©rios de qualidade? (ex: Apenas leads B2B com budget > 50k)"
                     value={editedBoard.entryTrigger || ''}
                     onChange={e => setEditedBoard({ ...editedBoard, entryTrigger: e.target.value })}
                   />
                   <div className="absolute bottom-3 right-3 text-[10px] text-slate-400 bg-white/50 dark:bg-black/20 px-2 py-1 rounded-full backdrop-blur-sm">
-                    A IA usará isso para filtrar leads
+                    A IA usarÃ¡ isso para filtrar leads
                   </div>
                 </div>
               </div>
@@ -266,7 +266,7 @@ export const BoardStrategyHeader: React.FC<BoardStrategyHeaderProps> = ({ board 
                   {/* Goal Context */}
                   <textarea
                     className="w-full h-24 bg-transparent border border-slate-200 dark:border-white/10 rounded-lg p-3 text-xs text-slate-600 dark:text-slate-300 focus:outline-none focus:border-blue-500/50 resize-none transition-all"
-                    placeholder="Por que essa meta existe? Qual o contexto estratégico?"
+                    placeholder="Por que essa meta existe? Qual o contexto estratÃ©gico?"
                     value={editedBoard.goal?.description || ''}
                     onChange={e =>
                       setEditedBoard({
@@ -361,7 +361,7 @@ export const BoardStrategyHeader: React.FC<BoardStrategyHeaderProps> = ({ board 
                   ></div>
                 </div>
                 <div className="flex justify-between text-[9px] font-medium text-slate-400 uppercase tracking-wider">
-                  <span>{calculatedProgress.display} Concluído</span>
+                  <span>{calculatedProgress.display} ConcluÃ­do</span>
                   <div className="group/goal relative cursor-help">
                     <span className="border-b border-dotted border-slate-600 hover:text-blue-400 transition-colors">
                       Detalhes

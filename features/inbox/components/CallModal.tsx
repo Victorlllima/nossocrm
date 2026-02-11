@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { X, Phone, PhoneOff, Check, XCircle, Voicemail, Clock, FileText, Copy, ExternalLink } from 'lucide-react';
 import { normalizePhoneE164 } from '@/lib/phone';
 
@@ -27,14 +27,14 @@ export interface CallLogData {
     onSave,
     contactName,
     contactPhone,
-    suggestedTitle = 'Ligação'
-} - Parâmetro `{
+    suggestedTitle = 'LigaÃ§Ã£o'
+} - ParÃ¢metro `{
     isOpen,
     onClose,
     onSave,
     contactName,
     contactPhone,
-    suggestedTitle = 'Ligação'
+    suggestedTitle = 'LigaÃ§Ã£o'
 }`.
  * @returns {Element | null} Retorna um valor do tipo `Element | null`.
  */
@@ -44,7 +44,7 @@ export const CallModal: React.FC<CallModalProps> = ({
     onSave,
     contactName,
     contactPhone,
-    suggestedTitle = 'Ligação'
+    suggestedTitle = 'LigaÃ§Ã£o'
 }) => {
     const [openedAt, setOpenedAt] = useState<Date | null>(null);
     const [dialerOpenedAt, setDialerOpenedAt] = useState<Date | null>(null);
@@ -129,7 +129,7 @@ export const CallModal: React.FC<CallModalProps> = ({
 
     const outcomeOptions = [
         { id: 'connected', label: 'Atendeu', icon: Check, color: 'bg-green-500/20 text-green-400 border-green-500/30 hover:bg-green-500/30' },
-        { id: 'no_answer', label: 'Não atendeu', icon: XCircle, color: 'bg-red-500/20 text-red-400 border-red-500/30 hover:bg-red-500/30' },
+        { id: 'no_answer', label: 'NÃ£o atendeu', icon: XCircle, color: 'bg-red-500/20 text-red-400 border-red-500/30 hover:bg-red-500/30' },
         { id: 'voicemail', label: 'Caixa postal', icon: Voicemail, color: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30 hover:bg-yellow-500/30' },
         { id: 'busy', label: 'Ocupado', icon: PhoneOff, color: 'bg-slate-500/20 text-slate-400 border-slate-500/30 hover:bg-slate-500/30' },
     ] as const;
@@ -158,8 +158,8 @@ export const CallModal: React.FC<CallModalProps> = ({
                                                 type="button"
                                                 onClick={handleCopyPhone}
                                                 className="p-1 rounded-md hover:bg-white/10 text-slate-400 hover:text-white transition-colors"
-                                                title={copied ? 'Copiado' : 'Copiar número'}
-                                                aria-label={copied ? 'Copiado' : 'Copiar número'}
+                                                title={copied ? 'Copiado' : 'Copiar nÃºmero'}
+                                                aria-label={copied ? 'Copiado' : 'Copiar nÃºmero'}
                                             >
                                                 <Copy size={12} />
                                             </button>
@@ -197,7 +197,7 @@ export const CallModal: React.FC<CallModalProps> = ({
                         </div>
                         <div className="text-[11px] text-slate-400 text-center">
                             {!phone ? (
-                                'Sem número de telefone para discar.'
+                                'Sem nÃºmero de telefone para discar.'
                             ) : dialerOpenedAt ? (
                                 'Tempo desde abrir o discador (a chamada acontece fora do CRM).'
                             ) : (
@@ -212,7 +212,7 @@ export const CallModal: React.FC<CallModalProps> = ({
                     {/* Outcome Selection */}
                     <div>
                         <label className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-2 block">
-                            Resultado da ligação
+                            Resultado da ligaÃ§Ã£o
                         </label>
                         <div className="grid grid-cols-2 gap-2">
                             {outcomeOptions.map(({ id, label, icon: Icon, color }) => (
@@ -234,14 +234,14 @@ export const CallModal: React.FC<CallModalProps> = ({
                     {/* Title */}
                     <div>
                         <label className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-2 block">
-                            Título da atividade
+                            TÃ­tulo da atividade
                         </label>
                         <input
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             className="w-full px-3 py-2 bg-slate-800/50 border border-slate-700/50 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 text-sm"
-                            placeholder="Ex: Ligação de follow-up"
+                            placeholder="Ex: LigaÃ§Ã£o de follow-up"
                         />
                     </div>
 
@@ -249,12 +249,12 @@ export const CallModal: React.FC<CallModalProps> = ({
                     <div>
                         <label className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-2">
                             <FileText size={12} />
-                            Notas da ligação
+                            Notas da ligaÃ§Ã£o
                         </label>
                         <textarea
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
-                            placeholder="O que foi discutido? Próximos passos?"
+                            placeholder="O que foi discutido? PrÃ³ximos passos?"
                             className="w-full px-3 py-2 bg-slate-800/50 border border-slate-700/50 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 text-sm resize-y min-h-40 max-h-[40vh]"
                             rows={6}
                         />
@@ -274,10 +274,10 @@ export const CallModal: React.FC<CallModalProps> = ({
                         onClick={handleCopyPhone}
                         disabled={!phone}
                         className="flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold bg-slate-800 hover:bg-slate-700 text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                        title={copied ? 'Copiado' : 'Copiar número'}
+                        title={copied ? 'Copiado' : 'Copiar nÃºmero'}
                     >
                         <Copy size={16} />
-                        {copied ? 'Copiado' : 'Copiar número'}
+                        {copied ? 'Copiado' : 'Copiar nÃºmero'}
                     </button>
                     <button
                         type="button"

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { PeriodFilter, PERIOD_LABELS } from '@/features/dashboard/hooks/useDashboardMetrics';
 
 interface PeriodFilterSelectProps {
@@ -9,14 +9,14 @@ interface PeriodFilterSelectProps {
 }
 
 /**
- * Componente de seleção de período compartilhado.
- * Usado em Dashboard, Reports e outras páginas que precisam filtrar por período.
+ * Componente de seleÃ§Ã£o de perÃ­odo compartilhado.
+ * Usado em Dashboard, Reports e outras pÃ¡ginas que precisam filtrar por perÃ­odo.
  */
 export const PeriodFilterSelect: React.FC<PeriodFilterSelectProps> = ({
     value,
     onChange,
     className = '',
-    'aria-label': ariaLabel = 'Selecionar Período',
+    'aria-label': ariaLabel = 'Selecionar PerÃ­odo',
 }) => {
     return (
         <select

@@ -1,9 +1,9 @@
-import 'server-only'
+﻿import 'server-only'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
 /**
- * Função pública `createClient` do projeto.
+ * FunÃ§Ã£o pÃºblica `createClient` do projeto.
  * @returns {Promise<SupabaseClient<any, "public", "public", any, any>>} Retorna um valor do tipo `Promise<SupabaseClient<any, "public", "public", any, any>>`.
  */
 export async function createClient() {
@@ -34,7 +34,7 @@ export async function createClient() {
 
 // Admin client for server-side operations with service role (requires request context)
 /**
- * Função pública `createAdminClient` do projeto.
+ * FunÃ§Ã£o pÃºblica `createAdminClient` do projeto.
  * @returns {Promise<SupabaseClient<any, "public", "public", any, any>>} Retorna um valor do tipo `Promise<SupabaseClient<any, "public", "public", any, any>>`.
  */
 export async function createAdminClient() {
@@ -67,7 +67,7 @@ export async function createAdminClient() {
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 
 /**
- * Função pública `createStaticAdminClient` do projeto.
+ * FunÃ§Ã£o pÃºblica `createStaticAdminClient` do projeto.
  * @returns {SupabaseClient<any, "public", "public", any, any>} Retorna um valor do tipo `SupabaseClient<any, "public", "public", any, any>`.
  */
 export function createStaticAdminClient() {

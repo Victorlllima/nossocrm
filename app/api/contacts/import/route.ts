@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { detectCsvDelimiter, parseCsv, type CsvDelimiter } from '@/lib/utils/csv';
@@ -40,11 +40,11 @@ const HEADER_SYNONYMS: Record<keyof ParsedRow, string[]> = {
   lastName: ['last name', 'lastname', 'sobrenome'],
   email: ['email', 'e-mail', 'e-mail address', 'mail'],
   phone: ['phone', 'telefone', 'celular', 'whatsapp', 'fone'],
-  role: ['role', 'cargo', 'titulo', 'title', 'funcao', 'funçao', 'funcao/cargo'],
-  company: ['company', 'empresa', 'conta', 'account', 'organization', 'organizacao', 'organização'],
+  role: ['role', 'cargo', 'titulo', 'title', 'funcao', 'funÃ§ao', 'funcao/cargo'],
+  company: ['company', 'empresa', 'conta', 'account', 'organization', 'organizacao', 'organizaÃ§Ã£o'],
   status: ['status'],
   stage: ['stage', 'etapa', 'lifecycle stage', 'ciclo de vida', 'pipeline stage'],
-  notes: ['notes', 'nota', 'notas', 'observacoes', 'observações', 'obs'],
+  notes: ['notes', 'nota', 'notas', 'observacoes', 'observaÃ§Ãµes', 'obs'],
 };
 
 function buildHeaderIndex(headers: string[]) {
@@ -113,12 +113,12 @@ export async function POST(req: Request) {
 
     const modeResult = ImportModeSchema.safeParse(String(modeRaw ?? 'upsert_by_email'));
     if (!modeResult.success) {
-      return NextResponse.json({ error: 'Parâmetro mode inválido.' }, { status: 400 });
+      return NextResponse.json({ error: 'ParÃ¢metro mode invÃ¡lido.' }, { status: 400 });
     }
     const mode: ImportMode = modeResult.data;
 
     if (!(file instanceof File)) {
-      return NextResponse.json({ error: 'Arquivo CSV não enviado (field "file").' }, { status: 400 });
+      return NextResponse.json({ error: 'Arquivo CSV nÃ£o enviado (field "file").' }, { status: 400 });
     }
 
     const text = await file.text();
@@ -129,7 +129,7 @@ export async function POST(req: Request) {
 
     const { headers, rows } = parseCsv(text, delimiter);
     if (!headers.length) {
-      return NextResponse.json({ error: 'CSV sem cabeçalho.' }, { status: 400 });
+      return NextResponse.json({ error: 'CSV sem cabeÃ§alho.' }, { status: 400 });
     }
 
     const mapping = buildHeaderIndex(headers);
@@ -154,7 +154,7 @@ export async function POST(req: Request) {
           : name;
 
       if (!computedName && !email) {
-        errors.push({ rowNumber, message: 'Linha sem nome e sem email (não consigo criar contato).' });
+        errors.push({ rowNumber, message: 'Linha sem nome e sem email (nÃ£o consigo criar contato).' });
         continue;
       }
 
@@ -176,7 +176,7 @@ export async function POST(req: Request) {
     if (!parsed.length) {
       return NextResponse.json(
         {
-          error: 'Nenhuma linha válida para importar.',
+          error: 'Nenhuma linha vÃ¡lida para importar.',
           errors,
         },
         { status: 400 }
@@ -314,7 +314,7 @@ export async function POST(req: Request) {
 
       if (mode === 'upsert_by_email' && existingIds.length > 0) {
         if (existingIds.length > 1) {
-          errors.push({ rowNumber, message: `Email duplicado no CRM (${existingIds.length} registros). Importação ambígua.` });
+          errors.push({ rowNumber, message: `Email duplicado no CRM (${existingIds.length} registros). ImportaÃ§Ã£o ambÃ­gua.` });
           continue;
         }
         const id = existingIds[0];

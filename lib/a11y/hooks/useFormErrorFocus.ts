@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+﻿import { useCallback, useRef } from 'react';
 
 interface UseFormErrorFocusOptions {
   /** Selector for form fields with errors (default: '[aria-invalid="true"]') */

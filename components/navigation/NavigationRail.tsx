@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -20,7 +20,7 @@ export function NavigationRail({ onOpenMore }: NavigationRailProps) {
 
   return (
     <nav
-      aria-label="Navegação principal (tablet)"
+      aria-label="NavegaÃ§Ã£o principal (tablet)"
       className={cn(
         'flex',
         'flex-col justify-between',

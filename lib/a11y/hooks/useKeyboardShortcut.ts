@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+﻿import { useEffect, useCallback } from 'react';
 
 export interface KeyboardShortcut {
   /** Key to listen for (e.g., 'Escape', 'Enter', 'k') */

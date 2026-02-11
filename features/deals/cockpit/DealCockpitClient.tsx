@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -97,7 +97,7 @@ type MessageLogContext = {
 };
 
 function hashString(input: string): string {
-  // Djb2-ish hash para dedupe leve (não criptográfico)
+  // Djb2-ish hash para dedupe leve (nÃ£o criptogrÃ¡fico)
   let h = 5381;
   for (let i = 0; i < input.length; i++) {
     h = (h * 33) ^ input.charCodeAt(i);
@@ -134,14 +134,14 @@ function buildExecutionHeader(opts: {
 
   const ctx = opts.context;
   if (ctx) {
-    const originLabel = ctx.origin === 'nextBestAction' ? 'Próxima ação' : 'Ação rápida';
+    const originLabel = ctx.origin === 'nextBestAction' ? 'PrÃ³xima aÃ§Ã£o' : 'AÃ§Ã£o rÃ¡pida';
     lines.push(`Origem: ${originLabel}`);
-    lines.push(`Geração: ${ctx.source === 'template' ? 'Template' : ctx.source === 'generated' ? 'Gerado' : 'Manual'}`);
+    lines.push(`GeraÃ§Ã£o: ${ctx.source === 'template' ? 'Template' : ctx.source === 'generated' ? 'Gerado' : 'Manual'}`);
     if (ctx.template) {
       lines.push(`Template: ${ctx.template.title} (${ctx.template.id})`);
     }
     if (typeof ctx.aiSuggested === 'boolean') {
-      lines.push(`Sugerido por IA: ${ctx.aiSuggested ? 'sim' : 'não'}`);
+      lines.push(`Sugerido por IA: ${ctx.aiSuggested ? 'sim' : 'nÃ£o'}`);
     }
     if (ctx.aiActionType) {
       lines.push(`Tipo IA: ${ctx.aiActionType}`);
@@ -205,15 +205,15 @@ function TemplatePickerModal({
     });
   }, [category, query, scripts]);
 
-  const title = mode === 'WHATSAPP' ? 'Templates · WhatsApp' : 'Templates · E-mail';
+  const title = mode === 'WHATSAPP' ? 'Templates Â· WhatsApp' : 'Templates Â· E-mail';
 
   if (!isOpen) return null;
 
   const categories: Array<{ key: 'all' | ScriptCategory; label: string }> = [
     { key: 'all', label: 'Todos' },
     { key: 'followup', label: 'Follow-up' },
-    { key: 'intro', label: 'Apresentação' },
-    { key: 'objection', label: 'Objeções' },
+    { key: 'intro', label: 'ApresentaÃ§Ã£o' },
+    { key: 'objection', label: 'ObjeÃ§Ãµes' },
     { key: 'closing', label: 'Fechamento' },
     { key: 'rescue', label: 'Resgate' },
     { key: 'other', label: 'Outros' },
@@ -226,7 +226,7 @@ function TemplatePickerModal({
         <div className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
           <div className="min-w-0">
             <div className="text-sm font-semibold text-slate-100 truncate">{title}</div>
-            <div className="text-[11px] text-slate-500">Escolha um script persistido e eu preencho a mensagem com variáveis do deal/contato.</div>
+            <div className="text-[11px] text-slate-500">Escolha um script persistido e eu preencho a mensagem com variÃ¡veis do deal/contato.</div>
           </div>
           <button
             type="button"
@@ -246,7 +246,7 @@ function TemplatePickerModal({
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Buscar por título ou texto…"
+                  placeholder="Buscar por tÃ­tulo ou textoâ€¦"
                   className="w-full rounded-xl border border-white/10 bg-white/3 px-9 py-2 text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
                 />
               </div>
@@ -270,13 +270,13 @@ function TemplatePickerModal({
             </div>
 
             <div className="text-[11px] text-slate-500">
-              Variáveis: <span className="font-mono">{'{nome}'}</span>, <span className="font-mono">{'{empresa}'}</span>,{' '}
+              VariÃ¡veis: <span className="font-mono">{'{nome}'}</span>, <span className="font-mono">{'{empresa}'}</span>,{' '}
               <span className="font-mono">{'{valor}'}</span>, <span className="font-mono">{'{produto}'}</span>
             </div>
 
             <div className="h-105 overflow-auto rounded-2xl border border-white/10 bg-white/2">
               {isLoading ? (
-                <div className="p-4 text-sm text-slate-400">Carregando scripts…</div>
+                <div className="p-4 text-sm text-slate-400">Carregando scriptsâ€¦</div>
               ) : filtered.length === 0 ? (
                 <div className="p-4 text-sm text-slate-400">Nenhum template encontrado.</div>
               ) : (
@@ -320,7 +320,7 @@ function TemplatePickerModal({
 }
 
 function scriptCategoryChipClass(color: string): string {
-  // Mantém classes estáticas (Tailwind) e evita template strings dinâmicas.
+  // MantÃ©m classes estÃ¡ticas (Tailwind) e evita template strings dinÃ¢micas.
   switch (color) {
     case 'blue':
       return 'bg-blue-500/15 text-blue-200 ring-1 ring-blue-500/20';
@@ -345,7 +345,7 @@ function formatAtISO(iso: string): string {
   const d = new Date(iso);
   const dd = PT_BR_DATE_FORMATTER.format(d);
   const tt = PT_BR_TIME_FORMATTER.format(d);
-  return `${dd} · ${tt}`;
+  return `${dd} Â· ${tt}`;
 }
 
 function formatCurrencyBRL(value: number): string {
@@ -496,25 +496,25 @@ function buildSuggestedWhatsAppMessage(opts: {
   if (actionType === 'MEETING') {
     return (
       `${greeting}` +
-      `\n\nQueria marcar um papo rápido (15 min)${dealCtx} pra alinharmos os próximos passos.` +
+      `\n\nQueria marcar um papo rÃ¡pido (15 min)${dealCtx} pra alinharmos os prÃ³ximos passos.` +
       `${reasonSentence}` +
-      `\n\nVocê consegue ${formatSlot(a)} ou ${formatSlot(b)}? Se preferir, me diga um horário bom pra você.`
+      `\n\nVocÃª consegue ${formatSlot(a)} ou ${formatSlot(b)}? Se preferir, me diga um horÃ¡rio bom pra vocÃª.`
     );
   }
 
   if (actionType === 'CALL') {
     return (
       `${greeting}` +
-      `\n\nPodemos fazer uma ligação rapidinha${dealCtx}?` +
+      `\n\nPodemos fazer uma ligaÃ§Ã£o rapidinha${dealCtx}?` +
       `${reasonSentence}` +
-      `\n\nVocê prefere ${formatSlot(a)} ou ${formatSlot(b)}?`
+      `\n\nVocÃª prefere ${formatSlot(a)} ou ${formatSlot(b)}?`
     );
   }
 
   if (actionType === 'TASK') {
     return (
       `${greeting}` +
-      `\n\nSó pra alinharmos${dealCtx}: ${action.trim()}.` +
+      `\n\nSÃ³ pra alinharmos${dealCtx}: ${action.trim()}.` +
       `${reasonSentence}` +
       `\n\nPode me confirmar quando conseguir?`
     );
@@ -535,7 +535,7 @@ function buildSuggestedEmailBody(opts: {
   const { contact, deal, actionType, action, reason } = opts;
 
   const firstName = contact?.name?.split(' ')[0] || '';
-  const greeting = firstName ? `Olá ${firstName},` : 'Olá,';
+  const greeting = firstName ? `OlÃ¡ ${firstName},` : 'OlÃ¡,';
   const r = normalizeReason(reason);
   const dealTitle = deal?.title?.trim();
   const { a, b } = proposeTwoSlots();
@@ -546,10 +546,10 @@ function buildSuggestedEmailBody(opts: {
   if (actionType === 'MEETING') {
     return (
       `${greeting}` +
-      `\n\nQueria marcar uma conversa rápida (15 min) para alinharmos próximos passos.` +
+      `\n\nQueria marcar uma conversa rÃ¡pida (15 min) para alinharmos prÃ³ximos passos.` +
       `${dealSentence}` +
       `${reasonSentence}` +
-      `\n\nVocê teria disponibilidade em ${formatSlot(a)} ou ${formatSlot(b)}?` +
+      `\n\nVocÃª teria disponibilidade em ${formatSlot(a)} ou ${formatSlot(b)}?` +
       `\n\nAbs,`
     );
   }
@@ -560,7 +560,7 @@ function buildSuggestedEmailBody(opts: {
       `\n\nPodemos falar rapidamente por telefone?` +
       `${dealSentence}` +
       `${reasonSentence}` +
-      `\n\nSugestões de horário: ${formatSlot(a)} ou ${formatSlot(b)}.` +
+      `\n\nSugestÃµes de horÃ¡rio: ${formatSlot(a)} ou ${formatSlot(b)}.` +
       `\n\nAbs,`
     );
   }
@@ -587,7 +587,7 @@ function buildSuggestedEmailBody(opts: {
 /**
  * Componente React `DealCockpitClient`.
  *
- * @param {{ dealId?: string | undefined; }} { dealId } - Parâmetro `{ dealId }`.
+ * @param {{ dealId?: string | undefined; }} { dealId } - ParÃ¢metro `{ dealId }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export default function DealCockpitClient({ dealId }: { dealId?: string }) {
@@ -622,7 +622,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
   const [followUpDealId, setFollowUpDealId] = useState<string | null>(null);
 
   const [isCallModalOpen, setIsCallModalOpen] = useState(false);
-  const [callSuggestedTitle, setCallSuggestedTitle] = useState('Ligação');
+  const [callSuggestedTitle, setCallSuggestedTitle] = useState('LigaÃ§Ã£o');
 
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
   const [messageChannel, setMessageChannel] = useState<MessageChannel>('WHATSAPP');
@@ -642,10 +642,10 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
 
   const defaultChecklist: ChecklistItem[] = useMemo(
     () => [
-      { id: 'qualify', text: 'Qualificar (dor, urgência, orçamento, decisor)', done: false },
-      { id: 'next-step', text: 'Definir próximo passo (data + responsável)', done: false },
+      { id: 'qualify', text: 'Qualificar (dor, urgÃªncia, orÃ§amento, decisor)', done: false },
+      { id: 'next-step', text: 'Definir prÃ³ximo passo (data + responsÃ¡vel)', done: false },
       { id: 'materials', text: 'Enviar material / proposta', done: false },
-      { id: 'stakeholders', text: 'Mapear decisores e objeções', done: false },
+      { id: 'stakeholders', text: 'Mapear decisores e objeÃ§Ãµes', done: false },
     ],
     []
   );
@@ -658,7 +658,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
       profile?.nickname?.trim() ||
       [profile?.first_name, profile?.last_name].filter(Boolean).join(' ').trim() ||
       user?.email?.split('@')[0] ||
-      'Usuário';
+      'UsuÃ¡rio';
 
     return {
       name,
@@ -785,7 +785,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
 
     return {
       action: 'Analisar deal manualmente',
-      reason: 'Sem sugestão da IA no momento',
+      reason: 'Sem sugestÃ£o da IA no momento',
       urgency: 'low' as const,
       actionType: 'TASK' as const,
       isAI: false,
@@ -1022,7 +1022,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
         await navigator.clipboard.writeText(text);
         pushToast(`${label} copiado`, 'success');
       } catch {
-        pushToast(`Não foi possível copiar ${label.toLowerCase()}`, 'danger');
+        pushToast(`NÃ£o foi possÃ­vel copiar ${label.toLowerCase()}`, 'danger');
       }
     },
     [pushToast]
@@ -1160,7 +1160,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
       try {
         await updateDeal(selectedDeal.id, { customFields: nextCustomFields });
       } catch (e) {
-        pushToast(errorMessage(e, 'Não foi possível salvar o checklist.'), 'danger');
+        pushToast(errorMessage(e, 'NÃ£o foi possÃ­vel salvar o checklist.'), 'danger');
       }
     },
     [pushToast, selectedDeal, updateDeal]
@@ -1201,7 +1201,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
           pushToast('WhatsApp registrado', 'success');
           setMessageLogContext(null);
         } catch (e) {
-          pushToast(errorMessage(e, 'Não foi possível registrar o WhatsApp.'), 'danger');
+          pushToast(errorMessage(e, 'NÃ£o foi possÃ­vel registrar o WhatsApp.'), 'danger');
         }
         return;
       }
@@ -1223,7 +1223,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
         pushToast('Email registrado', 'success');
         setMessageLogContext(null);
       } catch (e) {
-        pushToast(errorMessage(e, 'Não foi possível registrar o email.'), 'danger');
+        pushToast(errorMessage(e, 'NÃ£o foi possÃ­vel registrar o email.'), 'danger');
       }
     },
     [addActivity, actor, messageLogContext, messageLogDedupe, pushToast, selectedDeal]
@@ -1248,7 +1248,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
         });
         pushToast('Atividade agendada', 'success');
       } catch (e) {
-        pushToast(errorMessage(e, 'Não foi possível agendar a atividade.'), 'danger');
+        pushToast(errorMessage(e, 'NÃ£o foi possÃ­vel agendar a atividade.'), 'danger');
       }
     },
     [addActivity, actor, pushToast, selectedDeal]
@@ -1260,7 +1260,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
         pushToast('Contato sem telefone', 'danger');
         return;
       }
-      setCallSuggestedTitle(suggestedTitle || 'Ligação');
+      setCallSuggestedTitle(suggestedTitle || 'LigaÃ§Ã£o');
       setIsCallModalOpen(true);
     },
     [pushToast, selectedContact?.phone]
@@ -1272,7 +1272,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
 
       const outcomeLabels = {
         connected: 'Atendeu',
-        no_answer: 'Não atendeu',
+        no_answer: 'NÃ£o atendeu',
         voicemail: 'Caixa postal',
         busy: 'Ocupado',
       };
@@ -1283,16 +1283,16 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
           dealTitle: selectedDeal.title,
           type: 'CALL',
           title: data.title,
-          description: `${outcomeLabels[data.outcome]} - Duração: ${Math.floor(data.duration / 60)}min ${data.duration % 60}s${data.notes ? `\n\n${data.notes}` : ''
+          description: `${outcomeLabels[data.outcome]} - DuraÃ§Ã£o: ${Math.floor(data.duration / 60)}min ${data.duration % 60}s${data.notes ? `\n\n${data.notes}` : ''
             }`,
           date: new Date().toISOString(),
           completed: true,
           user: actor,
         });
 
-        pushToast('Ligação registrada', 'success');
+        pushToast('LigaÃ§Ã£o registrada', 'success');
       } catch (e) {
-        pushToast(errorMessage(e, 'Não foi possível registrar a ligação.'), 'danger');
+        pushToast(errorMessage(e, 'NÃ£o foi possÃ­vel registrar a ligaÃ§Ã£o.'), 'danger');
       }
     },
     [addActivity, actor, pushToast, selectedDeal]
@@ -1394,11 +1394,11 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
             user: actor,
           });
         } catch {
-          // Não bloqueia o fluxo principal
+          // NÃ£o bloqueia o fluxo principal
           pushToast('Etapa atualizada (sem log)', 'neutral');
         }
       } catch (e) {
-        pushToast(errorMessage(e, 'Não foi possível mover etapa.'), 'danger');
+        pushToast(errorMessage(e, 'NÃ£o foi possÃ­vel mover etapa.'), 'danger');
       }
     },
     [addActivity, actor, moveDeal, pushToast, selectedBoard, selectedDeal]
@@ -1412,7 +1412,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
             <div className="text-lg font-semibold">Cockpit</div>
             <div className="text-xs text-slate-300">/deals/[dealId]/cockpit</div>
           </div>
-          <div className="mt-3 text-sm text-slate-100">Não foi possível carregar os dados do CRM.</div>
+          <div className="mt-3 text-sm text-slate-100">NÃ£o foi possÃ­vel carregar os dados do CRM.</div>
           <div className="mt-2 text-xs text-rose-100/80 wrap-break-word">{crmError}</div>
           <div className="mt-4 flex flex-wrap gap-2">
             <button
@@ -1441,14 +1441,14 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
         <div className="max-w-xl w-full rounded-2xl border border-white/10 bg-white/3 p-6">
           <div className="flex items-center justify-between gap-3">
             <div className="text-lg font-semibold">Cockpit</div>
-            <div className="text-xs text-slate-400">Carregando…</div>
+            <div className="text-xs text-slate-400">Carregandoâ€¦</div>
           </div>
           <div className="mt-4 space-y-3">
             <div className="h-4 w-2/3 rounded bg-white/10 animate-pulse" />
             <div className="h-4 w-full rounded bg-white/10 animate-pulse" />
             <div className="h-4 w-5/6 rounded bg-white/10 animate-pulse" />
           </div>
-          <div className="mt-4 text-xs text-slate-500">Buscando deals, boards e atividades do seu workspace…</div>
+          <div className="mt-4 text-xs text-slate-500">Buscando deals, boards e atividades do seu workspaceâ€¦</div>
         </div>
       </div>
     );
@@ -1462,9 +1462,9 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
             <div className="text-lg font-semibold">Cockpit</div>
             <div className="text-xs text-slate-400">/deals/[dealId]/cockpit</div>
           </div>
-          <div className="mt-3 text-sm text-slate-300">Não encontrei nenhum deal carregado no contexto.</div>
+          <div className="mt-3 text-sm text-slate-300">NÃ£o encontrei nenhum deal carregado no contexto.</div>
           <div className="mt-2 text-xs text-slate-500">
-            Dica: abra o app normal (Boards) para carregar dados. Quando houver deals carregados, você consegue trocar aqui mesmo pelo seletor no topo.
+            Dica: abra o app normal (Boards) para carregar dados. Quando houver deals carregados, vocÃª consegue trocar aqui mesmo pelo seletor no topo.
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
             <button
@@ -1532,14 +1532,14 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                     const labelCompany = d.clientCompanyName || d.companyName || 'Empresa';
                     return (
                       <option key={d.id} value={d.id} className="bg-slate-950">
-                        {humanizeTestLabel(d.title) || d.title} — {labelCompany}
+                        {humanizeTestLabel(d.title) || d.title} â€” {labelCompany}
                       </option>
                     );
                   })}
                 </select>
                 <div className="text-xs text-slate-500">|</div>
                 <div className="truncate text-xs text-slate-400">{companyName}</div>
-                {crmLoading ? <div className="ml-2 text-[11px] text-slate-600">Sincronizando…</div> : null}
+                {crmLoading ? <div className="ml-2 text-[11px] text-slate-600">Sincronizandoâ€¦</div> : null}
               </div>
               <div className="mt-1 text-[11px] text-slate-600">{board.name ?? 'Pipeline'}</div>
             </div>
@@ -1547,7 +1547,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
             <div className="shrink-0 text-right">
               <div className="text-sm font-semibold text-emerald-300">{formatCurrencyBRL(deal.value ?? 0)}</div>
               <div className="mt-0.5 text-[11px] text-slate-500">
-                Etapa: <span className="font-semibold text-slate-300">{activeStage?.label ?? '—'}</span>
+                Etapa: <span className="font-semibold text-slate-300">{activeStage?.label ?? 'â€”'}</span>
               </div>
             </div>
           </div>
@@ -1617,17 +1617,17 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                 >
                   <span className="inline-flex items-center gap-1">
                     <Sparkles className="h-3.5 w-3.5" />
-                    {aiLoading ? 'Analisando…' : 'Reanalisar'}
+                    {aiLoading ? 'Analisandoâ€¦' : 'Reanalisar'}
                   </span>
                 </button>
               </div>
             </Panel>
 
-            <Panel title="Próxima ação" icon={<BadgeCheck className="h-4 w-4 text-cyan-300" />} className="shrink-0">
+            <Panel title="PrÃ³xima aÃ§Ã£o" icon={<BadgeCheck className="h-4 w-4 text-cyan-300" />} className="shrink-0">
               <div className="text-sm font-semibold text-slate-100">{nextBestAction.action}</div>
               <div className="mt-1 text-xs text-slate-400">{nextBestAction.reason}</div>
               <div className="mt-2 text-[11px] text-slate-500">
-                Aqui EXECUTA (e tenta registrar o que dá). No rodapé da timeline você REGISTRA atividades rápidas que aconteceram fora do CRM.
+                Aqui EXECUTA (e tenta registrar o que dÃ¡). No rodapÃ© da timeline vocÃª REGISTRA atividades rÃ¡pidas que aconteceram fora do CRM.
               </div>
 
               <div className="mt-3 flex flex-wrap gap-2">
@@ -1644,9 +1644,9 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                   <button
                     type="button"
                     className="flex flex-col items-center justify-center gap-1 rounded-xl border border-white/10 bg-white/3 px-2 py-2 hover:bg-white/5"
-                    title="Ligar (abre modal de ligação)"
+                    title="Ligar (abre modal de ligaÃ§Ã£o)"
                     aria-label="Ligar"
-                    onClick={() => handleCall('Ligação')}
+                    onClick={() => handleCall('LigaÃ§Ã£o')}
                   >
                     <Phone className="h-4 w-4 text-slate-200" />
                     <span className="text-[10px] font-semibold text-slate-300">Ligar</span>
@@ -1718,7 +1718,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                     className="flex flex-col items-center justify-center gap-1 rounded-xl border border-white/10 bg-white/3 px-2 py-2 hover:bg-white/5"
                     title="Agendar (cria uma tarefa simples)"
                     aria-label="Agendar"
-                    onClick={() => openScheduleModal({ type: 'TASK', title: 'Agendar próximo passo', description: 'Criado no cockpit.' })}
+                    onClick={() => openScheduleModal({ type: 'TASK', title: 'Agendar prÃ³ximo passo', description: 'Criado no cockpit.' })}
                   >
                     <CalendarClock className="h-4 w-4 text-slate-200" />
                     <span className="text-[10px] font-semibold text-slate-300">Agendar</span>
@@ -1764,7 +1764,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                       className="text-sm font-semibold text-slate-100 truncate"
                       title={contact?.name ?? ''}
                     >
-                      {humanizeTestLabel(contact?.name) || contact?.name || '—'}
+                      {humanizeTestLabel(contact?.name) || contact?.name || 'â€”'}
                     </div>
                     <div className="mt-1 text-xs text-slate-400 truncate" title={selectedContact?.role ?? ''}>
                       {selectedContact?.role ?? ''}
@@ -1803,11 +1803,11 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                     </div>
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-slate-500">Origem</span>
-                      <span className="text-slate-200">{contact?.source ?? '—'}</span>
+                      <span className="text-slate-200">{contact?.source ?? 'â€”'}</span>
                     </div>
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-slate-500">Status</span>
-                      <span className="text-slate-200">{contact?.status ?? '—'}</span>
+                      <span className="text-slate-200">{contact?.status ?? 'â€”'}</span>
                     </div>
                   </div>
                 </div>
@@ -1816,20 +1816,20 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                   <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Sinais</div>
                   <div className="mt-2 space-y-1 text-xs text-slate-300">
                     <div className="flex items-center justify-between gap-3">
-                      <span className="text-slate-500">Último evento</span>
+                      <span className="text-slate-500">Ãšltimo evento</span>
                       <span className="truncate text-slate-200">
                         {latestNonSystem
-                          ? `${latestNonSystem.title}${latestNonSystem.subtitle ? ` — ${latestNonSystem.subtitle}` : ''}`
-                          : '—'}
+                          ? `${latestNonSystem.title}${latestNonSystem.subtitle ? ` â€” ${latestNonSystem.subtitle}` : ''}`
+                          : 'â€”'}
                       </span>
                     </div>
                     <div className="flex items-center justify-between gap-3">
-                      <span className="text-slate-500">Última ligação</span>
-                      <span className="truncate text-slate-200">{latestCall ? latestCall.at : '—'}</span>
+                      <span className="text-slate-500">Ãšltima ligaÃ§Ã£o</span>
+                      <span className="truncate text-slate-200">{latestCall ? latestCall.at : 'â€”'}</span>
                     </div>
                     <div className="flex items-center justify-between gap-3">
                       <span className="text-slate-500">Etapa</span>
-                      <span className="text-slate-200">{activeStage?.label ?? '—'}</span>
+                      <span className="text-slate-200">{activeStage?.label ?? 'â€”'}</span>
                     </div>
                   </div>
                 </div>
@@ -1847,10 +1847,10 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                     </div>
                     <div className="rounded-lg border border-white/10 bg-white/2 p-2">
                       <div className="text-slate-500">Dono</div>
-                      <div className="mt-0.5 font-semibold text-slate-100">{deal.owner?.name ?? '—'}</div>
+                      <div className="mt-0.5 font-semibold text-slate-100">{deal.owner?.name ?? 'â€”'}</div>
                     </div>
                     <div className="rounded-lg border border-white/10 bg-white/2 p-2">
-                      <div className="text-slate-500">Última mudança</div>
+                      <div className="text-slate-500">Ãšltima mudanÃ§a</div>
                       <div className="mt-0.5 truncate font-semibold text-slate-100">{latestMove ? latestMove.at : formatAtISO(deal.updatedAt)}</div>
                     </div>
                   </div>
@@ -1887,7 +1887,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                       }
                       onClick={() => setKindFilter(k)}
                     >
-                      {k === 'call' ? 'Ligações' : k === 'note' ? 'Notas' : 'Mudanças'}
+                      {k === 'call' ? 'LigaÃ§Ãµes' : k === 'note' ? 'Notas' : 'MudanÃ§as'}
                     </button>
                   ))}
 
@@ -1936,7 +1936,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                     </div>
                     <div className="mt-2 text-xs text-slate-500">
                       {timelineItems.length === 0
-                        ? 'Quando você registrar uma nota, ligação ou mudança de etapa, ela aparece aqui.'
+                        ? 'Quando vocÃª registrar uma nota, ligaÃ§Ã£o ou mudanÃ§a de etapa, ela aparece aqui.'
                         : 'Tente limpar busca e filtros para ver tudo novamente.'}
                     </div>
                     {timelineItems.length !== 0 ? (
@@ -2012,7 +2012,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                         });
                         pushToast('WhatsApp registrado', 'success');
                       } catch (e) {
-                        pushToast(errorMessage(e, 'Não foi possível registrar o WhatsApp.'), 'danger');
+                        pushToast(errorMessage(e, 'NÃ£o foi possÃ­vel registrar o WhatsApp.'), 'danger');
                       }
                     }}
                   >
@@ -2041,7 +2041,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                         });
                         pushToast('Email registrado', 'success');
                       } catch (e) {
-                        pushToast(errorMessage(e, 'Não foi possível registrar o email.'), 'danger');
+                        pushToast(errorMessage(e, 'NÃ£o foi possÃ­vel registrar o email.'), 'danger');
                       }
                     }}
                   >
@@ -2057,19 +2057,19 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                           dealId: deal.id,
                           dealTitle: deal.title,
                           type: 'CALL',
-                          title: 'Ligação',
+                          title: 'LigaÃ§Ã£o',
                           description: 'Fonte: Cockpit\nFora do CRM: sim\n\n---\n\nRealizada (registrado fora do CRM).',
                           date: new Date().toISOString(),
                           completed: true,
                           user: actor,
                         });
-                        pushToast('Ligação registrada', 'success');
+                        pushToast('LigaÃ§Ã£o registrada', 'success');
                       } catch (e) {
-                        pushToast(errorMessage(e, 'Não foi possível registrar a ligação.'), 'danger');
+                        pushToast(errorMessage(e, 'NÃ£o foi possÃ­vel registrar a ligaÃ§Ã£o.'), 'danger');
                       }
                     }}
                   >
-                    <Phone className="h-4 w-4" /> Ligação
+                    <Phone className="h-4 w-4" /> LigaÃ§Ã£o
                   </button>
 
                   <button
@@ -2081,19 +2081,19 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                           dealId: deal.id,
                           dealTitle: deal.title,
                           type: 'MEETING',
-                          title: 'Reunião',
+                          title: 'ReuniÃ£o',
                           description: 'Fonte: Cockpit\nFora do CRM: sim\n\n---\n\nRegistrada fora do CRM.',
                           date: new Date().toISOString(),
                           completed: true,
                           user: actor,
                         });
-                        pushToast('Reunião registrada', 'success');
+                        pushToast('ReuniÃ£o registrada', 'success');
                       } catch (e) {
-                        pushToast(errorMessage(e, 'Não foi possível registrar a reunião.'), 'danger');
+                        pushToast(errorMessage(e, 'NÃ£o foi possÃ­vel registrar a reuniÃ£o.'), 'danger');
                       }
                     }}
                   >
-                    <CalendarClock className="h-4 w-4" /> Reunião
+                    <CalendarClock className="h-4 w-4" /> ReuniÃ£o
                   </button>
 
                   <button
@@ -2113,7 +2113,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                         });
                         pushToast('Tarefa registrada', 'success');
                       } catch (e) {
-                        pushToast(errorMessage(e, 'Não foi possível registrar a tarefa.'), 'danger');
+                        pushToast(errorMessage(e, 'NÃ£o foi possÃ­vel registrar a tarefa.'), 'danger');
                       }
                     }}
                   >
@@ -2126,12 +2126,12 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
             {/* Bottom row: nota + (placeholder) */}
             <div className="grid min-h-0 gap-4 lg:grid-cols-2 lg:max-h-[30dvh]">
               <div className="flex min-h-0 flex-col rounded-2xl border border-white/10 bg-white/3 p-4">
-                <label className="block text-xs font-semibold text-slate-400">Escreva…</label>
+                <label className="block text-xs font-semibold text-slate-400">Escrevaâ€¦</label>
                 <textarea
                   value={noteDraftTimeline}
                   onChange={(e) => setNoteDraftTimeline(e.target.value)}
                   className="mt-2 min-h-0 flex-1 w-full resize-none rounded-xl border border-white/10 bg-white/2 p-3 text-sm text-slate-200 outline-none placeholder:text-slate-600"
-                  placeholder="Notas, resumo da call, próximos passos…"
+                  placeholder="Notas, resumo da call, prÃ³ximos passosâ€¦"
                 />
                 <div className="mt-3 flex items-center justify-between gap-2">
                   <div className="text-[11px] text-slate-500">Isso vira uma Activity NOTE (log do deal).</div>
@@ -2160,7 +2160,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                         setNoteDraftTimeline('');
                         pushToast('Nota salva', 'success');
                       } catch (e) {
-                        pushToast(errorMessage(e, 'Não foi possível salvar a nota.'), 'danger');
+                        pushToast(errorMessage(e, 'NÃ£o foi possÃ­vel salvar a nota.'), 'danger');
                       }
                     }}
                   >
@@ -2170,7 +2170,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
               </div>
 
               <Panel
-                title="Execução"
+                title="ExecuÃ§Ã£o"
                 icon={<ActivityIcon className="h-4 w-4 text-amber-200" />}
                 right={<Chip tone="success">Real</Chip>}
                 className="flex min-h-0 flex-col"
@@ -2201,7 +2201,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                               ? 'mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-md bg-emerald-500 text-slate-950'
                               : 'mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-md border border-white/15 bg-white/3 text-slate-200 hover:bg-white/5'
                           }
-                          aria-label={it.done ? 'Marcar como não feito' : 'Marcar como feito'}
+                          aria-label={it.done ? 'Marcar como nÃ£o feito' : 'Marcar como feito'}
                           onClick={() => {
                             const next = checklist.map((x) => (x.id === it.id ? { ...x, done: !x.done } : x));
                             void persistChecklist(next);
@@ -2232,7 +2232,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                   <input
                     value={checklistDraft}
                     onChange={(e) => setChecklistDraft(e.target.value)}
-                    placeholder="Adicionar item…"
+                    placeholder="Adicionar itemâ€¦"
                     className="h-10 flex-1 rounded-xl border border-white/10 bg-white/2 px-3 text-sm text-slate-200 outline-none placeholder:text-slate-600"
                   />
                   <button
@@ -2251,7 +2251,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                   </button>
                 </div>
 
-                <div className="mt-2 text-[11px] text-slate-600">Dica: isso fica no deal atual e aparece igual quando você trocar de deal.</div>
+                <div className="mt-2 text-[11px] text-slate-600">Dica: isso fica no deal atual e aparece igual quando vocÃª trocar de deal.</div>
               </Panel>
             </div>
           </div>
@@ -2311,12 +2311,12 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                           <div className="flex justify-between items-start mb-4">
                             <h3 className="flex items-center gap-2 text-lg font-semibold text-pink-900 dark:text-pink-300">
                               <CalendarClock className="h-5 w-5 text-pink-600" />
-                              Próximo Follow-up Agendado
+                              PrÃ³ximo Follow-up Agendado
                             </h3>
                             <div className="flex items-center gap-2">
                               <button
                                 onClick={async () => {
-                                  if (!window.confirm('Tem certeza que deseja cancelar este agendamento automático?')) return;
+                                  if (!window.confirm('Tem certeza que deseja cancelar este agendamento automÃ¡tico?')) return;
                                   const { error } = await supabase
                                     .from('scheduled_messages')
                                     .update({ status: 'CANCELLED_MANUAL' })
@@ -2363,7 +2363,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
 
                             <div className="bg-white/80 dark:bg-black/20 rounded-lg p-4 border border-pink-100 dark:border-pink-900/30">
                               <div className="flex items-center gap-2 text-[10px] font-bold text-pink-500 uppercase mb-2">
-                                <MessageSquareDashed className="h-3 w-3" /> Conteúdo da Mensagem
+                                <MessageSquareDashed className="h-3 w-3" /> ConteÃºdo da Mensagem
                               </div>
                               <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed italic">
                                 "{pendingFollowUp.message_content}"
@@ -2371,7 +2371,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                             </div>
 
                             <p className="text-[10px] text-slate-500 italic">
-                              * Esta mensagem será enviada automaticamente via WhatsApp no horário agendado. Se o cliente responder antes disso, o envio será cancelado
+                              * Esta mensagem serÃ¡ enviada automaticamente via WhatsApp no horÃ¡rio agendado. Se o cliente responder antes disso, o envio serÃ¡ cancelado
                               automaticamente pela IA.
                             </p>
                           </div>
@@ -2381,7 +2381,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                           <CalendarClock className="mb-4 h-12 w-12 text-slate-300 dark:text-slate-700" />
                           <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Sem Follow-up Agendado</h4>
                           <p className="text-sm text-slate-500 mb-6 max-w-xs">
-                            Mantenha o lead engajado agendando um retorno automático inteligente.
+                            Mantenha o lead engajado agendando um retorno automÃ¡tico inteligente.
                           </p>
                           <button
                             onClick={() => {
@@ -2409,7 +2409,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                         value={dealNoteDraft}
                         onChange={(e) => setDealNoteDraft(e.target.value)}
                         className="w-full min-h-27.5 resize-none rounded-xl border border-white/10 bg-white/3 p-3 text-sm text-slate-200 outline-none placeholder:text-slate-600"
-                        placeholder="Escreva uma nota persistida…"
+                        placeholder="Escreva uma nota persistidaâ€¦"
                       />
                       <div className="mt-2 flex items-center justify-between gap-2">
                         <div className="text-[11px] text-slate-500">Salva em deal_notes.</div>
@@ -2425,14 +2425,14 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                             pushToast('Nota persistida salva', 'success');
                           }}
                         >
-                          {createNote.isPending ? 'Salvando…' : 'Adicionar'}
+                          {createNote.isPending ? 'Salvandoâ€¦' : 'Adicionar'}
                         </button>
                       </div>
                     </div>
 
                     <div className="mt-4">
                       {isNotesLoading ? (
-                        <div className="text-sm text-slate-400">Carregando…</div>
+                        <div className="text-sm text-slate-400">Carregandoâ€¦</div>
                       ) : notes.length === 0 ? (
                         <div className="text-sm text-slate-400">Sem notas ainda.</div>
                       ) : (
@@ -2473,7 +2473,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                       <div className="flex items-center gap-2 text-xs font-semibold text-slate-300">
                         <FileText className="h-4 w-4" /> Scripts (persistidos)
                       </div>
-                      <div className="text-[11px] text-slate-500">{isScriptsLoading ? 'Carregando…' : `${scripts.length} itens`}</div>
+                      <div className="text-[11px] text-slate-500">{isScriptsLoading ? 'Carregandoâ€¦' : `${scripts.length} itens`}</div>
                     </div>
 
                     <div className="mt-3 space-y-2">
@@ -2512,7 +2512,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                       <div className="flex items-center gap-2 text-xs font-semibold text-slate-300">
                         <Inbox className="h-4 w-4" /> Arquivos (storage)
                       </div>
-                      <div className="text-[11px] text-slate-500">{isFilesLoading ? 'Carregando…' : `${files.length} itens`}</div>
+                      <div className="text-[11px] text-slate-500">{isFilesLoading ? 'Carregandoâ€¦' : `${files.length} itens`}</div>
                     </div>
 
                     <div className="mt-3">
@@ -2539,7 +2539,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                               <div className="min-w-0">
                                 <div className="truncate text-sm font-semibold text-slate-100">{f.file_name}</div>
                                 <div className="mt-1 text-xs text-slate-400">
-                                  {formatFileSize(f.file_size)} • {formatAtISO(f.created_at)}
+                                  {formatFileSize(f.file_size)} â€¢ {formatAtISO(f.created_at)}
                                 </div>
                               </div>
                               <div className="flex items-center gap-2">
@@ -2575,7 +2575,7 @@ export default function DealCockpitClient({ dealId }: { dealId?: string }) {
                 <span>Contexto</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="text-[11px] font-semibold text-slate-500">{crmLoading ? 'Sincronizando…' : 'Pronto'}</div>
+                <div className="text-[11px] font-semibold text-slate-500">{crmLoading ? 'Sincronizandoâ€¦' : 'Pronto'}</div>
                 <button
                   type="button"
                   className="rounded-lg border border-white/10 bg-white/2 px-2.5 py-1.5 text-[11px] font-semibold text-slate-200 hover:bg-white/5"

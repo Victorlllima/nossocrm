@@ -1,4 +1,4 @@
-import { useCallback, useRef, useEffect } from 'react';
+﻿import { useCallback, useRef, useEffect } from 'react';
 
 export interface UseAnnounceOptions {
   /** Politeness level */
@@ -37,7 +37,7 @@ function getOrCreateLiveRegion(mode: 'polite' | 'assertive'): HTMLDivElement {
  *   
  *   const handleSave = async () => {
  *     await save();
- *     announce('Alterações salvas com sucesso');
+ *     announce('AlteraÃ§Ãµes salvas com sucesso');
  *   };
  *   
  *   return <button onClick={handleSave}>Salvar</button>;

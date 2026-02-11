@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+﻿import React, { useEffect } from 'react';
 import { useBoardsController } from './hooks/useBoardsController';
 import { PipelineView } from './components/PipelineView';
 import { OnboardingModal } from '@/components/OnboardingModal';

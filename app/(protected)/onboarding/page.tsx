@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useActionState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
@@ -9,8 +9,8 @@ import { useAuth } from '@/context/AuthContext'
 import { initializeAccount, setupFormSchema, type SetupFormData, type SetupState } from '@/features/setup'
 
 /**
- * Página de Onboarding para usuários que acabaram de se cadastrar
- * Permite configurar a organização e perfil do usuário
+ * PÃ¡gina de Onboarding para usuÃ¡rios que acabaram de se cadastrar
+ * Permite configurar a organizaÃ§Ã£o e perfil do usuÃ¡rio
  */
 export default function OnboardingPage() {
     const router = useRouter()
@@ -42,7 +42,7 @@ export default function OnboardingPage() {
         }
     }, [user, setValue])
 
-    // Redireciona se já tem organização configurada
+    // Redireciona se jÃ¡ tem organizaÃ§Ã£o configurada
     useEffect(() => {
         if (!authLoading && profile?.organization_id) {
             router.replace('/dashboard')
@@ -80,7 +80,7 @@ export default function OnboardingPage() {
         )
     }
 
-    // Se não está logado, redireciona para login
+    // Se nÃ£o estÃ¡ logado, redireciona para login
     if (!user) {
         router.replace('/login')
         return null
@@ -95,20 +95,20 @@ export default function OnboardingPage() {
             </div>
 
             <div className="max-w-md w-full relative z-10 px-4">
-                {/* Header com ícone */}
+                {/* Header com Ã­cone */}
                 <div className="text-center mb-8">
                     <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-primary-500/30">
                         <Sparkles className="w-8 h-8 text-white" />
                     </div>
                     <h1 className="text-4xl font-bold text-slate-900 dark:text-white font-display tracking-tight mb-2">
-                        Quase lá!
+                        Quase lÃ¡!
                     </h1>
                     <p className="text-slate-500 dark:text-slate-400">
-                        Configure sua conta para começar a usar o Max Lima.
+                        Configure sua conta para comeÃ§ar a usar o Max Lima.
                     </p>
                 </div>
 
-                {/* Card do formulário */}
+                {/* Card do formulÃ¡rio */}
                 <div className="bg-white dark:bg-dark-card border border-slate-200 dark:border-white/10 rounded-2xl shadow-xl p-8 backdrop-blur-sm">
                     <form
                         action={formAction}
@@ -171,7 +171,7 @@ export default function OnboardingPage() {
                                             ? 'border-red-500 dark:border-red-500'
                                             : 'border-slate-300 dark:border-slate-700'
                                         }`}
-                                    placeholder="João Silva"
+                                    placeholder="JoÃ£o Silva"
                                 />
                             </div>
                             {errors.fullName && (
@@ -186,7 +186,7 @@ export default function OnboardingPage() {
                             <p className="flex items-start gap-2">
                                 <Sparkles className="w-4 h-4 mt-0.5 shrink-0" />
                                 <span>
-                                    Você será o administrador da sua organização e poderá convidar outros membros da equipe.
+                                    VocÃª serÃ¡ o administrador da sua organizaÃ§Ã£o e poderÃ¡ convidar outros membros da equipe.
                                 </span>
                             </p>
                         </div>
@@ -202,7 +202,7 @@ export default function OnboardingPage() {
                             </div>
                         )}
 
-                        {/* Botão de submit */}
+                        {/* BotÃ£o de submit */}
                         <button
                             type="submit"
                             disabled={isPending}
@@ -212,7 +212,7 @@ export default function OnboardingPage() {
                                 <Loader2 className="animate-spin h-5 w-5" />
                             ) : (
                                 <>
-                                    Começar a usar o Max Lima
+                                    ComeÃ§ar a usar o Max Lima
                                     <ArrowRight className="ml-2 h-4 w-4" />
                                 </>
                             )}

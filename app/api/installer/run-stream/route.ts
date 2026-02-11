@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { isAllowedOrigin } from '@/lib/security/sameOrigin';
 import { runSchemaMigration } from '@/lib/installer/migrations';
 import { bootstrapInstance } from '@/lib/installer/supabase';
@@ -81,7 +81,7 @@ const ALL_STEPS: Step[] = [
   { id: 'wait_vercel_deploy', phase: 'landing', weight: 3, skippable: false },
 ];
 
-// Mapeamento cinematográfico Interstellar
+// Mapeamento cinematogrÃ¡fico Interstellar
 function createCinemaPhases(firstName: string) {
   return {
     coordinates: {
@@ -92,17 +92,17 @@ function createCinemaPhases(firstName: string) {
     signal: {
       id: 'signal',
       title: 'Aguardando sinal',
-      subtitle: 'Confirmando conexão com o destino...',
+      subtitle: 'Confirmando conexÃ£o com o destino...',
     },
     station: {
       id: 'station',
-      title: 'Construindo a estação',
+      title: 'Construindo a estaÃ§Ã£o',
       subtitle: 'Preparando infraestrutura...',
     },
     comms: {
       id: 'comms',
       title: 'Ativando comunicadores',
-      subtitle: 'Estabelecendo canais de comunicação...',
+      subtitle: 'Estabelecendo canais de comunicaÃ§Ã£o...',
     },
     contact: {
       id: 'contact',
@@ -116,7 +116,7 @@ function createCinemaPhases(firstName: string) {
     },
     complete: {
       id: 'complete',
-      title: `Missão cumprida, ${firstName}!`,
+      title: `MissÃ£o cumprida, ${firstName}!`,
       subtitle: 'Bem-vindo ao novo mundo.',
     },
   } as const;
@@ -276,11 +276,11 @@ export async function POST(req: Request) {
   if (healthCheck?.skipWaitProject) skippedSteps.push('wait_project');
   if (healthCheck?.skipWaitStorage) skippedSteps.push('wait_storage');
   if (healthCheck?.skipMigrations) skippedSteps.push('migrations');
-  // NOTE: não pulamos o bootstrap: ele é a garantia de que o admin informado consegue logar.
-  // (Se o login já estiver ok, ele vira um no-op.)
+  // NOTE: nÃ£o pulamos o bootstrap: ele Ã© a garantia de que o admin informado consegue logar.
+  // (Se o login jÃ¡ estiver ok, ele vira um no-op.)
   
-  // Extrai primeiro nome para personalização
-  const firstName = admin.companyName.split(' ')[0] || 'você';
+  // Extrai primeiro nome para personalizaÃ§Ã£o
+  const firstName = admin.companyName.split(' ')[0] || 'vocÃª';
   const PHASES = createCinemaPhases(firstName);
   
   // Create progress calculator
@@ -338,8 +338,8 @@ export async function POST(req: Request) {
 
       if (needsManagementApi && (!resolvedAccessToken || !resolvedProjectRef)) {
         const message = !resolvedAccessToken
-          ? 'Token de acesso Supabase não fornecido.'
-          : 'Referência do projeto Supabase não encontrada.';
+          ? 'Token de acesso Supabase nÃ£o fornecido.'
+          : 'ReferÃªncia do projeto Supabase nÃ£o encontrada.';
         await sendEvent({ type: 'error', error: message });
         await writer.close();
         return;
@@ -508,8 +508,8 @@ export async function POST(req: Request) {
         await withRetry(
           'bootstrap',
           async () => {
-            // Se o login já funciona com a senha informada, podemos tratar como no-op.
-            // Caso contrário, rodamos o bootstrap (idempotente) para criar/ajustar credenciais e validamos de novo.
+            // Se o login jÃ¡ funciona com a senha informada, podemos tratar como no-op.
+            // Caso contrÃ¡rio, rodamos o bootstrap (idempotente) para criar/ajustar credenciais e validamos de novo.
             const login1 = await verifyPasswordLogin({
               supabaseUrl: supabase.url,
               anonKey: resolvedAnonKey,
@@ -518,11 +518,11 @@ export async function POST(req: Request) {
             });
 
             if (login1.ok) {
-              console.log('[run-stream] bootstrap: login já ok, pulando ajuste de credenciais');
+              console.log('[run-stream] bootstrap: login jÃ¡ ok, pulando ajuste de credenciais');
               return;
             }
 
-            console.log('[run-stream] bootstrap: login falhou, garantindo credenciais via bootstrap…', login1.error);
+            console.log('[run-stream] bootstrap: login falhou, garantindo credenciais via bootstrapâ€¦', login1.error);
 
             const bootstrap = await bootstrapInstance({
               supabaseUrl: supabase.url,
@@ -542,7 +542,7 @@ export async function POST(req: Request) {
             });
 
             if (!login2.ok) {
-              throw new Error('Não conseguimos validar seu login com a senha informada. ' + login2.error);
+              throw new Error('NÃ£o conseguimos validar seu login com a senha informada. ' + login2.error);
             }
           },
           sendEvent,
@@ -570,11 +570,11 @@ export async function POST(req: Request) {
         vercelDeploymentId = redeploy.deploymentId;
         await sendEvent({ type: 'vercel_deploy', deploymentId: vercelDeploymentId });
       } catch (err) {
-        // Redeploy é obrigatório para aplicar NEXT_PUBLIC_* no build do Next.js.
+        // Redeploy Ã© obrigatÃ³rio para aplicar NEXT_PUBLIC_* no build do Next.js.
         const msg = err instanceof Error ? err.message : String(err);
         throw new Error(
-          'Falha ao iniciar redeploy na Vercel (necessário para aplicar as variáveis do Supabase). ' +
-            'Abra o projeto na Vercel → Deployments → Redeploy e tente novamente. ' +
+          'Falha ao iniciar redeploy na Vercel (necessÃ¡rio para aplicar as variÃ¡veis do Supabase). ' +
+            'Abra o projeto na Vercel â†’ Deployments â†’ Redeploy e tente novamente. ' +
             (msg ? 'Detalhe: ' + msg : '')
         );
       }
@@ -597,7 +597,7 @@ export async function POST(req: Request) {
         onTick: async ({ readyState, elapsedMs }) => {
           const fraction = Math.min(elapsedMs / 240_000, 0.95);
 
-          // UI: mantém narrativa limpa; apenas avança a barra de progresso.
+          // UI: mantÃ©m narrativa limpa; apenas avanÃ§a a barra de progresso.
           await sendPhase('wait_vercel_deploy', fraction);
 
           // Console: telemetria detalhada (para debug)
@@ -609,14 +609,14 @@ export async function POST(req: Request) {
 
       if (!wait.ok) {
         throw new Error(
-          'Redeploy disparado, mas ainda não finalizou na Vercel. ' +
-            'Abra o projeto na Vercel → Deployments e aguarde o status ficar READY.'
+          'Redeploy disparado, mas ainda nÃ£o finalizou na Vercel. ' +
+            'Abra o projeto na Vercel â†’ Deployments e aguarde o status ficar READY.'
         );
       }
 
       await sendPhase('wait_vercel_deploy'); // Complete
 
-      // Só desabilita o instalador APÓS tudo estar completo
+      // SÃ³ desabilita o instalador APÃ“S tudo estar completo
       await upsertProjectEnvs(
         vercel.token,
         vercel.projectId,
@@ -636,7 +636,7 @@ export async function POST(req: Request) {
       await sendEvent({ type: 'complete', ok: true });
 
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Erro durante a missão.';
+      const message = err instanceof Error ? err.message : 'Erro durante a missÃ£o.';
       await sendEvent({ type: 'error', error: message });
     } finally {
       await writer.close();

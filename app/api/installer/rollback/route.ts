@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { isAllowedOrigin } from '@/lib/security/sameOrigin';
 import { createClient } from '@supabase/supabase-js';
 
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
   const t0 = Date.now();
   const log = (msg: string) => console.log('[rollback]', ((Date.now() - t0) / 1000).toFixed(1) + 's', msg);
   
-  log('🔄 START');
+  log('ðŸ”„ START');
   
   if (!isAllowedOrigin(req)) {
     return Response.json({ error: 'Forbidden' }, { status: 403 });
@@ -102,16 +102,16 @@ export async function POST(req: Request) {
         }
       }
       
-      log(`✅ ${action} completed`);
+      log(`âœ… ${action} completed`);
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Unknown error';
-      log(`❌ ${action} failed: ${errorMsg}`);
+      log(`âŒ ${action} failed: ${errorMsg}`);
       results.push({ action, success: false, error: errorMsg });
     }
   }
 
   const allSuccess = results.every(r => r.success);
-  log(`🏁 DONE - ${allSuccess ? 'All actions succeeded' : 'Some actions failed'}`);
+  log(`ðŸ DONE - ${allSuccess ? 'All actions succeeded' : 'Some actions failed'}`);
 
   return Response.json({
     ok: allSuccess,

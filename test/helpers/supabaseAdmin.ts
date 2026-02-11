@@ -1,4 +1,4 @@
-import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+﻿import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { getServiceRoleKey, getSupabaseUrl, requireEnv } from './env';
 
 let adminClient: SupabaseClient | null = null;
@@ -31,7 +31,7 @@ function looksLikeTransientNetworkError(err: unknown): boolean {
 }
 
 /**
- * Função pública `getSupabaseAdminClient` do projeto.
+ * FunÃ§Ã£o pÃºblica `getSupabaseAdminClient` do projeto.
  * @returns {SupabaseClient<any, "public", "public", any, any>} Retorna um valor do tipo `SupabaseClient<any, "public", "public", any, any>`.
  */
 export function getSupabaseAdminClient(): SupabaseClient {
@@ -52,11 +52,11 @@ export function getSupabaseAdminClient(): SupabaseClient {
 }
 
 /**
- * Função pública `assertNoSupabaseError` do projeto.
+ * FunÃ§Ã£o pÃºblica `assertNoSupabaseError` do projeto.
  *
  * @param {{ error: unknown; }} res - Objeto da resposta.
- * @param {string} context - Contexto de execução.
- * @returns {void} Não retorna valor.
+ * @param {string} context - Contexto de execuÃ§Ã£o.
+ * @returns {void} NÃ£o retorna valor.
  */
 export function assertNoSupabaseError(
   res: { error: unknown | null },
@@ -72,10 +72,10 @@ export function assertNoSupabaseError(
 }
 
 /**
- * Função pública `requireSupabaseData` do projeto.
+ * FunÃ§Ã£o pÃºblica `requireSupabaseData` do projeto.
  *
  * @param {SupabaseResult<T>} res - Objeto da resposta.
- * @param {string} context - Contexto de execução.
+ * @param {string} context - Contexto de execuÃ§Ã£o.
  * @returns {T} Retorna um valor do tipo `T`.
  */
 export function requireSupabaseData<T>(res: SupabaseResult<T>, context: string): T {
@@ -87,8 +87,8 @@ export function requireSupabaseData<T>(res: SupabaseResult<T>, context: string):
 }
 
 /**
- * Executa uma operação Supabase com retry best-effort para erros transitórios de rede.
- * Útil para testes de integração que podem sofrer flutuações do ambiente/CI.
+ * Executa uma operaÃ§Ã£o Supabase com retry best-effort para erros transitÃ³rios de rede.
+ * Ãštil para testes de integraÃ§Ã£o que podem sofrer flutuaÃ§Ãµes do ambiente/CI.
  */
 export async function withSupabaseRetry<T>(
   op: () => Promise<SupabaseResult<T>>,

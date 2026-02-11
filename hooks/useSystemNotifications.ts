@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+﻿import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/context/AuthContext';
 import { useMemo } from 'react';
@@ -15,7 +15,7 @@ export interface SystemNotification {
 }
 
 /**
- * Hook React `useSystemNotifications` que encapsula uma lógica reutilizável.
+ * Hook React `useSystemNotifications` que encapsula uma lÃ³gica reutilizÃ¡vel.
  * @returns {{ notifications: { id: string; type: string; title: string; message: string; timestamp: Date; actionLink: string | undefined; severity: "low" | "medium" | "high"; readAt: string | null | undefined; }[]; count: number; hasHighSeverity: boolean; markAsRead: UseMutateFunction<...>; markAllAsRead: UseMutateFunction<...>...} Retorna um valor do tipo `{ notifications: { id: string; type: string; title: string; message: string; timestamp: Date; actionLink: string | undefined; severity: "low" | "medium" | "high"; readAt: string | null | undefined; }[]; count: number; hasHighSeverity: boolean; markAsRead: UseMutateFunction<...>; markAllAsRead: UseMutateFunction<...>...`.
  */
 export const useSystemNotifications = () => {
@@ -75,7 +75,7 @@ export const useSystemNotifications = () => {
     // Mutation to mark as read
     const markAsRead = useMutation({
         mutationFn: async (id: string) => {
-            if (!sb) throw new Error('Supabase não está configurado');
+            if (!sb) throw new Error('Supabase nÃ£o estÃ¡ configurado');
             const { error } = await sb
                 .from('system_notifications')
                 .update({ read_at: new Date().toISOString() })
@@ -91,7 +91,7 @@ export const useSystemNotifications = () => {
         mutationFn: async () => {
             // Naive implementation: update all displayed unread. 
             // Faster would be a single query update where read_at is null.
-            if (!sb) throw new Error('Supabase não está configurado');
+            if (!sb) throw new Error('Supabase nÃ£o estÃ¡ configurado');
             const { error } = await sb
                 .from('system_notifications')
                 .update({ read_at: new Date().toISOString() })

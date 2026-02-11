@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCRM } from '@/context/CRMContext';
 import { useToast } from '@/context/ToastContext';
@@ -13,7 +13,7 @@ import { LazyFunnelChart, ChartWrapper } from '@/components/charts';
 
 
 /**
- * Formata a variação percentual para exibição
+ * Formata a variaÃ§Ã£o percentual para exibiÃ§Ã£o
  */
 function formatChange(value: number): { text: string; isPositive: boolean } {
   const isPositive = value >= 0;
@@ -44,7 +44,7 @@ const DashboardPage: React.FC = () => {
     }
   }, [boards, selectedBoardId]);
 
-  // Calcular contagem de contatos por estágio de ciclo de vida
+  // Calcular contagem de contatos por estÃ¡gio de ciclo de vida
   const stageCounts = React.useMemo(() => {
     const counts: Record<string, number> = {};
     contacts.forEach(contact => {
@@ -92,13 +92,13 @@ const DashboardPage: React.FC = () => {
     hasNoContacts,
   } = useDashboardMetrics(period, selectedBoardId);
 
-  // Formatar variações para exibição
+  // Formatar variaÃ§Ãµes para exibiÃ§Ã£o
   const pipelineChangeInfo = formatChange(changes.pipeline);
   const dealsChangeInfo = formatChange(changes.deals);
   const winRateChangeInfo = formatChange(changes.winRate);
   const revenueChangeInfo = formatChange(changes.revenue);
 
-  // Se não tem dados, mostra Empty State
+  // Se nÃ£o tem dados, mostra Empty State
   if (isEmpty) {
     return <DashboardEmptyState hasNoDeals={hasNoDeals} hasNoContacts={hasNoContacts} />;
   }
@@ -108,10 +108,10 @@ const DashboardPage: React.FC = () => {
       <div className="flex justify-between items-center shrink-0">
         <div>
           <h1 className="text-3xl font-bold text-slate-900 dark:text-white font-display tracking-tight">
-            Visão Geral
+            VisÃ£o Geral
           </h1>
           <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
-            O pulso do seu negócio em tempo real.
+            O pulso do seu negÃ³cio em tempo real.
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -160,7 +160,7 @@ const DashboardPage: React.FC = () => {
           comparisonLabel={COMPARISON_LABELS[period]}
         />
         <StatCard
-          title="Negócios Ativos"
+          title="NegÃ³cios Ativos"
           value={`${deals.length - wonDeals.length}`}
           subtext={dealsChangeInfo.text}
           subtextPositive={dealsChangeInfo.isPositive}
@@ -170,7 +170,7 @@ const DashboardPage: React.FC = () => {
           comparisonLabel={COMPARISON_LABELS[period]}
         />
         <StatCard
-          title="Conversão"
+          title="ConversÃ£o"
           value={`${winRate.toFixed(1)}%`}
           subtext={winRateChangeInfo.text}
           subtextPositive={winRateChangeInfo.isPositive}
@@ -195,7 +195,7 @@ const DashboardPage: React.FC = () => {
       <div className="space-y-3 shrink-0">
         <h2 className="text-lg font-bold text-slate-900 dark:text-white font-display flex items-center gap-2">
           <Users className="text-primary-500" size={20} />
-          Saúde da Carteira
+          SaÃºde da Carteira
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div
@@ -203,7 +203,7 @@ const DashboardPage: React.FC = () => {
             onClick={() => router.push('/contacts')}
           >
             <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">
-              Distribuição da Carteira
+              DistribuiÃ§Ã£o da Carteira
             </h3>
             <div className="flex items-end gap-2 mb-2">
               <span className="text-2xl font-bold text-slate-900 dark:text-white">
@@ -249,18 +249,18 @@ const DashboardPage: React.FC = () => {
             onClick={() => setShowPipelineAlerts(true)}
           >
             <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">
-              Negócios Parados
+              NegÃ³cios Parados
             </h3>
             <div className="flex items-end gap-2">
               <span className="text-2xl font-bold text-slate-900 dark:text-white">
                 {stagnantDealsCount} Deals
               </span>
               <span className={`text-xs font-bold mb-1 ${stagnantDealsCount > 0 ? 'text-amber-500' : 'text-green-500'}`}>
-                {stagnantDealsCount > 0 ? 'Atenção' : 'OK'}
+                {stagnantDealsCount > 0 ? 'AtenÃ§Ã£o' : 'OK'}
               </span>
             </div>
             <p className="text-xs text-slate-500 mt-2">
-              Sem mudança de estágio há +10 dias.
+              Sem mudanÃ§a de estÃ¡gio hÃ¡ +10 dias.
             </p>
             <p className="text-xs text-slate-400 mt-1">
               ${stagnantDealsValue.toLocaleString()} em risco
@@ -269,15 +269,15 @@ const DashboardPage: React.FC = () => {
 
           <div className="glass p-5 rounded-xl border border-slate-200 dark:border-white/5 shadow-sm">
             <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">
-              LTV Médio
+              LTV MÃ©dio
             </h3>
             <div className="flex items-end gap-2">
               <span className="text-2xl font-bold text-slate-900 dark:text-white">
                 ${(avgLTV / 1000).toFixed(1)}k
               </span>
-              <span className="text-xs text-green-500 font-bold mb-1">Médio</span>
+              <span className="text-xs text-green-500 font-bold mb-1">MÃ©dio</span>
             </div>
-            <p className="text-xs text-slate-500 mt-2">Valor médio vitalício por cliente ativo.</p>
+            <p className="text-xs text-slate-500 mt-2">Valor mÃ©dio vitalÃ­cio por cliente ativo.</p>
           </div>
         </div>
       </div>

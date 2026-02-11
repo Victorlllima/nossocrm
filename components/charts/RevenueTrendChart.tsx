@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import {
   AreaChart,
   Area,
@@ -16,7 +16,7 @@ interface RevenueTrendChartProps {
 /**
  * Componente React `RevenueTrendChart`.
  *
- * @param {RevenueTrendChartProps} { data } - Parâmetro `{ data }`.
+ * @param {RevenueTrendChartProps} { data } - ParÃ¢metro `{ data }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const RevenueTrendChart: React.FC<RevenueTrendChartProps> = ({ data }) => (

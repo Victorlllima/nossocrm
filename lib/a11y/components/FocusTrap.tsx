@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import FocusTrapReact from 'focus-trap-react';
 
 export interface FocusTrapProps {

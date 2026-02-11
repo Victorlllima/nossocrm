@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { ContactStage } from '@/types';
 import { Users, UserCheck, Handshake, Crown, Archive } from 'lucide-react';
 
@@ -61,7 +61,7 @@ const STAGE_CONFIG = {
   activeStage,
   onStageChange,
   counts,
-} - Parâmetro `{
+} - ParÃ¢metro `{
   activeStage,
   onStageChange,
   counts,
@@ -130,11 +130,11 @@ export const ContactsStageTabs: React.FC<ContactsStageTabs> = ({
   );
 };
 
-// Badge de estágio para usar nas rows
+// Badge de estÃ¡gio para usar nas rows
 /**
  * Componente React `StageBadge`.
  *
- * @param {{ stage: string; }} { stage } - Parâmetro `{ stage }`.
+ * @param {{ stage: string; }} { stage } - ParÃ¢metro `{ stage }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const StageBadge: React.FC<{ stage: ContactStage | string }> = ({ stage }) => {

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * AI Suggestion Interactions Service
  * Persists user interactions with AI suggestions (dismiss, accept, snooze)
  */
@@ -24,7 +24,7 @@ export const aiSuggestionsService = {
      */
     async getAll() {
         const sb = supabase;
-        if (!sb) return { data: null as AISuggestionInteraction[] | null, error: new Error('Supabase não configurado') };
+        if (!sb) return { data: null as AISuggestionInteraction[] | null, error: new Error('Supabase nÃ£o configurado') };
 
         const { data, error } = await sb
             .from('ai_suggestion_interactions')
@@ -39,7 +39,7 @@ export const aiSuggestionsService = {
      */
     async getInteraction(suggestionType: SuggestionType, entityId: string) {
         const sb = supabase;
-        if (!sb) return { data: null as AISuggestionInteraction | null, error: new Error('Supabase não configurado') };
+        if (!sb) return { data: null as AISuggestionInteraction | null, error: new Error('Supabase nÃ£o configurado') };
 
         const { data, error } = await sb
             .from('ai_suggestion_interactions')
@@ -62,7 +62,7 @@ export const aiSuggestionsService = {
         snoozedUntil?: Date
     ) {
         const sb = supabase;
-        if (!sb) throw new Error('Supabase não configurado');
+        if (!sb) throw new Error('Supabase nÃ£o configurado');
 
         const { data: user } = await sb.auth.getUser();
         if (!user.user) throw new Error('Not authenticated');
@@ -91,7 +91,7 @@ export const aiSuggestionsService = {
      */
     async getHiddenSuggestionIds() {
         const sb = supabase;
-        if (!sb) return { data: new Set<string>(), error: new Error('Supabase não configurado') };
+        if (!sb) return { data: new Set<string>(), error: new Error('Supabase nÃ£o configurado') };
 
         const now = new Date().toISOString();
 
@@ -117,7 +117,7 @@ export const aiSuggestionsService = {
      */
     async clearSnooze(suggestionType: SuggestionType, entityId: string) {
         const sb = supabase;
-        if (!sb) return { error: new Error('Supabase não configurado') };
+        if (!sb) return { error: new Error('Supabase nÃ£o configurado') };
 
         const { error } = await sb
             .from('ai_suggestion_interactions')

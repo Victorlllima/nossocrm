@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { createStaticAdminClient } from '@/lib/supabase/server';
 import { getSheetsClient, Lead } from '@/lib/integrations/google-sheets';
 import { getEvolutionClient } from '@/lib/integrations/evolution-api';
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
   try {
     const supabase = createStaticAdminClient();
 
-    // Buscar a primeira organização
+    // Buscar a primeira organizaÃ§Ã£o
     const { data: profiles, error: profileError } = await supabase
       .from('profiles')
       .select('organization_id')
@@ -21,14 +21,14 @@ export async function POST(request: NextRequest) {
 
     if (profileError || !profiles) {
       return NextResponse.json(
-        { error: 'Organização não encontrada' },
+        { error: 'OrganizaÃ§Ã£o nÃ£o encontrada' },
         { status: 404 }
       );
     }
 
     const organizationId = profiles.organization_id;
 
-    // Buscar board padrão
+    // Buscar board padrÃ£o
     const { data: defaultBoard, error: boardError } = await supabase
       .from('boards')
       .select('id, name')
@@ -39,12 +39,12 @@ export async function POST(request: NextRequest) {
     if (boardError || !defaultBoard) {
       console.error('[Google Sheets Sync] Board error:', boardError);
       return NextResponse.json(
-        { error: 'Board padrão não encontrado' },
+        { error: 'Board padrÃ£o nÃ£o encontrado' },
         { status: 404 }
       );
     }
 
-    // Buscar estágios do board
+    // Buscar estÃ¡gios do board
     const { data: stages, error: stagesError } = await supabase
       .from('board_stages')
       .select('id, name, order')
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
 
     if (stagesError || !stages || stages.length === 0) {
       return NextResponse.json(
-        { error: 'Board padrão não tem estágios configurados.' },
+        { error: 'Board padrÃ£o nÃ£o tem estÃ¡gios configurados.' },
         { status: 404 }
       );
     }
@@ -96,6 +96,11 @@ export async function POST(request: NextRequest) {
     };
 
     const evolutionClient = getEvolutionClient();
+
+    // Configurações de Telefone para HML e Produção
+    const RED_TEST_PHONE = '5561992978796'; // Seu número para conferência
+    const MAX_REAL_PHONE = '5561990445393'; // Novo número do Max
+    const IS_HML = process.env.HML_MODE === 'true';
 
     for (const lead of newLeads) {
       try {
@@ -164,20 +169,27 @@ export async function POST(request: NextRequest) {
           content: aiSummary,
         });
 
-        // 5. Notificação Max
-        const maxNumbers = [process.env.MAX_PHONE_NUMBER, process.env.MAX_PHONE_NUMBER_2].filter(Boolean) as string[];
+        // 5. Notificação Max (Interceptada se HML)
+        const targetMaxNumbers = IS_HML ? [RED_TEST_PHONE] : [MAX_REAL_PHONE];
+
+        console.log(`[Google Sheets Sync] Notificando Max em: ${targetMaxNumbers.join(', ')} (HML: ${IS_HML})`);
+
         await evolutionClient.sendLeadNotificationToMax({
           nome: lead.full_name,
           telefone: lead.phone_number,
           empreendimento: lead.form_name,
           data: new Date(lead.created_time).toLocaleString('pt-BR'),
-          respostas: 'Importado via Planilha',
-        }, maxNumbers);
+          respostas: `Importado via Planilha\n${IS_HML ? '🧪 MODO CONFERÊNCIA RED' : ''}`,
+        }, targetMaxNumbers);
 
-        // 6. Contato Lead (Sem delay para homologação/teste rápido)
+        // 6. Contato Lead (Interceptado se HML)
+        const targetLeadPhone = IS_HML ? RED_TEST_PHONE : lead.phone_number;
+
+        console.log(`[Google Sheets Sync] Enviando contato para Lead em: ${targetLeadPhone} (Original: ${lead.phone_number})`);
+
         await evolutionClient.sendInitialContactToLead({
           nome: lead.full_name,
-          telefone: lead.phone_number,
+          telefone: targetLeadPhone,
           empreendimento: lead.form_name,
         });
 

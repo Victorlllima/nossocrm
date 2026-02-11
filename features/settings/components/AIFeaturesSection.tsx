@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useMemo, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
@@ -18,14 +18,14 @@ type FeatureItem = {
 
 const FEATURES: FeatureItem[] = [
   { key: 'ai_chat_agent', title: 'Chat do agente (Pilot)', description: 'Chat principal com ferramentas do CRM.', promptKey: 'agent_crm_base_instructions' },
-  { key: 'ai_sales_script', title: 'Script de vendas', description: 'Geração de script (Inbox / ações).', promptKey: 'task_inbox_sales_script' },
-  { key: 'ai_daily_briefing', title: 'Briefing diário', description: 'Resumo diário de prioridades.', promptKey: 'task_inbox_daily_briefing' },
-  { key: 'ai_deal_analyze', title: 'Análise de deal (coach)', description: 'Sugere próxima ação e urgência.', promptKey: 'task_deals_analyze' },
+  { key: 'ai_sales_script', title: 'Script de vendas', description: 'GeraÃ§Ã£o de script (Inbox / aÃ§Ãµes).', promptKey: 'task_inbox_sales_script' },
+  { key: 'ai_daily_briefing', title: 'Briefing diÃ¡rio', description: 'Resumo diÃ¡rio de prioridades.', promptKey: 'task_inbox_daily_briefing' },
+  { key: 'ai_deal_analyze', title: 'AnÃ¡lise de deal (coach)', description: 'Sugere prÃ³xima aÃ§Ã£o e urgÃªncia.', promptKey: 'task_deals_analyze' },
   { key: 'ai_email_draft', title: 'Rascunho de e-mail', description: 'Gera email profissional para o deal.', promptKey: 'task_deals_email_draft' },
-  { key: 'ai_objection_responses', title: 'Objeções (3 respostas)', description: 'Gera alternativas para contornar objeções.', promptKey: 'task_deals_objection_responses' },
-  { key: 'ai_board_generate_structure', title: 'Boards: gerar estrutura', description: 'Cria estágios e automações sugeridas.', promptKey: 'task_boards_generate_structure' },
-  { key: 'ai_board_generate_strategy', title: 'Boards: gerar estratégia', description: 'Define meta/KPI/persona do board.', promptKey: 'task_boards_generate_strategy' },
-  { key: 'ai_board_refine', title: 'Boards: refinar com IA', description: 'Refina o board via chat/instruções.', promptKey: 'task_boards_refine' },
+  { key: 'ai_objection_responses', title: 'ObjeÃ§Ãµes (3 respostas)', description: 'Gera alternativas para contornar objeÃ§Ãµes.', promptKey: 'task_deals_objection_responses' },
+  { key: 'ai_board_generate_structure', title: 'Boards: gerar estrutura', description: 'Cria estÃ¡gios e automaÃ§Ãµes sugeridas.', promptKey: 'task_boards_generate_structure' },
+  { key: 'ai_board_generate_strategy', title: 'Boards: gerar estratÃ©gia', description: 'Define meta/KPI/persona do board.', promptKey: 'task_boards_generate_strategy' },
+  { key: 'ai_board_refine', title: 'Boards: refinar com IA', description: 'Refina o board via chat/instruÃ§Ãµes.', promptKey: 'task_boards_refine' },
 ];
 
 /**
@@ -52,7 +52,7 @@ export const AIFeaturesSection: React.FC = () => {
     setSavingKey(key);
     try {
       await setAIFeatureFlag(key, enabled);
-      showToast(enabled ? 'Função ativada' : 'Função desativada', 'success');
+      showToast(enabled ? 'FunÃ§Ã£o ativada' : 'FunÃ§Ã£o desativada', 'success');
     } catch (e: any) {
       showToast(e?.message || 'Falha ao salvar', 'error');
     } finally {
@@ -143,7 +143,7 @@ export const AIFeaturesSection: React.FC = () => {
       });
       const data = await res.json().catch(() => null);
       if (!res.ok) throw new Error(data?.error || `Falha ao resetar prompt (HTTP ${res.status})`);
-      showToast('Prompt resetado (voltou ao padrão)', 'success');
+      showToast('Prompt resetado (voltou ao padrÃ£o)', 'success');
       closePromptEditor();
     } catch (e: any) {
       showToast(e?.message || 'Falha ao resetar prompt', 'error');
@@ -158,7 +158,7 @@ export const AIFeaturesSection: React.FC = () => {
         <div className="flex items-start justify-between gap-6">
           <div className="min-w-0">
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1 flex items-center gap-2">
-              <SlidersHorizontal className="h-5 w-5" /> Funções de IA
+              <SlidersHorizontal className="h-5 w-5" /> FunÃ§Ãµes de IA
             </h3>
             <p className="text-sm text-slate-500 dark:text-slate-400">
               Toggle + prompt no mesmo lugar (mais simples de entender e de gravar).
@@ -168,7 +168,7 @@ export const AIFeaturesSection: React.FC = () => {
 
         {!isAdmin && (
           <div className="mt-4 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-4 py-3 text-sm text-slate-700 dark:text-slate-200">
-            Apenas administradores podem configurar as funções de IA.
+            Apenas administradores podem configurar as funÃ§Ãµes de IA.
           </div>
         )}
 
@@ -258,7 +258,7 @@ export const AIFeaturesSection: React.FC = () => {
               <textarea
                 value={promptDraft}
                 onChange={(e) => setPromptDraft(e.target.value)}
-                placeholder="Cole/edite o prompt aqui…"
+                placeholder="Cole/edite o prompt aquiâ€¦"
                 className="w-full min-h-[280px] resize-y bg-white dark:bg-slate-950 border border-slate-200 dark:border-white/10 rounded-xl p-4 text-sm text-slate-900 dark:text-white font-mono focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none"
               />
             )}

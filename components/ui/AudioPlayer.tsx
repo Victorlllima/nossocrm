@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+﻿import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Play, Pause } from 'lucide-react';
 
 interface AudioPlayerProps {
@@ -133,13 +133,13 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, variant = 'received' }) 
     const currentStyle = styles[variant];
 
     return (
-        <div className="flex items-center gap-3 min-w-[220px] py-1 select-none group" role="group" aria-label="Player de áudio">
+        <div className="flex items-center gap-3 min-w-[220px] py-1 select-none group" role="group" aria-label="Player de Ã¡udio">
             <audio ref={audioRef} src={src} className="hidden" />
 
             <button
                 type="button"
                 onClick={togglePlay}
-                aria-label={isPlaying ? 'Pausar áudio' : 'Reproduzir áudio'}
+                aria-label={isPlaying ? 'Pausar Ã¡udio' : 'Reproduzir Ã¡udio'}
                 className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all active:scale-95 shadow-sm focus-visible-ring ${currentStyle.btn}`}
             >
                 {isPlaying ? <Pause size={14} fill="currentColor" aria-hidden="true" /> : <Play size={14} fill="currentColor" className="ml-0.5" aria-hidden="true" />}
@@ -151,7 +151,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, variant = 'received' }) 
                     type="button"
                     onClick={handleSeekClick}
                     onKeyDown={handleSeekKeyDown}
-                    aria-label="Barra de progresso do áudio"
+                    aria-label="Barra de progresso do Ã¡udio"
                     aria-valuenow={Math.round(progress)}
                     aria-valuemin={0}
                     aria-valuemax={100}
@@ -176,7 +176,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, variant = 'received' }) 
                     <span className={currentStyle.text} aria-label="Tempo atual">
                         {formatTime(currentTime)}
                     </span>
-                    <span className={currentStyle.text} aria-label="Duração total">
+                    <span className={currentStyle.text} aria-label="DuraÃ§Ã£o total">
                         {formatTime(duration)}
                     </span>
                 </div>

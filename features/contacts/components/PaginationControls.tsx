@@ -1,8 +1,8 @@
-/**
- * @fileoverview Controles de paginação para a tabela de contatos.
+﻿/**
+ * @fileoverview Controles de paginaÃ§Ã£o para a tabela de contatos.
  * 
- * Fornece navegação entre páginas (primeiro, anterior, próximo, último),
- * seletor de tamanho de página e feedback visual durante carregamento.
+ * Fornece navegaÃ§Ã£o entre pÃ¡ginas (primeiro, anterior, prÃ³ximo, Ãºltimo),
+ * seletor de tamanho de pÃ¡gina e feedback visual durante carregamento.
  * 
  * @module features/contacts/components/PaginationControls
  */
@@ -13,20 +13,20 @@ import type { PaginationState } from '@/types';
 import { PAGE_SIZE_OPTIONS, DEFAULT_PAGE_SIZE } from '@/types';
 
 export interface PaginationControlsProps {
-  /** Estado atual de paginação { pageIndex, pageSize }. */
+  /** Estado atual de paginaÃ§Ã£o { pageIndex, pageSize }. */
   pagination: PaginationState;
-  /** Função para atualizar a paginação. */
+  /** FunÃ§Ã£o para atualizar a paginaÃ§Ã£o. */
   setPagination: (updater: PaginationState | ((prev: PaginationState) => PaginationState)) => void;
   /** Total de registros no servidor. */
   totalCount: number;
-  /** Se está buscando dados (para feedback visual). */
+  /** Se estÃ¡ buscando dados (para feedback visual). */
   isFetching?: boolean;
-  /** Se os dados são placeholder (transição de página). */
+  /** Se os dados sÃ£o placeholder (transiÃ§Ã£o de pÃ¡gina). */
   isPlaceholderData?: boolean;
 }
 
 /**
- * Componente de controles de paginação.
+ * Componente de controles de paginaÃ§Ã£o.
  * 
  * @example
  * ```tsx
@@ -129,7 +129,7 @@ export const PaginationControls: React.FC<PaginationControlsProps> = ({
         {/* T024: Page size selector */}
         <div className="flex items-center gap-2">
           <label htmlFor="page-size" className="sr-only">
-            Itens por página
+            Itens por pÃ¡gina
           </label>
           <select
             id="page-size"
@@ -142,11 +142,11 @@ export const PaginationControls: React.FC<PaginationControlsProps> = ({
               focus:outline-none focus:ring-2 focus:ring-primary-500
               disabled:opacity-50 disabled:cursor-not-allowed
             "
-            aria-label="Selecionar quantidade de itens por página"
+            aria-label="Selecionar quantidade de itens por pÃ¡gina"
           >
             {PAGE_SIZE_OPTIONS.map(size => (
               <option key={size} value={size}>
-                {size} por página
+                {size} por pÃ¡gina
               </option>
             ))}
           </select>
@@ -175,13 +175,13 @@ export const PaginationControls: React.FC<PaginationControlsProps> = ({
               disabled:opacity-50 disabled:cursor-not-allowed
               [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
             "
-            aria-label="Ir para página específica"
+            aria-label="Ir para pÃ¡gina especÃ­fica"
           />
         </div>
 
         {/* Page indicator */}
         <span className="text-sm text-gray-600 dark:text-gray-400 min-w-[80px] text-center">
-          Página {pageIndex + 1} de {pageCount || 1}
+          PÃ¡gina {pageIndex + 1} de {pageCount || 1}
         </span>
 
         {/* Navigation buttons (T015) */}
@@ -191,8 +191,8 @@ export const PaginationControls: React.FC<PaginationControlsProps> = ({
             onClick={goToFirstPage}
             disabled={!canPreviousPage || isFetching}
             className={`${buttonBaseClass} ${canPreviousPage && !isFetching ? buttonEnabledClass : buttonDisabledClass}`}
-            aria-label="Ir para primeira página"
-            title="Primeira página"
+            aria-label="Ir para primeira pÃ¡gina"
+            title="Primeira pÃ¡gina"
           >
             <ChevronFirst className="w-5 h-5" />
           </button>
@@ -202,8 +202,8 @@ export const PaginationControls: React.FC<PaginationControlsProps> = ({
             onClick={goToPreviousPage}
             disabled={!canPreviousPage || isFetching}
             className={`${buttonBaseClass} ${canPreviousPage && !isFetching ? buttonEnabledClass : buttonDisabledClass}`}
-            aria-label="Ir para página anterior"
-            title="Página anterior"
+            aria-label="Ir para pÃ¡gina anterior"
+            title="PÃ¡gina anterior"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -213,8 +213,8 @@ export const PaginationControls: React.FC<PaginationControlsProps> = ({
             onClick={goToNextPage}
             disabled={!canNextPage || isFetching}
             className={`${buttonBaseClass} ${canNextPage && !isFetching ? buttonEnabledClass : buttonDisabledClass}`}
-            aria-label="Ir para próxima página"
-            title="Próxima página"
+            aria-label="Ir para prÃ³xima pÃ¡gina"
+            title="PrÃ³xima pÃ¡gina"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -224,8 +224,8 @@ export const PaginationControls: React.FC<PaginationControlsProps> = ({
             onClick={goToLastPage}
             disabled={!canNextPage || isFetching}
             className={`${buttonBaseClass} ${canNextPage && !isFetching ? buttonEnabledClass : buttonDisabledClass}`}
-            aria-label="Ir para última página"
-            title="Última página"
+            aria-label="Ir para Ãºltima pÃ¡gina"
+            title="Ãšltima pÃ¡gina"
           >
             <ChevronLast className="w-5 h-5" />
           </button>

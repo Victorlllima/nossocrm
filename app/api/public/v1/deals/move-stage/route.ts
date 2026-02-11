@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { authPublicApi } from '@/lib/public-api/auth';
 import { isValidUUID } from '@/lib/supabase/utils';

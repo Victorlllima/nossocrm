@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 
 export interface VisuallyHiddenProps {
   /** Content only visible to screen readers */

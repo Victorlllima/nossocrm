@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+﻿import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
@@ -54,7 +54,7 @@ export const UsersPage: React.FC = () => {
     const [newUserRole, setNewUserRole] = useState('vendedor');
     const [sendingInvites, setSendingInvites] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [actionLoading, setActionLoading] = useState<string | null>(null); // id do usuário em ação
+    const [actionLoading, setActionLoading] = useState<string | null>(null); // id do usuÃ¡rio em aÃ§Ã£o
     const [userToDelete, setUserToDelete] = useState<Profile | null>(null);
     const [activeInvites, setActiveInvites] = useState<any[]>([]);
     const [expirationDays, setExpirationDays] = useState<number | null>(7); // 7 days default, null = never
@@ -71,7 +71,7 @@ export const UsersPage: React.FC = () => {
 
             const data = await res.json().catch(() => null);
             if (!res.ok) {
-                throw new Error(data?.error || `Falha ao carregar usuários (HTTP ${res.status})`);
+                throw new Error(data?.error || `Falha ao carregar usuÃ¡rios (HTTP ${res.status})`);
             }
 
             setUsers(data?.users || []);
@@ -138,10 +138,10 @@ export const UsersPage: React.FC = () => {
             <div className="min-h-[60vh] flex items-center justify-center">
                 <div className="text-center max-w-md">
                     <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">
-                        Configuração incompleta
+                        ConfiguraÃ§Ã£o incompleta
                     </h2>
                     <p className="text-slate-500 dark:text-slate-400">
-                        O Supabase não está configurado neste ambiente. Configure as variáveis de ambiente para gerenciar usuários.
+                        O Supabase nÃ£o estÃ¡ configurado neste ambiente. Configure as variÃ¡veis de ambiente para gerenciar usuÃ¡rios.
                     </p>
                 </div>
             </div>
@@ -228,11 +228,11 @@ export const UsersPage: React.FC = () => {
             });
             const data = await res.json().catch(() => null);
             if (!res.ok) {
-                throw new Error(data?.error || `Erro ao remover usuário (HTTP ${res.status})`);
+                throw new Error(data?.error || `Erro ao remover usuÃ¡rio (HTTP ${res.status})`);
             }
 
             addToast(
-                userToDelete.status === 'pending' ? 'Convite cancelado' : 'Usuário removido',
+                userToDelete.status === 'pending' ? 'Convite cancelado' : 'UsuÃ¡rio removido',
                 'success'
             );
             fetchUsers();
@@ -263,7 +263,7 @@ export const UsersPage: React.FC = () => {
                     </div>
                     <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">Acesso Restrito</h2>
                     <p className="text-slate-500 dark:text-slate-400 max-w-sm">
-                        Apenas administradores podem gerenciar usuários da equipe.
+                        Apenas administradores podem gerenciar usuÃ¡rios da equipe.
                     </p>
                 </div>
             </div>
@@ -283,7 +283,7 @@ export const UsersPage: React.FC = () => {
                             Sua Equipe
                         </h1>
                         <p className="text-slate-500 dark:text-slate-400 mt-2 text-lg">
-                            {users.length} {users.length === 1 ? 'membro' : 'membros'} • {admins.length} admin{admins.length !== 1 && 's'}, {vendedores.length} vendedor{vendedores.length !== 1 && 'es'}
+                            {users.length} {users.length === 1 ? 'membro' : 'membros'} â€¢ {admins.length} admin{admins.length !== 1 && 's'}, {vendedores.length} vendedor{vendedores.length !== 1 && 'es'}
                         </p>
                     </div>
                     <button
@@ -329,7 +329,7 @@ export const UsersPage: React.FC = () => {
                                         </h3>
                                         {isCurrentUser && (
                                             <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300">
-                                                você
+                                                vocÃª
                                             </span>
                                         )}
                                         {user.status === 'pending' && (
@@ -356,7 +356,7 @@ export const UsersPage: React.FC = () => {
                                                 </>
                                             )}
                                         </span>
-                                        <span className="text-slate-300 dark:text-slate-600">•</span>
+                                        <span className="text-slate-300 dark:text-slate-600">â€¢</span>
                                         <span className="text-sm text-slate-400 dark:text-slate-500">
                                             {user.status === 'pending'
                                                 ? `Convidado ${new Date(user.invited_at || user.created_at).toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' })}`
@@ -379,7 +379,7 @@ export const UsersPage: React.FC = () => {
                                                 <button
                                                     onClick={() => handleDeleteUser(user)}
                                                     className="opacity-0 group-hover:opacity-100 p-2 rounded-lg text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all"
-                                                    title={user.status === 'pending' ? 'Cancelar convite' : 'Remover usuário'}
+                                                    title={user.status === 'pending' ? 'Cancelar convite' : 'Remover usuÃ¡rio'}
                                                 >
                                                     <Trash2 className="h-4 w-4" />
                                                 </button>
@@ -550,7 +550,7 @@ export const UsersPage: React.FC = () => {
                                 {/* Expiration Selection */}
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
-                                        Expiração
+                                        ExpiraÃ§Ã£o
                                     </label>
                                     <div className="grid grid-cols-3 gap-3">
                                         {[
@@ -622,7 +622,7 @@ export const UsersPage: React.FC = () => {
                 isOpen={!!userToDelete}
                 onClose={() => setUserToDelete(null)}
                 onConfirm={confirmDeleteUser}
-                title={userToDelete?.status === 'pending' ? 'Cancelar Convite' : 'Remover Usuário'}
+                title={userToDelete?.status === 'pending' ? 'Cancelar Convite' : 'Remover UsuÃ¡rio'}
                 message={userToDelete?.status === 'pending'
                     ? `Tem certeza que deseja cancelar o convite para ${userToDelete?.email}?`
                     : `Tem certeza que deseja remover ${userToDelete?.email} da equipe?`

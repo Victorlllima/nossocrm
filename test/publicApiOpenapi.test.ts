@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+﻿import { describe, expect, it } from 'vitest';
 import { getPublicApiOpenApiDocument } from '@/lib/public-api/openapi';
 
 describe('Public API OpenAPI', () => {

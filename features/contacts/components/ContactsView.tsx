@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Contact } from '@/types';
 import { Search, RefreshCw } from 'lucide-react';
 
@@ -17,7 +17,7 @@ interface ContactsViewProps {
   isLoading, 
   onSearch, 
   onRefresh 
-} - Parâmetro `{ 
+} - ParÃ¢metro `{ 
   contacts, 
   isLoading, 
   onSearch, 

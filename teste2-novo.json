@@ -1,0 +1,16 @@
+{
+  "event": "messages.upsert",
+  "data": {
+    "key": {
+      "remoteJid": "5581777777779@s.whatsapp.net",
+      "fromMe": false,
+      "id": "3EB0A8BF3F1C5F2F"
+    },
+    "message": {
+      "conversation": "Tem imóvel com 2 quartos em Boa Viagem?"
+    },
+    "messageType": "conversation",
+    "messageTimestamp": 1707571260,
+    "pushName": "Fernando Alves"
+  }
+}

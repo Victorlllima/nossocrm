@@ -1,4 +1,4 @@
-// @vitest-environment node
+﻿// @vitest-environment node
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { createMinimalFixtures, cleanupFixtures } from './helpers/fixtures';
 import { createCRMTools } from '../lib/ai/tools';
@@ -57,7 +57,7 @@ describeSupabase('Next AI tools - multi-tenant isolation (service-role sentinel)
     if (runId) await cleanupFixtures(runId);
   }, 60_000);
 
-  it('searchContacts deve respeitar organizationId (não pode vazar contatos de outro tenant)', async () => {
+  it('searchContacts deve respeitar organizationId (nÃ£o pode vazar contatos de outro tenant)', async () => {
     const toolsA = createCRMTools({ organizationId: orgAId }, '00000000-0000-0000-0000-000000000000');
     const toolMap = toolsA as unknown as Record<string, { execute: (input: unknown) => unknown | Promise<unknown> }>;
 
@@ -108,7 +108,7 @@ describeSupabase('Next AI tools - multi-tenant isolation (service-role sentinel)
     expect(emailsOwn).toContain(contactAEmail);
   });
 
-  it('getDealDetails não deve retornar deal de outro tenant quando orgId é diferente', async () => {
+  it('getDealDetails nÃ£o deve retornar deal de outro tenant quando orgId Ã© diferente', async () => {
     const toolsA = createCRMTools({ organizationId: orgAId }, '00000000-0000-0000-0000-000000000000');
     const toolMap = toolsA as unknown as Record<string, { execute: (input: unknown) => unknown | Promise<unknown> }>;
 
@@ -138,7 +138,7 @@ describeSupabase('Next AI tools - multi-tenant isolation (service-role sentinel)
     expect(leakedId).not.toBe(dealBId);
   });
 
-  it('moveDealsBulk não deve permitir mover deal/board de outro tenant', async () => {
+  it('moveDealsBulk nÃ£o deve permitir mover deal/board de outro tenant', async () => {
     const toolsA = createCRMTools({ organizationId: orgAId }, '00000000-0000-0000-0000-000000000000');
     const toolMap = toolsA as unknown as Record<string, { execute: (input: unknown) => unknown | Promise<unknown> }>;
 
@@ -155,7 +155,7 @@ describeSupabase('Next AI tools - multi-tenant isolation (service-role sentinel)
     const err1 = asObj(resWrongBoard)?.error;
     expect(typeof err1 === 'string' || resWrongBoard === null).toBe(true);
 
-    // 2) Mesmo com board correto, um deal do tenant B não pode ser movido
+    // 2) Mesmo com board correto, um deal do tenant B nÃ£o pode ser movido
     const resWrongDeal = await callTool(toolMap, 'moveDealsBulk', {
       dealIds: [dealBId],
       boardId: boardAId,
@@ -167,13 +167,13 @@ describeSupabase('Next AI tools - multi-tenant isolation (service-role sentinel)
     expect(typeof err2 === 'string' || resWrongDeal === null).toBe(true);
   });
 
-  it('addDealNote não deve permitir inserir nota em deal de outro tenant', async () => {
+  it('addDealNote nÃ£o deve permitir inserir nota em deal de outro tenant', async () => {
     const toolsA = createCRMTools({ organizationId: orgAId }, '00000000-0000-0000-0000-000000000000');
     const toolMap = toolsA as unknown as Record<string, { execute: (input: unknown) => unknown | Promise<unknown> }>;
 
     const res = await callTool(toolMap, 'addDealNote', {
       dealId: dealBId,
-      content: 'nota de teste (não deveria ser permitida)'
+      content: 'nota de teste (nÃ£o deveria ser permitida)'
     });
 
     const asObj = (v: unknown): Record<string, unknown> | null =>

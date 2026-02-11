@@ -1,4 +1,4 @@
-import { getCurrentResponsiveMode } from './responsive';
+﻿import { getCurrentResponsiveMode } from './responsive';
 
 export function isMobileViewport(): boolean {
   return getCurrentResponsiveMode() === 'mobile';

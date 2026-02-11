@@ -1,14 +1,14 @@
-type ExecutableTool = {
+﻿type ExecutableTool = {
   execute: (input: unknown) => unknown | Promise<unknown>;
 };
 
 // In tests, we invoke tools directly to validate behavior without UI.
 /**
- * Função pública `callTool` do projeto.
+ * FunÃ§Ã£o pÃºblica `callTool` do projeto.
  *
- * @param {Record<string, ExecutableTool>} tools - Parâmetro `tools`.
- * @param {string} name - Parâmetro `name`.
- * @param {unknown} input - Parâmetro `input`.
+ * @param {Record<string, ExecutableTool>} tools - ParÃ¢metro `tools`.
+ * @param {string} name - ParÃ¢metro `name`.
+ * @param {unknown} input - ParÃ¢metro `input`.
  * @returns {Promise<unknown>} Retorna um valor do tipo `Promise<unknown>`.
  */
 export async function callTool(

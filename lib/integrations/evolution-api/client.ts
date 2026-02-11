@@ -1,4 +1,4 @@
-export interface WhatsAppMessage {
+﻿export interface WhatsAppMessage {
   number: string;
   text: string;
 }
@@ -120,15 +120,15 @@ ${leadData.respostas}
     telefone: string;
     empreendimento: string;
   }): Promise<EvolutionAPIResponse> {
-    const message = `Olá, ${leadData.nome}! 
+    const message = `Olá, ${leadData.nome}! 👋
 
-Tudo bem? Aqui é o assistente digital do Max Lima, da RE/MAX
+Tudo bem? Aqui é o assistente digital do Max Lima, da RE/MAX.
 
 Vi que você demonstrou interesse na ${leadData.empreendimento} através do nosso formulário. Muito obrigado pelo contato!
 
 Conseguiu analisar as informações, fotos e características do imóvel? 
 
-Estou à disposição para esclarecer todas as suas dúvidas! Se quiser, posso ligar para passar maiores informações`;
+Estou à disposição para esclarecer todas as suas dúvidas! Se quiser, posso ligar para passar maiores informações.`;
 
     return this.sendMessage(leadData.telefone, message);
   }

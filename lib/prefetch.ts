@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Route prefetching utilities for optimized navigation
  *
  * Preloads route chunks when user hovers over navigation links

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import {
     Phone,
     Mail,
@@ -25,18 +25,18 @@ const ACTIVITY_FEED_DATE_FORMATTER = new Intl.DateTimeFormat('pt-BR', {
 /**
  * Componente React `ActivityFeedItem`.
  *
- * @param {ActivityFeedItemProps} { activity } - Parâmetro `{ activity }`.
+ * @param {ActivityFeedItemProps} { activity } - ParÃ¢metro `{ activity }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const ActivityFeedItem: React.FC<ActivityFeedItemProps> = ({ activity }) => {
-    // Smart Icon Logic: Corrigir visualmente inconsistências de dados legados/seed
+    // Smart Icon Logic: Corrigir visualmente inconsistÃªncias de dados legados/seed
     const titleLower = activity.title.toLowerCase();
     const visualType =
-        titleLower.includes('call') || titleLower.includes('ligação')
+        titleLower.includes('call') || titleLower.includes('ligaÃ§Ã£o')
             ? 'CALL'
             : titleLower.includes('email')
               ? 'EMAIL'
-              : titleLower.includes('reunião') || titleLower.includes('meeting') || titleLower.includes('demo')
+              : titleLower.includes('reuniÃ£o') || titleLower.includes('meeting') || titleLower.includes('demo')
                 ? 'MEETING'
                 : activity.type;
 

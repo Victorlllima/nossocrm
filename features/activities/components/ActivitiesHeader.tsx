@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Plus, LayoutList, Calendar as CalendarIcon } from 'lucide-react';
 
 interface ActivitiesHeaderProps {
@@ -16,7 +16,7 @@ interface ActivitiesHeaderProps {
   setViewMode,
   onNewActivity,
   dateFilter = 'ALL',
-} - Parâmetro `{
+} - ParÃ¢metro `{
   viewMode,
   setViewMode,
   onNewActivity,
@@ -36,7 +36,7 @@ export const ActivitiesHeader: React.FC<ActivitiesHeaderProps> = ({
       : dateFilter === 'today'
         ? 'Hoje'
         : dateFilter === 'upcoming'
-          ? 'Próximos'
+          ? 'PrÃ³ximos'
           : null;
 
   return (

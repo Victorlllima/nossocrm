@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
@@ -11,8 +11,8 @@ import type { Activity, DealView } from '@/types';
  * Cockpit "verdadeiro" (original): UI do Focus (Inbox) reaproveitada fora do /inbox.
  *
  * Motivation:
- * - O usuário considera o cockpit do Focus como a experiência canônica.
- * - Mantemos a rota `/deals/[dealId]/cockpit` apontando para esta UI até a V2 ser "lançada".
+ * - O usuÃ¡rio considera o cockpit do Focus como a experiÃªncia canÃ´nica.
+ * - Mantemos a rota `/deals/[dealId]/cockpit` apontando para esta UI atÃ© a V2 ser "lanÃ§ada".
  */
 export default function DealCockpitFocusClient({ dealId }: { dealId: string }) {
   const router = useRouter();
@@ -38,7 +38,7 @@ export default function DealCockpitFocusClient({ dealId }: { dealId: string }) {
 
   const dealActivities = useMemo(() => {
     if (!deal) return [] as Activity[];
-    // Mantém consistência com a experiência do Focus: filtra por dealId.
+    // MantÃ©m consistÃªncia com a experiÃªncia do Focus: filtra por dealId.
     return activities.filter((a) => a.dealId === deal.id);
   }, [activities, deal]);
 
@@ -66,7 +66,7 @@ export default function DealCockpitFocusClient({ dealId }: { dealId: string }) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="text-sm text-slate-500 dark:text-slate-400">
-          Negócio não encontrado. Volte e tente novamente.
+          NegÃ³cio nÃ£o encontrado. Volte e tente novamente.
         </div>
       </div>
     );

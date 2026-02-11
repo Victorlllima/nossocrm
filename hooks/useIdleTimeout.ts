@@ -1,16 +1,16 @@
-/**
+﻿/**
  * @fileoverview Hook de Timeout por Inatividade
  * 
- * Hook de segurança que automaticamente faz logout do usuário
- * após período de inatividade, protegendo contra sessões abandonadas.
+ * Hook de seguranÃ§a que automaticamente faz logout do usuÃ¡rio
+ * apÃ³s perÃ­odo de inatividade, protegendo contra sessÃµes abandonadas.
  * 
  * @module hooks/useIdleTimeout
  * 
  * Funcionalidades:
- * - Detecção de atividade (mouse, teclado, scroll, touch)
- * - Alerta antes do logout automático
- * - Verificação ao retornar à aba
- * - Persistência do motivo de logout
+ * - DetecÃ§Ã£o de atividade (mouse, teclado, scroll, touch)
+ * - Alerta antes do logout automÃ¡tico
+ * - VerificaÃ§Ã£o ao retornar Ã  aba
+ * - PersistÃªncia do motivo de logout
  * 
  * @example
  * ```tsx
@@ -18,8 +18,8 @@
  *   useIdleTimeout({
  *     timeout: 30 * 60 * 1000, // 30 minutos
  *     warningTime: 5 * 60 * 1000, // Aviso 5 min antes
- *     onWarning: () => toast.warning('Sessão expirando...'),
- *     onTimeout: () => toast.info('Sessão expirada'),
+ *     onWarning: () => toast.warning('SessÃ£o expirando...'),
+ *     onTimeout: () => toast.info('SessÃ£o expirada'),
  *   });
  *   
  *   return <MainApp />;
@@ -31,15 +31,15 @@ import { useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/context/AuthContext';
 
 /**
- * Opções de configuração do hook de idle timeout
+ * OpÃ§Ãµes de configuraÃ§Ã£o do hook de idle timeout
  * 
  * @interface UseIdleTimeoutOptions
- * @property {number} [timeout=1800000] - Tempo em ms até logout (padrão: 30 min)
- * @property {number} [warningTime=300000] - Tempo em ms antes do logout para aviso (padrão: 5 min)
+ * @property {number} [timeout=1800000] - Tempo em ms atÃ© logout (padrÃ£o: 30 min)
+ * @property {number} [warningTime=300000] - Tempo em ms antes do logout para aviso (padrÃ£o: 5 min)
  * @property {() => void} [onWarning] - Callback ao exibir aviso
  * @property {() => void} [onTimeout] - Callback antes do logout
  * @property {string[]} [events] - Eventos DOM que resetam o timer
- * @property {boolean} [enabled=true] - Se o hook está ativo
+ * @property {boolean} [enabled=true] - Se o hook estÃ¡ ativo
  */
 interface UseIdleTimeoutOptions {
   timeout?: number;
@@ -50,11 +50,11 @@ interface UseIdleTimeoutOptions {
   enabled?: boolean;
 }
 
-/** Timeout padrão: 30 minutos */
+/** Timeout padrÃ£o: 30 minutos */
 const DEFAULT_TIMEOUT = 30 * 60 * 1000;
-/** Tempo de aviso padrão: 5 minutos antes */
+/** Tempo de aviso padrÃ£o: 5 minutos antes */
 const DEFAULT_WARNING_TIME = 5 * 60 * 1000;
-/** Eventos padrão que indicam atividade */
+/** Eventos padrÃ£o que indicam atividade */
 const DEFAULT_EVENTS = [
   'mousedown',
   'mousemove',
@@ -66,17 +66,17 @@ const DEFAULT_EVENTS = [
 ];
 
 /**
- * Hook para logout automático por inatividade
+ * Hook para logout automÃ¡tico por inatividade
  * 
- * Monitora atividade do usuário e executa logout automático após
- * período configurado sem interação. Inclui aviso prévio opcional.
+ * Monitora atividade do usuÃ¡rio e executa logout automÃ¡tico apÃ³s
+ * perÃ­odo configurado sem interaÃ§Ã£o. Inclui aviso prÃ©vio opcional.
  * 
- * @param {UseIdleTimeoutOptions} options - Configurações do timeout
- * @returns {Object} Funções de controle do timer
+ * @param {UseIdleTimeoutOptions} options - ConfiguraÃ§Ãµes do timeout
+ * @returns {Object} FunÃ§Ãµes de controle do timer
  * @returns {() => void} return.resetTimer - Reseta manualmente o timer
  * @returns {() => number} return.getRemainingTime - Retorna tempo restante em ms
  * @returns {() => boolean} return.isWarningShown - Se o aviso foi exibido
- * @returns {() => Promise<void>} return.forceLogout - Força logout imediato
+ * @returns {() => Promise<void>} return.forceLogout - ForÃ§a logout imediato
  * 
  * @example
  * ```tsx
@@ -89,7 +89,7 @@ const DEFAULT_EVENTS = [
  *   
  *   return showWarning ? (
  *     <Modal>
- *       <p>Sessão expira em {Math.floor(getRemainingTime() / 1000)}s</p>
+ *       <p>SessÃ£o expira em {Math.floor(getRemainingTime() / 1000)}s</p>
  *       <button onClick={() => { resetTimer(); setShowWarning(false); }}>
  *         Continuar
  *       </button>

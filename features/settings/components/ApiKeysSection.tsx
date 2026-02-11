@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+﻿import React, { useEffect, useMemo, useState } from 'react';
 import { Key, Copy, ExternalLink, CheckCircle2, Plus, Trash2, ShieldCheck, RefreshCw, TerminalSquare, Play } from 'lucide-react';
 
 import ConfirmModal from '@/components/ConfirmModal';
@@ -36,7 +36,7 @@ export const ApiKeysSection: React.FC = () => {
   const [newKeyName, setNewKeyName] = useState('n8n');
   const [createdToken, setCreatedToken] = useState<string | null>(null);
   const [createdPrefix, setCreatedPrefix] = useState<string | null>(null);
-  const [apiKeyToken, setApiKeyToken] = useState<string>(''); // token completo (apenas em memória)
+  const [apiKeyToken, setApiKeyToken] = useState<string>(''); // token completo (apenas em memÃ³ria)
   const [testLoading, setTestLoading] = useState(false);
   const [testResult, setTestResult] = useState<{ ok: boolean; message: string } | null>(null);
   const [selectedBoardId, setSelectedBoardId] = useState<string>('');
@@ -52,7 +52,7 @@ export const ApiKeysSection: React.FC = () => {
   const [leadCompanyName, setLeadCompanyName] = useState<string>('Empresa Teste');
   const [leadNotes, setLeadNotes] = useState<string>('');
   const [activityType, setActivityType] = useState<string>('NOTE');
-  const [activityTitle, setActivityTitle] = useState<string>('Nota via integração');
+  const [activityTitle, setActivityTitle] = useState<string>('Nota via integraÃ§Ã£o');
   const [actionTestLoading, setActionTestLoading] = useState(false);
   const [actionTestResult, setActionTestResult] = useState<{ ok: boolean; message: string; raw?: any } | null>(null);
 
@@ -68,13 +68,13 @@ export const ApiKeysSection: React.FC = () => {
       await navigator.clipboard.writeText(value);
       addToast(`${label} copiado.`, 'success');
     } catch {
-      addToast(`Não foi possível copiar ${label.toLowerCase()}.`, 'error');
+      addToast(`NÃ£o foi possÃ­vel copiar ${label.toLowerCase()}.`, 'error');
     }
   };
 
   const loadKeys = async () => {
     if (!supabase) {
-      addToast('Supabase não configurado neste ambiente.', 'error');
+      addToast('Supabase nÃ£o configurado neste ambiente.', 'error');
       return;
     }
     setLoadingKeys(true);
@@ -98,10 +98,10 @@ export const ApiKeysSection: React.FC = () => {
 
   const createKey = async () => {
     if (!supabase) {
-      addToast('Supabase não configurado neste ambiente.', 'error');
+      addToast('Supabase nÃ£o configurado neste ambiente.', 'error');
       return;
     }
-    const name = newKeyName.trim() || 'Integração';
+    const name = newKeyName.trim() || 'IntegraÃ§Ã£o';
     setCreating(true);
     setCreatedToken(null);
     setCreatedPrefix(null);
@@ -112,11 +112,11 @@ export const ApiKeysSection: React.FC = () => {
       const row = Array.isArray(data) ? data[0] : data;
       const token = row?.token as string | undefined;
       const prefix = row?.key_prefix as string | undefined;
-      if (!token || !prefix) throw new Error('Resposta inválida ao criar chave');
+      if (!token || !prefix) throw new Error('Resposta invÃ¡lida ao criar chave');
       setCreatedToken(token);
       setCreatedPrefix(prefix);
       setApiKeyToken(token);
-      addToast('Chave criada. Copie agora — ela aparece só uma vez.', 'success');
+      addToast('Chave criada. Copie agora â€” ela aparece sÃ³ uma vez.', 'success');
       await loadKeys();
     } catch (e: any) {
       addToast(e?.message || 'Erro ao criar chave', 'error');
@@ -127,7 +127,7 @@ export const ApiKeysSection: React.FC = () => {
 
   const revokeKey = async (id: string) => {
     if (!supabase) {
-      addToast('Supabase não configurado neste ambiente.', 'error');
+      addToast('Supabase nÃ£o configurado neste ambiente.', 'error');
       return;
     }
     setRevokingId(id);
@@ -145,19 +145,19 @@ export const ApiKeysSection: React.FC = () => {
 
   const deleteRevokedKey = async (id: string) => {
     if (!supabase) {
-      addToast('Supabase não configurado neste ambiente.', 'error');
+      addToast('Supabase nÃ£o configurado neste ambiente.', 'error');
       return;
     }
     setDeletingId(id);
     try {
-      // Segurança: só permite excluir se já estiver revogada
+      // SeguranÃ§a: sÃ³ permite excluir se jÃ¡ estiver revogada
       const { error } = await supabase
         .from('api_keys')
         .delete()
         .eq('id', id)
         .not('revoked_at', 'is', null);
       if (error) throw error;
-      addToast('Chave excluída.', 'success');
+      addToast('Chave excluÃ­da.', 'success');
       await loadKeys();
     } catch (e: any) {
       addToast(e?.message || 'Erro ao excluir chave', 'error');
@@ -168,7 +168,7 @@ export const ApiKeysSection: React.FC = () => {
 
   const openDeleteConfirm = (k: ApiKeyRow) => {
     if (!k.revoked_at) {
-      addToast('Você só pode excluir chaves revogadas.', 'warning');
+      addToast('VocÃª sÃ³ pode excluir chaves revogadas.', 'warning');
       return;
     }
     setDeleteTarget(k);
@@ -192,7 +192,7 @@ export const ApiKeysSection: React.FC = () => {
         setTestResult({ ok: false, message: json?.error || 'Falha no teste' });
         return;
       }
-      setTestResult({ ok: true, message: 'OK — API key validada' });
+      setTestResult({ ok: true, message: 'OK â€” API key validada' });
     } catch (e: any) {
       setTestResult({ ok: false, message: e?.message || 'Erro no teste' });
     } finally {
@@ -200,7 +200,7 @@ export const ApiKeysSection: React.FC = () => {
     }
   };
 
-  // Defaults para deixar o wizard "mágico" (usa dados locais do app; não depende da API key)
+  // Defaults para deixar o wizard "mÃ¡gico" (usa dados locais do app; nÃ£o depende da API key)
   useEffect(() => {
     if (!selectedBoardId && boardsFromContext?.length) {
       const firstWithKey = boardsFromContext.find((b) => !!b.key) || boardsFromContext[0];
@@ -209,7 +209,7 @@ export const ApiKeysSection: React.FC = () => {
   }, [boardsFromContext, selectedBoardId]);
 
   useEffect(() => {
-    // troca de board reseta seleções dependentes
+    // troca de board reseta seleÃ§Ãµes dependentes
     setSelectedToStageId('');
   }, [selectedBoardId]);
 
@@ -262,7 +262,7 @@ export const ApiKeysSection: React.FC = () => {
       const markField = suggestedMark ? `\n+    \"mark\": \"${suggestedMark}\",` : '';
       return `curl -X POST '/api/public/v1/deals/move-stage' \\\n+  -H 'Content-Type: application/json' \\\n+  -H 'X-Api-Key: ${token}' \\\n+  -d '{\n+    \"board_key_or_id\": \"${boardKeyOrId}\",\n+    ${identityField}${markField}\n+    \"to_stage_label\": \"${stageLabel.replaceAll('"', '\\"')}\"\n+  }'`;
     }
-    return `curl -X POST '${activitiesUrl}' \\\n+  -H 'Content-Type: application/json' \\\n+  -H 'X-Api-Key: ${token}' \\\n+  -d '{\n+    \"type\": \"${activityType}\",\n+    \"title\": \"${activityTitle.replaceAll('"', '\\"')}\",\n+    \"description\": \"Criada via integração\",\n+    \"date\": \"${new Date().toISOString()}\"\n+  }'`;
+    return `curl -X POST '${activitiesUrl}' \\\n+  -H 'Content-Type: application/json' \\\n+  -H 'X-Api-Key: ${token}' \\\n+  -d '{\n+    \"type\": \"${activityType}\",\n+    \"title\": \"${activityTitle.replaceAll('"', '\\"')}\",\n+    \"description\": \"Criada via integraÃ§Ã£o\",\n+    \"date\": \"${new Date().toISOString()}\"\n+  }'`;
   }, [
     action,
     activitiesUrl,
@@ -368,8 +368,8 @@ export const ApiKeysSection: React.FC = () => {
           return;
         }
         if (!selectedToStageLabel) {
-          addToast('Etapa inválida para este board.', 'warning');
-          setActionTestResult({ ok: false, message: 'Etapa inválida.' });
+          addToast('Etapa invÃ¡lida para este board.', 'warning');
+          setActionTestResult({ ok: false, message: 'Etapa invÃ¡lida.' });
           return;
         }
         if (!selectedBoardKey && !selectedBoardId) {
@@ -412,21 +412,21 @@ export const ApiKeysSection: React.FC = () => {
   };
 
   return (
-    <SettingsSection title="API (Integrações)" icon={Key}>
+    <SettingsSection title="API (IntegraÃ§Ãµes)" icon={Key}>
       <p className="text-sm text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
-        Aqui você conecta n8n/Make sem precisar “entender API”. Escolha o que quer automatizar, copie o que precisa e teste.
+        Aqui vocÃª conecta n8n/Make sem precisar â€œentender APIâ€. Escolha o que quer automatizar, copie o que precisa e teste.
         <br />
-        A documentação técnica (OpenAPI/Swagger) fica disponível, mas só quando você quiser.
+        A documentaÃ§Ã£o tÃ©cnica (OpenAPI/Swagger) fica disponÃ­vel, mas sÃ³ quando vocÃª quiser.
       </p>
 
       <div className="grid grid-cols-1 gap-4">
         <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 p-4">
           <div className="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-2 flex items-center gap-2">
             <Key className="h-4 w-4" />
-            Chave da integração (independente do assistente)
+            Chave da integraÃ§Ã£o (independente do assistente)
           </div>
           <div className="text-xs text-slate-600 dark:text-slate-300 mb-3">
-            A chave é da sua conta. O assistente só usa ela para montar o “copiar/colar” e testar.
+            A chave Ã© da sua conta. O assistente sÃ³ usa ela para montar o â€œcopiar/colarâ€ e testar.
           </div>
 
           <div className="flex gap-2">
@@ -483,7 +483,7 @@ export const ApiKeysSection: React.FC = () => {
                 value={apiKeyToken}
                 onChange={(e) => setApiKeyToken(e.target.value)}
                 className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 text-slate-900 dark:text-white font-mono text-xs"
-                placeholder="ncrm_… (fica só em memória, não é salvo)"
+                placeholder="ncrm_â€¦ (fica sÃ³ em memÃ³ria, nÃ£o Ã© salvo)"
               />
               <button
                 type="button"
@@ -491,7 +491,7 @@ export const ApiKeysSection: React.FC = () => {
                 disabled={testLoading}
                 className="shrink-0 px-3 py-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 disabled:opacity-60 text-slate-800 dark:text-white text-sm font-semibold"
               >
-                {testLoading ? 'Testando…' : 'Testar chave'}
+                {testLoading ? 'Testandoâ€¦' : 'Testar chave'}
               </button>
             </div>
             {testResult && (
@@ -504,7 +504,7 @@ export const ApiKeysSection: React.FC = () => {
 
         <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 p-4">
           <div className="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-2">
-            Passo 1 — O que você quer automatizar?
+            Passo 1 â€” O que vocÃª quer automatizar?
           </div>
           <select
             value={action}
@@ -512,30 +512,30 @@ export const ApiKeysSection: React.FC = () => {
             className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           >
             <option value="create_lead">Criar/Atualizar Lead (Contato)</option>
-            <option value="create_deal">Criar Negócio (Deal)</option>
+            <option value="create_deal">Criar NegÃ³cio (Deal)</option>
             <option value="move_stage">Mover etapa do Deal</option>
             <option value="create_activity">Criar Atividade (nota/tarefa)</option>
           </select>
 
           <div className="mt-3 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
             <CheckCircle2 className="h-4 w-4 text-emerald-500" />
-            <span>Você escolhe o objetivo. O sistema monta o comando final com seus dados.</span>
+            <span>VocÃª escolhe o objetivo. O sistema monta o comando final com seus dados.</span>
           </div>
         </div>
 
         <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 p-4">
           <div className="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-2">
-            Passo 2 — Configure (dinâmico)
+            Passo 2 â€” Configure (dinÃ¢mico)
           </div>
           <div className="text-xs text-slate-600 dark:text-slate-300 mb-3">
-            Aqui entra o “mágico”: você escolhe e a gente já preenche o comando final.
+            Aqui entra o â€œmÃ¡gicoâ€: vocÃª escolhe e a gente jÃ¡ preenche o comando final.
           </div>
 
           {action === 'create_lead' && (
             <div>
               <div className="text-xs text-slate-600 dark:text-slate-300 mb-3">
-                <span className="font-semibold text-slate-700 dark:text-slate-200">*</span> Obrigatório: <span className="font-semibold text-slate-700 dark:text-slate-200">Email</span> <span className="font-semibold">ou</span>{' '}
-                <span className="font-semibold text-slate-700 dark:text-slate-200">Telefone</span>. <span className="font-semibold text-slate-700 dark:text-slate-200">Nome</span> é obrigatório apenas ao{' '}
+                <span className="font-semibold text-slate-700 dark:text-slate-200">*</span> ObrigatÃ³rio: <span className="font-semibold text-slate-700 dark:text-slate-200">Email</span> <span className="font-semibold">ou</span>{' '}
+                <span className="font-semibold text-slate-700 dark:text-slate-200">Telefone</span>. <span className="font-semibold text-slate-700 dark:text-slate-200">Nome</span> Ã© obrigatÃ³rio apenas ao{' '}
                 <span className="font-semibold text-slate-700 dark:text-slate-200">criar</span> um contato novo.
               </div>
 
@@ -622,16 +622,16 @@ export const ApiKeysSection: React.FC = () => {
                   onChange={(e) => setSelectedBoardId(e.target.value)}
                   className="w-full px-3 py-2.5 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 text-slate-900 dark:text-white"
                 >
-                  <option value="">Selecione…</option>
+                  <option value="">Selecioneâ€¦</option>
                   {boardsFromContext.map((b) => (
                     <option key={b.id} value={b.id}>
-                      {b.name}{b.key ? ` — ${b.key}` : ' — (sem key)'}
+                      {b.name}{b.key ? ` â€” ${b.key}` : ' â€” (sem key)'}
                     </option>
                   ))}
                 </select>
                 {selectedBoardId && !selectedBoardKey && (
                   <div className="mt-1 text-xs text-rose-600 dark:text-rose-300">
-                    Este board ainda não tem <span className="font-mono">key</span>. Para integrações, gere uma key para o board.
+                    Este board ainda nÃ£o tem <span className="font-mono">key</span>. Para integraÃ§Ãµes, gere uma key para o board.
                   </div>
                 )}
               </div>
@@ -680,7 +680,7 @@ export const ApiKeysSection: React.FC = () => {
                     />
                   )}
                   <div className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">
-                    No board deve existir só 1 deal aberto para essa identidade.
+                    No board deve existir sÃ³ 1 deal aberto para essa identidade.
                   </div>
                 </div>
               )}
@@ -693,7 +693,7 @@ export const ApiKeysSection: React.FC = () => {
                     onChange={(e) => setSelectedToStageId(e.target.value)}
                     className="w-full px-3 py-2.5 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 text-slate-900 dark:text-white"
                   >
-                    <option value="">Selecione…</option>
+                    <option value="">Selecioneâ€¦</option>
                     {stagesForBoard.map((s) => (
                       <option key={s.id} value={s.id}>
                         {s.label}
@@ -716,13 +716,13 @@ export const ApiKeysSection: React.FC = () => {
                 >
                   <option value="NOTE">Nota</option>
                   <option value="TASK">Tarefa</option>
-                  <option value="CALL">Ligação</option>
-                  <option value="MEETING">Reunião</option>
+                  <option value="CALL">LigaÃ§Ã£o</option>
+                  <option value="MEETING">ReuniÃ£o</option>
                   <option value="EMAIL">Email</option>
                 </select>
               </div>
               <div>
-                <div className="text-xs font-semibold text-slate-700 dark:text-slate-200 mb-1">Título</div>
+                <div className="text-xs font-semibold text-slate-700 dark:text-slate-200 mb-1">TÃ­tulo</div>
                 <input
                   value={activityTitle}
                   onChange={(e) => setActivityTitle(e.target.value)}
@@ -737,10 +737,10 @@ export const ApiKeysSection: React.FC = () => {
 
       <div className="mt-4 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 p-4">
         <div className="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-2">
-          Passo 3 — Copiar e testar
+          Passo 3 â€” Copiar e testar
         </div>
         <div className="text-xs text-slate-600 dark:text-slate-300 mb-3">
-          Este é o “copiar/colar” que seu usuário precisa. Se funcionar aqui, funciona no n8n.
+          Este Ã© o â€œcopiar/colarâ€ que seu usuÃ¡rio precisa. Se funcionar aqui, funciona no n8n.
         </div>
 
         <div className="flex flex-wrap gap-2 mb-3">
@@ -759,7 +759,7 @@ export const ApiKeysSection: React.FC = () => {
             className="px-3 py-2 rounded-lg bg-primary-600 hover:bg-primary-700 disabled:opacity-60 text-white text-sm font-semibold inline-flex items-center gap-2"
           >
             <Play className="h-4 w-4" />
-            {actionTestLoading ? 'Testando…' : 'Testar agora'}
+            {actionTestLoading ? 'Testandoâ€¦' : 'Testar agora'}
           </button>
         </div>
 
@@ -776,10 +776,10 @@ export const ApiKeysSection: React.FC = () => {
 
       <div className="mt-4 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 p-4">
         <div className="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-2">
-          Consulta técnica — OpenAPI
+          Consulta tÃ©cnica â€” OpenAPI
         </div>
         <div className="text-xs text-slate-600 dark:text-slate-300 mb-3">
-          Se você (ou o time técnico) precisar, aqui está o OpenAPI para importar em Swagger/Postman e gerar integrações.
+          Se vocÃª (ou o time tÃ©cnico) precisar, aqui estÃ¡ o OpenAPI para importar em Swagger/Postman e gerar integraÃ§Ãµes.
         </div>
         <div className="flex flex-wrap gap-2">
           <button
@@ -849,10 +849,10 @@ export const ApiKeysSection: React.FC = () => {
                       )}
                     </div>
                     <div className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-mono">
-                      {k.key_prefix}…
+                      {k.key_prefix}â€¦
                     </div>
                     <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                      Último uso: {k.last_used_at ? new Date(k.last_used_at).toLocaleString('pt-BR') : '—'}
+                      Ãšltimo uso: {k.last_used_at ? new Date(k.last_used_at).toLocaleString('pt-BR') : 'â€”'}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -864,7 +864,7 @@ export const ApiKeysSection: React.FC = () => {
                         className="px-3 py-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 hover:bg-rose-50 dark:hover:bg-rose-500/10 disabled:opacity-60 text-rose-700 dark:text-rose-300 text-sm font-semibold inline-flex items-center gap-2"
                       >
                         <Trash2 className="h-4 w-4" />
-                        {deletingId === k.id ? 'Excluindo…' : 'Excluir'}
+                        {deletingId === k.id ? 'Excluindoâ€¦' : 'Excluir'}
                       </button>
                     ) : (
                       <button
@@ -874,7 +874,7 @@ export const ApiKeysSection: React.FC = () => {
                         className="px-3 py-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 hover:bg-rose-50 dark:hover:bg-rose-500/10 disabled:opacity-60 text-rose-700 dark:text-rose-300 text-sm font-semibold inline-flex items-center gap-2"
                       >
                         <Trash2 className="h-4 w-4" />
-                        {revokingId === k.id ? 'Revogando…' : 'Revogar'}
+                        {revokingId === k.id ? 'Revogandoâ€¦' : 'Revogar'}
                       </button>
                     )}
                   </div>
@@ -895,11 +895,11 @@ export const ApiKeysSection: React.FC = () => {
         title="Excluir chave revogada?"
         message={
           <div className="space-y-2">
-            <div>Essa chave será removida permanentemente.</div>
+            <div>Essa chave serÃ¡ removida permanentemente.</div>
             <div className="text-xs text-slate-500 dark:text-slate-400">
               {deleteTarget ? (
                 <>
-                  <span className="font-semibold">{deleteTarget.name}</span> — <span className="font-mono">{deleteTarget.key_prefix}…</span>
+                  <span className="font-semibold">{deleteTarget.name}</span> â€” <span className="font-mono">{deleteTarget.key_prefix}â€¦</span>
                 </>
               ) : null}
             </div>

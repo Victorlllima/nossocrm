@@ -1,6 +1,6 @@
-/**
+﻿/**
  * Decision Queue Page
- * Central de Decisões - Página principal
+ * Central de DecisÃµes - PÃ¡gina principal
  */
 
 import React, { useMemo } from 'react';
@@ -54,8 +54,8 @@ export const DecisionQueuePage: React.FC = () => {
     const diffMinutes = Math.floor((Date.now() - dateTs) / (1000 * 60));
 
     if (diffMinutes < 1) return 'Agora mesmo';
-    if (diffMinutes < 60) return `Há ${diffMinutes} minutos`;
-    if (diffMinutes < 1440) return `Há ${Math.floor(diffMinutes / 60)} horas`;
+    if (diffMinutes < 60) return `HÃ¡ ${diffMinutes} minutos`;
+    if (diffMinutes < 1440) return `HÃ¡ ${Math.floor(diffMinutes / 60)} horas`;
     return PT_BR_DATE_TIME_FORMATTER.format(new Date(dateTs));
   }, [lastAnalyzedAt]);
 
@@ -83,10 +83,10 @@ export const DecisionQueuePage: React.FC = () => {
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
             <Zap className="text-primary-500" size={28} />
-            Central de Decisões
+            Central de DecisÃµes
           </h1>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            Decisões proativas para você tomar ação rapidamente
+            DecisÃµes proativas para vocÃª tomar aÃ§Ã£o rapidamente
           </p>
         </div>
 
@@ -131,7 +131,7 @@ export const DecisionQueuePage: React.FC = () => {
         <div className="bg-white dark:bg-dark-card border border-slate-200 dark:border-white/10 rounded-xl p-4">
           <div className="flex items-center gap-2 text-red-500 mb-1">
             <AlertTriangle size={16} />
-            <span className="text-xs font-medium">Crítico</span>
+            <span className="text-xs font-medium">CrÃ­tico</span>
           </div>
           <div className="text-2xl font-bold text-red-600 dark:text-red-400">
             {stats.critical}
@@ -171,7 +171,7 @@ export const DecisionQueuePage: React.FC = () => {
 
       {/* Last analyzed info */}
       <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-        <span>Última análise: {lastAnalyzedLabel}</span>
+        <span>Ãšltima anÃ¡lise: {lastAnalyzedLabel}</span>
         {decisions.length > 0 && (
           <button
             onClick={approveAll}
@@ -190,10 +190,10 @@ export const DecisionQueuePage: React.FC = () => {
             <Sparkles size={32} />
           </div>
           <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
-            Nenhuma decisão pendente
+            Nenhuma decisÃ£o pendente
           </h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 max-w-md mx-auto">
-            Clique em "Analisar Agora" para que a IA analise seu CRM e sugira ações
+            Clique em "Analisar Agora" para que a IA analise seu CRM e sugira aÃ§Ãµes
             baseadas em deals parados, atividades atrasadas e oportunidades.
           </p>
           <button

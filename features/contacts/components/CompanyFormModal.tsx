@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -25,7 +25,7 @@ interface CompanyFormModalProps {
   onClose,
   onSubmit,
   editingCompany,
-} - Parâmetro `{
+} - ParÃ¢metro `{
   isOpen,
   onClose,
   onSubmit,
@@ -103,7 +103,7 @@ export const CompanyFormModal: React.FC<CompanyFormModalProps> = ({
         />
 
         <SubmitButton isLoading={isSubmitting}>
-          {editingCompany ? 'Salvar Alterações' : 'Criar Empresa'}
+          {editingCompany ? 'Salvar AlteraÃ§Ãµes' : 'Criar Empresa'}
         </SubmitButton>
       </ModalForm>
     </Modal>

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { isAllowedOrigin } from '@/lib/security/sameOrigin';
 import { listVercelProjects, listVercelTeams } from '@/lib/installer/vercel';
 
@@ -20,7 +20,7 @@ const LookupSchema = z
 /**
  * Handler HTTP `POST` deste endpoint (Next.js Route Handler).
  *
- * @param {Request} req - Objeto da requisição.
+ * @param {Request} req - Objeto da requisiÃ§Ã£o.
  * @returns {Promise<Response>} Retorna um valor do tipo `Promise<Response>`.
  */
 export async function POST(req: Request) {

@@ -1,4 +1,4 @@
-export type CrmToolCatalogEntry = {
+﻿export type CrmToolCatalogEntry = {
   /** MCP tool name (stable identifier). */
   name: string;
   /** Optional UI-friendly name. */
@@ -12,7 +12,7 @@ export type CrmToolCatalogEntry = {
  *
  * Naming conventions follow MCP tool naming guidance:
  * - stable
- * - 1–128 chars
+ * - 1â€“128 chars
  * - only ASCII letters/digits/underscore/hyphen/dot (and no spaces)
  *
  * Keep these values **English** and **short** to maximize client interoperability.
@@ -158,7 +158,7 @@ export const CRM_TOOL_CATALOG = {
     name: 'crm.activities.reschedule',
     title: 'Reschedule activity',
     description:
-      'Writes data. Updates an activity’s scheduled date/time within the authenticated organization.',
+      'Writes data. Updates an activityâ€™s scheduled date/time within the authenticated organization.',
   },
   logActivity: {
     name: 'crm.activities.log',

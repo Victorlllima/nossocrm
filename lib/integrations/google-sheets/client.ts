@@ -1,4 +1,4 @@
-import { google } from 'googleapis';
+﻿import { google } from 'googleapis';
 import path from 'path';
 
 export interface Lead {
@@ -19,20 +19,36 @@ export class GoogleSheetsClient {
   private spreadsheetId: string;
 
   constructor() {
-    const credentialsPath = process.env.GOOGLE_SHEETS_CREDENTIALS_PATH || './google-sheets-credentials.json';
-    const keyFile = path.resolve(process.cwd(), credentialsPath);
-
-    const auth = new google.auth.GoogleAuth({
-      keyFile,
-      scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
-    });
-
-    this.sheets = google.sheets({ version: 'v4', auth });
     this.spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID || '';
 
     if (!this.spreadsheetId) {
       throw new Error('GOOGLE_SHEETS_SPREADSHEET_ID is not configured in environment variables');
     }
+
+    // Estratégia Híbrida: Tenta Variável de Ambiente (Vercel) primeiro, depois Arquivo (Local)
+    const credentialsJson = process.env.GOOGLE_SHEETS_CREDENTIALS_JSON;
+    const credentialsPath = process.env.GOOGLE_SHEETS_CREDENTIALS_PATH || './google-sheets-credentials.json';
+
+    let authOptions: any = {
+      scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
+    };
+
+    if (credentialsJson) {
+      try {
+        const credentials = JSON.parse(credentialsJson);
+        authOptions.credentials = credentials;
+      } catch (e) {
+        console.error('❌ Erro ao processar GOOGLE_SHEETS_CREDENTIALS_JSON:', e);
+        throw new Error('Falha ao parsear credenciais JSON do Google Sheets');
+      }
+    } else {
+      // Fallback para arquivo
+      const keyFile = path.resolve(process.cwd(), credentialsPath);
+      authOptions.keyFile = keyFile;
+    }
+
+    const auth = new google.auth.GoogleAuth(authOptions);
+    this.sheets = google.sheets({ version: 'v4', auth });
   }
 
   /**

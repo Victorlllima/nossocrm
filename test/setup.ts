@@ -1,4 +1,4 @@
-import { loadEnvFile } from './helpers/env';
+﻿import { loadEnvFile } from './helpers/env';
 import { cleanupFixtures } from './helpers/fixtures';
 import { getRunId } from './helpers/runId';
 
@@ -30,7 +30,7 @@ const SUPPRESSED_STDERR_PATTERNS: RegExp[] = [
 const originalConsoleLog = console.log.bind(console);
 console.log = (...args: unknown[]) => {
   const msg = args.map((a) => String(a)).join(' ');
-  // Our tools log with "[AI] ..." — keep it opt-in during tests.
+  // Our tools log with "[AI] ..." â€” keep it opt-in during tests.
   if (msg.startsWith('[AI]')) return;
   originalConsoleLog(...args);
 };

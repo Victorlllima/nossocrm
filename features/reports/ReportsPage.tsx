@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+﻿import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { TrendingUp, Clock, Target, DollarSign, Trophy, Users, Download, Settings } from 'lucide-react';
@@ -64,19 +64,19 @@ const ReportsPage: React.FC = () => {
   const goalKpi = boardGoal?.kpi || 'Receita';
   const hasGoal = goalTarget > 0;
 
-  // Calcular valor atual baseado no tipo de meta (PADRÃO HUBSPOT/SALESFORCE)
-  // Usa dados DO PERÍODO selecionado, não o total histórico
+  // Calcular valor atual baseado no tipo de meta (PADRÃƒO HUBSPOT/SALESFORCE)
+  // Usa dados DO PERÃODO selecionado, nÃ£o o total histÃ³rico
   const currentValue = React.useMemo(() => {
     switch (goalType) {
       case 'currency':
-        // Receita GANHA no período
+        // Receita GANHA no perÃ­odo
         return wonRevenue;
       case 'percentage':
-        // Taxa de conversão do período
+        // Taxa de conversÃ£o do perÃ­odo
         return actualWinRate;
       case 'number':
       default:
-        // Quantidade de deals GANHOS no período
+        // Quantidade de deals GANHOS no perÃ­odo
         return wonDeals.length;
     }
   }, [goalType, wonRevenue, actualWinRate, wonDeals.length]);
@@ -138,7 +138,7 @@ const ReportsPage: React.FC = () => {
 
   const generatedBy = useMemo(() => {
     if (profile?.first_name && profile?.last_name) return `${profile.first_name} ${profile.last_name}`;
-    return profile?.first_name || profile?.email || 'Usuário';
+    return profile?.first_name || profile?.email || 'UsuÃ¡rio';
   }, [profile?.email, profile?.first_name, profile?.last_name]);
 
   const handleExportPDF = useCallback(() => {
@@ -177,10 +177,10 @@ const ReportsPage: React.FC = () => {
       <div className="flex justify-between items-center shrink-0">
         <div>
           <h1 className="text-3xl font-bold text-slate-900 dark:text-white font-display tracking-tight">
-            Relatórios de Performance
+            RelatÃ³rios de Performance
           </h1>
           <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
-            Análise detalhada de vendas e tendências.
+            AnÃ¡lise detalhada de vendas e tendÃªncias.
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -231,7 +231,7 @@ const ReportsPage: React.FC = () => {
               <div className="text-right">
                 <span className="text-xs text-slate-500">Gap</span>
                 <p className={`text-lg font-bold ${forecastGap > 0 ? 'text-amber-500' : 'text-emerald-500'}`}>
-                  {forecastGap > 0 ? `-${formatGoalValue(forecastGap)}` : '✓ Atingido'}
+                  {forecastGap > 0 ? `-${formatGoalValue(forecastGap)}` : 'âœ“ Atingido'}
                 </p>
               </div>
             </div>
@@ -252,8 +252,8 @@ const ReportsPage: React.FC = () => {
           </div>
           <p className="text-xs text-slate-500 mt-2">
             {isOnTrack
-              ? `🎯 No ritmo! Faltam ${formatGoalValue(Math.abs(forecastGap))} para bater a meta.`
-              : `⚠️ Atenção! Você está abaixo de 75% da meta. Faltam ${formatGoalValue(Math.abs(forecastGap))}.`
+              ? `ðŸŽ¯ No ritmo! Faltam ${formatGoalValue(Math.abs(forecastGap))} para bater a meta.`
+              : `âš ï¸ AtenÃ§Ã£o! VocÃª estÃ¡ abaixo de 75% da meta. Faltam ${formatGoalValue(Math.abs(forecastGap))}.`
             }
           </p>
         </div>
@@ -262,7 +262,7 @@ const ReportsPage: React.FC = () => {
           <div className="flex items-center gap-3">
             <Settings className="text-amber-500" size={20} />
             <div className="flex-1">
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white">Meta não configurada</h3>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white">Meta nÃ£o configurada</h3>
               <p className="text-xs text-slate-500">Defina uma meta no board para acompanhar o forecast.</p>
             </div>
             <button
@@ -305,17 +305,17 @@ const ReportsPage: React.FC = () => {
           </p>
         </div>
 
-        {/* Ciclo Médio */}
+        {/* Ciclo MÃ©dio */}
         <div className="glass p-4 rounded-xl border border-slate-200 dark:border-white/5 shadow-sm">
           <div className="flex items-center gap-2 mb-2">
             <div className="p-2 rounded-lg bg-purple-500/10">
               <Clock className="text-purple-500" size={18} />
             </div>
-            <span className="text-xs text-slate-500">Ciclo Médio</span>
+            <span className="text-xs text-slate-500">Ciclo MÃ©dio</span>
           </div>
           <p className="text-2xl font-bold text-slate-900 dark:text-white">{avgSalesCycle} dias</p>
           <p className="text-xs text-slate-500">
-            Rápido: {fastestDeal}d | Lento: {slowestDeal}d
+            RÃ¡pido: {fastestDeal}d | Lento: {slowestDeal}d
           </p>
         </div>
 
@@ -344,10 +344,10 @@ const ReportsPage: React.FC = () => {
         <div className="lg:col-span-2 glass p-5 rounded-xl border border-slate-200 dark:border-white/5 shadow-sm flex flex-col h-full">
           <div className="flex justify-between items-center mb-2 shrink-0">
             <h2 className="text-lg font-bold text-slate-900 dark:text-white font-display">
-              Tendência de Receita
+              TendÃªncia de Receita
             </h2>
             <span className="text-xs text-slate-500 bg-slate-100 dark:bg-white/5 px-2 py-1 rounded">
-              Últimos 6 Meses
+              Ãšltimos 6 Meses
             </span>
           </div>
           <div className="flex-1 min-h-0 relative">
@@ -401,7 +401,7 @@ const ReportsPage: React.FC = () => {
             ) : (
               <div className="flex flex-col items-center justify-center h-full text-slate-500 py-6">
                 <Users size={32} className="mb-2 opacity-50" />
-                <p className="text-sm">Nenhum deal fechado no período.</p>
+                <p className="text-sm">Nenhum deal fechado no perÃ­odo.</p>
               </div>
             )}
           </div>

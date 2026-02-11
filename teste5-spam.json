@@ -1,0 +1,16 @@
+{
+  "event": "messages.upsert",
+  "data": {
+    "key": {
+      "remoteJid": "5581666666666@s.whatsapp.net",
+      "fromMe": false,
+      "id": "3EB0A8BF3F1C5F34"
+    },
+    "message": {
+      "conversation": "msg 1"
+    },
+    "messageType": "conversation",
+    "messageTimestamp": 1707571560,
+    "pushName": "Spam Test"
+  }
+}

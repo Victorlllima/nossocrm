@@ -1,4 +1,4 @@
-import 'server-only';
+﻿import 'server-only';
 
 import { createClient } from '@/lib/supabase/server';
 import { isAllowedOrigin } from '@/lib/security/sameOrigin';
@@ -29,12 +29,12 @@ export class AITaskHttpError extends Error {
   code: string;
 
     /**
-   * Constrói uma instância de `AITaskHttpError`.
+   * ConstrÃ³i uma instÃ¢ncia de `AITaskHttpError`.
    *
-   * @param {number} status - Parâmetro `status`.
-   * @param {string} code - Parâmetro `code`.
-   * @param {string} message - Parâmetro `message`.
-   * @returns {void} Não retorna valor.
+   * @param {number} status - ParÃ¢metro `status`.
+   * @param {string} code - ParÃ¢metro `code`.
+   * @param {string} message - ParÃ¢metro `message`.
+   * @returns {void} NÃ£o retorna valor.
    */
 constructor(status: number, code: string, message: string) {
     super(message);
@@ -43,7 +43,7 @@ constructor(status: number, code: string, message: string) {
   }
 
     /**
-   * Método público `toResponse`.
+   * MÃ©todo pÃºblico `toResponse`.
    * @returns {Response} Retorna um valor do tipo `Response`.
    */
 toResponse() {
@@ -52,13 +52,13 @@ toResponse() {
 }
 
 /**
- * Função pública `requireAITaskContext` do projeto.
+ * FunÃ§Ã£o pÃºblica `requireAITaskContext` do projeto.
  *
- * @param {Request} req - Objeto da requisição.
+ * @param {Request} req - Objeto da requisiÃ§Ã£o.
  * @returns {Promise<AITaskContext>} Retorna um valor do tipo `Promise<AITaskContext>`.
  */
 export async function requireAITaskContext(req: Request): Promise<AITaskContext> {
-  // Mitigação CSRF: endpoint autenticado por cookies.
+  // MitigaÃ§Ã£o CSRF: endpoint autenticado por cookies.
   if (!isAllowedOrigin(req)) {
     throw new AITaskHttpError(403, 'FORBIDDEN', 'Forbidden');
   }
@@ -93,7 +93,7 @@ export async function requireAITaskContext(req: Request): Promise<AITaskContext>
 
   const aiEnabled = typeof orgSettings?.ai_enabled === 'boolean' ? orgSettings.ai_enabled : true;
   if (!aiEnabled) {
-    throw new AITaskHttpError(403, 'AI_DISABLED', 'IA desativada pela organização. Um admin pode ativar em Configurações → Central de I.A.');
+    throw new AITaskHttpError(403, 'AI_DISABLED', 'IA desativada pela organizaÃ§Ã£o. Um admin pode ativar em ConfiguraÃ§Ãµes â†’ Central de I.A.');
   }
 
   const provider: AIProvider = (orgSettings?.ai_provider ?? 'google') as AIProvider;
@@ -110,7 +110,7 @@ export async function requireAITaskContext(req: Request): Promise<AITaskContext>
     throw new AITaskHttpError(
       400,
       'AI_KEY_NOT_CONFIGURED',
-      `API key não configurada para ${providerLabel}. Configure em Configurações → Inteligência Artificial.`
+      `API key nÃ£o configurada para ${providerLabel}. Configure em ConfiguraÃ§Ãµes â†’ InteligÃªncia Artificial.`
     );
   }
 

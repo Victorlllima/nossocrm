@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { X, AlertTriangle, Clock, Calendar, TrendingUp, ChevronRight } from 'lucide-react';
 import { Deal } from '@/types';
 
@@ -28,7 +28,7 @@ interface PipelineAlertsModalProps {
   deals,
   activities,
   onNavigateToDeal,
-} - Parâmetro `{
+} - ParÃ¢metro `{
   isOpen,
   onClose,
   deals,
@@ -51,10 +51,10 @@ export const PipelineAlertsModal: React.FC<PipelineAlertsModalProps> = ({
   const now = new Date(nowTs);
   const tenDaysAgoTs = nowTs - 10 * 24 * 60 * 60 * 1000;
 
-  // Deals ativos (não ganhos nem perdidos)
+  // Deals ativos (nÃ£o ganhos nem perdidos)
   const activeDeals = deals.filter(d => !d.isWon && !d.isLost);
 
-  // 1. Negócios Estagnados - sem mudança de estágio há mais de 10 dias
+  // 1. NegÃ³cios Estagnados - sem mudanÃ§a de estÃ¡gio hÃ¡ mais de 10 dias
   const stagnantDeals = activeDeals.filter(deal => {
     const lastChangeTs = deal.lastStageChangeDate
       ? Date.parse(deal.lastStageChangeDate)
@@ -62,7 +62,7 @@ export const PipelineAlertsModal: React.FC<PipelineAlertsModalProps> = ({
     return lastChangeTs < tenDaysAgoTs;
   });
 
-  // 2. Deals sem próxima atividade agendada
+  // 2. Deals sem prÃ³xima atividade agendada
   /**
    * Performance: avoid N+1 scans (`activities.filter(...)` for each deal).
    * Build a Set of dealIds that have at least one future pending activity.
@@ -76,7 +76,7 @@ export const PipelineAlertsModal: React.FC<PipelineAlertsModalProps> = ({
   }
   const dealsWithoutActivity = activeDeals.filter(deal => !dealIdsWithFutureActivity.has(deal.id));
 
-  // 3. Deals prontos para fechar (alta probabilidade ou em estágios finais)
+  // 3. Deals prontos para fechar (alta probabilidade ou em estÃ¡gios finais)
   const readyToCloseDeals = activeDeals.filter(deal => {
     // Performance: avoid creating multiple strings when status is nullish.
     return deal.probability >= 70 || (deal.status ? deal.status.toLowerCase().includes('proposta') : false);
@@ -85,15 +85,15 @@ export const PipelineAlertsModal: React.FC<PipelineAlertsModalProps> = ({
   const alerts: PipelineAlert[] = [
     {
       type: 'stagnant',
-      title: 'Negócios Estagnados',
-      description: 'Sem mudança de estágio há mais de 10 dias',
+      title: 'NegÃ³cios Estagnados',
+      description: 'Sem mudanÃ§a de estÃ¡gio hÃ¡ mais de 10 dias',
       deals: stagnantDeals,
       color: 'text-red-500 bg-red-500/10',
       icon: AlertTriangle,
     },
     {
       type: 'no-activity',
-      title: 'Sem Próximo Passo',
+      title: 'Sem PrÃ³ximo Passo',
       description: 'Nenhuma atividade futura agendada',
       deals: dealsWithoutActivity,
       color: 'text-amber-500 bg-amber-500/10',
@@ -102,7 +102,7 @@ export const PipelineAlertsModal: React.FC<PipelineAlertsModalProps> = ({
     {
       type: 'ready-to-close',
       title: 'Prontos para Fechar',
-      description: 'Alta probabilidade de conversão',
+      description: 'Alta probabilidade de conversÃ£o',
       deals: readyToCloseDeals,
       color: 'text-emerald-500 bg-emerald-500/10',
       icon: TrendingUp,
@@ -131,8 +131,8 @@ export const PipelineAlertsModal: React.FC<PipelineAlertsModalProps> = ({
             </h2>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
               {totalAlerts > 0 
-                ? `${totalAlerts} itens precisam de atenção`
-                : 'Seu pipeline está saudável! 🎉'
+                ? `${totalAlerts} itens precisam de atenÃ§Ã£o`
+                : 'Seu pipeline estÃ¡ saudÃ¡vel! ðŸŽ‰'
               }
             </p>
           </div>
@@ -187,7 +187,7 @@ export const PipelineAlertsModal: React.FC<PipelineAlertsModalProps> = ({
                           {deal.title}
                         </p>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                          ${deal.value.toLocaleString()} • {deal.probability}% probabilidade
+                          ${deal.value.toLocaleString()} â€¢ {deal.probability}% probabilidade
                         </p>
                       </div>
                       <ChevronRight 
@@ -204,7 +204,7 @@ export const PipelineAlertsModal: React.FC<PipelineAlertsModalProps> = ({
                 </div>
               ) : (
                 <p className="text-sm text-slate-400 dark:text-slate-500 pl-11 italic">
-                  Nenhum deal nesta categoria ✓
+                  Nenhum deal nesta categoria âœ“
                 </p>
               )}
             </div>
@@ -214,7 +214,7 @@ export const PipelineAlertsModal: React.FC<PipelineAlertsModalProps> = ({
         {/* Footer */}
         <div className="p-4 border-t border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5">
           <p className="text-xs text-slate-500 dark:text-slate-400 text-center">
-            💡 Dica: Deals sem atividade futura têm menor chance de conversão. Agende próximos passos!
+            ðŸ’¡ Dica: Deals sem atividade futura tÃªm menor chance de conversÃ£o. Agende prÃ³ximos passos!
           </p>
         </div>
       </div>

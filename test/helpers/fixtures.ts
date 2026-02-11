@@ -1,4 +1,4 @@
-import { randomUUID } from 'node:crypto';
+﻿import { randomUUID } from 'node:crypto';
 import { getRunId } from './runId';
 import { assertNoSupabaseError, getSupabaseAdminClient, requireSupabaseData } from './supabaseAdmin';
 
@@ -168,7 +168,7 @@ async function createDeal(params: {
 }
 
 /**
- * Função pública `createMinimalFixtures` do projeto.
+ * FunÃ§Ã£o pÃºblica `createMinimalFixtures` do projeto.
  * @returns {Promise<TestFixtureBundle>} Retorna um valor do tipo `Promise<TestFixtureBundle>`.
  */
 export async function createMinimalFixtures(): Promise<TestFixtureBundle> {
@@ -227,7 +227,7 @@ export async function createMinimalFixtures(): Promise<TestFixtureBundle> {
 }
 
 /**
- * Função pública `cleanupFixtures` do projeto.
+ * FunÃ§Ã£o pÃºblica `cleanupFixtures` do projeto.
  *
  * @param {string} runId - Identificador do recurso.
  * @returns {Promise<void>} Retorna uma Promise resolvida sem valor.

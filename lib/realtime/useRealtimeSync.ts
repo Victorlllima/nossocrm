@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Supabase Realtime Sync Hook
  *
  * Provides real-time synchronization for multi-user scenarios.
@@ -156,7 +156,7 @@ export function useRealtimeSync(
               newUpdatedAt: newData?.updated_at || newData?.updatedAt || '',
               oldUpdatedAt: oldData?.updated_at || oldData?.updatedAt || '',
             };
-            console.log(`[Realtime] 📨 Event received: ${table} ${payload.eventType}`, logData);
+            console.log(`[Realtime] ðŸ“¨ Event received: ${table} ${payload.eventType}`, logData);
             fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useRealtimeSync.ts:117',message:'Event received',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'realtime-event',hypothesisId:'S'})}).catch(()=>{});
           }
           // #endregion
@@ -194,7 +194,7 @@ export function useRealtimeSync(
               if (!shouldProcessInsert(dedupeKey)) {
                 // #region agent log
                 if (process.env.NODE_ENV !== 'production') {
-                  console.log(`[Realtime] ⏭️ INSERT deals - skipping duplicate`, { dealId: dealId.slice(0, 8) });
+                  console.log(`[Realtime] â­ï¸ INSERT deals - skipping duplicate`, { dealId: dealId.slice(0, 8) });
                   fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useRealtimeSync.ts:180',message:'INSERT deals - skipping duplicate',data:{dealId:dealId.slice(0,8)},timestamp:Date.now(),sessionId:'debug-session',runId:'realtime-insert',hypothesisId:'RI0'})}).catch(()=>{});
                 }
                 // #endregion
@@ -208,7 +208,7 @@ export function useRealtimeSync(
                   title: newData.title || 'null',
                   status: typeof newData.stage_id === 'string' ? (newData.stage_id as string).slice(0, 8) : 'null',
                 };
-                console.log(`[Realtime] 📥 INSERT deals - adding to cache directly`, logData);
+                console.log(`[Realtime] ðŸ“¥ INSERT deals - adding to cache directly`, logData);
                 fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useRealtimeSync.ts:180',message:'INSERT deals - adding to cache directly',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'realtime-insert',hypothesisId:'RI1'})}).catch(()=>{});
               }
               // #endregion
@@ -264,9 +264,9 @@ export function useRealtimeSync(
                 delete normalizedDeal.loss_reason;
               }
 
-              // CRÍTICO: Atualizar APENAS DEALS_VIEW_KEY (única fonte de verdade)
+              // CRÃTICO: Atualizar APENAS DEALS_VIEW_KEY (Ãºnica fonte de verdade)
               // O Kanban (useDealsByBoard) agora usa essa mesma query com filtragem client-side
-              // NÃO usar setQueriesData com prefix matcher - isso atualiza queries erradas!
+              // NÃƒO usar setQueriesData com prefix matcher - isso atualiza queries erradas!
               queryClient.setQueryData<DealView[]>(
                 DEALS_VIEW_KEY,
                 (old) => {
@@ -278,7 +278,7 @@ export function useRealtimeSync(
                     // Deal already exists, update it
                     // #region agent log
                     if (process.env.NODE_ENV !== 'production') {
-                      console.log(`[Realtime] 📥 INSERT deals - deal already exists, updating`, { dealId: dealId.slice(0, 8) });
+                      console.log(`[Realtime] ðŸ“¥ INSERT deals - deal already exists, updating`, { dealId: dealId.slice(0, 8) });
                       fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useRealtimeSync.ts:240',message:'INSERT deals - deal already exists, updating',data:{dealId:dealId.slice(0,8)},timestamp:Date.now(),sessionId:'debug-session',runId:'realtime-insert',hypothesisId:'RI3'})}).catch(()=>{});
                     }
                     // #endregion
@@ -295,7 +295,7 @@ export function useRealtimeSync(
                   // #region agent log
                   if (process.env.NODE_ENV !== 'production') {
                     const removedCount = old.length - tempDealsRemoved.length;
-                    console.log(`[Realtime] 📥 INSERT deals - adding new deal to cache`, { dealId: dealId.slice(0, 8), removedTempDeals: removedCount, cacheSize: tempDealsRemoved.length + 1 });
+                    console.log(`[Realtime] ðŸ“¥ INSERT deals - adding new deal to cache`, { dealId: dealId.slice(0, 8), removedTempDeals: removedCount, cacheSize: tempDealsRemoved.length + 1 });
                     fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useRealtimeSync.ts:255',message:'INSERT deals - adding new deal to cache',data:{dealId:dealId.slice(0,8),removedTempDeals:removedCount,cacheSize:tempDealsRemoved.length+1},timestamp:Date.now(),sessionId:'debug-session',runId:'realtime-insert',hypothesisId:'RI4'})}).catch(()=>{});
                   }
                   // #endregion
@@ -373,12 +373,12 @@ export function useRealtimeSync(
                   rawStatus: typeof newData.status === 'string' ? (newData.status as string).slice(0, 8) : 'null',
                   rawStageId: typeof newData.stage_id === 'string' ? (newData.stage_id as string).slice(0, 8) : 'null',
                 };
-                console.log(`[Realtime] 🔍 Processing deals UPDATE`, logData);
+                console.log(`[Realtime] ðŸ” Processing deals UPDATE`, logData);
                 fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useRealtimeSync.ts:195',message:'Processing deals UPDATE',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'realtime-update',hypothesisId:'A'})}).catch(()=>{});
               }
               // #endregion
 
-              // Apply update directly to DEALS_VIEW_KEY (única fonte de verdade)
+              // Apply update directly to DEALS_VIEW_KEY (Ãºnica fonte de verdade)
               // This avoids race condition where invalidation refetches stale data
               // IMPORTANT: Only apply if the incoming status is different from current cache status
               // This prevents Realtime from reverting optimistic updates with stale data
@@ -388,7 +388,7 @@ export function useRealtimeSync(
                   if (!old || !Array.isArray(old)) {
                     // #region agent log
                     if (process.env.NODE_ENV !== 'production') {
-                      console.log(`[Realtime] ⚠️ Cache is empty or not an array`, { dealId: dealId.slice(0, 8) });
+                      console.log(`[Realtime] âš ï¸ Cache is empty or not an array`, { dealId: dealId.slice(0, 8) });
                     }
                     // #endregion
                     return old;
@@ -408,7 +408,7 @@ export function useRealtimeSync(
                       currentUpdatedAt: typeof currentUpdatedAtRaw === 'string' ? currentUpdatedAtRaw : 'null',
                       cacheSize: old.length,
                     };
-                    console.log(`[Realtime] 🔍 Cache state`, logData);
+                    console.log(`[Realtime] ðŸ” Cache state`, logData);
                     fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useRealtimeSync.ts:226',message:'Cache state',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'realtime-update',hypothesisId:'B'})}).catch(()=>{});
                   }
                   // #endregion
@@ -417,7 +417,7 @@ export function useRealtimeSync(
                   if (!currentDeal) {
                     // #region agent log
                     if (process.env.NODE_ENV !== 'production') {
-                      console.log(`[Realtime] ✅ Deal not in cache - adding it`, { dealId: dealId.slice(0, 8), incomingStatus: incomingStatus?.slice(0, 8) || '' });
+                      console.log(`[Realtime] âœ… Deal not in cache - adding it`, { dealId: dealId.slice(0, 8), incomingStatus: incomingStatus?.slice(0, 8) || '' });
                     }
                     // #endregion
                     // Add the deal to cache (this can happen if deal was created in another tab)
@@ -429,7 +429,7 @@ export function useRealtimeSync(
                   if (currentStatus && incomingStatus && currentStatus === incomingStatus) {
                     // #region agent log
                     if (process.env.NODE_ENV !== 'production') {
-                      console.log(`[Realtime] ⏭️ Skipping update - status unchanged`, { dealId: dealId.slice(0, 8), status: currentStatus.slice(0, 8) });
+                      console.log(`[Realtime] â­ï¸ Skipping update - status unchanged`, { dealId: dealId.slice(0, 8), status: currentStatus.slice(0, 8) });
                     }
                     // #endregion
                     return old; // No change needed
@@ -452,7 +452,7 @@ export function useRealtimeSync(
                           incomingStatus: incomingStatus.slice(0, 8),
                           payloadOldStatus: payloadOldStatus.slice(0, 8),
                         };
-                        console.log(`[Realtime] ⚠️ Skipping update - incoming matches oldStatus (reverting)`, logData);
+                        console.log(`[Realtime] âš ï¸ Skipping update - incoming matches oldStatus (reverting)`, logData);
                         fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useRealtimeSync.ts:265',message:'Skipping stale update (reverting)',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'realtime-update',hypothesisId:'D'})}).catch(()=>{});
                       }
                       // #endregion
@@ -488,7 +488,7 @@ export function useRealtimeSync(
                               incomingUpdatedAt: new Date(incomingUpdatedAt).toISOString(),
                               diffMs: diffMs,
                             };
-                            console.log(`[Realtime] ⚠️ Skipping update - incoming timestamp significantly older (stale)`, logData);
+                            console.log(`[Realtime] âš ï¸ Skipping update - incoming timestamp significantly older (stale)`, logData);
                             fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useRealtimeSync.ts:290',message:'Skipping stale update (incoming timestamp significantly older)',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'realtime-update',hypothesisId:'C'})}).catch(()=>{});
                           }
                           // #endregion
@@ -507,7 +507,7 @@ export function useRealtimeSync(
                             incomingUpdatedAt: new Date(incomingUpdatedAt).toISOString(),
                             diffMs: diffMs,
                           };
-                          console.log(`[Realtime] ✅ Applying update (empty oldStatus, timestamp newer or close)`, logData);
+                          console.log(`[Realtime] âœ… Applying update (empty oldStatus, timestamp newer or close)`, logData);
                           fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useRealtimeSync.ts:315',message:'Applying update (empty oldStatus, timestamp newer or close)',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'realtime-update',hypothesisId:'L'})}).catch(()=>{});
                         }
                         // #endregion
@@ -524,7 +524,7 @@ export function useRealtimeSync(
                               currentUpdatedAt: currentUpdatedAt ? new Date(currentUpdatedAt).toISOString() : 'null',
                               incomingUpdatedAt: incomingUpdatedAt ? new Date(incomingUpdatedAt).toISOString() : 'null',
                             };
-                            console.log(`[Realtime] ✅ Applying update (empty oldStatus, can't compare but status matches)`, logData);
+                            console.log(`[Realtime] âœ… Applying update (empty oldStatus, can't compare but status matches)`, logData);
                             fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useRealtimeSync.ts:330',message:'Applying update (empty oldStatus, can\'t compare but status matches)',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'realtime-update',hypothesisId:'M'})}).catch(()=>{});
                           }
                           // #endregion
@@ -539,7 +539,7 @@ export function useRealtimeSync(
                               currentUpdatedAt: currentUpdatedAt ? new Date(currentUpdatedAt).toISOString() : 'null',
                               incomingUpdatedAt: incomingUpdatedAt ? new Date(incomingUpdatedAt).toISOString() : 'null',
                             };
-                            console.log(`[Realtime] ⚠️ Skipping update (empty oldStatus, can't compare and status differs)`, logData);
+                            console.log(`[Realtime] âš ï¸ Skipping update (empty oldStatus, can't compare and status differs)`, logData);
                             fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useRealtimeSync.ts:345',message:'Skipping update (empty oldStatus, can\'t compare and status differs)',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'realtime-update',hypothesisId:'N'})}).catch(()=>{});
                           }
                           // #endregion
@@ -553,7 +553,7 @@ export function useRealtimeSync(
                     if (payloadOldStatus) {
                       // #region agent log
                       if (process.env.NODE_ENV !== 'production') {
-                        console.log(`[Realtime] ✅ Applying update (has oldStatus, likely from another tab)`, {
+                        console.log(`[Realtime] âœ… Applying update (has oldStatus, likely from another tab)`, {
                           dealId: dealId.slice(0, 8),
                           currentStatus: currentStatus.slice(0, 8),
                           incomingStatus: incomingStatus.slice(0, 8),
@@ -569,7 +569,7 @@ export function useRealtimeSync(
                   if (!currentStatus && incomingStatus) {
                     // #region agent log
                     if (process.env.NODE_ENV !== 'production') {
-                      console.log(`[Realtime] ✅ Applying update (currentStatus null but incomingStatus exists)`, {
+                      console.log(`[Realtime] âœ… Applying update (currentStatus null but incomingStatus exists)`, {
                         dealId: dealId.slice(0, 8),
                         incomingStatus: incomingStatus.slice(0, 8),
                       });
@@ -587,7 +587,7 @@ export function useRealtimeSync(
                           oldStatus: typeof deal.status === 'string' ? deal.status.slice(0, 8) : '',
                           newStatus: incomingStatus ? incomingStatus.slice(0, 8) : '',
                         };
-                        console.log(`[Realtime] ✅ Applying update to cache`, logData);
+                        console.log(`[Realtime] âœ… Applying update to cache`, logData);
                         fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useRealtimeSync.ts:346',message:'Applying update to cache',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'realtime-update',hypothesisId:'E'})}).catch(()=>{});
                       }
                       // #endregion
@@ -692,7 +692,7 @@ export function useRealtimeSync(
             tables: tableList.join(','),
             status: 'SUBSCRIBED',
           };
-          console.log(`[Realtime] ✅ Connected to ${tableList.join(', ')}`);
+          console.log(`[Realtime] âœ… Connected to ${tableList.join(', ')}`);
           fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useRealtimeSync.ts:488',message:'Realtime connected',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'realtime-connection',hypothesisId:'O'})}).catch(()=>{});
         }
         // #endregion

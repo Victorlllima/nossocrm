@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+﻿import { Suspense } from 'react'
 import { JoinClient } from './JoinClient'
 
 /**
@@ -6,7 +6,7 @@ import { JoinClient } from './JoinClient'
  *
  * @param {{ searchParams?: { token?: string | string[] | undefined; } | undefined; }} {
   searchParams,
-} - Parâmetro `{
+} - ParÃ¢metro `{
   searchParams,
 }`.
  * @returns {Element} Retorna um valor do tipo `Element`.

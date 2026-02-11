@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { authPublicApi } from '@/lib/public-api/auth';
 import { moveStageByIdentity } from '@/lib/public-api/dealsMoveStage';
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     target: { to_stage_id: parsed.data.to_stage_id ?? null, to_stage_label: parsed.data.to_stage_label ?? null },
     mark: parsed.data.mark ?? null,
   });
-  // Compatibility alias (old name) — keep working.
+  // Compatibility alias (old name) â€” keep working.
   return NextResponse.json(res.body, { status: res.status });
 }
 

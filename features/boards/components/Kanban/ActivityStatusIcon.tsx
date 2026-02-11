@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Phone, Mail, Calendar, ChevronRight, AlertTriangle, ArrowRightLeft } from 'lucide-react';
 
 interface ActivityStatusIconProps {
@@ -40,7 +40,7 @@ export const ActivityStatusIcon: React.FC<ActivityStatusIconProps> = ({
     const getStatusLabel = () => {
         switch (status) {
             case 'yellow':
-                return 'Atenção: Sem atividade agendada';
+                return 'AtenÃ§Ã£o: Sem atividade agendada';
             case 'red':
                 return 'Atividade atrasada';
             case 'green':
@@ -97,12 +97,12 @@ export const ActivityStatusIcon: React.FC<ActivityStatusIconProps> = ({
             {isOpen && dealId && (
                 <div
                     role="menu"
-                    aria-label="Agendar atividade rápida"
+                    aria-label="Agendar atividade rÃ¡pida"
                     className="absolute bottom-full right-0 mb-2 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-white/10 z-50 overflow-hidden animate-in zoom-in-95 duration-100"
                     onClick={(e) => e.stopPropagation()}
                 >
                     <div className="p-2 border-b border-slate-100 dark:border-white/5">
-                        <p className="text-xs font-bold text-slate-500 uppercase px-2" id={`quick-add-heading-${dealId}`}>Ações Rápidas</p>
+                        <p className="text-xs font-bold text-slate-500 uppercase px-2" id={`quick-add-heading-${dealId}`}>AÃ§Ãµes RÃ¡pidas</p>
                     </div>
                     
                     {/* Keyboard-accessible move to stage option */}
@@ -117,7 +117,7 @@ export const ActivityStatusIcon: React.FC<ActivityStatusIconProps> = ({
                                 }}
                                 className="w-full text-left px-3 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/5 rounded flex items-center gap-2 focus-visible-ring"
                             >
-                                <ArrowRightLeft size={14} className="text-green-500" aria-hidden="true" /> Mover para estágio...
+                                <ArrowRightLeft size={14} className="text-green-500" aria-hidden="true" /> Mover para estÃ¡gio...
                             </button>
                         </div>
                     )}
@@ -133,7 +133,7 @@ export const ActivityStatusIcon: React.FC<ActivityStatusIconProps> = ({
                             }}
                             className="w-full text-left px-3 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/5 rounded flex items-center gap-2 focus-visible-ring"
                         >
-                            <Phone size={14} className="text-blue-500" aria-hidden="true" /> Ligar amanhã
+                            <Phone size={14} className="text-blue-500" aria-hidden="true" /> Ligar amanhÃ£
                         </button>
                         <button 
                             type="button"
@@ -144,7 +144,7 @@ export const ActivityStatusIcon: React.FC<ActivityStatusIconProps> = ({
                             }}
                             className="w-full text-left px-3 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/5 rounded flex items-center gap-2 focus-visible-ring"
                         >
-                            <Mail size={14} className="text-purple-500" aria-hidden="true" /> Email amanhã
+                            <Mail size={14} className="text-purple-500" aria-hidden="true" /> Email amanhÃ£
                         </button>
                         <button 
                             type="button"
@@ -155,7 +155,7 @@ export const ActivityStatusIcon: React.FC<ActivityStatusIconProps> = ({
                             }}
                             className="w-full text-left px-3 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/5 rounded flex items-center gap-2 focus-visible-ring"
                         >
-                            <Calendar size={14} className="text-orange-500" aria-hidden="true" /> Reunião amanhã
+                            <Calendar size={14} className="text-orange-500" aria-hidden="true" /> ReuniÃ£o amanhÃ£
                         </button>
                     </div>
                 </div>

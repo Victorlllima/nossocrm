@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useQueryClient } from '@tanstack/react-query';
 import { Modal } from '@/components/ui/Modal';
@@ -72,17 +72,17 @@ export const FollowUpModal: React.FC<FollowUpModalProps> = ({
     VISIT: {
       label: 'Cobrar Visita',
       icon: <Home size={16} />,
-      text: (name: string) => `Olá ${name}, tudo bem? Conseguimos agendar aquela visita ao imóvel? Tenho outros interessados, mas queria dar prioridade para você.`
+      text: (name: string) => `OlÃ¡ ${name}, tudo bem? Conseguimos agendar aquela visita ao imÃ³vel? Tenho outros interessados, mas queria dar prioridade para vocÃª.`
     },
     FEEDBACK: {
-      label: 'Pós-Visita',
+      label: 'PÃ³s-Visita',
       icon: <UserCheck size={16} />,
-      text: (name: string) => `Olá ${name}, o que achou da visita hoje? O imóvel atendeu suas expectativas ou prefere ver outras opções?`
+      text: (name: string) => `OlÃ¡ ${name}, o que achou da visita hoje? O imÃ³vel atendeu suas expectativas ou prefere ver outras opÃ§Ãµes?`
     },
     OPPORTUNITY: {
       label: 'Nova Oportunidade',
       icon: <Sparkles size={16} />,
-      text: (name: string) => `Oi ${name}, apareceu uma oportunidade incrível no mesmo perfil que você procura. Posso te mandar as fotos?`
+      text: (name: string) => `Oi ${name}, apareceu uma oportunidade incrÃ­vel no mesmo perfil que vocÃª procura. Posso te mandar as fotos?`
     }
   };
 
@@ -276,12 +276,12 @@ export const FollowUpModal: React.FC<FollowUpModalProps> = ({
     >
       <div className="mb-6">
         <p className="text-sm text-slate-500 dark:text-slate-400">
-          Agende uma mensagem automática para o WhatsApp. A IA irá cancelar o envio se o cliente responder antes.
+          Agende uma mensagem automÃ¡tica para o WhatsApp. A IA irÃ¡ cancelar o envio se o cliente responder antes.
         </p>
 
         {dealTitle && (
           <div className="mt-2 text-xs font-semibold px-2 py-1 bg-slate-100 dark:bg-white/5 rounded inline-block">
-            Negócio: {dealTitle}
+            NegÃ³cio: {dealTitle}
           </div>
         )}
       </div>
@@ -296,7 +296,7 @@ export const FollowUpModal: React.FC<FollowUpModalProps> = ({
             </label>
             <input
               type="date"
-              {...register('date', { required: 'Data é obrigatória' })}
+              {...register('date', { required: 'Data Ã© obrigatÃ³ria' })}
               className="w-full px-3 py-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary-500"
             />
           </div>
@@ -306,7 +306,7 @@ export const FollowUpModal: React.FC<FollowUpModalProps> = ({
             </label>
             <input
               type="time"
-              {...register('time', { required: 'Hora é obrigatória' })}
+              {...register('time', { required: 'Hora Ã© obrigatÃ³ria' })}
               className="w-full px-3 py-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary-500"
             />
           </div>
@@ -422,10 +422,10 @@ export const FollowUpModal: React.FC<FollowUpModalProps> = ({
 
           <div className="relative">
             <textarea
-              {...register('message', { required: 'Mensagem é obrigatória' })}
+              {...register('message', { required: 'Mensagem Ã© obrigatÃ³ria' })}
               rows={5}
               className="w-full px-3 py-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary-500 resize-none"
-              placeholder="Digite a mensagem que o robô irá enviar..."
+              placeholder="Digite a mensagem que o robÃ´ irÃ¡ enviar..."
             />
             <div className="absolute bottom-2 right-2 text-[10px] text-slate-400 font-medium bg-white/50 dark:bg-black/50 px-2 py-0.5 rounded-full backdrop-blur-sm pointer-events-none">
               {messageValue?.length || 0} caracteres
@@ -436,7 +436,7 @@ export const FollowUpModal: React.FC<FollowUpModalProps> = ({
         {/* Template Toolbar */}
         <div className="flex items-center justify-between">
           <p className="text-[10px] text-slate-500 flex items-center gap-1">
-            <PenTool size={10} /> Você pode editar o texto acima livremente antes de agendar.
+            <PenTool size={10} /> VocÃª pode editar o texto acima livremente antes de agendar.
           </p>
         </div>
 

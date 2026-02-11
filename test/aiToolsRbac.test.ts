@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+﻿import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const profileQueryBuilder = {
   select: vi.fn().mockReturnThis(),
@@ -14,7 +14,7 @@ const dealsQueryBuilder = {
   eq: vi.fn().mockReturnThis(),
   select: vi.fn().mockReturnThis(),
   single: vi.fn(async () => ({
-    data: { title: 'Negócio X' },
+    data: { title: 'NegÃ³cio X' },
     error: null,
   })),
 }
@@ -39,7 +39,7 @@ beforeEach(() => {
 })
 
 describe('AI Tools permissions', () => {
-  it('permite assignDeal para vendedor (regra: vendedor só não mexe em usuários/configs)', async () => {
+  it('permite assignDeal para vendedor (regra: vendedor sÃ³ nÃ£o mexe em usuÃ¡rios/configs)', async () => {
     const tools = createCRMTools(
       {
         organizationId: '11111111-1111-1111-1111-111111111111',

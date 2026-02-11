@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
+﻿import { createClient } from '@supabase/supabase-js';
 
 type BootstrapInput = {
   supabaseUrl: string;
@@ -16,8 +16,8 @@ async function findUserIdByEmail(
   admin: any,
   email: string
 ): Promise<string | null> {
-  // Supabase Auth Admin API não tem "getUserByEmail" no client;
-  // para o nosso caso (1 usuário no bootstrap) listar é OK.
+  // Supabase Auth Admin API nÃ£o tem "getUserByEmail" no client;
+  // para o nosso caso (1 usuÃ¡rio no bootstrap) listar Ã© OK.
   const target = email.trim().toLowerCase();
 
   let page = 1;
@@ -39,11 +39,11 @@ async function findUserIdByEmail(
 }
 
 /**
- * Função pública `bootstrapInstance` do projeto.
+ * FunÃ§Ã£o pÃºblica `bootstrapInstance` do projeto.
  *
  * Contrato padronizado do installer:
- * - É **idempotente**: pode rodar mais de uma vez.
- * - Garante que o admin informado consegue logar: cria o usuário ou **atualiza a senha** se já existir.
+ * - Ã‰ **idempotente**: pode rodar mais de uma vez.
+ * - Garante que o admin informado consegue logar: cria o usuÃ¡rio ou **atualiza a senha** se jÃ¡ existir.
  */
 export async function bootstrapInstance({
   supabaseUrl,
@@ -58,7 +58,7 @@ export async function bootstrapInstance({
 
   const emailNorm = email.trim().toLowerCase();
 
-  // 1) Organization (reusa se já existir)
+  // 1) Organization (reusa se jÃ¡ existir)
   const { data: existingOrgs, error: orgCheckError } = await admin
     .from('organizations')
     .select('id')
@@ -109,7 +109,7 @@ export async function bootstrapInstance({
     userId = userData.user.id;
     mode = 'created';
   } else {
-    // Sempre garante que a senha digitada é a senha válida para login.
+    // Sempre garante que a senha digitada Ã© a senha vÃ¡lida para login.
     const { error: updateError } = await admin.auth.admin.updateUserById(userId, {
       password,
       email_confirm: true,
@@ -143,7 +143,7 @@ export async function bootstrapInstance({
   );
 
   if (profileError) {
-    // Se foi uma criação de org nessa execução, tenta rollback.
+    // Se foi uma criaÃ§Ã£o de org nessa execuÃ§Ã£o, tenta rollback.
     if (createdOrg && organizationId) {
       await admin.from('organizations').delete().eq('id', organizationId);
     }

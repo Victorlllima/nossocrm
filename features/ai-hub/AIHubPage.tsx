@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+﻿import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Send, Loader2, Bot, User, Sparkles, StopCircle, Trash2, Settings, AlertCircle } from 'lucide-react';
 import { useCRMAgent, AgentMessage } from './hooks/useCRMAgent';
@@ -18,7 +18,7 @@ const ChatMessage: React.FC<{ message: AgentMessage }> = ({ message }) => {
         {isUser ? <User size={16} /> : <Bot size={16} />}
       </div>
 
-      {/* Conteúdo */}
+      {/* ConteÃºdo */}
       <div className={`flex-1 max-w-[80%] ${isUser ? 'text-right' : ''}`}>
         <div className={`inline-block px-4 py-3 rounded-2xl ${isUser
             ? 'bg-primary-500 text-white rounded-br-md'
@@ -33,7 +33,7 @@ const ChatMessage: React.FC<{ message: AgentMessage }> = ({ message }) => {
   );
 };
 
-// Indicador de digitação
+// Indicador de digitaÃ§Ã£o
 const TypingIndicator: React.FC = () => (
   <div className="flex gap-3">
     <div className="shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 text-white flex items-center justify-center">
@@ -56,18 +56,18 @@ const WelcomeMessage: React.FC = () => (
       <Sparkles size={32} />
     </div>
     <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-      Olá! Sou seu assistente de CRM
+      OlÃ¡! Sou seu assistente de CRM
     </h2>
     <p className="text-slate-500 dark:text-slate-400 max-w-md mx-auto mb-6">
-      Posso ajudar você a gerenciar deals, atividades, contatos e muito mais.
+      Posso ajudar vocÃª a gerenciar deals, atividades, contatos e muito mais.
       Experimente perguntar algo!
     </p>
     <div className="flex flex-wrap justify-center gap-2">
       {[
         'O que tenho pra fazer hoje?',
         'Mostre meu pipeline',
-        'Quais deals estão parados?',
-        'Crie uma reunião com Stark amanhã às 14h',
+        'Quais deals estÃ£o parados?',
+        'Crie uma reuniÃ£o com Stark amanhÃ£ Ã s 14h',
       ].map((suggestion) => (
         <button
           key={suggestion}
@@ -80,7 +80,7 @@ const WelcomeMessage: React.FC = () => (
   </div>
 );
 
-// Componente de bloqueio quando API não está configurada
+// Componente de bloqueio quando API nÃ£o estÃ¡ configurada
 const APINotConfigured: React.FC = () => {
   const router = useRouter();
 
@@ -94,12 +94,12 @@ const APINotConfigured: React.FC = () => {
 
         {/* Title */}
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
-          Configure a Inteligência Artificial
+          Configure a InteligÃªncia Artificial
         </h1>
 
         {/* Description */}
         <p className="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
-          Para usar o assistente de IA, você precisa configurar uma chave de API.
+          Para usar o assistente de IA, vocÃª precisa configurar uma chave de API.
           Suportamos <strong className="text-slate-800 dark:text-slate-200">Google Gemini</strong>, <strong className="text-slate-800 dark:text-slate-200">OpenAI</strong> e <strong className="text-slate-800 dark:text-slate-200">Anthropic</strong>.
         </p>
 
@@ -112,11 +112,11 @@ const APINotConfigured: React.FC = () => {
           <ol className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
             <li className="flex gap-2">
               <span className="font-bold text-purple-500">1.</span>
-              Acesse as Configurações
+              Acesse as ConfiguraÃ§Ãµes
             </li>
             <li className="flex gap-2">
               <span className="font-bold text-purple-500">2.</span>
-              Vá em "Inteligência Artificial"
+              VÃ¡ em "InteligÃªncia Artificial"
             </li>
             <li className="flex gap-2">
               <span className="font-bold text-purple-500">3.</span>
@@ -131,7 +131,7 @@ const APINotConfigured: React.FC = () => {
           className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-purple-500/25 transition-all active:scale-95"
         >
           <Settings size={18} />
-          Ir para Configurações
+          Ir para ConfiguraÃ§Ãµes
         </button>
       </div>
     </div>
@@ -151,7 +151,7 @@ export const AIHubPage: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Auto-scroll para última mensagem
+  // Auto-scroll para Ãºltima mensagem
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
@@ -175,7 +175,7 @@ export const AIHubPage: React.FC = () => {
     await sendMessage(suggestion);
   };
 
-  // Se não tem API key, mostra tela de bloqueio
+  // Se nÃ£o tem API key, mostra tela de bloqueio
   if (!hasApiKey) {
     return <APINotConfigured />;
   }
@@ -191,7 +191,7 @@ export const AIHubPage: React.FC = () => {
           <div>
             <h1 className="font-bold text-slate-900 dark:text-white">AI Assistant</h1>
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              Gemini 2.5 Flash • Multi-step Agentic
+              Gemini 2.5 Flash â€¢ Multi-step Agentic
             </p>
           </div>
         </div>
@@ -238,7 +238,7 @@ export const AIHubPage: React.FC = () => {
             {[
               'O que tenho pra fazer hoje?',
               'Mostre meu pipeline',
-              'Quais deals estão parados?',
+              'Quais deals estÃ£o parados?',
             ].map((suggestion) => (
               <button
                 key={suggestion}
@@ -287,7 +287,7 @@ export const AIHubPage: React.FC = () => {
         </form>
 
         <p className="text-center text-xs text-slate-400 mt-2">
-          Powered by Gemini 2.5 Flash • Respostas podem conter imprecisões
+          Powered by Gemini 2.5 Flash â€¢ Respostas podem conter imprecisÃµes
         </p>
       </div>
     </div>

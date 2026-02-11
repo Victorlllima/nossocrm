@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Quick Scripts Service
  * CRUD operations for customizable message templates
  */
@@ -31,7 +31,7 @@ export const quickScriptsService = {
      */
     async getScripts() {
         if (!supabase) {
-            return { data: null as QuickScript[] | null, error: new Error('Supabase não configurado') };
+            return { data: null as QuickScript[] | null, error: new Error('Supabase nÃ£o configurado') };
         }
         const { data, error } = await supabase
             .from('quick_scripts')
@@ -48,7 +48,7 @@ export const quickScriptsService = {
      */
     async getScriptsByCategory(category: ScriptCategory) {
         if (!supabase) {
-            return { data: null as QuickScript[] | null, error: new Error('Supabase não configurado') };
+            return { data: null as QuickScript[] | null, error: new Error('Supabase nÃ£o configurado') };
         }
         const { data, error } = await supabase
             .from('quick_scripts')
@@ -65,7 +65,7 @@ export const quickScriptsService = {
      */
     async createScript(input: CreateScriptInput) {
         if (!supabase) {
-            return { data: null as QuickScript | null, error: new Error('Supabase não configurado') };
+            return { data: null as QuickScript | null, error: new Error('Supabase nÃ£o configurado') };
         }
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) throw new Error('Not authenticated');
@@ -89,7 +89,7 @@ export const quickScriptsService = {
      */
     async updateScript(scriptId: string, input: Partial<CreateScriptInput>) {
         if (!supabase) {
-            return { data: null as QuickScript | null, error: new Error('Supabase não configurado') };
+            return { data: null as QuickScript | null, error: new Error('Supabase nÃ£o configurado') };
         }
         const { data, error } = await supabase
             .from('quick_scripts')
@@ -107,7 +107,7 @@ export const quickScriptsService = {
      */
     async deleteScript(scriptId: string) {
         if (!supabase) {
-            return { error: new Error('Supabase não configurado') };
+            return { error: new Error('Supabase nÃ£o configurado') };
         }
         const { error } = await supabase
             .from('quick_scripts')
@@ -124,9 +124,9 @@ export const quickScriptsService = {
     getCategoryInfo(category: ScriptCategory): { label: string; color: string } {
         const categories: Record<ScriptCategory, { label: string; color: string }> = {
             followup: { label: 'Follow-up', color: 'blue' },
-            objection: { label: 'Objeções', color: 'orange' },
+            objection: { label: 'ObjeÃ§Ãµes', color: 'orange' },
             closing: { label: 'Fechamento', color: 'green' },
-            intro: { label: 'Apresentação', color: 'purple' },
+            intro: { label: 'ApresentaÃ§Ã£o', color: 'purple' },
             rescue: { label: 'Resgate', color: 'yellow' },
             other: { label: 'Outros', color: 'slate' },
         };

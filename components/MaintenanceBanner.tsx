@@ -1,4 +1,4 @@
-/**
+﻿/**
  * MaintenanceBanner Component
  * T007: Displays a banner about AI features being temporarily disabled
  * 
@@ -20,18 +20,18 @@ interface MaintenanceBannerProps {
  *
  * @param {MaintenanceBannerProps} {
   show = true,
-  message = '🔒 Funcionalidades de IA temporariamente desativadas para atualizações de segurança. Voltarão em breve.',
+  message = 'ðŸ”’ Funcionalidades de IA temporariamente desativadas para atualizaÃ§Ãµes de seguranÃ§a. VoltarÃ£o em breve.',
   onDismiss,
-} - Parâmetro `{
+} - ParÃ¢metro `{
   show = true,
-  message = '🔒 Funcionalidades de IA temporariamente desativadas para atualizações de segurança. Voltarão em breve.',
+  message = 'ðŸ”’ Funcionalidades de IA temporariamente desativadas para atualizaÃ§Ãµes de seguranÃ§a. VoltarÃ£o em breve.',
   onDismiss,
 }`.
  * @returns {Element | null} Retorna um valor do tipo `Element | null`.
  */
 export const MaintenanceBanner: React.FC<MaintenanceBannerProps> = ({
   show = true,
-  message = '🔒 Funcionalidades de IA temporariamente desativadas para atualizações de segurança. Voltarão em breve.',
+  message = 'ðŸ”’ Funcionalidades de IA temporariamente desativadas para atualizaÃ§Ãµes de seguranÃ§a. VoltarÃ£o em breve.',
   onDismiss,
 }) => {
   const [dismissed, setDismissed] = React.useState(false);
@@ -55,7 +55,7 @@ export const MaintenanceBanner: React.FC<MaintenanceBannerProps> = ({
             className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-200 text-sm font-medium"
             aria-label="Dismiss banner"
           >
-            ✕
+            âœ•
           </button>
         )}
       </div>

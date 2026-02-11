@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Tag, Plus, X } from 'lucide-react';
 import { SettingsSection } from './SettingsSection';
 
@@ -19,7 +19,7 @@ interface TagsManagerProps {
   setNewTagName,
   onAddTag,
   onRemoveTag
-} - Parâmetro `{
+} - ParÃ¢metro `{
   availableTags,
   newTagName,
   setNewTagName,
@@ -38,7 +38,7 @@ export const TagsManager: React.FC<TagsManagerProps> = ({
   return (
     <SettingsSection title="Gerenciamento de Tags" icon={Tag}>
       <p className="text-sm text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
-        Crie tags para categorizar seus negócios. Elas aparecerão como opções ao criar ou editar negócios no Pipeline.
+        Crie tags para categorizar seus negÃ³cios. Elas aparecerÃ£o como opÃ§Ãµes ao criar ou editar negÃ³cios no Pipeline.
       </p>
 
       <div className="p-4 rounded-xl border bg-slate-50 dark:bg-black/20 border-slate-200 dark:border-white/5 mb-6">

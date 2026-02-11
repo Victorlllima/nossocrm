@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils/cn';
@@ -13,7 +13,7 @@ export function BottomNav({ onOpenMore }: BottomNavProps) {
 
   return (
     <nav
-      aria-label="Navegação principal (mobile)"
+      aria-label="NavegaÃ§Ã£o principal (mobile)"
       className={cn(
         'fixed inset-x-0 bottom-0 z-50 md:hidden',
         'border-t border-slate-200 dark:border-white/10',

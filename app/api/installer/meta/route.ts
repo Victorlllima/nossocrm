@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic';
+﻿export const dynamic = 'force-dynamic';
 
 function json<T>(body: T, status = 200): Response {
   return new Response(JSON.stringify(body), {

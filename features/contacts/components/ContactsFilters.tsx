@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 
 interface ContactsFiltersProps {
     dateRange: { start: string; end: string };
@@ -8,7 +8,7 @@ interface ContactsFiltersProps {
 /**
  * Componente React `ContactsFilters`.
  *
- * @param {ContactsFiltersProps} { dateRange, setDateRange } - Parâmetro `{ dateRange, setDateRange }`.
+ * @param {ContactsFiltersProps} { dateRange, setDateRange } - ParÃ¢metro `{ dateRange, setDateRange }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const ContactsFilters: React.FC<ContactsFiltersProps> = ({ dateRange, setDateRange }) => {
@@ -16,7 +16,7 @@ export const ContactsFilters: React.FC<ContactsFiltersProps> = ({ dateRange, set
         <div className="bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl p-4 animate-in slide-in-from-top-2">
             <div className="flex flex-wrap gap-4 items-end">
                 <div>
-                    <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Data de Criação (Início)</label>
+                    <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Data de CriaÃ§Ã£o (InÃ­cio)</label>
                     <input
                         type="date"
                         className="bg-white dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary-500 dark:text-white"
@@ -25,7 +25,7 @@ export const ContactsFilters: React.FC<ContactsFiltersProps> = ({ dateRange, set
                     />
                 </div>
                 <div>
-                    <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Data de Criação (Fim)</label>
+                    <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Data de CriaÃ§Ã£o (Fim)</label>
                     <input
                         type="date"
                         className="bg-white dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary-500 dark:text-white"

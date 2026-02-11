@@ -1,5 +1,5 @@
-/**
- * ActionSheet (bottom sheet) — Apple-like fallback UI for choices/advanced actions.
+﻿/**
+ * ActionSheet (bottom sheet) â€” Apple-like fallback UI for choices/advanced actions.
  *
  * Goals:
  * - Behaves like an iOS action sheet (bottom-aligned, scrollable content)

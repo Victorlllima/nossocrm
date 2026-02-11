@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
@@ -33,18 +33,18 @@ async function hashPassword(password: string): Promise<string> {
 
 type Screen = 'identity' | 'vercel' | 'supabase' | 'validating' | 'ready' | 'locked';
 
-// Configuração de cada tela
+// ConfiguraÃ§Ã£o de cada tela
 const SCREENS = {
   identity: {
-    badge: 'Capítulo 1',
-    title: 'Quem é você?',
-    subtitle: 'Antes de explorar novos mundos, precisamos saber quem está no comando.',
+    badge: 'CapÃ­tulo 1',
+    title: 'Quem Ã© vocÃª?',
+    subtitle: 'Antes de explorar novos mundos, precisamos saber quem estÃ¡ no comando.',
     icon: User,
     gradient: 'from-violet-500/20 to-fuchsia-500/20',
     accentColor: 'violet',
   },
   vercel: {
-    badge: 'Capítulo 2',
+    badge: 'CapÃ­tulo 2',
     title: 'Sistema de Deploy',
     subtitle: 'Conecte com a Vercel para preparar sua nave.',
     icon: Rocket,
@@ -52,7 +52,7 @@ const SCREENS = {
     accentColor: 'cyan',
   },
   supabase: {
-    badge: 'Capítulo 3',
+    badge: 'CapÃ­tulo 3',
     title: 'Base de Dados',
     subtitle: 'Conecte com o Supabase para armazenar suas descobertas.',
     icon: Database,
@@ -109,7 +109,7 @@ export default function InstallStartPage() {
     };
   })();
   
-  // Verifica se a instância já está inicializada (bloqueia acesso após instalação)
+  // Verifica se a instÃ¢ncia jÃ¡ estÃ¡ inicializada (bloqueia acesso apÃ³s instalaÃ§Ã£o)
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -117,12 +117,12 @@ export default function InstallStartPage() {
         const res = await fetch('/api/installer/check-initialized', { cache: 'no-store' });
         const data = await res.json();
         if (!cancelled && data?.initialized === true) {
-          // Instância já inicializada: redireciona para dashboard
+          // InstÃ¢ncia jÃ¡ inicializada: redireciona para dashboard
           router.replace('/dashboard');
           return;
         }
       } catch (err) {
-        // Fail-safe: em caso de erro, não bloqueia o acesso ao wizard
+        // Fail-safe: em caso de erro, nÃ£o bloqueia o acesso ao wizard
         console.warn('[start] Error checking initialization:', err);
       }
     })();
@@ -138,7 +138,7 @@ export default function InstallStartPage() {
         const data = await res.json();
         if (!cancelled) setMeta(data);
 
-        // Se o instalador estiver desabilitado, tenta auto-unlock (experiência mágica)
+        // Se o instalador estiver desabilitado, tenta auto-unlock (experiÃªncia mÃ¡gica)
         if (!cancelled && data && data.enabled === false) {
           const savedToken = localStorage.getItem(STORAGE_TOKEN);
           const savedProject = localStorage.getItem(STORAGE_PROJECT);
@@ -175,7 +175,7 @@ export default function InstallStartPage() {
     return () => { cancelled = true; };
   }, []);
   
-  // Verifica sessão existente
+  // Verifica sessÃ£o existente
   useEffect(() => {
     const savedToken = localStorage.getItem(STORAGE_TOKEN);
     const savedProject = localStorage.getItem(STORAGE_PROJECT);
@@ -188,13 +188,13 @@ export default function InstallStartPage() {
     
     if (savedInstallerToken) setInstallerToken(savedInstallerToken);
     
-    // Se tem sessão salva com senha, precisa desbloquear
+    // Se tem sessÃ£o salva com senha, precisa desbloquear
     if (savedPassHash && sessionLocked === 'true') {
       setScreen('locked');
       return;
     }
     
-    // Se já tem tudo completo, vai pro wizard
+    // Se jÃ¡ tem tudo completo, vai pro wizard
     if (savedToken && savedProject && savedName && savedEmail && savedPassHash && savedSupabaseToken) {
       router.push('/install/wizard');
       return;
@@ -205,7 +205,7 @@ export default function InstallStartPage() {
     if (savedEmail) setUserEmail(savedEmail);
     if (savedToken) {
       setVercelToken(savedToken);
-      // Se já tem token Supabase salvo, redireciona direto (evita "piscada" da tela)
+      // Se jÃ¡ tem token Supabase salvo, redireciona direto (evita "piscada" da tela)
       if (savedSupabaseToken) {
         router.push('/install/wizard');
         return;
@@ -262,7 +262,7 @@ export default function InstallStartPage() {
       return;
     }
     if (!email || !email.includes('@')) {
-      setError('Digite um e-mail válido');
+      setError('Digite um e-mail vÃ¡lido');
       return;
     }
     const pwCheck = validateInstallerPassword(pass);
@@ -271,7 +271,7 @@ export default function InstallStartPage() {
       return;
     }
     if (pass !== confirm) {
-      setError('As senhas não conferem');
+      setError('As senhas nÃ£o conferem');
       return;
     }
     
@@ -290,12 +290,12 @@ export default function InstallStartPage() {
   const handleVercelSubmit = async () => {
     const t = vercelToken.trim();
     if (!t || t.length < 20) {
-      setError('Token inválido');
+      setError('Token invÃ¡lido');
       return;
     }
     
     if (meta?.requiresToken && !installerToken.trim()) {
-      setError('Installer token obrigatório');
+      setError('Installer token obrigatÃ³rio');
       return;
     }
     
@@ -332,7 +332,7 @@ export default function InstallStartPage() {
   const handleSupabaseSubmit = () => {
     const t = supabaseToken.trim();
     if (!t || !t.startsWith('sbp_')) {
-      setError('Token Supabase inválido (deve começar com sbp_)');
+      setError('Token Supabase invÃ¡lido (deve comeÃ§ar com sbp_)');
       return;
     }
     
@@ -387,8 +387,8 @@ export default function InstallStartPage() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 mb-6">
             <Loader2 className="w-8 h-8 text-amber-400 animate-spin" />
           </div>
-          <h1 className="text-2xl font-bold text-white mb-2">Destravando instalador…</h1>
-          <p className="text-slate-400">Ajustando variáveis e preparando o redeploy na Vercel.</p>
+          <h1 className="text-2xl font-bold text-white mb-2">Destravando instaladorâ€¦</h1>
+          <p className="text-slate-400">Ajustando variÃ¡veis e preparando o redeploy na Vercel.</p>
           {unlockError && (
             <div className="mt-4 rounded-xl bg-red-500/10 border border-red-500/20 p-4 text-red-400 text-sm">
               {unlockError}
@@ -406,8 +406,8 @@ export default function InstallStartPage() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/20 mb-6">
             <AlertCircle className="w-8 h-8 text-red-400" />
           </div>
-          <h1 className="text-2xl font-bold text-white mb-2">Missão cancelada</h1>
-          <p className="text-slate-400">{metaError || 'Base de lançamento indisponível.'}</p>
+          <h1 className="text-2xl font-bold text-white mb-2">MissÃ£o cancelada</h1>
+          <p className="text-slate-400">{metaError || 'Base de lanÃ§amento indisponÃ­vel.'}</p>
         </div>
       </div>
     );
@@ -419,7 +419,7 @@ export default function InstallStartPage() {
       onMouseMove={handleMouseMove}
       onMouseLeave={() => { mx.set(0); my.set(0); }}
     >
-      {/* Background dinâmico baseado na tela */}
+      {/* Background dinÃ¢mico baseado na tela */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Estrelas */}
         <div 
@@ -456,7 +456,7 @@ export default function InstallStartPage() {
                 <AlertCircle className="w-10 h-10 text-amber-400" />
               </div>
               
-              <h1 className="text-3xl font-bold text-white mb-3">Sessão protegida</h1>
+              <h1 className="text-3xl font-bold text-white mb-3">SessÃ£o protegida</h1>
               <p className="text-slate-400 mb-8">Digite sua senha para continuar de onde parou.</p>
               
               <input
@@ -503,7 +503,7 @@ export default function InstallStartPage() {
                 className="flex justify-center mb-6"
               >
                 <span className="px-4 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-sm font-medium">
-                  Capítulo 1
+                  CapÃ­tulo 1
                 </span>
               </motion.div>
               
@@ -526,7 +526,7 @@ export default function InstallStartPage() {
                 transition={{ delay: 0.2 }}
                 className="text-3xl font-bold text-white text-center mb-3"
               >
-                Quem é você?
+                Quem Ã© vocÃª?
               </motion.h1>
               <motion.p 
                 initial={{ opacity: 0 }}
@@ -534,7 +534,7 @@ export default function InstallStartPage() {
                 transition={{ delay: 0.25 }}
                 className="text-slate-400 text-center mb-8"
               >
-                Antes de explorar novos mundos, precisamos saber quem está no comando.
+                Antes de explorar novos mundos, precisamos saber quem estÃ¡ no comando.
               </motion.p>
               
               {/* Form */}
@@ -624,7 +624,7 @@ export default function InstallStartPage() {
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: passwordChecks.hasNumber ? 'rgba(16,185,129,0.9)' : 'rgba(148,163,184,0.5)' }} />
-                    <span>1 número</span>
+                    <span>1 nÃºmero</span>
                   </div>
                 </div>
 
@@ -644,7 +644,7 @@ export default function InstallStartPage() {
                     placeholder="Confirme a senha"
                   />
                   {confirmPassword && confirmPassword !== userPassword && (
-                    <p className="text-red-400 text-sm mt-2">As senhas não conferem</p>
+                    <p className="text-red-400 text-sm mt-2">As senhas nÃ£o conferem</p>
                   )}
                 </div>
                 
@@ -681,7 +681,7 @@ export default function InstallStartPage() {
                 className="flex justify-center mb-6"
               >
                 <span className="px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-sm font-medium">
-                  Capítulo 2
+                  CapÃ­tulo 2
                 </span>
               </motion.div>
               
@@ -704,7 +704,7 @@ export default function InstallStartPage() {
                 transition={{ delay: 0.2 }}
                 className="text-3xl font-bold text-white text-center mb-3"
               >
-                {firstName ? `Olá, ${firstName}!` : 'Sistema de Deploy'}
+                {firstName ? `OlÃ¡, ${firstName}!` : 'Sistema de Deploy'}
               </motion.h1>
               <motion.p 
                 initial={{ opacity: 0 }}
@@ -766,7 +766,7 @@ export default function InstallStartPage() {
                 onClick={() => setScreen('identity')} 
                 className="mt-6 w-full text-slate-500 hover:text-slate-300 text-sm transition-colors"
               >
-                ← Voltar
+                â† Voltar
               </motion.button>
             </motion.div>
           )}
@@ -790,7 +790,7 @@ export default function InstallStartPage() {
                   <Loader2 className="w-10 h-10 text-cyan-400 animate-spin" />
                 </div>
               </div>
-              <h2 className="text-2xl font-bold text-white mb-2">Verificando conexão</h2>
+              <h2 className="text-2xl font-bold text-white mb-2">Verificando conexÃ£o</h2>
               <p className="text-slate-400">Conectando com a Vercel...</p>
             </motion.div>
           )}
@@ -812,7 +812,7 @@ export default function InstallStartPage() {
                 className="flex justify-center mb-6"
               >
                 <span className="px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium">
-                  Capítulo 3
+                  CapÃ­tulo 3
                 </span>
               </motion.div>
               
@@ -855,7 +855,7 @@ export default function InstallStartPage() {
                 transition={{ delay: 0.25 }}
                 className="text-slate-400 text-center mb-8"
               >
-                Último passo! Conecte com o Supabase.
+                Ãšltimo passo! Conecte com o Supabase.
               </motion.p>
               
               {/* Form */}
@@ -913,7 +913,7 @@ export default function InstallStartPage() {
               </motion.div>
               
               <h1 className="text-3xl font-bold text-white mb-3">Tudo pronto, {firstName}!</h1>
-              <p className="text-slate-400 mb-4">Preparando a sequência de lançamento...</p>
+              <p className="text-slate-400 mb-4">Preparando a sequÃªncia de lanÃ§amento...</p>
               
               <div className="flex items-center justify-center gap-1">
                 {[0, 1, 2].map((i) => (

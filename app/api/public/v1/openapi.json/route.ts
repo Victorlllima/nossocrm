@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import { getPublicApiOpenApiDocument } from '@/lib/public-api/openapi';
 
 export const runtime = 'nodejs';

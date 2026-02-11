@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -9,14 +9,14 @@ import { Loader2, Mail, Lock, User, ArrowRight, AlertCircle } from 'lucide-react
 /**
  * Componente React `JoinClient`.
  *
- * @param {{ token: string | null; }} { token } - Parâmetro `{ token }` (opcional, lê da URL se não fornecido).
+ * @param {{ token: string | null; }} { token } - ParÃ¢metro `{ token }` (opcional, lÃª da URL se nÃ£o fornecido).
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export function JoinClient({ token: tokenProp }: { token?: string | null }) {
   const router = useRouter()
   const searchParams = useSearchParams()
   
-  // Lê o token da URL se não foi fornecido como prop (fallback para compatibilidade)
+  // LÃª o token da URL se nÃ£o foi fornecido como prop (fallback para compatibilidade)
   const token = tokenProp ?? searchParams.get('token')
 
   const [loading, setLoading] = useState(false)
@@ -33,7 +33,7 @@ export function JoinClient({ token: tokenProp }: { token?: string | null }) {
   useEffect(() => {
     const validateToken = async () => {
       if (!token) {
-        setError('Link de convite inválido ou ausente.')
+        setError('Link de convite invÃ¡lido ou ausente.')
         setValidating(false)
         return
       }
@@ -54,7 +54,7 @@ export function JoinClient({ token: tokenProp }: { token?: string | null }) {
         })
         
         if (!res.ok || !payload?.valid) {
-          const errorMsg = payload?.error || 'Este convite não existe ou já foi utilizado.'
+          const errorMsg = payload?.error || 'Este convite nÃ£o existe ou jÃ¡ foi utilizado.'
           console.error('[JoinClient] Validation failed:', errorMsg)
           throw new Error(errorMsg)
         }
@@ -127,7 +127,7 @@ export function JoinClient({ token: tokenProp }: { token?: string | null }) {
           <div className="h-16 w-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <AlertCircle className="h-8 w-8 text-red-500" />
           </div>
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Convite Inválido</h2>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Convite InvÃ¡lido</h2>
           <p className="text-slate-500 dark:text-slate-400 mb-6">{error}</p>
           <button
             onClick={() => router.push('/login')}
@@ -152,7 +152,7 @@ export function JoinClient({ token: tokenProp }: { token?: string | null }) {
           <h1 className="text-3xl font-bold text-slate-900 dark:text-white font-display tracking-tight mb-2">
             Aceitar Convite
           </h1>
-          <p className="text-slate-500 dark:text-slate-400">Crie sua conta para se juntar à equipe.</p>
+          <p className="text-slate-500 dark:text-slate-400">Crie sua conta para se juntar Ã  equipe.</p>
         </div>
 
         <div className="bg-white dark:bg-dark-card border border-slate-200 dark:border-white/10 rounded-2xl shadow-xl p-8 backdrop-blur-sm">
@@ -215,7 +215,7 @@ export function JoinClient({ token: tokenProp }: { token?: string | null }) {
                   aria-required="true"
                   minLength={6}
                   className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all sm:text-sm"
-                  placeholder="••••••••"
+                  placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                   value={formData.password}
                   onChange={e => setFormData({ ...formData, password: e.target.value })}
                 />

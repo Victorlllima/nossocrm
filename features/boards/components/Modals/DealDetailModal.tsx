@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useId, useMemo } from 'react';
+﻿import React, { useState, useRef, useEffect, useId, useMemo } from 'react';
 import { useCRM } from '@/context/CRMContext';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
@@ -62,7 +62,7 @@ const PT_BR_DATE_FORMATTER = new Intl.DateTimeFormat('pt-BR');
 /**
  * Componente React `DealDetailModal`.
  *
- * @param {DealDetailModalProps} { dealId, isOpen, onClose } - Parâmetro `{ dealId, isOpen, onClose }`.
+ * @param {DealDetailModalProps} { dealId, isOpen, onClose } - ParÃ¢metro `{ dealId, isOpen, onClose }`.
  * @returns {Element | null} Retorna um valor do tipo `Element | null`.
  */
 export const DealDetailModal: React.FC<DealDetailModalProps> = ({
@@ -252,7 +252,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
     } catch (error: any) {
       console.error('[DealDetailModal] analyzeLead failed:', error);
       addToast(
-        error?.message || 'Falha ao analisar deal com IA. Verifique Configurações → Inteligência Artificial.',
+        error?.message || 'Falha ao analisar deal com IA. Verifique ConfiguraÃ§Ãµes â†’ InteligÃªncia Artificial.',
         'warning'
       );
     } finally {
@@ -269,7 +269,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
     } catch (error: any) {
       console.error('[DealDetailModal] generateEmailDraft failed:', error);
       addToast(
-        error?.message || 'Falha ao gerar e-mail com IA. Verifique Configurações → Inteligência Artificial.',
+        error?.message || 'Falha ao gerar e-mail com IA. Verifique ConfiguraÃ§Ãµes â†’ InteligÃªncia Artificial.',
         'warning'
       );
     } finally {
@@ -287,7 +287,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
     } catch (error: any) {
       console.error('[DealDetailModal] generateObjectionResponse failed:', error);
       addToast(
-        error?.message || 'Falha ao gerar respostas. Verifique Configurações → Inteligência Artificial.',
+        error?.message || 'Falha ao gerar respostas. Verifique ConfiguraÃ§Ãµes â†’ InteligÃªncia Artificial.',
         'warning'
       );
     } finally {
@@ -340,17 +340,17 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
       return;
     }
     if (!Number.isFinite(price) || price < 0) {
-      addToast('Preço inválido.', 'warning');
+      addToast('PreÃ§o invÃ¡lido.', 'warning');
       return;
     }
     if (!Number.isFinite(qty) || qty < 1) {
-      addToast('Quantidade inválida.', 'warning');
+      addToast('Quantidade invÃ¡lida.', 'warning');
       return;
     }
 
     // "Produto depende do cliente": item livre, sem product_id.
     addItemToDeal(deal.id, {
-      productId: '', // deal_items.product_id é opcional no schema; sanitizeUUID('') => null
+      productId: '', // deal_items.product_id Ã© opcional no schema; sanitizeUUID('') => null
       name,
       price,
       quantity: qty,
@@ -365,7 +365,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
   const confirmDeleteDeal = () => {
     if (deleteId) {
       deleteDeal(deleteId);
-      addToast('Negócio excluído com sucesso', 'success');
+      addToast('NegÃ³cio excluÃ­do com sucesso', 'success');
       setDeleteId(null);
       onClose();
     }
@@ -472,11 +472,11 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
               )}
             </div>
             <div className="flex gap-3 items-center">
-              {/* Se fechado: mostra badge + botão Reabrir */}
+              {/* Se fechado: mostra badge + botÃ£o Reabrir */}
               {(deal.isWon || deal.isLost) ? (
                 <>
                   <span className={`text-xs font-bold px-3 py-1.5 rounded-lg ${deal.isWon ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
-                    {deal.isWon ? '✓ GANHO' : '✗ PERDIDO'}
+                    {deal.isWon ? 'âœ“ GANHO' : 'âœ— PERDIDO'}
                   </span>
                   <button
                     onClick={() => {
@@ -493,11 +493,11 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
                     }}
                     className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg font-bold text-sm flex items-center gap-2 transition-all"
                   >
-                    ↩ Reabrir
+                    â†© Reabrir
                   </button>
                 </>
               ) : (
-                /* Se aberto: mostra botões Ganho e Perdido */
+                /* Se aberto: mostra botÃµes Ganho e Perdido */
                 <>
                   <button
                     onClick={() => {
@@ -564,7 +564,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
               <button
                 onClick={() => setDeleteId(deal.id)}
                 className="ml-2 text-slate-400 hover:text-red-500 dark:hover:text-red-400 transition-colors"
-                title="Excluir Negócio"
+                title="Excluir NegÃ³cio"
               >
                 <Trash2 size={24} />
               </button>
@@ -603,7 +603,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
             />
           ) : (
             <div className="mt-4 rounded-lg border border-slate-200/60 bg-slate-50 px-4 py-3 text-xs text-slate-600 dark:border-white/10 dark:bg-white/5 dark:text-slate-300">
-              Board não encontrado para este negócio. Algumas ações (mover estágio) podem ficar indisponíveis.
+              Board nÃ£o encontrado para este negÃ³cio. Algumas aÃ§Ãµes (mover estÃ¡gio) podem ficar indisponÃ­veis.
             </div>
           )}
         </div>
@@ -847,8 +847,8 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
                     ) : (
                       <div className="flex flex-col items-center justify-center py-12 text-center">
                         <MessageSquareDashed className="mb-3 h-10 w-10 text-gray-300 dark:text-gray-700" />
-                        <p className="text-sm text-gray-500">Nenhum resumo de dados disponível.</p>
-                        <p className="text-xs text-gray-400">Dados importados aparecerão aqui automaticamente.</p>
+                        <p className="text-sm text-gray-500">Nenhum resumo de dados disponÃ­vel.</p>
+                        <p className="text-xs text-gray-400">Dados importados aparecerÃ£o aqui automaticamente.</p>
                       </div>
                     )}
                   </div>
@@ -862,12 +862,12 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
                       <div className="flex justify-between items-start mb-4">
                         <h3 className="flex items-center gap-2 text-lg font-semibold text-pink-900 dark:text-pink-300">
                           <CalendarClock className="h-5 w-5 text-pink-600" />
-                          Próximo Follow-up Agendado
+                          PrÃ³ximo Follow-up Agendado
                         </h3>
                         <div className="flex items-center gap-2">
                           <button
                             onClick={async () => {
-                              if (!window.confirm('Tem certeza que deseja cancelar este agendamento automático?')) return;
+                              if (!window.confirm('Tem certeza que deseja cancelar este agendamento automÃ¡tico?')) return;
                               const { error } = await supabase
                                 .from('scheduled_messages')
                                 .update({ status: 'CANCELLED_MANUAL' })
@@ -916,7 +916,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
 
                         <div className="bg-white/80 dark:bg-black/20 rounded-lg p-4 border border-pink-100 dark:border-pink-900/30">
                           <div className="flex items-center gap-2 text-[10px] font-bold text-pink-500 uppercase mb-2">
-                            <MessageSquareDashed className="h-3 w-3" /> Conteúdo da Mensagem
+                            <MessageSquareDashed className="h-3 w-3" /> ConteÃºdo da Mensagem
                           </div>
                           <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed italic">
                             "{pendingFollowUp.message_content}"
@@ -924,8 +924,8 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
                         </div>
 
                         <p className="text-[10px] text-slate-500 italic">
-                          * Esta mensagem será enviada automaticamente via WhatsApp no horário agendado.
-                          Se o cliente responder antes disso, o envio será cancelado automaticamente pela IA.
+                          * Esta mensagem serÃ¡ enviada automaticamente via WhatsApp no horÃ¡rio agendado.
+                          Se o cliente responder antes disso, o envio serÃ¡ cancelado automaticamente pela IA.
                         </p>
                       </div>
                     </div>
@@ -933,7 +933,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
                     <div className="flex flex-col items-center justify-center py-20 text-center bg-white dark:bg-gray-950 border border-slate-100 dark:border-white/5 rounded-xl">
                       <CalendarClock className="mb-4 h-12 w-12 text-slate-300 dark:text-slate-700" />
                       <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Sem Follow-up Agendado</h4>
-                      <p className="text-sm text-slate-500 mb-6 max-w-xs">Mantenha o lead engajado agendando um retorno automático inteligente.</p>
+                      <p className="text-sm text-slate-500 mb-6 max-w-xs">Mantenha o lead engajado agendando um retorno automÃ¡tico inteligente.</p>
                       <button
                         onClick={() => {
                           if (setFollowUpDealId) {
@@ -999,7 +999,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
                 <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
                   <div className="bg-slate-50 dark:bg-black/20 p-4 rounded-xl border border-slate-200 dark:border-white/10">
                     <h3 className="text-sm font-bold text-slate-700 dark:text-white mb-3 flex items-center gap-2">
-                      <Package size={16} /> Adicionar Produto/Serviço
+                      <Package size={16} /> Adicionar Produto/ServiÃ§o
                     </h3>
                     <div className="flex gap-3">
                       <select
@@ -1032,7 +1032,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
 
                     <div className="mt-3 flex items-center justify-between gap-3">
                       <div className="text-xs text-slate-500 dark:text-slate-400">
-                        Produto depende do cliente? Use um item personalizado (não precisa estar no catálogo).
+                        Produto depende do cliente? Use um item personalizado (nÃ£o precisa estar no catÃ¡logo).
                       </div>
                       <button
                         type="button"
@@ -1051,12 +1051,12 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
                             <input
                               value={customItemName}
                               onChange={e => setCustomItemName(e.target.value)}
-                              placeholder="Ex.: Pacote personalizado, Procedimento X…"
+                              placeholder="Ex.: Pacote personalizado, Procedimento Xâ€¦"
                               className="w-full bg-white dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary-500 dark:text-white"
                             />
                           </div>
                           <div className="sm:col-span-3">
-                            <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Preço</label>
+                            <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">PreÃ§o</label>
                             <input
                               value={customItemPrice}
                               onChange={e => setCustomItemPrice(e.target.value)}
@@ -1094,7 +1094,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
                         <tr>
                           <th className="px-4 py-3">Item</th>
                           <th className="px-4 py-3 w-20 text-center">Qtd</th>
-                          <th className="px-4 py-3 w-32 text-right">Preço Unit.</th>
+                          <th className="px-4 py-3 w-32 text-right">PreÃ§o Unit.</th>
                           <th className="px-4 py-3 w-32 text-right">Total</th>
                           <th className="px-4 py-3 w-10"></th>
                         </tr>
@@ -1103,7 +1103,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
                         {!deal.items || deal.items.length === 0 ? (
                           <tr>
                             <td colSpan={5} className="px-4 py-8 text-center text-slate-500 italic">
-                              Nenhum produto adicionado. O valor do negócio é manual.
+                              Nenhum produto adicionado. O valor do negÃ³cio Ã© manual.
                             </td>
                           </tr>
                         ) : (
@@ -1164,7 +1164,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
                           Insights Gemini
                         </h3>
                         <p className="text-xs text-slate-500 dark:text-slate-400">
-                          Inteligência Artificial aplicada ao negócio
+                          InteligÃªncia Artificial aplicada ao negÃ³cio
                         </p>
                       </div>
                     </div>
@@ -1185,7 +1185,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
                             {dealBoard.agentPersona?.name}
                           </p>
                           <p className="text-xs text-slate-500 dark:text-slate-400">
-                            {dealBoard.agentPersona?.role} • Foco: {dealBoard.goal?.kpi || 'Geral'}
+                            {dealBoard.agentPersona?.role} â€¢ Foco: {dealBoard.goal?.kpi || 'Geral'}
                           </p>
                         </div>
                       </div>
@@ -1201,7 +1201,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
                         ) : (
                           <BrainCircuit size={16} />
                         )}
-                        Analisar Negócio
+                        Analisar NegÃ³cio
                       </button>
                       <button
                         onClick={handleDraftEmail}
@@ -1220,7 +1220,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
                       <div className="bg-white/80 dark:bg-black/40 backdrop-blur-md p-4 rounded-lg border border-primary-100 dark:border-primary-500/20 mb-4">
                         <div className="flex justify-between mb-2 border-b border-primary-100 dark:border-white/5 pb-2">
                           <span className="text-xs font-bold text-primary-700 dark:text-primary-300 uppercase tracking-wider">
-                            Sugestão
+                            SugestÃ£o
                           </span>
                           <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-500/10 px-2 rounded">
                             {aiResult.score}% Chance
@@ -1253,7 +1253,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
                           Objection Killer
                         </h3>
                         <p className="text-xs text-slate-500 dark:text-slate-400">
-                          O cliente está difícil? A IA te ajuda a negociar.
+                          O cliente estÃ¡ difÃ­cil? A IA te ajuda a negociar.
                         </p>
                       </div>
                     </div>
@@ -1262,7 +1262,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
                       <input
                         type="text"
                         className="flex-1 bg-white dark:bg-white/5 border border-rose-200 dark:border-rose-500/20 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-rose-500 dark:text-white"
-                        placeholder="Ex: 'Achamos o preço muito alto' ou 'Preciso falar com meu sócio'"
+                        placeholder="Ex: 'Achamos o preÃ§o muito alto' ou 'Preciso falar com meu sÃ³cio'"
                         value={objection}
                         onChange={e => setObjection(e.target.value)}
                       />
@@ -1306,8 +1306,8 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
         isOpen={Boolean(deleteId)}
         onClose={() => setDeleteId(null)}
         onConfirm={confirmDeleteDeal}
-        title="Excluir Negócio"
-        message="Tem certeza que deseja excluir este negócio? Esta ação não pode ser desfeita."
+        title="Excluir NegÃ³cio"
+        message="Tem certeza que deseja excluir este negÃ³cio? Esta aÃ§Ã£o nÃ£o pode ser desfeita."
         confirmText="Excluir"
         variant="danger"
       />
@@ -1363,7 +1363,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
 
   if (isMobile) {
     return (
-      <DealSheet isOpen={isOpen} onClose={onClose} ariaLabel={`Negócio: ${deal.title}`}>
+      <DealSheet isOpen={isOpen} onClose={onClose} ariaLabel={`NegÃ³cio: ${deal.title}`}>
         <div onKeyDown={handleKeyDown}>{inner}</div>
       </DealSheet>
     );
@@ -1373,7 +1373,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
     <FocusTrap active={isOpen} onEscape={onClose}>
       <div
         // Backdrop + positioning wrapper. Clicking outside the panel should close the modal.
-        // No desktop, este modal não deve cobrir a sidebar de navegação.
+        // No desktop, este modal nÃ£o deve cobrir a sidebar de navegaÃ§Ã£o.
         // Em md+ deslocamos o overlay pela largura da sidebar via `--app-sidebar-width`.
         className="fixed inset-0 md:left-[var(--app-sidebar-width,0px)] z-[9999] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4"
         role="dialog"
