@@ -50,53 +50,67 @@ export class GoogleSheetsClient {
   }
 
   /**
-   * Reads all leads from the Google Sheet
-   * @returns Array of leads with all fields
+   * Reads all leads from ALL sheets in the Google Spreadsheet
+   * Each sheet represents a different property/campaign
+   * @returns Array of leads with all fields from all sheets
    */
   async getLeads(): Promise<Lead[]> {
     try {
-      // Get spreadsheet info to find the first sheet name
+      // Get spreadsheet info to find ALL sheet names
       const spreadsheet = await this.sheets.spreadsheets.get({
         spreadsheetId: this.spreadsheetId,
       });
 
-      const firstSheet = spreadsheet.data.sheets?.[0]?.properties?.title;
-      if (!firstSheet) {
+      const sheets = spreadsheet.data.sheets;
+      if (!sheets || sheets.length === 0) {
         throw new Error('No sheets found in spreadsheet');
       }
 
-      // Read all data from the first sheet
-      const response = await this.sheets.spreadsheets.values.get({
-        spreadsheetId: this.spreadsheetId,
-        range: `${firstSheet}!A:Z`, // Read all columns
-      });
+      const allLeads: Lead[] = [];
 
-      const rows = response.data.values;
-      if (!rows || rows.length === 0) {
-        return [];
-      }
+      // Process each sheet
+      for (const sheet of sheets) {
+        const sheetName = sheet.properties?.title;
+        if (!sheetName) continue;
 
-      // First row contains headers
-      const headers = rows[0];
+        console.log(`[Google Sheets] Reading sheet: ${sheetName}`);
 
-      // Map rows to Lead objects
-      const leads: Lead[] = [];
-      for (let i = 1; i < rows.length; i++) {
-        const row = rows[i];
-        const lead: any = {};
+        // Read all data from this sheet
+        const response = await this.sheets.spreadsheets.values.get({
+          spreadsheetId: this.spreadsheetId,
+          range: `${sheetName}!A:Z`, // Read all columns
+        });
 
-        for (let j = 0; j < headers.length; j++) {
-          const header = headers[j];
-          lead[header] = row[j] || '';
+        const rows = response.data.values;
+        if (!rows || rows.length === 0) {
+          console.log(`[Google Sheets] Sheet "${sheetName}" is empty, skipping`);
+          continue;
         }
 
-        // Only add if it has an id (required field)
-        if (lead.id) {
-          leads.push(lead as Lead);
+        // First row contains headers
+        const headers = rows[0];
+
+        // Map rows to Lead objects
+        for (let i = 1; i < rows.length; i++) {
+          const row = rows[i];
+          const lead: any = {};
+
+          for (let j = 0; j < headers.length; j++) {
+            const header = headers[j];
+            lead[header] = row[j] || '';
+          }
+
+          // Only add if it has an id (required field)
+          if (lead.id) {
+            allLeads.push(lead as Lead);
+          }
         }
+
+        console.log(`[Google Sheets] Sheet "${sheetName}": found ${rows.length - 1} rows, ${allLeads.length} total leads so far`);
       }
 
-      return leads;
+      console.log(`[Google Sheets] Total leads from all sheets: ${allLeads.length}`);
+      return allLeads;
     } catch (error) {
       console.error('Error reading Google Sheets:', error);
       throw error;
