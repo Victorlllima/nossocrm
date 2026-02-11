@@ -128,7 +128,7 @@ Vi que você demonstrou interesse na ${leadData.empreendimento} através do noss
 
 Conseguiu analisar as informações, fotos e características do imóvel? 
 
-Estou à disposição para esclarecer todas as suas dúvidas! Se quiser, posso ligar para passar maiores informações`;
+Estou à disposição para esclarecer todas as suas dúvidas! Se quiser, posso ligar para passar maiores informações.`;
 
     return this.sendMessage(leadData.telefone, message);
   }
