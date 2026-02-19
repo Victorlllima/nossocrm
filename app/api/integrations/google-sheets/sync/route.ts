@@ -270,11 +270,37 @@ export async function POST(request: NextRequest) {
 
         // 6. Contato Lead (SEMPRE envia, seja lead novo ou reincidente)
         // Cliente recebe mensagem sobre o novo imóvel de interesse
-        await evolutionClient.sendInitialContactToLead({
+        const contactResponse = await evolutionClient.sendInitialContactToLead({
           nome: lead.full_name,
           telefone: targetLeadPhone!,
           empreendimento: lead.form_name,
         });
+
+        if (contactResponse.success) {
+          // Log message to dialogos for N8N context
+          const sentMessageContent = `Olá, ${lead.full_name}! 👋\n\nTudo bem? Aqui é o assistente digital do Max Lima, da RE/MAX.\n\nVi que você demonstrou interesse na ${lead.form_name} através do nosso formulário. Muito obrigado pelo contato!\n\nConseguiu analisar as informações, fotos e características do imóvel? \n\nEstou à disposição para esclarecer todas as suas dúvidas! Se quiser, posso ligar para passar maiores informações.`;
+
+          await supabase.from('dialogos').insert({
+            session_id: `${targetLeadPhone}_memory`,
+            message: {
+              type: 'ai',
+              content: sentMessageContent,
+              additional_kwargs: {},
+              response_metadata: {}
+            }
+          });
+        }
+
+        // 7. Cópia do Contato para Red (Auditoria)
+        // Se estiver em produção, mandamos uma cópia explicita para auditoria
+        if (!IS_HML && RED_AUDIT_PHONE) {
+          console.log(`[Google Sheets Sync] Enviando cópia de auditoria para: ${RED_AUDIT_PHONE}`);
+          await evolutionClient.sendInitialContactToLead({
+            nome: `${lead.full_name} (AUDITORIA)`,
+            telefone: RED_AUDIT_PHONE,
+            empreendimento: lead.form_name,
+          });
+        }
 
         results.imported++;
       } catch (error) {
