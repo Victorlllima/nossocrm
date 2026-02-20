@@ -104,6 +104,11 @@ export async function POST(request: NextRequest) {
 
     for (const lead of newLeads) {
       try {
+        // Normalizar o número extraído do Google Sheets: remover tudo que não for dígito.
+        // O Lead Adelice Coelho chegou com 'p:+554284218951', causando erro na Evolution API.
+        const sanitizedPhone = lead.phone_number?.replace(/\D/g, '') || '';
+        lead.phone_number = sanitizedPhone;
+
         // 1. Criar ou buscar contato
         const { data: existingContact } = await supabase
           .from('contacts')
@@ -169,27 +174,51 @@ export async function POST(request: NextRequest) {
           content: aiSummary,
         });
 
-        // 5. Notificação Max (Interceptada se HML)
-        const targetMaxNumbers = IS_HML ? [RED_TEST_PHONE] : [MAX_REAL_PHONE];
+        // Configurações de Produção com Auditoria (Red)
+        const RED_AUDIT_PHONE = '5561992978796';
+        const MAX_REAL_PHONE = '5561990445393';
 
-        console.log(`[Google Sheets Sync] Notificando Max em: ${targetMaxNumbers.join(', ')} (HML: ${IS_HML})`);
+        // 5. Notificação Max + Cópia para Red (Auditoria)
+        const targetMaxNumbers = [MAX_REAL_PHONE, RED_AUDIT_PHONE];
+
+        console.log(`[Google Sheets Sync] Notificando Max e Auditoria: ${targetMaxNumbers.join(', ')}`);
 
         await evolutionClient.sendLeadNotificationToMax({
           nome: lead.full_name,
           telefone: lead.phone_number,
           empreendimento: lead.form_name,
           data: new Date(lead.created_time).toLocaleString('pt-BR'),
-          respostas: `Importado via Planilha\n${IS_HML ? '🧪 MODO CONFERÊNCIA RED' : ''}`,
+          respostas: `Importado via Planilha\n🔍 MODO AUDITORIA ATIVO`,
         }, targetMaxNumbers);
 
-        // 6. Contato Lead (Interceptado se HML)
-        const targetLeadPhone = IS_HML ? RED_TEST_PHONE : lead.phone_number;
-
-        console.log(`[Google Sheets Sync] Enviando contato para Lead em: ${targetLeadPhone} (Original: ${lead.phone_number})`);
-
-        await evolutionClient.sendInitialContactToLead({
+        // 6. Contato Lead Real
+        console.log(`[Google Sheets Sync] Enviando contato real para: ${lead.phone_number}`);
+        const realContactResponse = await evolutionClient.sendInitialContactToLead({
           nome: lead.full_name,
-          telefone: targetLeadPhone,
+          telefone: lead.phone_number,
+          empreendimento: lead.form_name,
+        });
+
+        if (realContactResponse.success) {
+          // Log message to dialogos for N8N context
+          const sentMessageContent = `Olá, ${lead.full_name}! 👋\n\nTudo bem? Aqui é o assistente digital do Max Lima, da RE/MAX.\n\nVi que você demonstrou interesse na ${lead.form_name} através do nosso formulário. Muito obrigado pelo contato!\n\nConseguiu analisar as informações, fotos e características do imóvel? \n\nEstou à disposição para esclarecer todas as suas dúvidas! Se quiser, posso ligar para passar maiores informações.`;
+
+          await supabase.from('dialogos').insert({
+            session_id: `${lead.phone_number}_memory`,
+            message: {
+              type: 'ai',
+              content: sentMessageContent,
+              additional_kwargs: {},
+              response_metadata: {}
+            }
+          });
+        }
+
+        // 7. Cópia do Contato para Red (Auditoria)
+        console.log(`[Google Sheets Sync] Enviando cópia de auditoria para: ${RED_AUDIT_PHONE}`);
+        await evolutionClient.sendInitialContactToLead({
+          nome: `${lead.full_name} (AUDITORIA)`,
+          telefone: RED_AUDIT_PHONE,
           empreendimento: lead.form_name,
         });
 
