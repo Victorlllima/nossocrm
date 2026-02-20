@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { isAllowedOrigin } from '@/lib/security/sameOrigin';
 import { runSchemaMigration } from '@/lib/installer/migrations';
 import { bootstrapInstance } from '@/lib/installer/supabase';
@@ -66,7 +66,7 @@ function updateStep(steps: Step[], id: string, status: StepStatus, message?: str
 /**
  * Handler HTTP `POST` deste endpoint (Next.js Route Handler).
  *
- * @param {Request} req - Objeto da requisição.
+ * @param {Request} req - Objeto da requisiÃ§Ã£o.
  * @returns {Promise<Response>} Retorna um valor do tipo `Promise<Response>`.
  */
 export async function POST(req: Request) {
@@ -122,7 +122,7 @@ export async function POST(req: Request) {
     const needsKeys = !resolvedAnonKey || !resolvedServiceRoleKey;
     const needsDb = !resolvedDbUrl;
 
-    // “100% mágico”: se não existir nenhuma Edge Function no repo, não exigir PAT só por deploy.
+    // â€œ100% mÃ¡gicoâ€: se nÃ£o existir nenhuma Edge Function no repo, nÃ£o exigir PAT sÃ³ por deploy.
     const localEdgeFunctionSlugs = supabase.deployEdgeFunctions
       ? await listEdgeFunctionSlugs()
       : [];

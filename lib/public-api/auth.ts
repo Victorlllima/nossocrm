@@ -1,4 +1,4 @@
-import { createClient as createSupabaseClient } from '@supabase/supabase-js';
+﻿import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 
 export type PublicApiAuthResult =
   | { ok: true; organizationId: string; organizationName: string; apiKeyId: string; apiKeyPrefix: string }

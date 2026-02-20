@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';
 
@@ -9,7 +9,7 @@ function html(specUrl: string) {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Max Lima Public API — Swagger</title>
+    <title>Max Lima Public API â€” Swagger</title>
     <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css" />
     <style>
       :root {
@@ -75,7 +75,7 @@ function html(specUrl: string) {
         box-shadow: none;
       }
 
-      /* Schemas (Models) — make it less "old tool" */
+      /* Schemas (Models) â€” make it less "old tool" */
       .swagger-ui section.models {
         background: var(--card);
         border: 1px solid var(--border);

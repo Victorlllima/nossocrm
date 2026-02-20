@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { User, Building2 } from 'lucide-react';
 
 interface ContactsTabsProps {
@@ -16,7 +16,7 @@ interface ContactsTabsProps {
     setViewMode,
     contactsCount,
     companiesCount
-} - Parâmetro `{
+} - ParÃ¢metro `{
     viewMode,
     setViewMode,
     contactsCount,

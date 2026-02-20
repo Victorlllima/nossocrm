@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import { DealDetailModal } from '@/features/boards/components/Modals/DealDetailModal';
 import { runStorySteps } from './storyRunner';
 
-// Story: US-001 — Abrir um deal no Boards
+// Story: US-001 â€” Abrir um deal no Boards
 // User Story: Abrir deal no Boards sem crash
 
 vi.mock('@/hooks/useResponsiveMode', () => ({
@@ -75,12 +75,12 @@ vi.mock('@/context/CRMContext', () => ({
 
     const deal = {
       id: 'deal-1',
-      title: 'Pequeno Chapéu',
+      title: 'Pequeno ChapÃ©u',
       value: 1000,
       status: 'stage-1',
       boardId: 'board-1',
       contactId: 'contact-1',
-      companyName: 'Moreira Comércio',
+      companyName: 'Moreira ComÃ©rcio',
       contactName: 'Fulano',
       contactEmail: 'fulano@example.com',
       createdAt: new Date().toISOString(),
@@ -115,8 +115,8 @@ vi.mock('@/context/CRMContext', () => ({
   },
 }));
 
-describe('Story — US-001: Abrir deal no Boards', () => {
-  it('simula a história e garante que não quebra', async () => {
+describe('Story â€” US-001: Abrir deal no Boards', () => {
+  it('simula a histÃ³ria e garante que nÃ£o quebra', async () => {
     const user = userEvent.setup();
 
     const Harness = ({ open }: { open: boolean }) => (
@@ -135,7 +135,7 @@ describe('Story — US-001: Abrir deal no Boards', () => {
     rerender(<Harness open={true} />);
 
     await runStorySteps(user, [
-      { kind: 'expectText', text: 'Pequeno Chapéu' },
+      { kind: 'expectText', text: 'Pequeno ChapÃ©u' },
       { kind: 'expectNotText', text: /Application error/i },
     ]);
 

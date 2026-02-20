@@ -1,4 +1,4 @@
-import { randomUUID } from 'node:crypto';
+﻿import { randomUUID } from 'node:crypto';
 import { getRunId } from './runId';
 import { assertNoSupabaseError, getSupabaseAdminClient, requireSupabaseData, withSupabaseRetry } from './supabaseAdmin';
 
@@ -53,10 +53,10 @@ export type SalesTeamFixtureBundle = {
 export class AuthAdminUnavailableError extends Error {
   name = 'AuthAdminUnavailableError';
     /**
-   * Constrói uma instância de `AuthAdminUnavailableError`.
+   * ConstrÃ³i uma instÃ¢ncia de `AuthAdminUnavailableError`.
    *
-   * @param {string} message - Parâmetro `message`.
-   * @returns {void} Não retorna valor.
+   * @param {string} message - ParÃ¢metro `message`.
+   * @returns {void} NÃ£o retorna valor.
    */
 constructor(message: string) {
     super(message);
@@ -127,8 +127,8 @@ async function pickExistingSalesTeam(params: {
     .from('profiles')
     .select('id, email, role, first_name, nickname, organization_id')
     .not('organization_id', 'is', null)
-    // Pegamos bastante gente para aumentar a chance de encontrar uma org com vários usuários.
-    // Em ambientes reais isso ainda pode ser limitado, então há fallback abaixo.
+    // Pegamos bastante gente para aumentar a chance de encontrar uma org com vÃ¡rios usuÃ¡rios.
+    // Em ambientes reais isso ainda pode ser limitado, entÃ£o hÃ¡ fallback abaixo.
     .limit(5000);
 
   if (error) {
@@ -156,7 +156,7 @@ async function pickExistingSalesTeam(params: {
   const best = sorted[0];
   if (!best) {
     throw new AuthAdminUnavailableError(
-      `Não encontrei nenhum profile com organization_id em public.profiles (preciso de usuários já existentes).`,
+      `NÃ£o encontrei nenhum profile com organization_id em public.profiles (preciso de usuÃ¡rios jÃ¡ existentes).`,
     );
   }
 
@@ -164,7 +164,7 @@ async function pickExistingSalesTeam(params: {
 
   if (params.strict && list.length < params.minUsers) {
     throw new AuthAdminUnavailableError(
-      `Encontrei organization_id=${organizationId} com apenas ${list.length} usuários em public.profiles, mas o mínimo exigido é ${params.minUsers} (modo strict).`,
+      `Encontrei organization_id=${organizationId} com apenas ${list.length} usuÃ¡rios em public.profiles, mas o mÃ­nimo exigido Ã© ${params.minUsers} (modo strict).`,
     );
   }
 
@@ -185,7 +185,7 @@ async function pickExistingSalesTeam(params: {
 }
 
 // Obs: evitamos criar auth.users aqui porque em alguns projetos o endpoint Admin retorna 500.
-// A suíte foca em usar perfis já existentes.
+// A suÃ­te foca em usar perfis jÃ¡ existentes.
 
 async function createContact(params: {
   organizationId: string;
@@ -279,7 +279,7 @@ async function createActivity(params: {
 }
 
 /**
- * Função pública `createSalesTeamFixtures` do projeto.
+ * FunÃ§Ã£o pÃºblica `createSalesTeamFixtures` do projeto.
  * @returns {Promise<SalesTeamFixtureBundle>} Retorna um valor do tipo `Promise<SalesTeamFixtureBundle>`.
  */
 export async function createSalesTeamFixtures(): Promise<SalesTeamFixtureBundle> {
@@ -288,7 +288,7 @@ export async function createSalesTeamFixtures(): Promise<SalesTeamFixtureBundle>
   const minUsers = Number(process.env.SALES_TEAM_MIN_USERS || 5);
   const strict = String(process.env.SALES_TEAM_STRICT || '').toLowerCase() === 'true';
 
-  // Construímos de forma incremental para conseguir cleanup best-effort caso algo falhe.
+  // ConstruÃ­mos de forma incremental para conseguir cleanup best-effort caso algo falhe.
   const fx: SalesTeamFixtureBundle = {
     runId,
     organizationId: '',
@@ -322,7 +322,7 @@ export async function createSalesTeamFixtures(): Promise<SalesTeamFixtureBundle>
       const stageIds = await createDefaultStages({ organizationId: fx.organizationId, boardId });
       fx.boardsByUserId[user.userId] = { boardId, stageIds };
 
-      // Alguns projetos têm restrição de unicidade de (contact, stage) para deals.
+      // Alguns projetos tÃªm restriÃ§Ã£o de unicidade de (contact, stage) para deals.
       // Para evitar conflito ao criar 3 deals "semente" por vendedor, criamos contatos distintos.
       const openContact = await createContact({
         organizationId: fx.organizationId,
@@ -431,9 +431,9 @@ export async function createSalesTeamFixtures(): Promise<SalesTeamFixtureBundle>
 }
 
 /**
- * Função pública `cleanupSalesTeamFixtures` do projeto.
+ * FunÃ§Ã£o pÃºblica `cleanupSalesTeamFixtures` do projeto.
  *
- * @param {SalesTeamFixtureBundle} fx - Parâmetro `fx`.
+ * @param {SalesTeamFixtureBundle} fx - ParÃ¢metro `fx`.
  * @returns {Promise<void>} Retorna uma Promise resolvida sem valor.
  */
 export async function cleanupSalesTeamFixtures(fx: SalesTeamFixtureBundle): Promise<void> {
@@ -445,7 +445,7 @@ export async function cleanupSalesTeamFixtures(fx: SalesTeamFixtureBundle): Prom
   // Cascata segura por boardIds
   // ---
   // As tools do CRM podem criar itens adicionais durante o teste (ex.: createDeal, createTask,
-  // logActivity, addDealNote). Para evitar deixar lixo e também evitar erro de FK ao remover
+  // logActivity, addDealNote). Para evitar deixar lixo e tambÃ©m evitar erro de FK ao remover
   // stages/boards, apagamos TUDO que estiver ligado aos boards criados neste run.
   let dealIdsByBoard: string[] = [];
   if (boardIds.length) {
@@ -491,7 +491,7 @@ export async function cleanupSalesTeamFixtures(fx: SalesTeamFixtureBundle): Prom
       'delete deals (by board ids)',
     );
   } else {
-    // Fallback (melhor esforço) para os IDs explícitos criados no fixture
+    // Fallback (melhor esforÃ§o) para os IDs explÃ­citos criados no fixture
     if (fx.created.activityIds.length) {
       await supabase.from('activities').delete().eq('organization_id', fx.organizationId).in('id', fx.created.activityIds);
     }
@@ -529,7 +529,7 @@ export async function cleanupSalesTeamFixtures(fx: SalesTeamFixtureBundle): Prom
     );
   }
 
-  // Modo auth-users (legado): se algum dia voltarmos a criar org/usuários, a limpeza abaixo vale.
+  // Modo auth-users (legado): se algum dia voltarmos a criar org/usuÃ¡rios, a limpeza abaixo vale.
   if (fx.created.organizationCreated) {
     assertNoSupabaseError(
       await supabase.from('organization_settings').delete().eq('organization_id', fx.organizationId),

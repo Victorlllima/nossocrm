@@ -1,4 +1,4 @@
-export type ResponsiveMode = 'mobile' | 'tablet' | 'desktop';
+﻿export type ResponsiveMode = 'mobile' | 'tablet' | 'desktop';
 
 /**
  * Tailwind-ish breakpoints used by the app shell.

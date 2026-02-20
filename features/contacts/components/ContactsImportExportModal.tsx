@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+﻿import React, { useMemo, useState } from 'react';
 import { Download, Upload, FileDown } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { useToast } from '@/context/ToastContext';
@@ -154,7 +154,7 @@ export function ContactsImportExportModal(props: {
       setImportResult(data);
       const totals = data?.totals;
       toast?.(
-        `Import concluído: ${totals?.created ?? 0} criados, ${totals?.updated ?? 0} atualizados, ${totals?.skipped ?? 0} ignorados, ${totals?.errors ?? 0} erros.`,
+        `Import concluÃ­do: ${totals?.created ?? 0} criados, ${totals?.updated ?? 0} atualizados, ${totals?.skipped ?? 0} ignorados, ${totals?.errors ?? 0} erros.`,
         (totals?.errors ?? 0) > 0 ? 'warning' : 'success'
       );
     } catch (e) {
@@ -208,8 +208,8 @@ export function ContactsImportExportModal(props: {
             className="text-sm rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 px-2 py-1"
           >
             <option value="auto">Auto</option>
-            <option value=",">, (vírgula)</option>
-            <option value=";">; (ponto e vírgula)</option>
+            <option value=",">, (vÃ­rgula)</option>
+            <option value=";">; (ponto e vÃ­rgula)</option>
             <option value="\t">TAB</option>
           </select>
         </div>
@@ -222,7 +222,7 @@ export function ContactsImportExportModal(props: {
               Exportar contatos (CSV)
             </div>
             <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-              Padrão de mercado: exportar a lista respeitando filtros/pesquisa/ordenação atuais.
+              PadrÃ£o de mercado: exportar a lista respeitando filtros/pesquisa/ordenaÃ§Ã£o atuais.
             </div>
           </div>
 
@@ -240,7 +240,7 @@ export function ContactsImportExportModal(props: {
                 : 'bg-primary-600 hover:bg-primary-700 text-white'
             }`}
           >
-            <FileDown size={16} /> {isExporting ? 'Gerando…' : 'Exportar CSV'}
+            <FileDown size={16} /> {isExporting ? 'Gerandoâ€¦' : 'Exportar CSV'}
           </button>
         </div>
       )}
@@ -252,7 +252,7 @@ export function ContactsImportExportModal(props: {
               Importar contatos (CSV)
             </div>
             <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-              Padrão de mercado: upload → validação → dedupe (por email) → resumo + relatório de erros.
+              PadrÃ£o de mercado: upload â†’ validaÃ§Ã£o â†’ dedupe (por email) â†’ resumo + relatÃ³rio de erros.
             </div>
           </div>
 
@@ -299,7 +299,7 @@ export function ContactsImportExportModal(props: {
                   checked={mode === 'skip_duplicates_by_email'}
                   onChange={() => setMode('skip_duplicates_by_email')}
                 />
-                Ignorar linhas com email já existente
+                Ignorar linhas com email jÃ¡ existente
               </label>
               <label className="flex items-center gap-2">
                 <input
@@ -327,9 +327,9 @@ export function ContactsImportExportModal(props: {
             </span>
           </label>
           <div className="text-xs text-slate-500 dark:text-slate-400 pl-7">
-            Quando marcado: se o CSV vier com o nome da empresa e ela ainda não existir no CRM, nós criamos a empresa e vinculamos o contato.
+            Quando marcado: se o CSV vier com o nome da empresa e ela ainda nÃ£o existir no CRM, nÃ³s criamos a empresa e vinculamos o contato.
             <br />
-            Quando desmarcado: não criamos empresas — se a empresa não existir, o contato entra <b>sem vínculo</b> de empresa.
+            Quando desmarcado: nÃ£o criamos empresas â€” se a empresa nÃ£o existir, o contato entra <b>sem vÃ­nculo</b> de empresa.
           </div>
           </div>
 
@@ -344,16 +344,16 @@ export function ContactsImportExportModal(props: {
                   : 'bg-primary-600 hover:bg-primary-700 text-white'
               }`}
             >
-              <Upload size={16} /> {isImporting ? 'Importando…' : 'Importar'}
+              <Upload size={16} /> {isImporting ? 'Importandoâ€¦' : 'Importar'}
             </button>
           </div>
 
           {importResult && (
             <div className="rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-black/30 p-3 space-y-2">
               <div className="text-xs text-slate-600 dark:text-slate-300">
-                <b>Resumo:</b> {importResult.totals?.created ?? 0} criados •{' '}
-                {importResult.totals?.updated ?? 0} atualizados •{' '}
-                {importResult.totals?.skipped ?? 0} ignorados •{' '}
+                <b>Resumo:</b> {importResult.totals?.created ?? 0} criados â€¢{' '}
+                {importResult.totals?.updated ?? 0} atualizados â€¢{' '}
+                {importResult.totals?.skipped ?? 0} ignorados â€¢{' '}
                 {importResult.totals?.errors ?? 0} erros
               </div>
               {(importResult.totals?.errors ?? 0) > 0 && (
@@ -362,7 +362,7 @@ export function ContactsImportExportModal(props: {
                   onClick={handleDownloadErrorReport}
                   className="text-xs font-semibold text-primary-700 dark:text-primary-300 hover:underline w-fit"
                 >
-                  Baixar relatório de erros (CSV)
+                  Baixar relatÃ³rio de erros (CSV)
                 </button>
               )}
             </div>

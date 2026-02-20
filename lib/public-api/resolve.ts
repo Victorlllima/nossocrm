@@ -1,4 +1,4 @@
-import { createStaticAdminClient } from '@/lib/supabase/server';
+﻿import { createStaticAdminClient } from '@/lib/supabase/server';
 import { isValidUUID, sanitizeUUID } from '@/lib/supabase/utils';
 
 export async function resolveBoardId(opts: { organizationId: string; boardKeyOrId: string }) {

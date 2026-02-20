@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import { authPublicApi } from '@/lib/public-api/auth';
 import { createStaticAdminClient } from '@/lib/supabase/server';
 import { buildCrmMcpRegistry } from '@/lib/mcp/crmRegistry';
@@ -129,7 +129,7 @@ export async function POST(request: Request) {
       name: t.name,
       title: t.title,
       description: t.description,
-      inputSchema: zodToJsonSchema2020(t.inputSchemaZod),
+      parameters: zodToJsonSchema2020(t.inputSchemaZod),
     }));
 
     return NextResponse.json(jsonRpcResult(body.id, { tools }));

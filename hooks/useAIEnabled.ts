@@ -1,8 +1,8 @@
-/**
- * useAIEnabled Hook - Verifica se IA está habilitada
+﻿/**
+ * useAIEnabled Hook - Verifica se IA estÃ¡ habilitada
  * 
- * SIMPLIFICADO: IA está habilitada se o usuário configurou uma API Key.
- * A ação de adicionar a key = consentimento implícito (LGPD compliant).
+ * SIMPLIFICADO: IA estÃ¡ habilitada se o usuÃ¡rio configurou uma API Key.
+ * A aÃ§Ã£o de adicionar a key = consentimento implÃ­cito (LGPD compliant).
  * 
  * @example
  * const { isAIEnabled, goToSettings } = useAIEnabled();
@@ -17,18 +17,18 @@ import { useRouter } from 'next/navigation';
 import { useCRM } from '@/context/CRMContext';
 
 export interface UseAIEnabledResult {
-  /** Se a IA está habilitada (tem API Key configurada) */
+  /** Se a IA estÃ¡ habilitada (tem API Key configurada) */
   isAIEnabled: boolean;
   /** A API Key configurada */
   apiKey: string | null;
   /** Provider configurado (google, openai, anthropic) */
   provider: 'google' | 'openai' | 'anthropic';
-  /** Navega para as configurações de IA */
+  /** Navega para as configuraÃ§Ãµes de IA */
   goToSettings: () => void;
 }
 
 /**
- * Hook React `useAIEnabled` que encapsula uma lógica reutilizável.
+ * Hook React `useAIEnabled` que encapsula uma lÃ³gica reutilizÃ¡vel.
  * @returns {UseAIEnabledResult} Retorna um valor do tipo `UseAIEnabledResult`.
  */
 export function useAIEnabled(): UseAIEnabledResult {

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Zod v4 ships a built-in `toJSONSchema()` method that outputs JSON Schema 2020-12.
  *
  * MCP requires tools to expose an `inputSchema` that is a valid JSON Schema object.

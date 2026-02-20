@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useMemo, useState } from 'react';
 import { getResponsiveMode, type ResponsiveMode } from '@/lib/utils/responsive';

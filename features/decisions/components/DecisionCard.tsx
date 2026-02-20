@@ -1,6 +1,6 @@
-/**
+﻿/**
  * Decision Card Component
- * Card individual para uma decisão na fila
+ * Card individual para uma decisÃ£o na fila
  */
 
 import React, { useState } from 'react';
@@ -72,7 +72,7 @@ const getPriorityBadge = (priority: string) => {
   onReject,
   onSnooze,
   isExecuting = false,
-} - Parâmetro `{
+} - ParÃ¢metro `{
   decision,
   onApprove,
   onReject,
@@ -157,7 +157,7 @@ export const DecisionCard: React.FC<DecisionCardProps> = ({
       <div className="px-4 pb-3">
         <div className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-2 flex items-center gap-1">
           <Target size={12} />
-          Ação sugerida:
+          AÃ§Ã£o sugerida:
         </div>
 
         <div className="p-3 rounded-lg bg-primary-50 dark:bg-primary-500/10 border border-primary-200 dark:border-primary-500/30">

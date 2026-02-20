@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, useRef, useCallback } from 'react';
+﻿import React, { useMemo, useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { getErrorMessage } from '@/lib/utils/errorUtils';
 import { useAuth } from '@/context/AuthContext';
@@ -13,7 +13,7 @@ import { Loader2, User, Mail, Shield, Calendar, Key, Check, Eye, EyeOff, Phone, 
 export const ProfilePage: React.FC = () => {
     const { profile, refreshProfile } = useAuth();
 
-    // Em ambientes onde as variáveis de ambiente não estão configuradas,
+    // Em ambientes onde as variÃ¡veis de ambiente nÃ£o estÃ£o configuradas,
     // nosso helper pode retornar `null` para evitar crash.
     const sb = supabase;
 
@@ -68,7 +68,7 @@ export const ProfilePage: React.FC = () => {
     const displayName = useMemo(() => {
         if (nickname) return nickname;
         if (firstName) return firstName;
-        return profile?.email?.split('@')[0] || 'Usuário';
+        return profile?.email?.split('@')[0] || 'UsuÃ¡rio';
     }, [firstName, nickname, profile?.email]);
 
     const fullName = useMemo(() => {
@@ -96,18 +96,18 @@ export const ProfilePage: React.FC = () => {
         fileInputRef.current?.click();
     }, []);
 
-    // Sem Supabase não há como salvar/atualizar perfil.
+    // Sem Supabase nÃ£o hÃ¡ como salvar/atualizar perfil.
     // Hooks MUST come before early returns (rules-of-hooks).
     if (!sb) {
         return (
             <div className="p-6">
                 <div className="max-w-xl mx-auto bg-white dark:bg-dark-card border border-slate-200 dark:border-white/10 rounded-2xl p-6">
                     <h1 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
-                        Configuração incompleta
+                        ConfiguraÃ§Ã£o incompleta
                     </h1>
                     <p className="text-slate-600 dark:text-slate-300">
-                        O Supabase não está configurado neste ambiente. Verifique as variáveis de ambiente
-                        (URL e ANON KEY) para usar a página de perfil.
+                        O Supabase nÃ£o estÃ¡ configurado neste ambiente. Verifique as variÃ¡veis de ambiente
+                        (URL e ANON KEY) para usar a pÃ¡gina de perfil.
                     </p>
                 </div>
             </div>
@@ -119,14 +119,14 @@ export const ProfilePage: React.FC = () => {
         const file = event.target.files?.[0];
         if (!file || !profile?.id) return;
 
-        // Validações
+        // ValidaÃ§Ãµes
         if (!file.type.startsWith('image/')) {
             setMessage({ type: 'error', text: 'Por favor, selecione uma imagem.' });
             return;
         }
 
         if (file.size > 2 * 1024 * 1024) {
-            setMessage({ type: 'error', text: 'A imagem deve ter no máximo 2MB.' });
+            setMessage({ type: 'error', text: 'A imagem deve ter no mÃ¡ximo 2MB.' });
             return;
         }
 
@@ -134,7 +134,7 @@ export const ProfilePage: React.FC = () => {
         setMessage(null);
 
         try {
-            // Nome único para o arquivo
+            // Nome Ãºnico para o arquivo
             const fileExt = file.name.split('.').pop();
             const fileName = `${profile.id}.${fileExt}`;
             const filePath = `avatars/${fileName}`;
@@ -146,7 +146,7 @@ export const ProfilePage: React.FC = () => {
 
             if (uploadError) throw uploadError;
 
-            // Pega a URL pública
+            // Pega a URL pÃºblica
             const { data: { publicUrl } } = sb.storage
                 .from('avatars')
                 .getPublicUrl(filePath);
@@ -181,7 +181,7 @@ export const ProfilePage: React.FC = () => {
         setMessage(null);
 
         try {
-            // Remove do Storage (ignora erro se não existir)
+            // Remove do Storage (ignora erro se nÃ£o existir)
             await sb.storage
                 .from('avatars')
                 .remove([`avatars/${profile.id}.jpg`, `avatars/${profile.id}.png`, `avatars/${profile.id}.jpeg`]);
@@ -213,7 +213,7 @@ export const ProfilePage: React.FC = () => {
             if (normalizedPhone && !isE164(normalizedPhone)) {
                 setMessage({
                     type: 'error',
-                    text: 'Telefone inválido. Use o formato E.164 (ex.: +5511999999999).',
+                    text: 'Telefone invÃ¡lido. Use o formato E.164 (ex.: +5511999999999).',
                 });
                 return;
             }
@@ -246,12 +246,12 @@ export const ProfilePage: React.FC = () => {
         e.preventDefault();
 
         if (newPassword !== confirmPassword) {
-            setMessage({ type: 'error', text: 'As senhas não coincidem.' });
+            setMessage({ type: 'error', text: 'As senhas nÃ£o coincidem.' });
             return;
         }
 
         if (!isPasswordValid) {
-            setMessage({ type: 'error', text: 'A senha não atende aos requisitos mínimos.' });
+            setMessage({ type: 'error', text: 'A senha nÃ£o atende aos requisitos mÃ­nimos.' });
             return;
         }
 
@@ -286,7 +286,7 @@ export const ProfilePage: React.FC = () => {
             const { error } = await sb.auth.updateUser({ email: newEmail });
             if (error) throw error;
 
-            setMessage({ type: 'success', text: 'E-mail de confirmação enviado para o novo endereço!' });
+            setMessage({ type: 'success', text: 'E-mail de confirmaÃ§Ã£o enviado para o novo endereÃ§o!' });
             setIsChangingEmail(false);
             setNewEmail('');
         } catch (err: any) {
@@ -304,7 +304,7 @@ export const ProfilePage: React.FC = () => {
                     Meu Perfil
                 </h1>
                 <p className="text-slate-500 dark:text-slate-400 mt-2">
-                    Gerencie suas informações pessoais e segurança.
+                    Gerencie suas informaÃ§Ãµes pessoais e seguranÃ§a.
                 </p>
             </div>
 
@@ -354,7 +354,7 @@ export const ProfilePage: React.FC = () => {
                                 )}
                             </div>
 
-                            {/* Botão de remover (só aparece se tem foto) */}
+                            {/* BotÃ£o de remover (sÃ³ aparece se tem foto) */}
                             {avatarUrl && !uploadingAvatar && (
                                 <button
                                     onClick={handleRemoveAvatar}
@@ -408,7 +408,7 @@ export const ProfilePage: React.FC = () => {
                     )}
                 </div>
 
-                {/* Modo de edição */}
+                {/* Modo de ediÃ§Ã£o */}
                 {isEditingProfile ? (
                     <div className="space-y-4 pt-4 border-t border-slate-100 dark:border-white/5">
                         <div className="grid grid-cols-2 gap-4">
@@ -501,7 +501,7 @@ export const ProfilePage: React.FC = () => {
                         </div>
                     </div>
                 ) : (
-                    /* Modo de visualização */
+                    /* Modo de visualizaÃ§Ã£o */
                     <div className="grid gap-4 pt-4 border-t border-slate-100 dark:border-white/5">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3 text-sm">
@@ -576,7 +576,7 @@ export const ProfilePage: React.FC = () => {
                     <div>
                         <h3 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                             <Key className="w-5 h-5 text-slate-400" />
-                            Segurança
+                            SeguranÃ§a
                         </h3>
                         <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
                             Gerencie sua senha de acesso.
@@ -604,7 +604,7 @@ export const ProfilePage: React.FC = () => {
                                     value={newPassword}
                                     onChange={(e) => setNewPassword(e.target.value)}
                                     className="w-full px-4 py-2.5 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-primary-500 transition-all pr-10"
-                                    placeholder="Mínimo 6 caracteres"
+                                    placeholder="MÃ­nimo 6 caracteres"
                                     required
                                     minLength={6}
                                 />
@@ -623,16 +623,16 @@ export const ProfilePage: React.FC = () => {
                                     <p className="text-xs text-slate-500 dark:text-slate-400">Requisitos:</p>
                                     <div className="grid grid-cols-2 gap-1 text-xs">
                                         <span className={passwordRequirements.minLength ? 'text-green-500' : 'text-slate-400'}>
-                                            {passwordRequirements.minLength ? '✓' : '○'} Mínimo 6 caracteres
+                                            {passwordRequirements.minLength ? 'âœ“' : 'â—‹'} MÃ­nimo 6 caracteres
                                         </span>
                                         <span className={passwordRequirements.hasLowercase ? 'text-green-500' : 'text-slate-400'}>
-                                            {passwordRequirements.hasLowercase ? '✓' : '○'} Letra minúscula
+                                            {passwordRequirements.hasLowercase ? 'âœ“' : 'â—‹'} Letra minÃºscula
                                         </span>
                                         <span className={passwordRequirements.hasUppercase ? 'text-green-500' : 'text-slate-400'}>
-                                            {passwordRequirements.hasUppercase ? '✓' : '○'} Letra maiúscula
+                                            {passwordRequirements.hasUppercase ? 'âœ“' : 'â—‹'} Letra maiÃºscula
                                         </span>
                                         <span className={passwordRequirements.hasDigit ? 'text-green-500' : 'text-slate-400'}>
-                                            {passwordRequirements.hasDigit ? '✓' : '○'} Número
+                                            {passwordRequirements.hasDigit ? 'âœ“' : 'â—‹'} NÃºmero
                                         </span>
                                     </div>
                                 </div>
@@ -657,10 +657,10 @@ export const ProfilePage: React.FC = () => {
                                 required
                             />
                             {confirmPassword.length > 0 && newPassword !== confirmPassword && (
-                                <p className="mt-1 text-xs text-red-500">As senhas não coincidem</p>
+                                <p className="mt-1 text-xs text-red-500">As senhas nÃ£o coincidem</p>
                             )}
                             {confirmPassword.length > 0 && newPassword === confirmPassword && (
-                                <p className="mt-1 text-xs text-green-500">✓ Senhas coincidem</p>
+                                <p className="mt-1 text-xs text-green-500">âœ“ Senhas coincidem</p>
                             )}
                         </div>
 
@@ -707,7 +707,7 @@ export const ProfilePage: React.FC = () => {
 
                 {!isChangingPassword && (
                     <div className="text-sm text-slate-500 dark:text-slate-400">
-                        Sua senha está configurada. Clique em "Alterar Senha" para modificá-la.
+                        Sua senha estÃ¡ configurada. Clique em "Alterar Senha" para modificÃ¡-la.
                     </div>
                 )}
             </div>

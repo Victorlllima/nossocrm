@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation';
+﻿import { notFound } from 'next/navigation';
 import DealJobsMockClient from './DealJobsMockClient';
 
 /**
@@ -6,7 +6,7 @@ import DealJobsMockClient from './DealJobsMockClient';
  * Access at: /labs/deal-jobs-mock
  */
 export default function DealJobsMockPage() {
-  // Dev-only. No dev, fica habilitado por padrão (para evitar precisar reiniciar o server ao mexer em .env).
+  // Dev-only. No dev, fica habilitado por padrÃ£o (para evitar precisar reiniciar o server ao mexer em .env).
   // Se quiser desabilitar explicitamente, use: ALLOW_UI_MOCKS_ROUTE=false
   const envFlag = process.env.ALLOW_UI_MOCKS_ROUTE;
   const isEnabled =

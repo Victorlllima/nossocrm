@@ -1,4 +1,4 @@
-import { isAllowedOrigin } from '@/lib/security/sameOrigin';
+﻿import { isAllowedOrigin } from '@/lib/security/sameOrigin';
 import { listEdgeFunctionSlugs, readVerifyJwtBySlug } from '@/lib/installer/edgeFunctions';
 
 function json<T>(body: T, status = 200): Response {

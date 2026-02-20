@@ -1,38 +1,38 @@
-/**
- * @fileoverview Migração de Dados do LocalStorage
+﻿/**
+ * @fileoverview MigraÃ§Ã£o de Dados do LocalStorage
  * 
- * Script de migração one-time para atualizar estrutura de dados
+ * Script de migraÃ§Ã£o one-time para atualizar estrutura de dados
  * legados armazenados em localStorage para o formato atual.
  * 
  * @module utils/migrateLocalStorage
  * 
- * Migrações realizadas:
+ * MigraÃ§Ãµes realizadas:
  * - Converte Leads antigos para Contacts com stage LEAD
- * - Cria Board padrão se não existir
+ * - Cria Board padrÃ£o se nÃ£o existir
  * 
  * @remarks
- * Este script é executado automaticamente na inicialização do app
- * e marca a migração como concluída em localStorage para não
+ * Este script Ã© executado automaticamente na inicializaÃ§Ã£o do app
+ * e marca a migraÃ§Ã£o como concluÃ­da em localStorage para nÃ£o
  * executar novamente.
  */
 
 import { Contact, ContactStage, Lead, Board, DEFAULT_BOARD_STAGES } from '@/types';
 
-/** Chave no localStorage que marca migração como concluída */
+/** Chave no localStorage que marca migraÃ§Ã£o como concluÃ­da */
 const MIGRATION_KEY = 'crm_migration_v1_completed';
 
 /**
- * Executa migração v1 de dados do localStorage
+ * Executa migraÃ§Ã£o v1 de dados do localStorage
  * 
  * Converte estrutura de dados legada para o formato atual:
  * 1. Migra Leads para Contacts com stage=LEAD
- * 2. Garante existência do Board padrão de vendas
+ * 2. Garante existÃªncia do Board padrÃ£o de vendas
  * 
- * A migração só executa uma vez (idempotente).
+ * A migraÃ§Ã£o sÃ³ executa uma vez (idempotente).
  * 
  * @example
  * ```tsx
- * // No início do App
+ * // No inÃ­cio do App
  * useEffect(() => {
  *   migrateLocalStorage();
  * }, []);
@@ -53,7 +53,7 @@ export const migrateLocalStorage = () => {
     if (leads.length > 0) {
       const newContactsFromLeads: Contact[] = leads.map(lead => ({
         id: lead.id,
-        companyId: crypto.randomUUID(), // Gera um ID temporário, idealmente buscaria empresa pelo nome
+        companyId: crypto.randomUUID(), // Gera um ID temporÃ¡rio, idealmente buscaria empresa pelo nome
         name: lead.name,
         email: lead.email,
         phone: '',
@@ -73,11 +73,11 @@ export const migrateLocalStorage = () => {
       // Salva contatos atualizados
       localStorage.setItem('crm_contacts', JSON.stringify(contacts));
 
-      // Limpa leads antigos (opcional, pode manter por segurança)
+      // Limpa leads antigos (opcional, pode manter por seguranÃ§a)
       // localStorage.removeItem('crm_leads'); 
     }
 
-    // 2. Garantir Board Padrão
+    // 2. Garantir Board PadrÃ£o
     const storedBoards = localStorage.getItem('crm_boards');
     if (!storedBoards) {
       const defaultBoard: Board = {
@@ -92,10 +92,10 @@ export const migrateLocalStorage = () => {
       localStorage.setItem('crm_boards', JSON.stringify([defaultBoard]));
     }
 
-    // Marca migração como concluída
+    // Marca migraÃ§Ã£o como concluÃ­da
     localStorage.setItem(MIGRATION_KEY, 'true');
 
   } catch (error) {
-    console.error('Erro na migração v1:', error);
+    console.error('Erro na migraÃ§Ã£o v1:', error);
   }
 };

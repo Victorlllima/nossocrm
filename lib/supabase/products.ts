@@ -1,8 +1,8 @@
-/**
- * @fileoverview Serviço Supabase para catálogo de produtos/serviços.
+﻿/**
+ * @fileoverview ServiÃ§o Supabase para catÃ¡logo de produtos/serviÃ§os.
  *
- * Observação:
- * - O CRM é "adaptável": o catálogo é um acelerador (defaults).
+ * ObservaÃ§Ã£o:
+ * - O CRM Ã© "adaptÃ¡vel": o catÃ¡logo Ã© um acelerador (defaults).
  * - No deal, ainda permitimos itens personalizados (product_id pode ser NULL em deal_items).
  */
 
@@ -66,7 +66,7 @@ function transformProduct(db: DbProduct): Product {
 export const productsService = {
   async getAll(): Promise<{ data: Product[]; error: Error | null }> {
     try {
-      if (!supabase) return { data: [], error: new Error('Supabase não configurado') };
+      if (!supabase) return { data: [], error: new Error('Supabase nÃ£o configurado') };
 
       const { data, error } = await supabase
         .from('products')
@@ -76,7 +76,7 @@ export const productsService = {
       if (error) return { data: [], error };
 
       const rows = (data || []) as DbProduct[];
-      // Por padrão mostramos só ativos na UI do deal; mas aqui retorna tudo para o Settings.
+      // Por padrÃ£o mostramos sÃ³ ativos na UI do deal; mas aqui retorna tudo para o Settings.
       return { data: rows.map(transformProduct), error: null };
     } catch (e) {
       return { data: [], error: e as Error };
@@ -85,7 +85,7 @@ export const productsService = {
 
   async getActive(): Promise<{ data: Product[]; error: Error | null }> {
     try {
-      if (!supabase) return { data: [], error: new Error('Supabase não configurado') };
+      if (!supabase) return { data: [], error: new Error('Supabase nÃ£o configurado') };
 
       const { data, error } = await supabase
         .from('products')
@@ -104,7 +104,7 @@ export const productsService = {
 
   async create(input: { name: string; price: number; sku?: string; description?: string }): Promise<{ data: Product | null; error: Error | null }> {
     try {
-      if (!supabase) return { data: null, error: new Error('Supabase não configurado') };
+      if (!supabase) return { data: null, error: new Error('Supabase nÃ£o configurado') };
 
       const { data: { user } } = await supabase.auth.getUser();
       const organizationId = await getCurrentOrganizationId();
@@ -132,7 +132,7 @@ export const productsService = {
 
   async update(id: string, updates: Partial<{ name: string; price: number; sku?: string; description?: string; active: boolean }>): Promise<{ error: Error | null }> {
     try {
-      if (!supabase) return { error: new Error('Supabase não configurado') };
+      if (!supabase) return { error: new Error('Supabase nÃ£o configurado') };
 
       const payload: Record<string, unknown> = {};
       if (updates.name !== undefined) payload.name = updates.name;
@@ -155,7 +155,7 @@ export const productsService = {
 
   async delete(id: string): Promise<{ error: Error | null }> {
     try {
-      if (!supabase) return { error: new Error('Supabase não configurado') };
+      if (!supabase) return { error: new Error('Supabase nÃ£o configurado') };
       const { error } = await supabase
         .from('products')
         .delete()

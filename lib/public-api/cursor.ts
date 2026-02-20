@@ -1,4 +1,4 @@
-export function parseLimit(value: string | null, opts?: { defaultLimit?: number; max?: number }) {
+﻿export function parseLimit(value: string | null, opts?: { defaultLimit?: number; max?: number }) {
   const max = opts?.max ?? 250;
   const def = opts?.defaultLimit ?? 50;
   const raw = (value ?? '').trim();

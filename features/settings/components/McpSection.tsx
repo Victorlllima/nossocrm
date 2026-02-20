@@ -1,12 +1,12 @@
-import React, { useMemo, useRef, useState } from 'react';
+﻿import React, { useMemo, useRef, useState } from 'react';
 import { ServerCog, Copy, CheckCircle2, Play, AlertTriangle, RefreshCw, ChevronDown } from 'lucide-react';
 import { useOptionalToast } from '@/context/ToastContext';
 import { supabase } from '@/lib/supabase/client';
 import { SettingsSection } from './SettingsSection';
 
 /**
- * Seção de configurações para MCP (Model Context Protocol).
- * Expõe o CRM como MCP Server via `/api/mcp`.
+ * SeÃ§Ã£o de configuraÃ§Ãµes para MCP (Model Context Protocol).
+ * ExpÃµe o CRM como MCP Server via `/api/mcp`.
  */
 export const McpSection: React.FC = () => {
   const { addToast } = useOptionalToast();
@@ -45,13 +45,13 @@ export const McpSection: React.FC = () => {
       await navigator.clipboard.writeText(value);
       addToast(`${label} copiado.`, 'success');
     } catch {
-      addToast(`Não foi possível copiar ${label.toLowerCase()}.`, 'error');
+      addToast(`NÃ£o foi possÃ­vel copiar ${label.toLowerCase()}.`, 'error');
     }
   };
 
   const createApiKeyInline = async (): Promise<string | null> => {
     if (!supabase) {
-      addToast('Supabase não configurado neste ambiente.', 'error');
+      addToast('Supabase nÃ£o configurado neste ambiente.', 'error');
       return null;
     }
 
@@ -62,11 +62,11 @@ export const McpSection: React.FC = () => {
       if (error) throw error;
       const row = Array.isArray(data) ? data[0] : data;
       const token = row?.token as string | undefined;
-      if (!token) throw new Error('Resposta inválida ao criar chave');
+      if (!token) throw new Error('Resposta invÃ¡lida ao criar chave');
 
       setApiKey(token);
       setTestResult(null);
-      addToast('API key criada e preenchida. (Ela aparece só uma vez.)', 'success');
+      addToast('API key criada e preenchida. (Ela aparece sÃ³ uma vez.)', 'success');
 
       // UX: leva o foco pro campo do Passo 2.
       setTimeout(() => apiKeyInputRef.current?.focus(), 0);
@@ -197,7 +197,7 @@ export const McpSection: React.FC = () => {
 
       if (!token) return; // errors already toasted
 
-      // Ensure input shows the key after auto-generate (and to make it feel “real”).
+      // Ensure input shows the key after auto-generate (and to make it feel â€œrealâ€).
       setShowHaveKey(true);
       setTimeout(() => apiKeyInputRef.current?.focus(), 0);
 
@@ -219,8 +219,8 @@ export const McpSection: React.FC = () => {
               </div>
               <div className="mt-1 text-sm text-slate-600 dark:text-slate-300">
                 {testResult?.ok
-                  ? 'Seu MCP está respondendo. Copie a URL e conecte no seu cliente MCP.'
-                  : 'Um clique: cria uma API key e testa a conexão.'}
+                  ? 'Seu MCP estÃ¡ respondendo. Copie a URL e conecte no seu cliente MCP.'
+                  : 'Um clique: cria uma API key e testa a conexÃ£o.'}
               </div>
               <div className="mt-2 text-xs text-slate-500 dark:text-slate-400">
                 Endpoint: <span className="font-mono">{endpointPath}</span>
@@ -236,7 +236,7 @@ export const McpSection: React.FC = () => {
                   className="px-4 py-2.5 rounded-xl bg-primary-600 hover:bg-primary-700 disabled:opacity-60 text-white text-sm font-semibold inline-flex items-center gap-2"
                 >
                   {(connecting || creatingKey || testing) ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Play className="h-4 w-4" />}
-                  {(connecting || creatingKey || testing) ? 'Conectando…' : 'Conectar'}
+                  {(connecting || creatingKey || testing) ? 'Conectandoâ€¦' : 'Conectar'}
                 </button>
               ) : (
                 <button
@@ -267,17 +267,17 @@ export const McpSection: React.FC = () => {
                 Conectado
               </div>
               <div className="mt-1 text-xs text-emerald-800/80 dark:text-emerald-200/80">
-                Tools disponíveis: <span className="font-semibold">{testResult.toolsCount ?? 0}</span>
+                Tools disponÃ­veis: <span className="font-semibold">{testResult.toolsCount ?? 0}</span>
                 {typeof testResult.toolsCount === 'number' && testResult.toolsCount > 0 && testResult.toolsPreview?.length ? (
                   <>
                     {' '}
-                    · Ex.: <span className="font-mono">{testResult.toolsPreview[0]}</span>
+                    Â· Ex.: <span className="font-mono">{testResult.toolsPreview[0]}</span>
                   </>
                 ) : null}
               </div>
               <div className="mt-3 rounded-lg border border-emerald-200 dark:border-emerald-500/30 bg-white/70 dark:bg-black/20 p-3">
                 <div className="text-xs text-slate-700 dark:text-slate-200 mb-2">
-                  O que você precisa:
+                  O que vocÃª precisa:
                 </div>
                 <div className="flex flex-wrap gap-2">
                   <button
@@ -305,7 +305,7 @@ export const McpSection: React.FC = () => {
             <div className="mt-4 rounded-xl border border-rose-200 dark:border-rose-500/30 bg-rose-50 dark:bg-rose-500/10 p-4">
               <div className="text-sm font-semibold text-rose-800 dark:text-rose-200 inline-flex items-center gap-2">
                 <AlertTriangle className="h-4 w-4" />
-                Não foi possível conectar
+                NÃ£o foi possÃ­vel conectar
               </div>
               <div className="mt-1 text-xs text-rose-800/80 dark:text-rose-200/80">{testResult.message}</div>
             </div>
@@ -319,13 +319,13 @@ export const McpSection: React.FC = () => {
             onClick={() => setShowHaveKey((v) => !v)}
             className="w-full flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-slate-800 dark:text-slate-100"
           >
-            <span>Já tenho uma API key</span>
+            <span>JÃ¡ tenho uma API key</span>
             <ChevronDown className={`h-4 w-4 text-slate-500 dark:text-slate-400 transition-transform ${showHaveKey ? 'rotate-180' : ''}`} />
           </button>
           {showHaveKey && (
             <div className="px-4 pb-4">
               <div className="text-xs text-slate-600 dark:text-slate-300 mb-3">
-                Cole a chave (não é salva). Autenticação: <span className="font-mono">Authorization: Bearer {'<API_KEY>'}</span>.
+                Cole a chave (nÃ£o Ã© salva). AutenticaÃ§Ã£o: <span className="font-mono">Authorization: Bearer {'<API_KEY>'}</span>.
               </div>
           <div className="flex flex-wrap gap-2 items-center">
                 <input
@@ -342,11 +342,11 @@ export const McpSection: React.FC = () => {
                   className="px-3 py-2.5 rounded-lg bg-primary-600 hover:bg-primary-700 disabled:opacity-60 text-white text-sm font-semibold inline-flex items-center gap-2"
                 >
                   <Play className="h-4 w-4" />
-                  {testing ? 'Testando…' : 'Testar'}
+                  {testing ? 'Testandoâ€¦' : 'Testar'}
                 </button>
               </div>
               <div className="mt-2 text-[11px] text-slate-500 dark:text-slate-400">
-                Precisa revogar/ver histórico? <button type="button" onClick={navigateToApiKeys} className="underline">Gerenciar API keys</button>
+                Precisa revogar/ver histÃ³rico? <button type="button" onClick={navigateToApiKeys} className="underline">Gerenciar API keys</button>
               </div>
             </div>
           )}

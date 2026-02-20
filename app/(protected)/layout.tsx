@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
@@ -16,7 +16,7 @@ import Layout from '@/components/Layout'
  *
  * @param {{ children: ReactNode; }} {
     children,
-} - Parâmetro `{
+} - ParÃ¢metro `{
     children,
 }`.
  * @returns {Element} Retorna um valor do tipo `Element`.

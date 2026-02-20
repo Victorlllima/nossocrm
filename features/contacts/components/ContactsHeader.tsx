@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Search, Filter, Plus, Download } from 'lucide-react';
 
 interface ContactsHeaderProps {
@@ -25,7 +25,7 @@ interface ContactsHeaderProps {
   isFilterOpen,
   setIsFilterOpen,
   openCreateModal,
-} - Parâmetro `{
+} - ParÃ¢metro `{
   viewMode,
   search,
   setSearch,
@@ -56,8 +56,8 @@ export const ContactsHeader: React.FC<ContactsHeaderProps> = ({
         </h1>
         <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
           {viewMode === 'people'
-            ? 'Pessoas com quem você negocia.'
-            : 'Organizações onde seus contatos trabalham.'}
+            ? 'Pessoas com quem vocÃª negocia.'
+            : 'OrganizaÃ§Ãµes onde seus contatos trabalham.'}
         </p>
       </div>
       <div className="flex gap-3 w-full sm:w-auto">
@@ -91,7 +91,7 @@ export const ContactsHeader: React.FC<ContactsHeaderProps> = ({
         </div>
         <button
           onClick={() => setIsFilterOpen(!isFilterOpen)}
-          aria-label={isFilterOpen ? 'Fechar filtros avançados' : 'Abrir filtros avançados'}
+          aria-label={isFilterOpen ? 'Fechar filtros avanÃ§ados' : 'Abrir filtros avanÃ§ados'}
           aria-expanded={isFilterOpen}
           className={`p-2 border rounded-lg transition-colors ${isFilterOpen ? 'bg-primary-50 border-primary-200 text-primary-600' : 'bg-white dark:bg-white/5 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/10'}`}
         >

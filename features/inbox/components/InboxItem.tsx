@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Activity } from '@/types';
 import { CheckCircle2, Clock, Calendar, Phone, Mail, FileText, Building2, MoreHorizontal, X, SkipForward } from 'lucide-react';
 
@@ -46,7 +46,7 @@ const InboxItemComponent: React.FC<InboxItemProps> = ({
         ) : (
           <button
             onClick={() => onToggleComplete(activity.id)}
-            aria-label={activity.completed ? 'Marcar como pendente' : 'Marcar como concluído'}
+            aria-label={activity.completed ? 'Marcar como pendente' : 'Marcar como concluÃ­do'}
             className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${activity.completed
               ? 'bg-green-500 border-green-500 text-white'
               : 'border-slate-300 dark:border-slate-600 hover:border-green-500 hover:bg-green-50 dark:hover:bg-green-500/10 text-transparent hover:text-green-500'
@@ -97,7 +97,7 @@ const InboxItemComponent: React.FC<InboxItemProps> = ({
       <div className="relative shrink-0">
         <button
           onClick={() => setShowMenu(!showMenu)}
-          aria-label="Menu de opções"
+          aria-label="Menu de opÃ§Ãµes"
           aria-expanded={showMenu}
           aria-haspopup="true"
           className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg transition-colors opacity-0 group-hover:opacity-100"

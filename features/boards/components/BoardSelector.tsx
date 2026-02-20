@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { ChevronDown, Plus, Settings, Trash2 } from 'lucide-react';
 import { Board } from '@/types';
 
@@ -21,7 +21,7 @@ interface BoardSelectorProps {
   onCreateBoard,
   onEditBoard,
   onDeleteBoard,
-} - Parâmetro `{
+} - ParÃ¢metro `{
   boards,
   activeBoard,
   onSelectBoard,
@@ -109,7 +109,7 @@ export const BoardSelector: React.FC<BoardSelectorProps> = ({
                         <Settings size={14} />
                       </button>
                     )}
-                    {/* Pode deletar se não for o único board */}
+                    {/* Pode deletar se nÃ£o for o Ãºnico board */}
                     {onDeleteBoard && boards.length > 1 && (
                       <button
                         type="button"

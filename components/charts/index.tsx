@@ -1,10 +1,10 @@
-import React, { Suspense, lazy } from 'react';
+﻿import React, { Suspense, lazy } from 'react';
 
 // Chart loading skeleton
 /**
  * Componente React `ChartSkeleton`.
  *
- * @param {{ height?: string | number | undefined; }} { height = 320 } - Parâmetro `{ height = 320 }`.
+ * @param {{ height?: string | number | undefined; }} { height = 320 } - ParÃ¢metro `{ height = 320 }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const ChartSkeleton: React.FC<{ height?: number | string }> = ({ height = 320 }) => (
@@ -12,7 +12,7 @@ export const ChartSkeleton: React.FC<{ height?: number | string }> = ({ height =
     className="animate-pulse bg-slate-100 dark:bg-slate-800 rounded-lg w-full flex items-center justify-center"
     style={{ height }}
   >
-    <div className="text-slate-400 dark:text-slate-500 text-sm">Carregando gráfico...</div>
+    <div className="text-slate-400 dark:text-slate-500 text-sm">Carregando grÃ¡fico...</div>
   </div>
 );
 
@@ -29,7 +29,7 @@ interface ChartWrapperProps {
 /**
  * Componente React `ChartWrapper`.
  *
- * @param {ChartWrapperProps} { children, height = 320 } - Parâmetro `{ children, height = 320 }`.
+ * @param {ChartWrapperProps} { children, height = 320 } - ParÃ¢metro `{ children, height = 320 }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const ChartWrapper: React.FC<ChartWrapperProps> = ({ children, height = 320 }) => (

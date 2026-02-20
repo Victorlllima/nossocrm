@@ -1,1 +1,1 @@
-export { EvolutionAPIClient, getEvolutionClient, type WhatsAppMessage, type EvolutionAPIResponse } from './client';
+﻿export { EvolutionAPIClient, getEvolutionClient, type WhatsAppMessage, type EvolutionAPIResponse } from './client';

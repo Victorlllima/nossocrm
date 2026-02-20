@@ -1,4 +1,4 @@
-import React, {
+﻿import React, {
   createContext,
   useContext,
   useMemo,
@@ -28,7 +28,7 @@ const ActivitiesContext = createContext<ActivitiesContextType | undefined>(undef
 /**
  * Componente React `ActivitiesProvider`.
  *
- * @param {{ children: ReactNode; }} { children } - Parâmetro `{ children }`.
+ * @param {{ children: ReactNode; }} { children } - ParÃ¢metro `{ children }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const ActivitiesProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -36,7 +36,7 @@ export const ActivitiesProvider: React.FC<{ children: ReactNode }> = ({ children
   const queryClient = useQueryClient();
 
   // ============================================
-  // TanStack Query como fonte única de verdade
+  // TanStack Query como fonte Ãºnica de verdade
   // ============================================
   const {
     data: activities = [],
@@ -58,7 +58,7 @@ export const ActivitiesProvider: React.FC<{ children: ReactNode }> = ({ children
   const addActivity = useCallback(
     async (activity: Omit<Activity, 'id' | 'createdAt'>): Promise<Activity | null> => {
       if (!profile) {
-        console.error('Usuário não autenticado');
+        console.error('UsuÃ¡rio nÃ£o autenticado');
         return null;
       }
       const { data, error: addError } = await activitiesService.create(activity);
@@ -69,7 +69,7 @@ export const ActivitiesProvider: React.FC<{ children: ReactNode }> = ({ children
       }
 
       // Invalida cache para TanStack Query atualizar
-      // Don't await invalidations — awaiting can block UI flows until heavy refetches finish.
+      // Don't await invalidations â€” awaiting can block UI flows until heavy refetches finish.
       void queryClient.invalidateQueries({ queryKey: queryKeys.activities.all });
 
       return data;
@@ -143,7 +143,7 @@ export const ActivitiesProvider: React.FC<{ children: ReactNode }> = ({ children
 };
 
 /**
- * Hook React `useActivities` que encapsula uma lógica reutilizável.
+ * Hook React `useActivities` que encapsula uma lÃ³gica reutilizÃ¡vel.
  * @returns {ActivitiesContextType} Retorna um valor do tipo `ActivitiesContextType`.
  */
 export const useActivities = () => {

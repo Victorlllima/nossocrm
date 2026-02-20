@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useId } from 'react';
+﻿import React, { useMemo, useState, useId } from 'react';
 import { Plus, GripVertical, Trash2, ChevronDown, Settings, Copy } from 'lucide-react';
 import { Board, BoardStage, ContactStage } from '@/types';
 import { BOARD_TEMPLATES, BoardTemplateType } from '@/lib/templates/board-templates';
@@ -14,10 +14,10 @@ interface CreateBoardModalProps {
   onClose: () => void;
   onSave: (board: Omit<Board, 'id' | 'createdAt'>) => void;
   editingBoard?: Board; // Se fornecido, estamos editando
-  availableBoards: Board[]; // Para selecionar o próximo board
+  availableBoards: Board[]; // Para selecionar o prÃ³ximo board
   /**
    * Optional: allow switching which board is being edited without closing the modal.
-   * This removes the "close → gear → pick another board" friction.
+   * This removes the "close â†’ gear â†’ pick another board" friction.
    */
   onSwitchEditingBoard?: (board: Board) => void;
 }
@@ -76,7 +76,7 @@ function guessWonLostStageIds(stages: BoardStage[], opts?: { wonLabel?: string; 
   // Fallback heuristic: keep it conservative and readable.
   const heuristicWon =
     exactWon
-    ?? stages.find(s => /\b(ganho|won|fechado ganho|conclu[ií]do)\b/i.test(s.label))?.id;
+    ?? stages.find(s => /\b(ganho|won|fechado ganho|conclu[iÃ­]do)\b/i.test(s.label))?.id;
   const heuristicLost =
     exactLost
     ?? stages.find(s => /\b(perdido|lost|churn|cancelad[oa])\b/i.test(s.label))?.id;
@@ -95,7 +95,7 @@ function guessWonLostStageIds(stages: BoardStage[], opts?: { wonLabel?: string; 
   editingBoard,
   availableBoards,
   onSwitchEditingBoard,
-} - Parâmetro `{
+} - ParÃ¢metro `{
   isOpen,
   onClose,
   onSave,
@@ -195,7 +195,7 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
         setStages([
           { id: crypto.randomUUID(), label: 'Nova', color: 'bg-blue-500' },
           { id: crypto.randomUUID(), label: 'Em Progresso', color: 'bg-yellow-500' },
-          { id: crypto.randomUUID(), label: 'Concluído', color: 'bg-green-500' },
+          { id: crypto.randomUUID(), label: 'ConcluÃ­do', color: 'bg-green-500' },
         ]);
       }
     }
@@ -274,7 +274,7 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
 
     const normalizedKey = boardKey.trim() ? slugify(boardKey) : '';
     if (boardKey.trim() && !normalizedKey) {
-      addToast('Chave inválida. Use letras/números e hífen.', 'error');
+      addToast('Chave invÃ¡lida. Use letras/nÃºmeros e hÃ­fen.', 'error');
       return;
     }
 
@@ -339,7 +339,7 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
       await navigator.clipboard.writeText(normalizedKey);
       addToast('Chave copiada.', 'success');
     } catch {
-      addToast('Não foi possível copiar.', 'error');
+      addToast('NÃ£o foi possÃ­vel copiar.', 'error');
     }
   };
 
@@ -423,7 +423,7 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
             {/* Board key (slug) */}
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                Chave (slug) — para integrações
+                Chave (slug) â€” para integraÃ§Ãµes
               </label>
               <div className="flex gap-2">
                 <input
@@ -447,20 +447,20 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
                 </button>
               </div>
               <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                Dica: é mais fácil usar isso no n8n/Make do que um UUID.
+                Dica: Ã© mais fÃ¡cil usar isso no n8n/Make do que um UUID.
               </p>
             </div>
 
             {/* Description */}
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                Descrição
+                DescriÃ§Ã£o
               </label>
               <input
                 type="text"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Breve descrição do propósito deste board"
+                placeholder="Breve descriÃ§Ã£o do propÃ³sito deste board"
                 className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               />
             </div>
@@ -469,7 +469,7 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
             {!editingBoard && (
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                  📋 Usar Template
+                  ðŸ“‹ Usar Template
                 </label>
                 <select
                   value={selectedTemplate}
@@ -477,14 +477,14 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
                   className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 >
                   <option value="">Board em branco</option>
-                  <option value="PRE_SALES">🎯 Pré-venda (Lead → MQL)</option>
-                  <option value="SALES">💰 Pipeline de Vendas</option>
-                  <option value="ONBOARDING">🚀 Onboarding de Clientes</option>
-                  <option value="CS">❤️ CS & Upsell</option>
+                  <option value="PRE_SALES">ðŸŽ¯ PrÃ©-venda (Lead â†’ MQL)</option>
+                  <option value="SALES">ðŸ’° Pipeline de Vendas</option>
+                  <option value="ONBOARDING">ðŸš€ Onboarding de Clientes</option>
+                  <option value="CS">â¤ï¸ CS & Upsell</option>
                 </select>
                 {selectedTemplate && (
                   <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                    ✨ Template aplicado! Você pode editar os campos abaixo.
+                    âœ¨ Template aplicado! VocÃª pode editar os campos abaixo.
                   </p>
                 )}
               </div>
@@ -493,27 +493,27 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
             {/* Linked Lifecycle Stage */}
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                🎯 Gerencia Contatos no Estágio
+                ðŸŽ¯ Gerencia Contatos no EstÃ¡gio
               </label>
               <select
                 value={linkedLifecycleStage}
                 onChange={(e) => setLinkedLifecycleStage(e.target.value)}
                 className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
-                <option value="">Nenhum (board genérico)</option>
+                <option value="">Nenhum (board genÃ©rico)</option>
                 {lifecycleStages.map(stage => (
                   <option key={stage.id} value={stage.id}>{stage.name}</option>
                 ))}
               </select>
               <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                Novos negócios de contatos neste estágio aparecerão automaticamente aqui.
+                Novos negÃ³cios de contatos neste estÃ¡gio aparecerÃ£o automaticamente aqui.
               </p>
             </div>
 
             {/* Default Product */}
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                🧾 Produto padrão (opcional)
+                ðŸ§¾ Produto padrÃ£o (opcional)
               </label>
               <select
                 value={defaultProductId}
@@ -525,12 +525,12 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
                   .filter(p => p.active !== false)
                   .map(p => (
                     <option key={p.id} value={p.id}>
-                      {p.name} — R$ {Number(p.price ?? 0).toLocaleString('pt-BR')}
+                      {p.name} â€” R$ {Number(p.price ?? 0).toLocaleString('pt-BR')}
                     </option>
                   ))}
               </select>
               <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                Sugere (ou pré-seleciona) um produto ao adicionar itens em deals desse board.
+                Sugere (ou prÃ©-seleciona) um produto ao adicionar itens em deals desse board.
               </p>
             </div>
 
@@ -552,7 +552,7 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
                 ))}
               </select>
               <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                Cria automaticamente um card no próximo board quando o negócio é ganho.
+                Cria automaticamente um card no prÃ³ximo board quando o negÃ³cio Ã© ganho.
               </p>
             </div>
 
@@ -560,7 +560,7 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                  🏆 Estágio Ganho (Won)
+                  ðŸ† EstÃ¡gio Ganho (Won)
                 </label>
                 <select
                   value={wonStayInStage ? 'archive' : wonStageId}
@@ -575,19 +575,19 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
                   }}
                   className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 >
-                  <option value="">Automático (pelo ciclo)</option>
+                  <option value="">AutomÃ¡tico (pelo ciclo)</option>
                   <option value="archive">Arquivar (Manter na etapa)</option>
                   {stages.map(stage => (
                     <option key={stage.id} value={stage.id}>{stage.label}</option>
                   ))}
                 </select>
                 <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                  O botão "Ganho" moverá o card para cá.
+                  O botÃ£o "Ganho" moverÃ¡ o card para cÃ¡.
                 </p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                  ❌ Estágio Perdido (Lost)
+                  âŒ EstÃ¡gio Perdido (Lost)
                 </label>
                 <select
                   value={lostStayInStage ? 'archive' : lostStageId}
@@ -602,14 +602,14 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
                   }}
                   className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 >
-                  <option value="">Automático</option>
+                  <option value="">AutomÃ¡tico</option>
                   <option value="archive">Arquivar (Manter na etapa)</option>
                   {stages.map(stage => (
                     <option key={stage.id} value={stage.id}>{stage.label}</option>
                   ))}
                 </select>
                 <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                  O botão "Perdido" moverá o card para cá.
+                  O botÃ£o "Perdido" moverÃ¡ o card para cÃ¡.
                 </p>
               </div>
             </div>
@@ -633,7 +633,7 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
                     className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg transition-colors"
                   >
                     <Settings size={14} />
-                    Gerenciar Estágios
+                    Gerenciar EstÃ¡gios
                   </button>
                 </div>
               </div>
@@ -741,7 +741,7 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
                             ${stage.linkedLifecycleStage ? 'font-semibold text-primary-700 dark:text-primary-300 bg-primary-50 dark:bg-primary-900/20 border-primary-300 dark:border-primary-700' : ''}
                           `}
                         >
-                          <option value="">Sem automação</option>
+                          <option value="">Sem automaÃ§Ã£o</option>
                           {lifecycleStages.map(ls => (
                             <option key={ls.id} value={ls.id}>{ls.name}</option>
                           ))}
@@ -772,7 +772,7 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
               disabled={!name.trim()}
               className="px-4 py-2 text-sm font-medium text-white bg-primary-600 hover:bg-primary-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors focus-visible-ring"
             >
-              {editingBoard ? 'Salvar Alterações' : 'Criar Board'}
+              {editingBoard ? 'Salvar AlteraÃ§Ãµes' : 'Criar Board'}
             </button>
           </div>
         </form>

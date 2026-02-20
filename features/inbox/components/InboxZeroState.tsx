@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Check } from 'lucide-react';
 
 /**
@@ -12,10 +12,10 @@ export const InboxZeroState: React.FC = () => {
         <Check size={48} className="text-white" />
       </div>
       <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
-        Inbox Zero! 🎉
+        Inbox Zero! ðŸŽ‰
       </h2>
       <p className="text-slate-500 dark:text-slate-400 text-center max-w-md">
-        Você zerou tudo. Aproveite o momento ou planeje o futuro.
+        VocÃª zerou tudo. Aproveite o momento ou planeje o futuro.
       </p>
     </div>
   );

@@ -1,8 +1,8 @@
-/**
+﻿/**
  * Consent Management Service
  * T048: Allow users to revoke AI consent
  * 
- * LGPD Compliant - Art. 8º §5 (revogação de consentimento)
+ * LGPD Compliant - Art. 8Âº Â§5 (revogaÃ§Ã£o de consentimento)
  */
 import { supabase } from './client';
 
@@ -27,7 +27,7 @@ export const consentsService = {
   async getCurrentConsent(): Promise<{ data: UserConsent | null; error: Error | null }> {
     try {
       if (!supabase) {
-        return { data: null, error: new Error('Supabase não configurado') };
+        return { data: null, error: new Error('Supabase nÃ£o configurado') };
       }
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
@@ -65,7 +65,7 @@ export const consentsService = {
   }): Promise<{ data: UserConsent | null; error: Error | null }> {
     try {
       if (!supabase) {
-        return { data: null, error: new Error('Supabase não configurado') };
+        return { data: null, error: new Error('Supabase nÃ£o configurado') };
       }
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
@@ -103,12 +103,12 @@ export const consentsService = {
 
   /**
    * Revoke all AI consent
-   * LGPD Art. 8º §5 - Right to revoke consent
+   * LGPD Art. 8Âº Â§5 - Right to revoke consent
    */
   async revokeAIConsent(): Promise<{ error: Error | null }> {
     try {
       if (!supabase) {
-        return { error: new Error('Supabase não configurado') };
+        return { error: new Error('Supabase nÃ£o configurado') };
       }
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
@@ -169,7 +169,7 @@ export const consentsService = {
   async revokeAllConsent(): Promise<{ error: Error | null }> {
     try {
       if (!supabase) {
-        return { error: new Error('Supabase não configurado') };
+        return { error: new Error('Supabase nÃ£o configurado') };
       }
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
@@ -226,7 +226,7 @@ export const consentsService = {
   async getConsentHistory(): Promise<{ data: UserConsent[] | null; error: Error | null }> {
     try {
       if (!supabase) {
-        return { data: null, error: new Error('Supabase não configurado') };
+        return { data: null, error: new Error('Supabase nÃ£o configurado') };
       }
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {

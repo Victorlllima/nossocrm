@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Sheet } from '@/components/ui/Sheet';
 import { cn } from '@/lib/utils/cn';
 
@@ -11,7 +11,7 @@ export interface DealSheetProps {
 }
 
 /**
- * DealSheet — wrapper to present deal flows as a mobile-first sheet.
+ * DealSheet â€” wrapper to present deal flows as a mobile-first sheet.
  *
  * Desktop continues to use the existing modal implementation; this is used only on mobile.
  */

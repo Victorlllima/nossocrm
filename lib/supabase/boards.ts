@@ -1,14 +1,14 @@
-/**
- * @fileoverview Serviço Supabase para gerenciamento de boards (pipelines kanban).
+﻿/**
+ * @fileoverview ServiÃ§o Supabase para gerenciamento de boards (pipelines kanban).
  * 
- * Este módulo fornece operações CRUD para boards e seus estágios,
- * incluindo ordenação, metas e personas de agente de IA.
+ * Este mÃ³dulo fornece operaÃ§Ãµes CRUD para boards e seus estÃ¡gios,
+ * incluindo ordenaÃ§Ã£o, metas e personas de agente de IA.
  * 
  * ## Conceitos de Board
  * 
  * - Board = Pipeline (ex: "Vendas B2B", "Onboarding de Clientes")
- * - Stage = Coluna do kanban (ex: "Qualificação", "Proposta", "Fechado")
- * - Cada board pode ter metas (goal), persona de IA e gatilhos de automação
+ * - Stage = Coluna do kanban (ex: "QualificaÃ§Ã£o", "Proposta", "Fechado")
+ * - Cada board pode ter metas (goal), persona de IA e gatilhos de automaÃ§Ã£o
  * 
  * @module lib/supabase/boards
  */
@@ -62,40 +62,40 @@ async function getCurrentOrganizationId(): Promise<string | null> {
 // ============================================
 
 /**
- * Representação de board no banco de dados.
+ * RepresentaÃ§Ã£o de board no banco de dados.
  * 
  * @interface DbBoard
  */
 export interface DbBoard {
-  /** ID único do board (UUID). */
+  /** ID Ãºnico do board (UUID). */
   id: string;
-  /** ID da organização/tenant. */
+  /** ID da organizaÃ§Ã£o/tenant. */
   organization_id: string;
-  /** Identificador humano (slug) para integrações. */
+  /** Identificador humano (slug) para integraÃ§Ãµes. */
   key?: string | null;
   /** Nome do board. */
   name: string;
-  /** Descrição do propósito. */
+  /** DescriÃ§Ã£o do propÃ³sito. */
   description: string | null;
-  /** Se é o board padrão. */
+  /** Se Ã© o board padrÃ£o. */
   is_default: boolean;
   /** Template base usado. */
   template: string | null;
-  /** Estágio de lifecycle vinculado. */
+  /** EstÃ¡gio de lifecycle vinculado. */
   linked_lifecycle_stage: string | null;
-  /** ID do próximo board na jornada. */
+  /** ID do prÃ³ximo board na jornada. */
   next_board_id: string | null;
-  /** ID do estágio de Ganho (Win). */
+  /** ID do estÃ¡gio de Ganho (Win). */
   won_stage_id: string | null;
-  /** ID do estágio de Perda (Lost). */
+  /** ID do estÃ¡gio de Perda (Lost). */
   lost_stage_id: string | null;
-  /** Produto padrão para deals desse board (opcional). */
+  /** Produto padrÃ£o para deals desse board (opcional). */
   default_product_id?: string | null;
-  /** Se deve manter no estágio ao ganhar (true) ou mover (false/null). */
+  /** Se deve manter no estÃ¡gio ao ganhar (true) ou mover (false/null). */
   won_stay_in_stage: boolean | null;
-  /** Se deve manter no estágio ao perder (true) ou mover (false/null). */
+  /** Se deve manter no estÃ¡gio ao perder (true) ou mover (false/null). */
   lost_stay_in_stage: boolean | null;
-  /** Descrição da meta. */
+  /** DescriÃ§Ã£o da meta. */
   goal_description: string | null;
   /** KPI principal. */
   goal_kpi: string | null;
@@ -105,57 +105,57 @@ export interface DbBoard {
   goal_type: string | null;
   /** Nome do agente de IA. */
   agent_name: string | null;
-  /** Papel/função do agente. */
+  /** Papel/funÃ§Ã£o do agente. */
   agent_role: string | null;
   /** Comportamento do agente. */
   agent_behavior: string | null;
   /** Gatilho de entrada de novos itens. */
   entry_trigger: string | null;
-  /** Sugestões de automação. */
+  /** SugestÃµes de automaÃ§Ã£o. */
   automation_suggestions: string[] | null;
-  /** Posição na lista de boards. */
+  /** PosiÃ§Ã£o na lista de boards. */
   position: number;
-  /** Data de criação. */
+  /** Data de criaÃ§Ã£o. */
   created_at: string;
-  /** Data de atualização. */
+  /** Data de atualizaÃ§Ã£o. */
   updated_at: string;
-  /** ID do dono/responsável. */
+  /** ID do dono/responsÃ¡vel. */
   owner_id: string | null;
 }
 
 /**
- * Representação de estágio de board no banco de dados.
+ * RepresentaÃ§Ã£o de estÃ¡gio de board no banco de dados.
  * 
  * @interface DbBoardStage
  */
 export interface DbBoardStage {
-  /** ID único do estágio (UUID). */
+  /** ID Ãºnico do estÃ¡gio (UUID). */
   id: string;
-  /** ID da organização/tenant. */
+  /** ID da organizaÃ§Ã£o/tenant. */
   organization_id: string;
   /** ID do board pai. */
   board_id: string;
-  /** Nome interno do estágio. */
+  /** Nome interno do estÃ¡gio. */
   name: string;
   /** Label exibido na UI. */
   label: string | null;
-  /** Cor do estágio (classe Tailwind). */
+  /** Cor do estÃ¡gio (classe Tailwind). */
   color: string | null;
-  /** Ordem de exibição. */
+  /** Ordem de exibiÃ§Ã£o. */
   order: number;
-  /** Se é estágio padrão. */
+  /** Se Ã© estÃ¡gio padrÃ£o. */
   is_default: boolean;
-  /** Estágio de lifecycle vinculado. */
+  /** EstÃ¡gio de lifecycle vinculado. */
   linked_lifecycle_stage: string | null;
-  /** Data de criação. */
+  /** Data de criaÃ§Ã£o. */
   created_at: string;
 }
 
 /**
- * Transforma estágio do formato DB para o formato da aplicação.
+ * Transforma estÃ¡gio do formato DB para o formato da aplicaÃ§Ã£o.
  * 
- * @param db - Estágio no formato do banco.
- * @returns Estágio no formato da aplicação.
+ * @param db - EstÃ¡gio no formato do banco.
+ * @returns EstÃ¡gio no formato da aplicaÃ§Ã£o.
  */
 const transformStage = (db: DbBoardStage): BoardStage => ({
   id: db.id,
@@ -167,11 +167,11 @@ const transformStage = (db: DbBoardStage): BoardStage => ({
 });
 
 /**
- * Transforma board do formato DB para o formato da aplicação.
+ * Transforma board do formato DB para o formato da aplicaÃ§Ã£o.
  * 
  * @param db - Board no formato do banco.
- * @param stages - Estágios no formato do banco.
- * @returns Board no formato da aplicação.
+ * @param stages - EstÃ¡gios no formato do banco.
+ * @returns Board no formato da aplicaÃ§Ã£o.
  */
 const transformBoard = (db: DbBoard, stages: DbBoardStage[]): Board => {
   const goal: BoardGoal | undefined = db.goal_description ? {
@@ -227,10 +227,10 @@ function isUniqueViolationOnIndex(error: unknown, indexName: string): boolean {
 }
 
 /**
- * Transforma board do formato da aplicação para o formato DB.
+ * Transforma board do formato da aplicaÃ§Ã£o para o formato DB.
  * 
- * @param board - Board no formato da aplicação.
- * @param order - Posição na lista (opcional).
+ * @param board - Board no formato da aplicaÃ§Ã£o.
+ * @param order - PosiÃ§Ã£o na lista (opcional).
  * @returns Board parcial no formato do banco.
  */
 const transformToDb = (board: Omit<Board, 'id' | 'createdAt'>, order?: number): Partial<DbBoard> => {
@@ -276,12 +276,12 @@ const transformToDb = (board: Omit<Board, 'id' | 'createdAt'>, order?: number): 
 };
 
 /**
- * Transforma estágio do formato da aplicação para o formato DB.
+ * Transforma estÃ¡gio do formato da aplicaÃ§Ã£o para o formato DB.
  * 
- * @param stage - Estágio no formato da aplicação.
+ * @param stage - EstÃ¡gio no formato da aplicaÃ§Ã£o.
  * @param boardId - ID do board pai.
- * @param orderNum - Posição na lista.
- * @returns Estágio parcial no formato do banco.
+ * @param orderNum - PosiÃ§Ã£o na lista.
+ * @returns EstÃ¡gio parcial no formato do banco.
  */
 const transformStageToDb = (
   stage: BoardStage,
@@ -299,9 +299,9 @@ const transformStageToDb = (
 });
 
 /**
- * Serviço de boards do Supabase.
+ * ServiÃ§o de boards do Supabase.
  * 
- * Fornece operações CRUD para as tabelas `boards` e `board_stages`.
+ * Fornece operaÃ§Ãµes CRUD para as tabelas `boards` e `board_stages`.
  * 
  * @example
  * ```typescript
@@ -317,13 +317,13 @@ const transformStageToDb = (
  */
 export const boardsService = {
   /**
-   * Busca todos os boards da organização com seus estágios.
+   * Busca todos os boards da organizaÃ§Ã£o com seus estÃ¡gios.
    * 
    * @returns Promise com array de boards ou erro.
    */
   async getAll(): Promise<{ data: Board[] | null; error: Error | null }> {
     try {
-      if (!supabase) return { data: null, error: new Error('Supabase não configurado') };
+      if (!supabase) return { data: null, error: new Error('Supabase nÃ£o configurado') };
 
       const [boardsResult, stagesResult] = await Promise.all([
         supabase.from('boards').select('*').order('position', { ascending: true }).order('created_at', { ascending: true }),
@@ -344,7 +344,7 @@ export const boardsService = {
   },
 
   /**
-   * Busca um board específico pelo ID.
+   * Busca um board especÃ­fico pelo ID.
    */
   async get(id: string): Promise<Board | null> {
     try {
@@ -373,22 +373,22 @@ export const boardsService = {
   },
 
   /**
-   * Cria um novo board com seus estágios.
+   * Cria um novo board com seus estÃ¡gios.
    * 
    * @param board - Dados do board (sem id e createdAt).
-   * @param order - Posição na lista (opcional, calculada se não informada).
+   * @param order - PosiÃ§Ã£o na lista (opcional, calculada se nÃ£o informada).
    * @returns Promise com board criado ou erro.
    */
   async create(board: Omit<Board, 'id' | 'createdAt'>, order?: number): Promise<{ data: Board | null; error: Error | null }> {
     try {
-      if (!supabase) return { data: null, error: new Error('Supabase não configurado') };
+      if (!supabase) return { data: null, error: new Error('Supabase nÃ£o configurado') };
 
       // Ensure we always set organization_id for boards/stages (prevents downstream deal creation failures).
       const organizationId =
         sanitizeUUID((board as any).organizationId) || (await getCurrentOrganizationId());
 
       if (!organizationId) {
-        return { data: null, error: new Error('Organização não identificada para este board. Recarregue a página e tente novamente.') };
+        return { data: null, error: new Error('OrganizaÃ§Ã£o nÃ£o identificada para este board. Recarregue a pÃ¡gina e tente novamente.') };
       }
 
       // Get next order if not provided
@@ -529,7 +529,7 @@ export const boardsService = {
 
   async update(id: string, updates: Partial<Board>): Promise<{ error: Error | null }> {
     try {
-      if (!supabase) return { error: new Error('Supabase não configurado') };
+      if (!supabase) return { error: new Error('Supabase nÃ£o configurado') };
 
       // Needed to safely upsert stages with the proper org_id.
       const { data: boardRow } = await supabase
@@ -608,7 +608,7 @@ export const boardsService = {
       // Update stages if provided
       if (updates.stages) {
         if (!organizationId) {
-          return { error: new Error('Organização não identificada para atualizar estágios deste board. Recarregue a página e tente novamente.') };
+          return { error: new Error('OrganizaÃ§Ã£o nÃ£o identificada para atualizar estÃ¡gios deste board. Recarregue a pÃ¡gina e tente novamente.') };
         }
         // 1. Upsert provided stages (Update existing + Insert new)
         // We MUST include the ID to update existing records
@@ -653,7 +653,7 @@ export const boardsService = {
 
   async canDelete(boardId: string): Promise<{ canDelete: boolean; dealCount: number; error: Error | null }> {
     try {
-      if (!supabase) return { canDelete: false, dealCount: 0, error: new Error('Supabase não configurado') };
+      if (!supabase) return { canDelete: false, dealCount: 0, error: new Error('Supabase nÃ£o configurado') };
 
       const { count, error } = await supabase
         .from('deals')
@@ -674,7 +674,7 @@ export const boardsService = {
 
   async moveDealsToBoard(fromBoardId: string, toBoardId: string): Promise<{ error: Error | null }> {
     try {
-      if (!supabase) return { error: new Error('Supabase não configurado') };
+      if (!supabase) return { error: new Error('Supabase nÃ£o configurado') };
 
       // Pega o primeiro stage do board de destino
       const { data: stages, error: stagesError } = await supabase
@@ -686,7 +686,7 @@ export const boardsService = {
 
       if (stagesError) return { error: stagesError };
       if (!stages || stages.length === 0) {
-        return { error: new Error('Board de destino não tem stages') };
+        return { error: new Error('Board de destino nÃ£o tem stages') };
       }
 
       const firstStageId = stages[0].id;
@@ -705,7 +705,7 @@ export const boardsService = {
 
   async delete(id: string): Promise<{ error: Error | null }> {
     try {
-      if (!supabase) return { error: new Error('Supabase não configurado') };
+      if (!supabase) return { error: new Error('Supabase nÃ£o configurado') };
 
       // Verifica se pode deletar
       const { canDelete, dealCount, error: checkError } = await this.canDelete(id);
@@ -714,7 +714,7 @@ export const boardsService = {
       if (!canDelete) {
         return {
           error: new Error(
-            `Não é possível excluir este board. Existem ${dealCount} negócio(s) vinculado(s). Mova ou exclua os negócios primeiro.`
+            `NÃ£o Ã© possÃ­vel excluir este board. Existem ${dealCount} negÃ³cio(s) vinculado(s). Mova ou exclua os negÃ³cios primeiro.`
           ),
         };
       }
@@ -751,7 +751,7 @@ export const boardsService = {
 
   async deleteWithMoveDeals(boardId: string, targetBoardId: string): Promise<{ error: Error | null }> {
     try {
-      if (!supabase) return { error: new Error('Supabase não configurado') };
+      if (!supabase) return { error: new Error('Supabase nÃ£o configurado') };
 
       // 1. Move os deals primeiro
       const { error: moveError } = await this.moveDealsToBoard(boardId, targetBoardId);
@@ -787,7 +787,7 @@ export const boardsService = {
   // Stage operations
   async addStage(boardId: string, stage: Omit<BoardStage, 'id'>): Promise<{ data: BoardStage | null; error: Error | null }> {
     try {
-      if (!supabase) return { data: null, error: new Error('Supabase não configurado') };
+      if (!supabase) return { data: null, error: new Error('Supabase nÃ£o configurado') };
 
       // Get current max order
       const { data: existingStages } = await supabase
@@ -823,7 +823,7 @@ export const boardsService = {
 
   async updateStage(stageId: string, updates: Partial<BoardStage>): Promise<{ error: Error | null }> {
     try {
-      if (!supabase) return { error: new Error('Supabase não configurado') };
+      if (!supabase) return { error: new Error('Supabase nÃ£o configurado') };
 
       const dbUpdates: Partial<DbBoardStage> = {};
 
@@ -846,9 +846,9 @@ export const boardsService = {
 
   async deleteStage(stageId: string): Promise<{ error: Error | null }> {
     try {
-      if (!supabase) return { error: new Error('Supabase não configurado') };
+      if (!supabase) return { error: new Error('Supabase nÃ£o configurado') };
 
-      // Verificar se há deals ativos neste estágio
+      // Verificar se hÃ¡ deals ativos neste estÃ¡gio
       const { count, error: countError } = await supabase
         .from('deals')
         .select('*', { count: 'exact', head: true })
@@ -861,7 +861,7 @@ export const boardsService = {
       if (count && count > 0) {
         return {
           error: new Error(
-            `Não é possível excluir este estágio. Existem ${count} deal(s) nele. Mova os deals para outro estágio primeiro.`
+            `NÃ£o Ã© possÃ­vel excluir este estÃ¡gio. Existem ${count} deal(s) nele. Mova os deals para outro estÃ¡gio primeiro.`
           )
         };
       }
@@ -885,7 +885,7 @@ export const boardStagesService = {
   /** Busca todos os stages */
   async getAll(): Promise<{ data: DbBoardStage[] | null; error: Error | null }> {
     try {
-      if (!supabase) return { data: null, error: new Error('Supabase não configurado') };
+      if (!supabase) return { data: null, error: new Error('Supabase nÃ£o configurado') };
 
       const { data, error } = await supabase
         .from('board_stages')
@@ -898,7 +898,7 @@ export const boardStagesService = {
     }
   },
 
-  /** Busca stages de um board específico */
+  /** Busca stages de um board especÃ­fico */
   async getByBoardId(boardId: string): Promise<{ data: DbBoardStage[] | null; error: Error | null }> {
     try {
       // Guard: return empty array if boardId is empty/invalid
@@ -906,7 +906,7 @@ export const boardStagesService = {
         return { data: [], error: null };
       }
 
-      if (!supabase) return { data: null, error: new Error('Supabase não configurado') };
+      if (!supabase) return { data: null, error: new Error('Supabase nÃ£o configurado') };
 
       const { data, error } = await supabase
         .from('board_stages')

@@ -1,4 +1,4 @@
-// Actions
+﻿// Actions
 export { initializeAccount, type SetupState } from './actions/initialize-account'
 
 // Schemas

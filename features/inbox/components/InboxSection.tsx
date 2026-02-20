@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import Link from 'next/link';
 import { ChevronDown, ChevronRight, ArrowRight } from 'lucide-react';
 import { Activity } from '@/types';
@@ -31,7 +31,7 @@ interface InboxSectionProps {
   onDiscard,
   onSelect,
   filterParam
-} - Parâmetro `{
+} - ParÃ¢metro `{
   title,
   activities,
   color,

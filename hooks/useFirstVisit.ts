@@ -1,8 +1,8 @@
-/**
+﻿/**
  * @fileoverview Hook de Primeira Visita / Onboarding
  * 
- * Hook que gerencia o estado de onboarding do usuário, detectando
- * se é a primeira visita e permitindo controlar a exibição do wizard.
+ * Hook que gerencia o estado de onboarding do usuÃ¡rio, detectando
+ * se Ã© a primeira visita e permitindo controlar a exibiÃ§Ã£o do wizard.
  * 
  * @module hooks/useFirstVisit
  * 
@@ -28,11 +28,11 @@ const ONBOARDING_KEY = 'crm_onboarding_completed';
 /**
  * Hook para gerenciar estado de primeira visita/onboarding
  * 
- * Verifica se o usuário já completou o onboarding e fornece
- * funções para marcar como completo ou resetar o estado.
+ * Verifica se o usuÃ¡rio jÃ¡ completou o onboarding e fornece
+ * funÃ§Ãµes para marcar como completo ou resetar o estado.
  * 
  * @returns {Object} Estado e controles do onboarding
- * @returns {boolean} return.isFirstVisit - Se é a primeira visita do usuário
+ * @returns {boolean} return.isFirstVisit - Se Ã© a primeira visita do usuÃ¡rio
  * @returns {() => void} return.completeOnboarding - Marca onboarding como completo
  * @returns {() => void} return.resetOnboarding - Reseta para exibir onboarding novamente
  * 

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 
@@ -25,7 +25,7 @@ const AIChatContextValue = createContext<AIChatContextProviderState | null>(null
 /**
  * Componente React `AIChatContextProvider`.
  *
- * @param {{ children: ReactNode; }} { children } - Parâmetro `{ children }`.
+ * @param {{ children: ReactNode; }} { children } - ParÃ¢metro `{ children }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export function AIChatContextProvider({ children }: { children: ReactNode }) {
@@ -66,7 +66,7 @@ export function AIChatContextProvider({ children }: { children: ReactNode }) {
 }
 
 /**
- * Hook React `useAIChatContext` que encapsula uma lógica reutilizável.
+ * Hook React `useAIChatContext` que encapsula uma lÃ³gica reutilizÃ¡vel.
  * @returns {AIChatContextProviderState} Retorna um valor do tipo `AIChatContextProviderState`.
  */
 export function useAIChatContext() {
@@ -79,7 +79,7 @@ export function useAIChatContext() {
 
 // Optional hook that doesn't throw if not in provider
 /**
- * Hook React `useAIChatContextOptional` que encapsula uma lógica reutilizável.
+ * Hook React `useAIChatContextOptional` que encapsula uma lÃ³gica reutilizÃ¡vel.
  * @returns {AIChatContextProviderState | null} Retorna um valor do tipo `AIChatContextProviderState | null`.
  */
 export function useAIChatContextOptional() {

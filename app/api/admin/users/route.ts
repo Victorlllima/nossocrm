@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+﻿import { createClient } from '@/lib/supabase/server';
 import { isAllowedOrigin } from '@/lib/security/sameOrigin';
 
 function json<T>(body: T, status = 200): Response {
@@ -30,7 +30,7 @@ export async function GET() {
   if (meError || !me?.organization_id) return json({ error: 'Profile not found' }, 404);
   if (me.role !== 'admin') return json({ error: 'Forbidden' }, 403);
 
-  // Performance: evita payload grande em organizações com muitos usuários.
+  // Performance: evita payload grande em organizaÃ§Ãµes com muitos usuÃ¡rios.
   const { data: profiles, error } = await supabase
     .from('profiles')
     .select('id, email, role, organization_id, created_at')
@@ -55,11 +55,11 @@ export async function GET() {
 /**
  * Handler HTTP `POST` deste endpoint (Next.js Route Handler).
  *
- * @param {Request} req - Objeto da requisição.
+ * @param {Request} req - Objeto da requisiÃ§Ã£o.
  * @returns {Promise<Response>} Retorna um valor do tipo `Promise<Response>`.
  */
 export async function POST(req: Request) {
-  // Reservado para futuro: criação direta de usuário pelo painel.
+  // Reservado para futuro: criaÃ§Ã£o direta de usuÃ¡rio pelo painel.
   if (!isAllowedOrigin(req)) return json({ error: 'Forbidden' }, 403);
 
   return json({ error: 'Not implemented' }, 501);

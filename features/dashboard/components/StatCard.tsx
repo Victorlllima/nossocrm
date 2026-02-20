@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 
 // Map Tailwind bg-color classes to hex values for Tailwind v4 compatibility
@@ -39,8 +39,8 @@ interface StatCardProps {
     icon: Icon,
     color,
     onClick,
-    comparisonLabel = 'vs período anterior'
-} - Parâmetro `{
+    comparisonLabel = 'vs perÃ­odo anterior'
+} - ParÃ¢metro `{
     title,
     value,
     subtext,
@@ -48,7 +48,7 @@ interface StatCardProps {
     icon: Icon,
     color,
     onClick,
-    comparisonLabel = 'vs período anterior'
+    comparisonLabel = 'vs perÃ­odo anterior'
 }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
@@ -60,7 +60,7 @@ export const StatCard: React.FC<StatCardProps> = ({
     icon: Icon,
     color,
     onClick,
-    comparisonLabel = 'vs período anterior'
+    comparisonLabel = 'vs perÃ­odo anterior'
 }) => {
     const TrendIcon = subtextPositive ? TrendingUp : TrendingDown;
     const trendColorClass = subtextPositive

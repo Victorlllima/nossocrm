@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+﻿import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { NextRequest } from 'next/server'
 
 type MockUser = { id: string }
@@ -93,7 +93,7 @@ describe('updateSession (Proxy/Supabase)', () => {
     expect(res).toMatchObject({ kind: 'next' })
   })
 
-  it('permite /setup sem autenticação (sem redirect)', async () => {
+  it('permite /setup sem autenticaÃ§Ã£o (sem redirect)', async () => {
     const req = makeRequest('/setup')
 
     const res = await updateSession(req)
@@ -102,7 +102,7 @@ describe('updateSession (Proxy/Supabase)', () => {
     expect(res).toMatchObject({ kind: 'next' })
   })
 
-  it('permite /join/* sem autenticação (sem redirect)', async () => {
+  it('permite /join/* sem autenticaÃ§Ã£o (sem redirect)', async () => {
     const req = makeRequest('/join')
 
     const res = await updateSession(req)
@@ -111,7 +111,7 @@ describe('updateSession (Proxy/Supabase)', () => {
     expect(res).toMatchObject({ kind: 'next' })
   })
 
-  it('permite /auth/callback sem autenticação (sem redirect)', async () => {
+  it('permite /auth/callback sem autenticaÃ§Ã£o (sem redirect)', async () => {
     const req = makeRequest('/auth/callback')
 
     const res = await updateSession(req)
@@ -120,7 +120,7 @@ describe('updateSession (Proxy/Supabase)', () => {
     expect(res).toMatchObject({ kind: 'next' })
   })
 
-  it('redireciona rota protegida para /login quando não autenticado', async () => {
+  it('redireciona rota protegida para /login quando nÃ£o autenticado', async () => {
     const req = makeRequest('/dashboard')
 
     const res = await updateSession(req)
@@ -131,7 +131,7 @@ describe('updateSession (Proxy/Supabase)', () => {
     expect(res).toMatchObject({ kind: 'redirect' })
   })
 
-  it('redireciona usuário autenticado para /dashboard quando acessa /login', async () => {
+  it('redireciona usuÃ¡rio autenticado para /dashboard quando acessa /login', async () => {
     mocks.state.currentUser = { id: 'user-1' }
     const req = makeRequest('/login')
 

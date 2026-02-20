@@ -1,10 +1,10 @@
-import { createClient } from '@/lib/supabase/server'
+﻿import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 
 /**
- * Função pública `GET` do projeto.
+ * FunÃ§Ã£o pÃºblica `GET` do projeto.
  *
- * @param {Request} request - Objeto da requisição.
+ * @param {Request} request - Objeto da requisiÃ§Ã£o.
  * @returns {Promise<NextResponse<unknown>>} Retorna um valor do tipo `Promise<NextResponse<unknown>>`.
  */
 export async function GET(request: Request) {

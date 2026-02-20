@@ -1,4 +1,4 @@
-// Route Handler for AI "actions" (RPC-style helpers)
+﻿// Route Handler for AI "actions" (RPC-style helpers)
 //
 // This is the supported non-streaming endpoint for UI features that need a single, direct
 // AI result (e.g. email draft, board generation, daily briefing).
@@ -47,16 +47,16 @@ type AIAction =
   | 'generateSalesScript';
 
 const AnalyzeLeadSchema = z.object({
-  action: z.string().max(50).describe('Ação curta e direta, máximo 50 caracteres.'),
-  reason: z.string().max(80).describe('Razão breve, máximo 80 caracteres.'),
-  actionType: z.enum(['CALL', 'MEETING', 'EMAIL', 'TASK', 'WHATSAPP']).describe('Tipo de ação sugerida'),
-  urgency: z.enum(['low', 'medium', 'high']).describe('Urgência da ação'),
+  action: z.string().max(50).describe('AÃ§Ã£o curta e direta, mÃ¡ximo 50 caracteres.'),
+  reason: z.string().max(80).describe('RazÃ£o breve, mÃ¡ximo 80 caracteres.'),
+  actionType: z.enum(['CALL', 'MEETING', 'EMAIL', 'TASK', 'WHATSAPP']).describe('Tipo de aÃ§Ã£o sugerida'),
+  urgency: z.enum(['low', 'medium', 'high']).describe('UrgÃªncia da aÃ§Ã£o'),
   probabilityScore: z.number().min(0).max(100).describe('Score de probabilidade (0-100)'),
 });
 
 const BoardStructureSchema = z.object({
-  boardName: z.string().describe('Nome do board em português'),
-  description: z.string().describe('Descrição do propósito do board'),
+  boardName: z.string().describe('Nome do board em portuguÃªs'),
+  description: z.string().describe('DescriÃ§Ã£o do propÃ³sito do board'),
   stages: z.array(
     z.object({
       name: z.string(),
@@ -84,11 +84,11 @@ const BoardStrategySchema = z.object({
 });
 
 const RefineBoardSchema = z.object({
-  message: z.string().describe('Resposta conversacional explicando mudanças'),
+  message: z.string().describe('Resposta conversacional explicando mudanÃ§as'),
   board: BoardStructureSchema.nullable().describe('Board modificado ou null se apenas pergunta'),
 });
 
-const ObjectionResponseSchema = z.array(z.string()).describe('3 respostas diferentes para contornar objeção');
+const ObjectionResponseSchema = z.array(z.string()).describe('3 respostas diferentes para contornar objeÃ§Ã£o');
 
 const ParsedActionSchema = z.object({
   title: z.string(),
@@ -134,11 +134,11 @@ function json<T>(body: T, status = 200): Response {
 /**
  * Handler HTTP `POST` deste endpoint (Next.js Route Handler).
  *
- * @param {Request} req - Objeto da requisição.
+ * @param {Request} req - Objeto da requisiÃ§Ã£o.
  * @returns {Promise<Response>} Retorna um valor do tipo `Promise<Response>`.
  */
 export async function POST(req: Request) {
-  // Mitigação CSRF: bloqueia POST cross-site em endpoint que usa auth via cookies.
+  // MitigaÃ§Ã£o CSRF: bloqueia POST cross-site em endpoint que usa auth via cookies.
   if (!isAllowedOrigin(req)) {
     return json<AIActionResponse>({ error: 'Forbidden' }, 403);
   }
@@ -180,7 +180,7 @@ export async function POST(req: Request) {
   const aiEnabled = typeof (orgSettings as any)?.ai_enabled === 'boolean' ? (orgSettings as any).ai_enabled : true;
   if (!aiEnabled) {
     return json<AIActionResponse>(
-      { error: 'IA desativada pela organização. Um admin pode ativar em Configurações → Central de I.A.' },
+      { error: 'IA desativada pela organizaÃ§Ã£o. Um admin pode ativar em ConfiguraÃ§Ãµes â†’ Central de I.A.' },
       403
     );
   }
@@ -205,7 +205,7 @@ export async function POST(req: Request) {
     const enabled = await isAIFeatureEnabled(supabase as any, profile.organization_id as any, featureKey);
     if (!enabled) {
       return json<AIActionResponse>(
-        { error: `Função de IA desativada para esta ação (${action}).` },
+        { error: `FunÃ§Ã£o de IA desativada para esta aÃ§Ã£o (${action}).` },
         403
       );
     }
@@ -281,8 +281,8 @@ export async function POST(req: Request) {
           model,
           maxRetries: 3,
           schema: RewriteMessageDraftSchema,
-          prompt: `Você é um vendedor sênior e copywriter.
-Sua tarefa é REESCREVER (melhorar) uma mensagem para enviar ao cliente.
+          prompt: `VocÃª Ã© um vendedor sÃªnior e copywriter.
+Sua tarefa Ã© REESCREVER (melhorar) uma mensagem para enviar ao cliente.
 
 CANAL: ${channelLabel}
 
@@ -290,30 +290,30 @@ RASCUNHO ATUAL:
 - subject (se houver): ${String(currentSubject ?? '')}
 - message: ${String(currentMessage ?? '')}
 
-PRÓXIMA AÇÃO (sugestão/NBA):
-${nbaText || '[não fornecida]'}
+PRÃ“XIMA AÃ‡ÃƒO (sugestÃ£o/NBA):
+${nbaText || '[nÃ£o fornecida]'}
 
 CONTEXTO COMPLETO (cockpitSnapshot):
-${snapshotText || '[não fornecido]'}
+${snapshotText || '[nÃ£o fornecido]'}
 
 REGRAS:
-1) Português do Brasil, natural e humano. Evite jargão e evite rótulos tipo "Contexto:"/"Sobre:".
-2) Use o contexto para personalizar (nome, deal, etapa, próximos passos), mas NÃO invente fatos.
-3) Para WHATSAPP: curto, direto e MUITO legível no WhatsApp. Use quebras de linha (parágrafos) e, quando houver opções, use lista com marcadores no formato "- item" (hífen + espaço). Evite parágrafos longos. 3–10 linhas.
-4) Para EMAIL: devolva subject + body (message = body). Aplique boas práticas de email de vendas/CRM:
-   - Assunto curto e específico (<= 80), sem ALL CAPS e sem "RE:" falso.
-   - Corpo SEMPRE bem escaneável: parágrafos curtos (1–2 frases), com linhas em branco entre blocos.
+1) PortuguÃªs do Brasil, natural e humano. Evite jargÃ£o e evite rÃ³tulos tipo "Contexto:"/"Sobre:".
+2) Use o contexto para personalizar (nome, deal, etapa, prÃ³ximos passos), mas NÃƒO invente fatos.
+3) Para WHATSAPP: curto, direto e MUITO legÃ­vel no WhatsApp. Use quebras de linha (parÃ¡grafos) e, quando houver opÃ§Ãµes, use lista com marcadores no formato "- item" (hÃ­fen + espaÃ§o). Evite parÃ¡grafos longos. 3â€“10 linhas.
+4) Para EMAIL: devolva subject + body (message = body). Aplique boas prÃ¡ticas de email de vendas/CRM:
+   - Assunto curto e especÃ­fico (<= 80), sem ALL CAPS e sem "RE:" falso.
+   - Corpo SEMPRE bem escaneÃ¡vel: parÃ¡grafos curtos (1â€“2 frases), com linhas em branco entre blocos.
    - Estrutura sugerida (adapte ao contexto):
-     a) Saudação breve (use o nome se tiver certeza).
-     b) 1 frase de contexto (por que está falando agora).
-     c) 1–2 bullets com valor/objetivo ou próximos passos (use "- ").
-     d) CTA claro e simples (uma pergunta) e, se houver opções de agenda, liste em bullets ("- segunda 10h", "- terça 15h").
+     a) SaudaÃ§Ã£o breve (use o nome se tiver certeza).
+     b) 1 frase de contexto (por que estÃ¡ falando agora).
+     c) 1â€“2 bullets com valor/objetivo ou prÃ³ximos passos (use "- ").
+     d) CTA claro e simples (uma pergunta) e, se houver opÃ§Ãµes de agenda, liste em bullets ("- segunda 10h", "- terÃ§a 15h").
      e) Fechamento curto (ex.: "Obrigado!"), sem assinatura com dados pessoais.
-   - Evite bloco único de texto: NÃO devolva tudo em um parágrafo.
-   - Tamanho: 6–16 linhas no total (incluindo linhas em branco).
-5) Não inclua placeholders (tipo "[nome]") e não inclua assinatura com dados pessoais.
+   - Evite bloco Ãºnico de texto: NÃƒO devolva tudo em um parÃ¡grafo.
+   - Tamanho: 6â€“16 linhas no total (incluindo linhas em branco).
+5) NÃ£o inclua placeholders (tipo "[nome]") e nÃ£o inclua assinatura com dados pessoais.
 
-Retorne APENAS no formato do schema (subject opcional, message obrigatório).`,
+Retorne APENAS no formato do schema (subject opcional, message obrigatÃ³rio).`,
         });
 
         return json<AIActionResponse>({ result: result.object });
@@ -327,7 +327,7 @@ Retorne APENAS no formato do schema (subject opcional, message obrigatório).`,
           prompt: `Gere uma mensagem de resgate/follow-up para reativar um deal parado.
 DEAL: ${deal?.title} (${deal?.contactName || ''})
 CANAL: ${channel}
-Responda em português do Brasil.`,
+Responda em portuguÃªs do Brasil.`,
         });
         return json<AIActionResponse>({ result: result.text });
       }
@@ -377,7 +377,7 @@ Responda em português do Brasil.`,
 
       case 'refineBoardWithAI': {
         const { currentBoard, userInstruction, chatHistory } = data as any;
-        const historyContext = chatHistory ? `\nHistórico:\n${JSON.stringify(chatHistory)}` : '';
+        const historyContext = chatHistory ? `\nHistÃ³rico:\n${JSON.stringify(chatHistory)}` : '';
         const boardContext = currentBoard
           ? `\nBoard atual (JSON):\n${JSON.stringify(currentBoard)}`
           : '';
@@ -431,8 +431,8 @@ Campos: title, type (CALL/MEETING/EMAIL/TASK), date, contactName, companyName, c
           maxRetries: 3,
           prompt: `Assistente CRM.
 Contexto: ${JSON.stringify(context)}
-Usuário: ${message}
-Responda em português.`,
+UsuÃ¡rio: ${message}
+Responda em portuguÃªs.`,
         });
         return json<AIActionResponse>({ result: result.text });
       }
@@ -442,7 +442,7 @@ Responda em português.`,
         const result = await generateText({
           model,
           maxRetries: 3,
-          prompt: `Parabéns para ${contactName} (${age || ''} anos). Curto e profissional.`,
+          prompt: `ParabÃ©ns para ${contactName} (${age || ''} anos). Curto e profissional.`,
         });
         return json<AIActionResponse>({ result: result.text });
       }

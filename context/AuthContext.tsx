@@ -1,8 +1,8 @@
-/**
- * @fileoverview Contexto de Autenticação
+﻿/**
+ * @fileoverview Contexto de AutenticaÃ§Ã£o
  * 
- * Provider React que gerencia autenticação Supabase e perfil do usuário.
- * Fornece sessão, usuário, perfil e organizationId para toda a aplicação.
+ * Provider React que gerencia autenticaÃ§Ã£o Supabase e perfil do usuÃ¡rio.
+ * Fornece sessÃ£o, usuÃ¡rio, perfil e organizationId para toda a aplicaÃ§Ã£o.
  * 
  * @module context/AuthContext
  * 
@@ -33,19 +33,19 @@ import { supabase } from '../lib/supabase';
 import type { OrganizationId } from '../types';
 
 /**
- * Perfil do usuário no sistema
+ * Perfil do usuÃ¡rio no sistema
  * 
  * @interface Profile
- * @property {string} id - UUID do usuário (= auth.users.id)
- * @property {string} email - Email do usuário
- * @property {OrganizationId} organization_id - ID da organização (tenant)
- * @property {'admin' | 'vendedor'} role - Papel do usuário
+ * @property {string} id - UUID do usuÃ¡rio (= auth.users.id)
+ * @property {string} email - Email do usuÃ¡rio
+ * @property {OrganizationId} organization_id - ID da organizaÃ§Ã£o (tenant)
+ * @property {'admin' | 'vendedor'} role - Papel do usuÃ¡rio
  * @property {string | null} [first_name] - Primeiro nome
  * @property {string | null} [last_name] - Sobrenome
  * @property {string | null} [nickname] - Apelido
  * @property {string | null} [phone] - Telefone
  * @property {string | null} [avatar_url] - URL do avatar
- * @property {string} [created_at] - Data de criação
+ * @property {string} [created_at] - Data de criaÃ§Ã£o
  */
 interface Profile {
     id: string;
@@ -58,35 +58,35 @@ interface Profile {
     phone?: string | null;
     avatar_url?: string | null;
     created_at?: string;
-    /** Se TRUE, usuário deve trocar a senha antes de acessar o sistema */
+    /** Se TRUE, usuÃ¡rio deve trocar a senha antes de acessar o sistema */
     must_change_password?: boolean;
 }
 
 /**
- * Tipo do contexto de autenticação
+ * Tipo do contexto de autenticaÃ§Ã£o
  * 
  * @interface AuthContextType
  */
 interface AuthContextType {
-    /** Sessão Supabase ativa */
+    /** SessÃ£o Supabase ativa */
     session: Session | null;
-    /** Usuário Supabase autenticado */
+    /** UsuÃ¡rio Supabase autenticado */
     user: User | null;
-    /** Perfil do usuário com dados da organização */
+    /** Perfil do usuÃ¡rio com dados da organizaÃ§Ã£o */
     profile: Profile | null;
-    /** Getter de conveniência para profile.organization_id */
+    /** Getter de conveniÃªncia para profile.organization_id */
     organizationId: OrganizationId | null;
-    /** Se está carregando dados iniciais */
+    /** Se estÃ¡ carregando dados iniciais */
     loading: boolean;
-    /** Se a instância foi inicializada (setup feito) */
+    /** Se a instÃ¢ncia foi inicializada (setup feito) */
     isInitialized: boolean | null;
-    /** Se o usuário precisa completar o onboarding (tem user mas não tem org) */
+    /** Se o usuÃ¡rio precisa completar o onboarding (tem user mas nÃ£o tem org) */
     needsOnboarding: boolean;
-    /** Se o usuário precisa trocar a senha (must_change_password = true) */
+    /** Se o usuÃ¡rio precisa trocar a senha (must_change_password = true) */
     requiresPasswordChange: boolean;
-    /** Verifica se instância foi inicializada */
+    /** Verifica se instÃ¢ncia foi inicializada */
     checkInitialization: () => Promise<void>;
-    /** Faz logout do usuário */
+    /** Faz logout do usuÃ¡rio */
     signOut: () => Promise<void>;
     /** Recarrega dados do perfil */
     refreshProfile: () => Promise<void>;
@@ -95,10 +95,10 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 /**
- * Provider de autenticação
+ * Provider de autenticaÃ§Ã£o
  * 
- * Gerencia sessão Supabase e mantém perfil do usuário sincronizado.
- * Escuta mudanças de estado de autenticação automaticamente.
+ * Gerencia sessÃ£o Supabase e mantÃ©m perfil do usuÃ¡rio sincronizado.
+ * Escuta mudanÃ§as de estado de autenticaÃ§Ã£o automaticamente.
  * 
  * @param {Object} props - Props do componente
  * @param {React.ReactNode} props.children - Componentes filhos
@@ -123,7 +123,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [loading, setLoading] = useState(true);
     const [isInitialized, setIsInitialized] = useState<boolean | null>(null);
 
-    // Supabase client pode ser null quando envs não estão configuradas.
+    // Supabase client pode ser null quando envs nÃ£o estÃ£o configuradas.
     // O app real exige Supabase configurado, mas este guard evita falha no build.
     const sb = supabase;
 
@@ -173,7 +173,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     useEffect(() => {
-        // BYPASS: Se DEV_MODE estiver ativo, simular usuário logado
+        // BYPASS: Se DEV_MODE estiver ativo, simular usuÃ¡rio logado
         if (process.env.NEXT_PUBLIC_DEV_MODE === 'true') {
             const devUserId = process.env.NEXT_PUBLIC_DEV_USER_ID || '00000000-0000-0000-0000-000000000002';
             console.log(`[AuthContext] DEV_MODE bypass active. Mocking user: ${devUserId}`);
@@ -182,13 +182,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setUser({ id: devUserId, email: 'dev@test.com' } as any);
             setSession({ user: { id: devUserId } } as any);
 
-            // Buscar o perfil do usuário fake para ter organization_id
+            // Buscar o perfil do usuÃ¡rio fake para ter organization_id
             fetchProfile(devUserId);
             return;
         }
 
         if (!sb) {
-            // Sem Supabase configurado: mantém app em estado "deslogado".
+            // Sem Supabase configurado: mantÃ©m app em estado "deslogado".
             setSession(null);
             setUser(null);
             setProfile(null);
@@ -254,12 +254,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 };
 
 /**
- * Hook para acessar contexto de autenticação
+ * Hook para acessar contexto de autenticaÃ§Ã£o
  * 
- * Fornece acesso ao usuário autenticado, perfil e funções de auth.
+ * Fornece acesso ao usuÃ¡rio autenticado, perfil e funÃ§Ãµes de auth.
  * Deve ser usado dentro de um AuthProvider.
  * 
- * @returns {AuthContextType} Contexto de autenticação
+ * @returns {AuthContextType} Contexto de autenticaÃ§Ã£o
  * @throws {Error} Se usado fora do AuthProvider
  * 
  * @example
@@ -272,7 +272,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
  *   
  *   return (
  *     <div>
- *       Olá, {profile?.first_name}!
+ *       OlÃ¡, {profile?.first_name}!
  *       Org: {organizationId}
  *     </div>
  *   );

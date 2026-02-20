@@ -1,4 +1,4 @@
-/**
+﻿/**
  * TanStack Query hooks for Contacts - Supabase Edition
  *
  * Features:

@@ -1,13 +1,13 @@
-import 'server-only';
+﻿import 'server-only';
 
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 /**
- * Função pública `isAIFeatureEnabled` do projeto.
+ * FunÃ§Ã£o pÃºblica `isAIFeatureEnabled` do projeto.
  *
- * @param {SupabaseClient<any, "public", "public", any, any>} supabase - Parâmetro `supabase`.
+ * @param {SupabaseClient<any, "public", "public", any, any>} supabase - ParÃ¢metro `supabase`.
  * @param {string} organizationId - Identificador do recurso.
- * @param {string} key - Parâmetro `key`.
+ * @param {string} key - ParÃ¢metro `key`.
  * @returns {Promise<boolean>} Retorna um valor do tipo `Promise<boolean>`.
  */
 export async function isAIFeatureEnabled(

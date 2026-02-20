@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useDeals } from '@/lib/query/hooks/useDealsQuery';
 import { useContacts } from '@/lib/query/hooks/useContactsQuery';
 import { useBoards, useDefaultBoard } from '@/lib/query/hooks/useBoardsQuery';
@@ -17,15 +17,15 @@ export type PeriodFilter =
   | 'last_year';
 
 export const PERIOD_LABELS: Record<PeriodFilter, string> = {
-  all: 'Todo o Período',
+  all: 'Todo o PerÃ­odo',
   today: 'Hoje',
   yesterday: 'Ontem',
-  last_7_days: 'Últimos 7 dias',
-  last_30_days: 'Últimos 30 dias',
-  this_month: 'Este Mês',
-  last_month: 'Mês Passado',
+  last_7_days: 'Ãšltimos 7 dias',
+  last_30_days: 'Ãšltimos 30 dias',
+  this_month: 'Este MÃªs',
+  last_month: 'MÃªs Passado',
   this_quarter: 'Este Trimestre',
-  last_quarter: 'Último Trimestre',
+  last_quarter: 'Ãšltimo Trimestre',
   this_year: 'Este Ano',
   last_year: 'Ano Passado',
 };
@@ -39,8 +39,8 @@ export const COMPARISON_LABELS: Record<PeriodFilter, string> = {
   yesterday: 'vs anteontem',
   last_7_days: 'vs 7 dias anteriores',
   last_30_days: 'vs 30 dias anteriores',
-  this_month: 'vs mês passado',
-  last_month: 'vs mês anterior',
+  this_month: 'vs mÃªs passado',
+  last_month: 'vs mÃªs anterior',
   this_quarter: 'vs trimestre passado',
   last_quarter: 'vs trimestre anterior',
   this_year: 'vs ano passado',
@@ -53,7 +53,7 @@ interface DateRange {
 }
 
 /**
- * Calcula o range de datas baseado no filtro de período
+ * Calcula o range de datas baseado no filtro de perÃ­odo
  */
 function getDateRange(period: PeriodFilter): DateRange {
   const now = new Date();
@@ -62,7 +62,7 @@ function getDateRange(period: PeriodFilter): DateRange {
 
   switch (period) {
     case 'all':
-      // Retorna um range desde 2000 até hoje (efetivamente "todos os dados")
+      // Retorna um range desde 2000 atÃ© hoje (efetivamente "todos os dados")
       return { start: new Date(2000, 0, 1), end: endOfToday };
 
     case 'today':
@@ -137,7 +137,7 @@ function getDateRange(period: PeriodFilter): DateRange {
 }
 
 /**
- * Calcula o período anterior equivalente para comparação
+ * Calcula o perÃ­odo anterior equivalente para comparaÃ§Ã£o
  */
 function getPreviousDateRange(period: PeriodFilter): DateRange {
   const current = getDateRange(period);
@@ -150,7 +150,7 @@ function getPreviousDateRange(period: PeriodFilter): DateRange {
 }
 
 /**
- * Calcula a variação percentual entre dois valores
+ * Calcula a variaÃ§Ã£o percentual entre dois valores
  */
 function calculateChange(current: number, previous: number): number {
   if (previous === 0) return current > 0 ? 100 : 0;
@@ -158,9 +158,9 @@ function calculateChange(current: number, previous: number): number {
 }
 
 /**
- * Hook React `useDashboardMetrics` que encapsula uma lógica reutilizável.
+ * Hook React `useDashboardMetrics` que encapsula uma lÃ³gica reutilizÃ¡vel.
  *
- * @param {PeriodFilter} period - Parâmetro `period`.
+ * @param {PeriodFilter} period - ParÃ¢metro `period`.
  * @param {string | undefined} boardId - Identificador do recurso.
  * @returns {{ isLoading: boolean; deals: Deal[]; totalValue: number; wonDeals: Deal[]; wonRevenue: number; winRate: number; pipelineValue: number; topDeals: Deal[]; funnelData: { name: string; count: number; fill: string; }[]; ... 19 more ...; activeSnapshotDeals: Deal[]; }} Retorna um valor do tipo `{ isLoading: boolean; deals: Deal[]; totalValue: number; wonDeals: Deal[]; wonRevenue: number; winRate: number; pipelineValue: number; topDeals: Deal[]; funnelData: { name: string; count: number; fill: string; }[]; ... 19 more ...; activeSnapshotDeals: Deal[]; }`.
  */
@@ -172,11 +172,11 @@ export const useDashboardMetrics = (period: PeriodFilter = 'this_month', boardId
 
   const isLoading = dealsLoading || contactsLoading;
 
-  // Calcular ranges de data para período atual e anterior
+  // Calcular ranges de data para perÃ­odo atual e anterior
   const dateRange = React.useMemo(() => getDateRange(period), [period]);
   const previousDateRange = React.useMemo(() => getPreviousDateRange(period), [period]);
 
-  // Filtrar deals por período atual e Board (se fornecido) - FLUXO/COHORT (Criados no período)
+  // Filtrar deals por perÃ­odo atual e Board (se fornecido) - FLUXO/COHORT (Criados no perÃ­odo)
   const deals = React.useMemo(() => {
     return allDeals.filter(deal => {
       const dealDate = new Date(deal.createdAt);
@@ -186,7 +186,7 @@ export const useDashboardMetrics = (period: PeriodFilter = 'this_month', boardId
     });
   }, [allDeals, dateRange, boardId]);
 
-  // Filtrar deals ATIVOS no Board atual - SNAPSHOT (O que está no funil HOJE, independente de data)
+  // Filtrar deals ATIVOS no Board atual - SNAPSHOT (O que estÃ¡ no funil HOJE, independente de data)
   const activeSnapshotDeals = React.useMemo(() => {
     return allDeals.filter(deal => {
       const boardMatch = boardId ? deal.boardId === boardId : true;
@@ -195,7 +195,7 @@ export const useDashboardMetrics = (period: PeriodFilter = 'this_month', boardId
     });
   }, [allDeals, boardId]);
 
-  // Filtrar deals por período anterior (para comparação)
+  // Filtrar deals por perÃ­odo anterior (para comparaÃ§Ã£o)
   const previousDeals = React.useMemo(() => {
     return allDeals.filter(deal => {
       const dealDate = new Date(deal.createdAt);
@@ -205,7 +205,7 @@ export const useDashboardMetrics = (period: PeriodFilter = 'this_month', boardId
     });
   }, [allDeals, previousDateRange, boardId]);
 
-  // Filtrar contacts por período atual
+  // Filtrar contacts por perÃ­odo atual
   const contacts = React.useMemo(() => {
     return allContacts.filter(contact => {
       const contactDate = new Date(contact.createdAt);
@@ -213,7 +213,7 @@ export const useDashboardMetrics = (period: PeriodFilter = 'this_month', boardId
     });
   }, [allContacts, dateRange]);
 
-  // Filtrar contacts por período anterior
+  // Filtrar contacts por perÃ­odo anterior
   const previousContacts = React.useMemo(() => {
     return allContacts.filter(contact => {
       const contactDate = new Date(contact.createdAt);
@@ -223,12 +223,12 @@ export const useDashboardMetrics = (period: PeriodFilter = 'this_month', boardId
 
   // Calculate metrics
 
-  // Total Value -> Valor total de novos negócios no período
+  // Total Value -> Valor total de novos negÃ³cios no perÃ­odo
   const totalValue = deals.reduce((acc, deal) => acc + deal.value, 0);
 
-  // Won Deals -> Negócios ganhos que foram criados neste período (Cohort View)
-  // TODO: Em um futuro refactor, talvez o usuário queira "Ganhos neste mês" independente de criação.
-  // Por enquanto, mantemos a consistência com "deals" que é filtrado por criação.
+  // Won Deals -> NegÃ³cios ganhos que foram criados neste perÃ­odo (Cohort View)
+  // TODO: Em um futuro refactor, talvez o usuÃ¡rio queira "Ganhos neste mÃªs" independente de criaÃ§Ã£o.
+  // Por enquanto, mantemos a consistÃªncia com "deals" que Ã© filtrado por criaÃ§Ã£o.
   const wonDeals = deals.filter(d => d.isWon);
   const lostDeals = deals.filter(d => d.isLost);
 
@@ -237,20 +237,20 @@ export const useDashboardMetrics = (period: PeriodFilter = 'this_month', boardId
 
   const wonRevenue = wonDeals.reduce((acc, l) => acc + l.value, 0);
 
-  // Win Rate do período
+  // Win Rate do perÃ­odo
   const winRate = deals.length > 0 ? (wonDeals.length / deals.length) * 100 : 0;
 
-  // Métricas do período anterior
+  // MÃ©tricas do perÃ­odo anterior
   const previousWonDeals = previousDeals.filter(d => d.isWon);
 
-  // Para comparação do Pipeline Value, precisamos do snapshot anterior... 
-  // O que é difícil calcular precisamente sem histórico.
-  // Vamos usar a aproximação dos deals criados no período anterior que ainda estão ativos (proxy)
-  // OU simplesmente comparar "Novos negócios ativos" vs "Novos negócios ativos anteriores".
-  // Para manter consistência visual nos cards, vamos comparar "Novos Ativos" vs "Novos Ativos Anteriores" nos cards de mudança,
-  // mas o valor exibido principal será o Snapshot Total.
-  // Ajuste: A variação do Pipeline Value Total é complexa. Vamos simplificar mostrando variação de novos volumes.
-  const activeDealsInPeriod = deals.filter(d => !d.isWon && !d.isLost); // Criados no período e ativos
+  // Para comparaÃ§Ã£o do Pipeline Value, precisamos do snapshot anterior... 
+  // O que Ã© difÃ­cil calcular precisamente sem histÃ³rico.
+  // Vamos usar a aproximaÃ§Ã£o dos deals criados no perÃ­odo anterior que ainda estÃ£o ativos (proxy)
+  // OU simplesmente comparar "Novos negÃ³cios ativos" vs "Novos negÃ³cios ativos anteriores".
+  // Para manter consistÃªncia visual nos cards, vamos comparar "Novos Ativos" vs "Novos Ativos Anteriores" nos cards de mudanÃ§a,
+  // mas o valor exibido principal serÃ¡ o Snapshot Total.
+  // Ajuste: A variaÃ§Ã£o do Pipeline Value Total Ã© complexa. Vamos simplificar mostrando variaÃ§Ã£o de novos volumes.
+  const activeDealsInPeriod = deals.filter(d => !d.isWon && !d.isLost); // Criados no perÃ­odo e ativos
   const previousActiveDeals = previousDeals.filter(d => !d.isWon && !d.isLost);
 
   const previousPipelineValueProxy = previousActiveDeals.reduce((acc, l) => acc + l.value, 0);
@@ -261,22 +261,22 @@ export const useDashboardMetrics = (period: PeriodFilter = 'this_month', boardId
     ? (previousWonDeals.length / previousDeals.length) * 100
     : 0;
 
-  // Calcular variações percentuais
-  // Nota: Para Pipeline Total, estamos comparando o "Volume Novo Adicionado" vs "Volume Novo Anterior" como indicador de tendência
+  // Calcular variaÃ§Ãµes percentuais
+  // Nota: Para Pipeline Total, estamos comparando o "Volume Novo Adicionado" vs "Volume Novo Anterior" como indicador de tendÃªncia
   const pipelineChange = calculateChange(currentPipelineValueProxy, previousPipelineValueProxy);
   const dealsChange = calculateChange(activeDealsInPeriod.length, previousActiveDeals.length);
   const winRateChange = calculateChange(winRate, previousWinRate);
   const revenueChange = calculateChange(wonRevenue, previousWonRevenue);
 
-  // Top Deals (Highest Value) - Mostra do Snapshot (Ativos grandes) ou do Período?
+  // Top Deals (Highest Value) - Mostra do Snapshot (Ativos grandes) ou do PerÃ­odo?
   // Geralmente num dashboard queremos ver as maiores oportunidades ABERTAS agora.
   const topDeals = [...activeSnapshotDeals]
     .sort((a, b) => b.value - a.value)
     .slice(0, 4);
 
-  // Prepare Chart Data - usar stages do board padrão ou selecionado
+  // Prepare Chart Data - usar stages do board padrÃ£o ou selecionado
   const funnelData = React.useMemo(() => {
-    // Se boardId foi fornecido, tenta achar o board específico. Se não, usa default ou o primeiro.
+    // Se boardId foi fornecido, tenta achar o board especÃ­fico. Se nÃ£o, usa default ou o primeiro.
     const selectedBoard = boardId
       ? boards.find(b => b.id === boardId)
       : (defaultBoard || boards[0]);
@@ -297,7 +297,7 @@ export const useDashboardMetrics = (period: PeriodFilter = 'this_month', boardId
     };
 
     if (stages.length === 0) {
-      // Fallback simples se não tiver stages
+      // Fallback simples se nÃ£o tiver stages
       return [
         { name: 'Em aberto', count: deals.filter(d => !d.isWon && !d.isLost).length, fill: '#3b82f6' },
         { name: 'Ganho', count: deals.filter(d => d.isWon).length, fill: '#22c55e' },
@@ -306,7 +306,7 @@ export const useDashboardMetrics = (period: PeriodFilter = 'this_month', boardId
     }
 
     // Usar dados de SNAPSHOT (activeSnapshotDeals)
-    // Mostra tudo que está no funil AGORA, independente de quando foi criado.
+    // Mostra tudo que estÃ¡ no funil AGORA, independente de quando foi criado.
     return stages.map(stage => ({
       name: stage.label,
       count: activeSnapshotDeals.filter(d => d.status === stage.id).length,
@@ -347,8 +347,8 @@ export const useDashboardMetrics = (period: PeriodFilter = 'this_month', boardId
     });
   }, [wonDeals]);
 
-  // Wallet Health Metrics - Usa TODOS os contatos (não filtrados por período)
-  // A saúde da carteira é um snapshot atual, não depende do período selecionado
+  // Wallet Health Metrics - Usa TODOS os contatos (nÃ£o filtrados por perÃ­odo)
+  // A saÃºde da carteira Ã© um snapshot atual, nÃ£o depende do perÃ­odo selecionado
   /**
    * Performance: compute contact buckets in a single pass (avoid 3 filters + 1 reduce).
    */
@@ -420,13 +420,13 @@ export const useDashboardMetrics = (period: PeriodFilter = 'this_month', boardId
   }
   const avgSalesCycle = salesCycleCount > 0 ? Math.round(salesCycleSum / salesCycleCount) : 0;
 
-  // Conversion Funnel Metrics (lostDeals já calculado acima)
+  // Conversion Funnel Metrics (lostDeals jÃ¡ calculado acima)
   const totalClosedDeals = wonDeals.length + lostDeals.length;
   const actualWinRate = totalClosedDeals > 0 ? (wonDeals.length / totalClosedDeals) * 100 : 0;
 
   // Loss Reasons Analysis
   const lossReasons = lostDeals.reduce((acc, deal) => {
-    const reason = deal.lossReason || 'Não especificado';
+    const reason = deal.lossReason || 'NÃ£o especificado';
     acc[reason] = (acc[reason] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
@@ -478,7 +478,7 @@ export const useDashboardMetrics = (period: PeriodFilter = 'this_month', boardId
     lostDeals,
     topLossReasons,
     wonDealsWithDates,
-    // Variações percentuais para comparação
+    // VariaÃ§Ãµes percentuais para comparaÃ§Ã£o
     changes: {
       pipeline: pipelineChange,
       deals: dealsChange,
@@ -486,7 +486,7 @@ export const useDashboardMetrics = (period: PeriodFilter = 'this_month', boardId
       revenue: revenueChange,
     },
     activeSnapshotDeals, // Exposing full active pipeline for alerts
-    // Flag para detectar usuários novos sem dados
+    // Flag para detectar usuÃ¡rios novos sem dados
     isEmpty: allDeals.length === 0 && allContacts.length === 0,
     hasNoDeals: allDeals.length === 0,
     hasNoContacts: allContacts.length === 0,

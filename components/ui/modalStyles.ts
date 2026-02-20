@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Modal design tokens (Tailwind class strings).
  *
  * Goal: keep all modals visually/behaviorally coherent:

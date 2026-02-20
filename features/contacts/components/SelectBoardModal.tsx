@@ -1,4 +1,4 @@
-import React, { useId } from 'react';
+﻿import React, { useId } from 'react';
 import { X, LayoutGrid } from 'lucide-react';
 import { Board } from '@/types';
 import { FocusTrap, useFocusReturn } from '@/lib/a11y';
@@ -20,7 +20,7 @@ interface SelectBoardModalProps {
   onSelect,
   boards,
   contactName,
-} - Parâmetro `{
+} - ParÃ¢metro `{
   isOpen,
   onClose,
   onSelect,
@@ -97,7 +97,7 @@ export const SelectBoardModal: React.FC<SelectBoardModalProps> = ({
                     </p>
                   )}
                   <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
-                    {board.stages?.length || 0} estágios
+                    {board.stages?.length || 0} estÃ¡gios
                   </p>
                 </div>
               </button>
@@ -108,7 +108,7 @@ export const SelectBoardModal: React.FC<SelectBoardModalProps> = ({
         {/* Footer */}
         <div className="p-4 border-t border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5">
           <p className="text-xs text-slate-500 dark:text-slate-400 text-center">
-            O deal será criado no primeiro estágio do board selecionado
+            O deal serÃ¡ criado no primeiro estÃ¡gio do board selecionado
           </p>
         </div>
         </div>

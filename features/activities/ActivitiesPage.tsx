@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useActivitiesController } from './hooks/useActivitiesController';
 import { ActivitiesHeader } from './components/ActivitiesHeader';
 import { ActivitiesFilters } from './components/ActivitiesFilters';
@@ -62,13 +62,13 @@ export const ActivitiesPage: React.FC = () => {
         selectedActivities.forEach(id => {
             handleToggleComplete(id);
         });
-        addToast(`${selectedActivities.size} atividades concluídas!`, 'success');
+        addToast(`${selectedActivities.size} atividades concluÃ­das!`, 'success');
         handleClearSelection();
     };
 
     const handleSnoozeAll = () => {
         // In a real app, this would update the date of each activity
-        addToast(`${selectedActivities.size} atividades adiadas para amanhã!`, 'success');
+        addToast(`${selectedActivities.size} atividades adiadas para amanhÃ£!`, 'success');
         handleClearSelection();
     };
 

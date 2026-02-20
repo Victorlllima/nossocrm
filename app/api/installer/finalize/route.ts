@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { isAllowedOrigin } from '@/lib/security/sameOrigin';
 import { upsertProjectEnvs, waitForVercelDeploymentReady } from '@/lib/installer/vercel';
 
@@ -30,7 +30,7 @@ const Schema = z
   .strict();
 
 /**
- * Finaliza a instalação quando tudo já foi aplicado, mas o wizard ficou aguardando o redeploy na Vercel.
+ * Finaliza a instalaÃ§Ã£o quando tudo jÃ¡ foi aplicado, mas o wizard ficou aguardando o redeploy na Vercel.
  *
  * - Espera o deployment ficar READY
  * - Desabilita o instalador (INSTALLER_ENABLED=false)
@@ -61,14 +61,14 @@ export async function POST(req: Request) {
     return json(
       {
         error:
-          'O redeploy ainda está finalizando na Vercel. Aguarde mais um pouco e tente novamente.',
+          'O redeploy ainda estÃ¡ finalizando na Vercel. Aguarde mais um pouco e tente novamente.',
         lastReadyState: wait.lastReadyState,
       },
       504
     );
   }
 
-  // Só desabilita o instalador APÓS o deploy estar READY (evita travar o wizard por erro transient).
+  // SÃ³ desabilita o instalador APÃ“S o deploy estar READY (evita travar o wizard por erro transient).
   await upsertProjectEnvs(
     token,
     projectId,

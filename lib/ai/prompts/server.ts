@@ -1,4 +1,4 @@
-import 'server-only';
+﻿import 'server-only';
 
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { getPromptCatalogMap } from './catalog';
@@ -20,11 +20,11 @@ type DbPromptRow = {
 };
 
 /**
- * Função pública `getResolvedPrompt` do projeto.
+ * FunÃ§Ã£o pÃºblica `getResolvedPrompt` do projeto.
  *
- * @param {SupabaseClient<any, "public", "public", any, any>} supabase - Parâmetro `supabase`.
+ * @param {SupabaseClient<any, "public", "public", any, any>} supabase - ParÃ¢metro `supabase`.
  * @param {string} organizationId - Identificador do recurso.
- * @param {string} key - Parâmetro `key`.
+ * @param {string} key - ParÃ¢metro `key`.
  * @returns {Promise<PromptResolution | null>} Retorna um valor do tipo `Promise<PromptResolution | null>`.
  */
 export async function getResolvedPrompt(
@@ -44,7 +44,7 @@ export async function getResolvedPrompt(
     .maybeSingle();
 
   if (error) {
-    // Não quebrar IA por falha em prompt override; apenas log e fallback.
+    // NÃ£o quebrar IA por falha em prompt override; apenas log e fallback.
     console.warn('[ai/prompts] Failed to load override; using default.', { key, message: error.message });
   }
 

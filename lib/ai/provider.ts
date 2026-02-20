@@ -1,4 +1,4 @@
-import { createGoogleGenerativeAI } from '@ai-sdk/google';
+﻿import { createGoogleGenerativeAI } from '@ai-sdk/google';
 
 /**
  * Creates a Google Generative AI provider with the given API key.

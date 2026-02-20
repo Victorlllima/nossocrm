@@ -1,23 +1,23 @@
-import { z } from 'zod'
+﻿import { z } from 'zod'
 
 /**
- * Schema de validação para cadastro de usuário
+ * Schema de validaÃ§Ã£o para cadastro de usuÃ¡rio
  * Usado tanto no cliente (react-hook-form) quanto no servidor (Server Action)
  */
 export const signupFormSchema = z.object({
     email: z
         .string()
-        .min(1, 'Email é obrigatório')
-        .email('Email inválido'),
+        .min(1, 'Email Ã© obrigatÃ³rio')
+        .email('Email invÃ¡lido'),
     password: z
         .string()
-        .min(6, 'Senha deve ter no mínimo 6 caracteres')
-        .max(72, 'Senha deve ter no máximo 72 caracteres'),
+        .min(6, 'Senha deve ter no mÃ­nimo 6 caracteres')
+        .max(72, 'Senha deve ter no mÃ¡ximo 72 caracteres'),
     confirmPassword: z
         .string()
-        .min(1, 'Confirmação de senha é obrigatória'),
+        .min(1, 'ConfirmaÃ§Ã£o de senha Ã© obrigatÃ³ria'),
 }).refine((data) => data.password === data.confirmPassword, {
-    message: 'As senhas não coincidem',
+    message: 'As senhas nÃ£o coincidem',
     path: ['confirmPassword'],
 })
 

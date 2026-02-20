@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Sparkles, Loader2 } from 'lucide-react';
 
 interface InboxBriefingProps {
@@ -19,7 +19,7 @@ interface InboxBriefingProps {
   briefing, 
   isLoading,
   stats 
-} - Parâmetro `{ 
+} - ParÃ¢metro `{ 
   briefing, 
   isLoading,
   stats 
@@ -44,8 +44,8 @@ export const InboxBriefing: React.FC<InboxBriefingProps> = ({
             <Sparkles size={20} className="text-primary-400" />
           </div>
           <div>
-            <h2 className="text-lg font-bold">Bom dia! 👋</h2>
-            <p className="text-sm text-slate-400">Seu briefing diário</p>
+            <h2 className="text-lg font-bold">Bom dia! ðŸ‘‹</h2>
+            <p className="text-sm text-slate-400">Seu briefing diÃ¡rio</p>
           </div>
         </div>
 
@@ -58,7 +58,7 @@ export const InboxBriefing: React.FC<InboxBriefingProps> = ({
             </div>
           ) : (
             <p className="text-slate-200 leading-relaxed">
-              {briefing || 'Vamos começar o dia! Confira suas atividades abaixo.'}
+              {briefing || 'Vamos comeÃ§ar o dia! Confira suas atividades abaixo.'}
             </p>
           )}
         </div>
@@ -80,12 +80,12 @@ export const InboxBriefing: React.FC<InboxBriefingProps> = ({
           {stats.suggestionsCount > 0 && (
             <div className="flex items-center gap-2 px-3 py-1.5 bg-primary-500/20 text-primary-300 rounded-full text-sm">
               <Sparkles size={14} />
-              {stats.suggestionsCount} sugestão{stats.suggestionsCount > 1 ? 'ões' : ''}
+              {stats.suggestionsCount} sugestÃ£o{stats.suggestionsCount > 1 ? 'Ãµes' : ''}
             </div>
           )}
           {stats.totalPending === 0 && (
             <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/20 text-green-300 rounded-full text-sm">
-              ✨ Inbox Zero!
+              âœ¨ Inbox Zero!
             </div>
           )}
         </div>

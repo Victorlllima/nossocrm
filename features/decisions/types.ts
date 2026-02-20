@@ -1,6 +1,6 @@
-/**
+﻿/**
  * Decision Queue System - Types
- * Sistema de fila de decisões proativas para o CRM
+ * Sistema de fila de decisÃµes proativas para o CRM
  */
 
 // ============================================
@@ -10,7 +10,7 @@
 export interface Decision {
   id: string;
   
-  // Classificação
+  // ClassificaÃ§Ã£o
   type: DecisionType;
   priority: DecisionPriority;
   category: DecisionCategory;
@@ -18,14 +18,14 @@ export interface Decision {
   // Contexto
   title: string;
   description: string;
-  reasoning: string;  // Por que a AI está sugerindo isso
+  reasoning: string;  // Por que a AI estÃ¡ sugerindo isso
   
   // Entidades relacionadas
   dealId?: string;
   contactId?: string;
   activityId?: string;
   
-  // Ação sugerida
+  // AÃ§Ã£o sugerida
   suggestedAction: SuggestedAction;
   alternativeActions?: SuggestedAction[];
   
@@ -44,14 +44,14 @@ export interface Decision {
 }
 
 export type DecisionType = 
-  | 'stagnant_deal'           // Deal parado há X dias
+  | 'stagnant_deal'           // Deal parado hÃ¡ X dias
   | 'hot_lead'                // Lead com alto engagement
   | 'deadline_approaching'     // Proposta/atividade vencendo
   | 'follow_up_due'           // Follow-up programado
   | 'overdue_activity'        // Atividade atrasada
   | 'deal_at_risk'            // Deal com sinais de risco
   | 'unanswered_proposal'     // Proposta sem resposta
-  | 'new_lead_assigned'       // Novo lead atribuído
+  | 'new_lead_assigned'       // Novo lead atribuÃ­do
   | 'win_opportunity'         // Oportunidade de fechar
   | 'rescue_opportunity';     // Oportunidade de resgate
 
@@ -79,15 +79,15 @@ export interface SuggestedAction {
   id: string;
   type: ActionType;
   label: string;  // "Agendar Call", "Enviar WhatsApp"
-  icon?: string;  // Nome do ícone lucide
+  icon?: string;  // Nome do Ã­cone lucide
   
-  // Dados pré-preenchidos
+  // Dados prÃ©-preenchidos
   payload: ActionPayload;
   
-  // Preview (o que o usuário verá antes de aprovar)
+  // Preview (o que o usuÃ¡rio verÃ¡ antes de aprovar)
   preview?: ActionPreview;
   
-  // Configuração
+  // ConfiguraÃ§Ã£o
   requiresConfirmation: boolean;
   allowEdit: boolean;
 }
@@ -144,12 +144,12 @@ export interface AnalyzerConfig {
   description: string;
   enabled: boolean;
   
-  // Parâmetros específicos
+  // ParÃ¢metros especÃ­ficos
   params: Record<string, unknown>;
   
   // Limites
   maxDecisionsPerRun: number;
-  cooldownDays?: number;  // Não gerar decisão repetida por X dias
+  cooldownDays?: number;  // NÃ£o gerar decisÃ£o repetida por X dias
 }
 
 export interface AnalyzerResult {
@@ -228,7 +228,7 @@ export const PRIORITY_COLORS: Record<DecisionPriority, string> = {
 };
 
 export const PRIORITY_LABELS: Record<DecisionPriority, string> = {
-  critical: 'Crítico',
+  critical: 'CrÃ­tico',
   high: 'Importante',
   medium: 'Moderado',
   low: 'Baixo',
@@ -245,7 +245,7 @@ export const CATEGORY_LABELS: Record<DecisionCategory, string> = {
 export const TYPE_LABELS: Record<DecisionType, string> = {
   stagnant_deal: 'Deal Parado',
   hot_lead: 'Lead Quente',
-  deadline_approaching: 'Prazo Próximo',
+  deadline_approaching: 'Prazo PrÃ³ximo',
   follow_up_due: 'Follow-up Pendente',
   overdue_activity: 'Atividade Atrasada',
   deal_at_risk: 'Deal em Risco',

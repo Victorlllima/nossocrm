@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+﻿import React, { useMemo } from 'react';
 import { Activity, Deal, Contact, Company } from '@/types';
 import { ActivityRow } from './ActivityRow';
 
@@ -25,7 +25,7 @@ interface ActivitiesListProps {
     onDelete,
     selectedActivities = new Set(),
     onSelectActivity
-} - Parâmetro `{
+} - ParÃ¢metro `{
     activities,
     deals,
     onToggleComplete,

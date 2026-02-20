@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useToast } from '@/context/ToastContext';
 import { CustomFieldDefinition, CustomFieldType } from '@/types';
 import { usePersistedState } from '@/hooks/usePersistedState';
@@ -6,7 +6,7 @@ import { usePersistedState } from '@/hooks/usePersistedState';
 // TODO: Migrate customFieldDefinitions and tags to Supabase
 // For now, using local state as placeholder
 /**
- * Hook React `useSettingsController` que encapsula uma lógica reutilizável.
+ * Hook React `useSettingsController` que encapsula uma lÃ³gica reutilizÃ¡vel.
  * @returns {{ defaultRoute: string; setDefaultRoute: Dispatch<SetStateAction<string>>; customFieldDefinitions: CustomFieldDefinition[]; newFieldLabel: string; ... 14 more ...; removeTag: (tag: string) => void; }} Retorna um valor do tipo `{ defaultRoute: string; setDefaultRoute: Dispatch<SetStateAction<string>>; customFieldDefinitions: CustomFieldDefinition[]; newFieldLabel: string; ... 14 more ...; removeTag: (tag: string) => void; }`.
  */
 export const useSettingsController = () => {

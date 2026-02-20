@@ -1,4 +1,4 @@
-import { normalizePhoneE164 } from '@/lib/phone';
+﻿import { normalizePhoneE164 } from '@/lib/phone';
 
 export function normalizeEmail(input: string | null | undefined): string | null {
   const v = (input ?? '').trim().toLowerCase();

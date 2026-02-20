@@ -1,5 +1,5 @@
-/**
- * Debug Mode - Sistema de geração de dados fake para testes
+﻿/**
+ * Debug Mode - Sistema de geraÃ§Ã£o de dados fake para testes
  * 
  * Ativar: localStorage.setItem('DEBUG_MODE', 'true')
  * Desativar: localStorage.removeItem('DEBUG_MODE')
@@ -16,7 +16,7 @@ import { faker } from '@faker-js/faker/locale/pt_BR';
 export const DEBUG_MODE_EVENT = 'debug_mode_changed';
 
 /**
- * Função pública `isDebugMode` do projeto.
+ * FunÃ§Ã£o pÃºblica `isDebugMode` do projeto.
  * @returns {boolean} Retorna um valor do tipo `boolean`.
  */
 export const isDebugMode = (): boolean => {
@@ -25,26 +25,26 @@ export const isDebugMode = (): boolean => {
 };
 
 /**
- * Função pública `enableDebugMode` do projeto.
- * @returns {void} Não retorna valor.
+ * FunÃ§Ã£o pÃºblica `enableDebugMode` do projeto.
+ * @returns {void} NÃ£o retorna valor.
  */
 export const enableDebugMode = (): void => {
   localStorage.setItem('DEBUG_MODE', 'true');
   window.dispatchEvent(new CustomEvent(DEBUG_MODE_EVENT));
-  console.log('🐛 Debug mode ENABLED');
+  console.log('ðŸ› Debug mode ENABLED');
 };
 
 /**
- * Função pública `disableDebugMode` do projeto.
- * @returns {void} Não retorna valor.
+ * FunÃ§Ã£o pÃºblica `disableDebugMode` do projeto.
+ * @returns {void} NÃ£o retorna valor.
  */
 export const disableDebugMode = (): void => {
   localStorage.removeItem('DEBUG_MODE');
   window.dispatchEvent(new CustomEvent(DEBUG_MODE_EVENT));
-  console.log('🐛 Debug mode DISABLED');
+  console.log('ðŸ› Debug mode DISABLED');
 };
 
-// Expõe no window para fácil acesso via console
+// ExpÃµe no window para fÃ¡cil acesso via console
 if (typeof window !== 'undefined') {
   (window as any).enableDebugMode = enableDebugMode;
   (window as any).disableDebugMode = disableDebugMode;
@@ -56,7 +56,7 @@ if (typeof window !== 'undefined') {
 // ============================================
 
 /**
- * Função pública `fakeContact` do projeto.
+ * FunÃ§Ã£o pÃºblica `fakeContact` do projeto.
  * @returns {{ name: string; email: string; phone: string; role: string; companyName: string; }} Retorna um valor do tipo `{ name: string; email: string; phone: string; role: string; companyName: string; }`.
  */
 export const fakeContact = () => ({
@@ -73,30 +73,30 @@ export const fakeContact = () => ({
 });
 
 /**
- * Função pública `fakeCompany` do projeto.
- * @returns {{ name: string; industry: "Tecnologia" | "Varejo" | "Saúde" | "Educação" | "Financeiro" | "Indústria" | "Serviços" | "Construção" | "Alimentação" | "Logística"; website: string; employees: "1-10" | ... 3 more ... | "500+"; }} Retorna um valor do tipo `{ name: string; industry: "Tecnologia" | "Varejo" | "Saúde" | "Educação" | "Financeiro" | "Indústria" | "Serviços" | "Construção" | "Alimentação" | "Logística"; website: string; employees: "1-10" | ... 3 more ... | "500+"; }`.
+ * FunÃ§Ã£o pÃºblica `fakeCompany` do projeto.
+ * @returns {{ name: string; industry: "Tecnologia" | "Varejo" | "SaÃºde" | "EducaÃ§Ã£o" | "Financeiro" | "IndÃºstria" | "ServiÃ§os" | "ConstruÃ§Ã£o" | "AlimentaÃ§Ã£o" | "LogÃ­stica"; website: string; employees: "1-10" | ... 3 more ... | "500+"; }} Retorna um valor do tipo `{ name: string; industry: "Tecnologia" | "Varejo" | "SaÃºde" | "EducaÃ§Ã£o" | "Financeiro" | "IndÃºstria" | "ServiÃ§os" | "ConstruÃ§Ã£o" | "AlimentaÃ§Ã£o" | "LogÃ­stica"; website: string; employees: "1-10" | ... 3 more ... | "500+"; }`.
  */
 export const fakeCompany = () => ({
   name: faker.company.name(),
   industry: faker.helpers.arrayElement([
     'Tecnologia',
     'Varejo',
-    'Saúde',
-    'Educação',
+    'SaÃºde',
+    'EducaÃ§Ã£o',
     'Financeiro',
-    'Indústria',
-    'Serviços',
-    'Construção',
-    'Alimentação',
-    'Logística',
+    'IndÃºstria',
+    'ServiÃ§os',
+    'ConstruÃ§Ã£o',
+    'AlimentaÃ§Ã£o',
+    'LogÃ­stica',
   ]),
   website: faker.internet.url(),
   employees: faker.helpers.arrayElement(['1-10', '11-50', '51-200', '201-500', '500+']),
 });
 
 /**
- * Função pública `fakeDeal` do projeto.
- * @returns {{ title: string; value: number; probability: 50 | 80 | 10 | 60 | 30 | 20 | 40 | 70 | 90; priority: "low" | "medium" | "high"; tags: ("Urgente" | "Enterprise" | "Renovação" | "Upsell" | "Novo Cliente" | "Indicação")[]; notes: string; }} Retorna um valor do tipo `{ title: string; value: number; probability: 50 | 80 | 10 | 60 | 30 | 20 | 40 | 70 | 90; priority: "low" | "medium" | "high"; tags: ("Urgente" | "Enterprise" | "Renovação" | "Upsell" | "Novo Cliente" | "Indicação")[]; notes: string; }`.
+ * FunÃ§Ã£o pÃºblica `fakeDeal` do projeto.
+ * @returns {{ title: string; value: number; probability: 50 | 80 | 10 | 60 | 30 | 20 | 40 | 70 | 90; priority: "low" | "medium" | "high"; tags: ("Urgente" | "Enterprise" | "RenovaÃ§Ã£o" | "Upsell" | "Novo Cliente" | "IndicaÃ§Ã£o")[]; notes: string; }} Retorna um valor do tipo `{ title: string; value: number; probability: 50 | 80 | 10 | 60 | 30 | 20 | 40 | 70 | 90; priority: "low" | "medium" | "high"; tags: ("Urgente" | "Enterprise" | "RenovaÃ§Ã£o" | "Upsell" | "Novo Cliente" | "IndicaÃ§Ã£o")[]; notes: string; }`.
  */
 export const fakeDeal = () => ({
   title: `${faker.commerce.productAdjective()} ${faker.commerce.product()}`,
@@ -104,20 +104,20 @@ export const fakeDeal = () => ({
   probability: faker.helpers.arrayElement([10, 20, 30, 40, 50, 60, 70, 80, 90]),
   priority: faker.helpers.arrayElement(['low', 'medium', 'high'] as const),
   tags: faker.helpers.arrayElements(
-    ['Urgente', 'Enterprise', 'Renovação', 'Upsell', 'Novo Cliente', 'Indicação'],
+    ['Urgente', 'Enterprise', 'RenovaÃ§Ã£o', 'Upsell', 'Novo Cliente', 'IndicaÃ§Ã£o'],
     faker.number.int({ min: 0, max: 3 })
   ),
   notes: faker.lorem.sentence(),
 });
 
 /**
- * Função pública `fakeActivity` do projeto.
- * @returns {{ title: "Reunião de apresentação" | "Ligação de follow-up" | "Enviar proposta comercial" | "Demo do produto" | "Negociar contrato" | "Visita ao cliente" | "Apresentar case de sucesso" | "Alinhar expectativas"; description: string; type: "CALL" | ... 2 more ... | "TASK"; date: string; }} Retorna um valor do tipo `{ title: "Reunião de apresentação" | "Ligação de follow-up" | "Enviar proposta comercial" | "Demo do produto" | "Negociar contrato" | "Visita ao cliente" | "Apresentar case de sucesso" | "Alinhar expectativas"; description: string; type: "CALL" | ... 2 more ... | "TASK"; date: string; }`.
+ * FunÃ§Ã£o pÃºblica `fakeActivity` do projeto.
+ * @returns {{ title: "ReuniÃ£o de apresentaÃ§Ã£o" | "LigaÃ§Ã£o de follow-up" | "Enviar proposta comercial" | "Demo do produto" | "Negociar contrato" | "Visita ao cliente" | "Apresentar case de sucesso" | "Alinhar expectativas"; description: string; type: "CALL" | ... 2 more ... | "TASK"; date: string; }} Retorna um valor do tipo `{ title: "ReuniÃ£o de apresentaÃ§Ã£o" | "LigaÃ§Ã£o de follow-up" | "Enviar proposta comercial" | "Demo do produto" | "Negociar contrato" | "Visita ao cliente" | "Apresentar case de sucesso" | "Alinhar expectativas"; description: string; type: "CALL" | ... 2 more ... | "TASK"; date: string; }`.
  */
 export const fakeActivity = () => ({
   title: faker.helpers.arrayElement([
-    'Reunião de apresentação',
-    'Ligação de follow-up',
+    'ReuniÃ£o de apresentaÃ§Ã£o',
+    'LigaÃ§Ã£o de follow-up',
     'Enviar proposta comercial',
     'Demo do produto',
     'Negociar contrato',
@@ -131,7 +131,7 @@ export const fakeActivity = () => ({
 });
 
 /**
- * Função pública `fakeProduct` do projeto.
+ * FunÃ§Ã£o pÃºblica `fakeProduct` do projeto.
  * @returns {{ name: string; price: number; description: string; }} Retorna um valor do tipo `{ name: string; price: number; description: string; }`.
  */
 export const fakeProduct = () => ({
@@ -145,9 +145,9 @@ export const fakeProduct = () => ({
 // ============================================
 
 /**
- * Função pública `generateFakeContacts` do projeto.
+ * FunÃ§Ã£o pÃºblica `generateFakeContacts` do projeto.
  *
- * @param {number} count - Parâmetro `count`.
+ * @param {number} count - ParÃ¢metro `count`.
  * @returns {{ name: string; email: string; phone: string; role: string; companyName: string; }[]} Retorna um valor do tipo `{ name: string; email: string; phone: string; role: string; companyName: string; }[]`.
  */
 export const generateFakeContacts = (count: number = 5) => {
@@ -155,10 +155,10 @@ export const generateFakeContacts = (count: number = 5) => {
 };
 
 /**
- * Função pública `generateFakeDeals` do projeto.
+ * FunÃ§Ã£o pÃºblica `generateFakeDeals` do projeto.
  *
- * @param {number} count - Parâmetro `count`.
- * @returns {{ title: string; value: number; probability: 50 | 80 | 10 | 60 | 30 | 20 | 40 | 70 | 90; priority: "low" | "medium" | "high"; tags: ("Urgente" | "Enterprise" | "Renovação" | "Upsell" | "Novo Cliente" | "Indicação")[]; notes: string; }[]} Retorna um valor do tipo `{ title: string; value: number; probability: 50 | 80 | 10 | 60 | 30 | 20 | 40 | 70 | 90; priority: "low" | "medium" | "high"; tags: ("Urgente" | "Enterprise" | "Renovação" | "Upsell" | "Novo Cliente" | "Indicação")[]; notes: string; }[]`.
+ * @param {number} count - ParÃ¢metro `count`.
+ * @returns {{ title: string; value: number; probability: 50 | 80 | 10 | 60 | 30 | 20 | 40 | 70 | 90; priority: "low" | "medium" | "high"; tags: ("Urgente" | "Enterprise" | "RenovaÃ§Ã£o" | "Upsell" | "Novo Cliente" | "IndicaÃ§Ã£o")[]; notes: string; }[]} Retorna um valor do tipo `{ title: string; value: number; probability: 50 | 80 | 10 | 60 | 30 | 20 | 40 | 70 | 90; priority: "low" | "medium" | "high"; tags: ("Urgente" | "Enterprise" | "RenovaÃ§Ã£o" | "Upsell" | "Novo Cliente" | "IndicaÃ§Ã£o")[]; notes: string; }[]`.
  */
 export const generateFakeDeals = (count: number = 5) => {
   return Array.from({ length: count }, () => fakeDeal());

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { BoardStage } from '@/types';
 
 interface StageProgressBarProps {
@@ -23,7 +23,7 @@ interface StageProgressBarProps {
     onStageClick,
     variant = 'segmented',
     className,
-} - Parâmetro `{
+} - ParÃ¢metro `{
     stages,
     currentStatus,
     onStageClick,

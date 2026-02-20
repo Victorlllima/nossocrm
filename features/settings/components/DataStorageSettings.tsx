@@ -1,5 +1,5 @@
-// =============================================================================
-// DataStorageSettings - Configurações de armazenamento de dados (SIMPLIFICADO)
+﻿// =============================================================================
+// DataStorageSettings - ConfiguraÃ§Ãµes de armazenamento de dados (SIMPLIFICADO)
 // =============================================================================
 
 import React, { useState } from 'react';
@@ -29,7 +29,7 @@ export const DataStorageSettings: React.FC = () => {
 
     const isAdmin = profile?.role === 'admin';
 
-    // Estatísticas
+    // EstatÃ­sticas
     const stats = {
         companies: companies.length,
         contacts: contacts.length,
@@ -47,7 +47,7 @@ export const DataStorageSettings: React.FC = () => {
         }
 
         if (!sb) {
-            addToast('Supabase não está configurado neste ambiente.', 'error');
+            addToast('Supabase nÃ£o estÃ¡ configurado neste ambiente.', 'error');
             return;
         }
 
@@ -55,8 +55,8 @@ export const DataStorageSettings: React.FC = () => {
 
         try {
             // Ordem importa por causa das FKs!
-            // 0. Limpar referências de stages/boards dentro de `boards` (FK boards.won_stage_id/lost_stage_id -> board_stages)
-            // Se não zerarmos isso antes, o delete de `board_stages` falha com:
+            // 0. Limpar referÃªncias de stages/boards dentro de `boards` (FK boards.won_stage_id/lost_stage_id -> board_stages)
+            // Se nÃ£o zerarmos isso antes, o delete de `board_stages` falha com:
             // "violates foreign key constraint boards_won_stage_id_fkey".
             const { error: boardsRefsError } = await sb
                 .from('boards')
@@ -64,10 +64,10 @@ export const DataStorageSettings: React.FC = () => {
                 .neq('id', '00000000-0000-0000-0000-000000000000'); // Update all
             if (boardsRefsError) throw boardsRefsError;
 
-            // 0.1 Integrações/Webhooks (novas FKs para board_stages/boards)
+            // 0.1 IntegraÃ§Ãµes/Webhooks (novas FKs para board_stages/boards)
             // Se houver fontes de entrada apontando para um stage, o delete de `board_stages` falha com:
             // "violates foreign key constraint integration_inbound_sources_entry_stage_id_fkey".
-            // Por isso, limpamos tudo que depende de integrações antes de mexer em stages/boards.
+            // Por isso, limpamos tudo que depende de integraÃ§Ãµes antes de mexer em stages/boards.
             //
             // Ordem sugerida:
             // - webhook_deliveries -> webhook_events_out -> webhook_events_in -> endpoints -> inbound_sources
@@ -113,12 +113,12 @@ export const DataStorageSettings: React.FC = () => {
             const { error: dealsError } = await sb.from('deals').delete().neq('id', '00000000-0000-0000-0000-000000000000');
             if (dealsError) throw dealsError;
 
-            // 0. Limpar referência de Active Board em user_settings (evita erro de FK)
+            // 0. Limpar referÃªncia de Active Board em user_settings (evita erro de FK)
             const { error: userSettingsError } = await sb
                 .from('user_settings')
                 .update({ active_board_id: null })
                 .neq('id', '00000000-0000-0000-0000-000000000000'); // Update all
-            if (userSettingsError) console.warn('Aviso: erro ao limpar user_settings (pode não existir ainda):', userSettingsError);
+            if (userSettingsError) console.warn('Aviso: erro ao limpar user_settings (pode nÃ£o existir ainda):', userSettingsError);
 
             // 4. Board Stages (depende de boards)
             const { error: stagesError } = await sb.from('board_stages').delete().neq('id', '00000000-0000-0000-0000-000000000000');
@@ -132,7 +132,7 @@ export const DataStorageSettings: React.FC = () => {
             const { error: contactsError } = await sb.from('contacts').delete().neq('id', '00000000-0000-0000-0000-000000000000');
             if (contactsError) throw contactsError;
 
-            // 7. CRM Companies (empresas dos clientes, não a company do tenant!)
+            // 7. CRM Companies (empresas dos clientes, nÃ£o a company do tenant!)
             const { error: crmCompaniesError } = await sb.from('crm_companies').delete().neq('id', '00000000-0000-0000-0000-000000000000');
             if (crmCompaniesError) throw crmCompaniesError;
 
@@ -155,10 +155,10 @@ export const DataStorageSettings: React.FC = () => {
             // Also clear deals cache because /boards renders deals for active board.
             queryClient.removeQueries({ queryKey: queryKeys.deals.all });
 
-            // Força refresh de todos os contexts (Activities, Deals, etc.)
+            // ForÃ§a refresh de todos os contexts (Activities, Deals, etc.)
             await refresh();
 
-            addToast('🔥 Database zerado com sucesso!', 'success');
+            addToast('ðŸ”¥ Database zerado com sucesso!', 'success');
             setConfirmText('');
             setShowDangerZone(false);
 
@@ -176,7 +176,7 @@ export const DataStorageSettings: React.FC = () => {
             <div className="bg-white dark:bg-dark-card rounded-lg border border-gray-200 dark:border-dark-border p-6">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                     <Database className="w-5 h-5" />
-                    Estatísticas do Sistema
+                    EstatÃ­sticas do Sistema
                 </h3>
 
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -190,7 +190,7 @@ export const DataStorageSettings: React.FC = () => {
                     </div>
                     <div className="p-4 bg-gray-50 dark:bg-dark-bg rounded-lg text-center">
                         <div className="text-2xl font-bold text-gray-900 dark:text-white">{stats.deals}</div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400">Negócios</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">NegÃ³cios</div>
                     </div>
                     <div className="p-4 bg-gray-50 dark:bg-dark-bg rounded-lg text-center">
                         <div className="text-2xl font-bold text-gray-900 dark:text-white">{stats.activities}</div>
@@ -203,7 +203,7 @@ export const DataStorageSettings: React.FC = () => {
                 </div>
             </div>
 
-            {/* Danger Zone - Só para Admin */}
+            {/* Danger Zone - SÃ³ para Admin */}
             {isAdmin && (
                 <div className="bg-white dark:bg-dark-card rounded-lg border border-red-200 dark:border-red-900/50 p-6">
                     <div className="flex items-center justify-between mb-4">
@@ -223,10 +223,10 @@ export const DataStorageSettings: React.FC = () => {
                         <div className="space-y-4">
                             <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl">
                                 <p className="text-sm text-red-700 dark:text-red-300 mb-2">
-                                    <strong>⚠️ ATENÇÃO:</strong> Esta ação vai excluir permanentemente:
+                                    <strong>âš ï¸ ATENÃ‡ÃƒO:</strong> Esta aÃ§Ã£o vai excluir permanentemente:
                                 </p>
                                 <ul className="text-sm text-red-600 dark:text-red-400 list-disc list-inside space-y-1">
-                                    <li>{stats.deals} negócios</li>
+                                    <li>{stats.deals} negÃ³cios</li>
                                     <li>{stats.contacts} contatos</li>
                                     <li>{stats.companies} empresas de clientes</li>
                                     <li>{stats.activities} atividades</li>
@@ -234,7 +234,7 @@ export const DataStorageSettings: React.FC = () => {
                                     <li>Todas as tags e produtos</li>
                                 </ul>
                                 <p className="text-sm text-red-700 dark:text-red-300 mt-3 font-medium">
-                                    Total: {totalRecords} registros serão apagados!
+                                    Total: {totalRecords} registros serÃ£o apagados!
                                 </p>
                             </div>
 
@@ -265,7 +265,7 @@ export const DataStorageSettings: React.FC = () => {
                                     ) : (
                                         <>
                                             <Trash2 className="w-4 h-4" />
-                                            💣 Zerar Database
+                                            ðŸ’£ Zerar Database
                                         </>
                                     )}
                                 </button>

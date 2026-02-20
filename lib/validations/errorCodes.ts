@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Standardized Error Codes for Form Validation
  *
  * Enables internationalization and consistent error handling
@@ -60,41 +60,41 @@ type Translations = Record<ErrorCode, string>;
 
 const ptBR: Translations = {
   // Field errors
-  FIELD_REQUIRED: '{field} é obrigatório',
-  FIELD_TOO_SHORT: '{field} deve ter no mínimo {min} caracteres',
-  FIELD_TOO_LONG: '{field} deve ter no máximo {max} caracteres',
-  FIELD_INVALID_FORMAT: '{field} está em formato inválido',
+  FIELD_REQUIRED: '{field} Ã© obrigatÃ³rio',
+  FIELD_TOO_SHORT: '{field} deve ter no mÃ­nimo {min} caracteres',
+  FIELD_TOO_LONG: '{field} deve ter no mÃ¡ximo {max} caracteres',
+  FIELD_INVALID_FORMAT: '{field} estÃ¡ em formato invÃ¡lido',
 
   // Email errors
-  EMAIL_REQUIRED: 'Email é obrigatório',
-  EMAIL_INVALID: 'Email inválido',
-  EMAIL_ALREADY_EXISTS: 'Este email já está cadastrado',
+  EMAIL_REQUIRED: 'Email Ã© obrigatÃ³rio',
+  EMAIL_INVALID: 'Email invÃ¡lido',
+  EMAIL_ALREADY_EXISTS: 'Este email jÃ¡ estÃ¡ cadastrado',
 
   // Phone errors
-  PHONE_INVALID: 'Telefone inválido',
+  PHONE_INVALID: 'Telefone invÃ¡lido',
 
   // Number errors
-  NUMBER_REQUIRED: '{field} é obrigatório',
-  NUMBER_TOO_SMALL: '{field} deve ser no mínimo {min}',
-  NUMBER_TOO_LARGE: '{field} deve ser no máximo {max}',
+  NUMBER_REQUIRED: '{field} Ã© obrigatÃ³rio',
+  NUMBER_TOO_SMALL: '{field} deve ser no mÃ­nimo {min}',
+  NUMBER_TOO_LARGE: '{field} deve ser no mÃ¡ximo {max}',
   NUMBER_MUST_BE_POSITIVE: '{field} deve ser um valor positivo',
 
   // Date errors
-  DATE_REQUIRED: '{field} é obrigatória',
-  DATE_INVALID: 'Data inválida',
-  DATE_IN_PAST: '{field} não pode ser no passado',
-  DATE_IN_FUTURE: '{field} não pode ser no futuro',
+  DATE_REQUIRED: '{field} Ã© obrigatÃ³ria',
+  DATE_INVALID: 'Data invÃ¡lida',
+  DATE_IN_PAST: '{field} nÃ£o pode ser no passado',
+  DATE_IN_FUTURE: '{field} nÃ£o pode ser no futuro',
 
   // Selection errors
-  SELECTION_REQUIRED: 'Selecione uma opção para {field}',
-  SELECTION_INVALID: 'Opção inválida selecionada',
+  SELECTION_REQUIRED: 'Selecione uma opÃ§Ã£o para {field}',
+  SELECTION_INVALID: 'OpÃ§Ã£o invÃ¡lida selecionada',
 
   // API errors
-  API_ERROR: 'Erro ao processar requisição. Tente novamente.',
+  API_ERROR: 'Erro ao processar requisiÃ§Ã£o. Tente novamente.',
   API_TIMEOUT: 'Tempo limite excedido. Tente novamente.',
-  API_NETWORK_ERROR: 'Erro de conexão. Verifique sua internet.',
-  API_UNAUTHORIZED: 'Sessão expirada. Faça login novamente.',
-  API_NOT_FOUND: 'Recurso não encontrado.',
+  API_NETWORK_ERROR: 'Erro de conexÃ£o. Verifique sua internet.',
+  API_UNAUTHORIZED: 'SessÃ£o expirada. FaÃ§a login novamente.',
+  API_NOT_FOUND: 'Recurso nÃ£o encontrado.',
 };
 
 const enUS: Translations = {
@@ -145,10 +145,10 @@ const translations: Record<string, Translations> = {
 let currentLocale = 'pt-BR';
 
 /**
- * Função pública `setLocale` do projeto.
+ * FunÃ§Ã£o pÃºblica `setLocale` do projeto.
  *
- * @param {string} locale - Parâmetro `locale`.
- * @returns {void} Não retorna valor.
+ * @param {string} locale - ParÃ¢metro `locale`.
+ * @returns {void} NÃ£o retorna valor.
  */
 export const setLocale = (locale: string) => {
   if (translations[locale]) {
@@ -157,7 +157,7 @@ export const setLocale = (locale: string) => {
 };
 
 /**
- * Função pública `getLocale` do projeto.
+ * FunÃ§Ã£o pÃºblica `getLocale` do projeto.
  * @returns {string} Retorna um valor do tipo `string`.
  */
 export const getLocale = () => currentLocale;

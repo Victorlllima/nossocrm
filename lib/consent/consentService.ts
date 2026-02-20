@@ -1,9 +1,9 @@
-/**
- * @fileoverview Serviço de gerenciamento de consentimentos LGPD.
+﻿/**
+ * @fileoverview ServiÃ§o de gerenciamento de consentimentos LGPD.
  * 
- * Este módulo gerencia os consentimentos do usuário para compliance com a LGPD
- * (Lei Geral de Proteção de Dados). Suporta múltiplos tipos de consentimento,
- * versionamento, revogação e exportação de histórico.
+ * Este mÃ³dulo gerencia os consentimentos do usuÃ¡rio para compliance com a LGPD
+ * (Lei Geral de ProteÃ§Ã£o de Dados). Suporta mÃºltiplos tipos de consentimento,
+ * versionamento, revogaÃ§Ã£o e exportaÃ§Ã£o de histÃ³rico.
  * 
  * @module services/consentService
  * @see {@link https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm LGPD}
@@ -19,17 +19,17 @@ import { supabase } from '@/lib/supabase/client';
 export type ConsentType = 'terms' | 'privacy' | 'marketing' | 'analytics' | 'data_processing';
 
 /**
- * Registro de consentimento do usuário no banco de dados.
+ * Registro de consentimento do usuÃ¡rio no banco de dados.
  * 
  * @interface UserConsent
- * @property {string} id - ID único do registro.
- * @property {string} user_id - ID do usuário que deu o consentimento.
+ * @property {string} id - ID Ãºnico do registro.
+ * @property {string} user_id - ID do usuÃ¡rio que deu o consentimento.
  * @property {ConsentType} consent_type - Tipo do consentimento.
- * @property {string} version - Versão do documento consentido.
+ * @property {string} version - VersÃ£o do documento consentido.
  * @property {string} consented_at - Data/hora do consentimento (ISO 8601).
- * @property {string | null} ip_address - IP do usuário no momento.
+ * @property {string | null} ip_address - IP do usuÃ¡rio no momento.
  * @property {string | null} user_agent - User agent do navegador.
- * @property {string | null} revoked_at - Data/hora da revogação, se aplicável.
+ * @property {string | null} revoked_at - Data/hora da revogaÃ§Ã£o, se aplicÃ¡vel.
  */
 export interface UserConsent {
   id: string;
@@ -47,8 +47,8 @@ export interface UserConsent {
  * 
  * @interface ConsentRecord
  * @property {ConsentType} type - Tipo do consentimento.
- * @property {string} version - Versão atual do documento.
- * @property {boolean} consented - Se o usuário consentiu na versão atual.
+ * @property {string} version - VersÃ£o atual do documento.
+ * @property {boolean} consented - Se o usuÃ¡rio consentiu na versÃ£o atual.
  * @property {string} [consentedAt] - Data do consentimento, se existir.
  */
 export interface ConsentRecord {
@@ -59,8 +59,8 @@ export interface ConsentRecord {
 }
 
 /**
- * Versões atuais dos documentos de consentimento.
- * Ao atualizar um documento, incrementar a versão força re-consentimento.
+ * VersÃµes atuais dos documentos de consentimento.
+ * Ao atualizar um documento, incrementar a versÃ£o forÃ§a re-consentimento.
  * 
  * @constant
  */
@@ -73,8 +73,8 @@ export const CONSENT_VERSIONS: Record<ConsentType, string> = {
 };
 
 /**
- * Consentimentos obrigatórios para uso da plataforma.
- * Sem estes, o usuário não pode acessar funcionalidades principais.
+ * Consentimentos obrigatÃ³rios para uso da plataforma.
+ * Sem estes, o usuÃ¡rio nÃ£o pode acessar funcionalidades principais.
  * 
  * @constant
  */
@@ -88,13 +88,13 @@ export const REQUIRED_CONSENTS: ConsentType[] = ['terms', 'privacy', 'data_proce
 export const OPTIONAL_CONSENTS: ConsentType[] = ['marketing', 'analytics'];
 
 /**
- * Serviço de gerenciamento de consentimentos LGPD.
+ * ServiÃ§o de gerenciamento de consentimentos LGPD.
  * 
  * @class ConsentService
  * 
  * @example
  * ```typescript
- * // Verificar se tem consentimentos obrigatórios
+ * // Verificar se tem consentimentos obrigatÃ³rios
  * const hasRequired = await consentService.hasRequiredConsents();
  * 
  * // Dar consentimento
@@ -106,9 +106,9 @@ export const OPTIONAL_CONSENTS: ConsentType[] = ['marketing', 'analytics'];
  */
 class ConsentService {
   /**
-   * Busca todos os consentimentos ativos do usuário atual.
+   * Busca todos os consentimentos ativos do usuÃ¡rio atual.
    * 
-   * @returns Promise com array de consentimentos ativos (não revogados).
+   * @returns Promise com array de consentimentos ativos (nÃ£o revogados).
    */
   async getUserConsents(): Promise<UserConsent[]> {
     const { data, error } = await supabase
@@ -126,12 +126,12 @@ class ConsentService {
   }
 
   /**
-   * Verifica se o usuário deu todos os consentimentos obrigatórios.
+   * Verifica se o usuÃ¡rio deu todos os consentimentos obrigatÃ³rios.
    * 
-   * Compara com as versões atuais dos documentos - consentimentos
-   * de versões antigas são considerados inválidos.
+   * Compara com as versÃµes atuais dos documentos - consentimentos
+   * de versÃµes antigas sÃ£o considerados invÃ¡lidos.
    * 
-   * @returns Promise<boolean> - true se todos os consentimentos obrigatórios estão válidos.
+   * @returns Promise<boolean> - true se todos os consentimentos obrigatÃ³rios estÃ£o vÃ¡lidos.
    */
   async hasRequiredConsents(): Promise<boolean> {
     const consents = await this.getUserConsents();
@@ -146,7 +146,7 @@ class ConsentService {
   }
 
   /**
-   * Identifica quais consentimentos obrigatórios estão faltando ou desatualizados.
+   * Identifica quais consentimentos obrigatÃ³rios estÃ£o faltando ou desatualizados.
    * 
    * @returns Promise com array de tipos de consentimento que precisam ser dados.
    */
@@ -163,14 +163,14 @@ class ConsentService {
   }
 
   /**
-   * Registra o consentimento do usuário para um tipo específico.
+   * Registra o consentimento do usuÃ¡rio para um tipo especÃ­fico.
    * 
    * Automaticamente revoga qualquer consentimento anterior do mesmo tipo
    * antes de registrar o novo.
    * 
    * @param type - Tipo de consentimento a ser dado.
-   * @param options - Opções adicionais (IP, user agent).
-   * @param options.ipAddress - Endereço IP do usuário.
+   * @param options - OpÃ§Ãµes adicionais (IP, user agent).
+   * @param options.ipAddress - EndereÃ§o IP do usuÃ¡rio.
    * @param options.userAgent - User agent do navegador.
    * @returns Promise<boolean> - true se o consentimento foi registrado com sucesso.
    */
@@ -206,12 +206,12 @@ class ConsentService {
   }
 
   /**
-   * Registra múltiplos consentimentos de uma vez.
+   * Registra mÃºltiplos consentimentos de uma vez.
    * 
-   * Útil para onboarding onde o usuário aceita todos os termos juntos.
+   * Ãštil para onboarding onde o usuÃ¡rio aceita todos os termos juntos.
    * 
    * @param types - Array de tipos de consentimento.
-   * @param options - Opções adicionais (IP, user agent).
+   * @param options - OpÃ§Ãµes adicionais (IP, user agent).
    * @returns Promise<boolean> - true se todos foram registrados com sucesso.
    */
   async giveConsents(
@@ -228,10 +228,10 @@ class ConsentService {
   /**
    * Revoga um consentimento previamente dado.
    * 
-   * Implementa o direito de revogação da LGPD.
+   * Implementa o direito de revogaÃ§Ã£o da LGPD.
    * 
    * @param type - Tipo de consentimento a ser revogado.
-   * @returns Promise<boolean> - true se a revogação foi registrada.
+   * @returns Promise<boolean> - true se a revogaÃ§Ã£o foi registrada.
    */
   async revokeConsent(type: ConsentType): Promise<boolean> {
     const { error } = await supabase
@@ -249,10 +249,10 @@ class ConsentService {
   }
 
   /**
-   * Obtém o status de todos os tipos de consentimento.
+   * ObtÃ©m o status de todos os tipos de consentimento.
    * 
-   * Retorna um mapa com status de cada tipo, indicando se está
-   * consentido na versão atual.
+   * Retorna um mapa com status de cada tipo, indicando se estÃ¡
+   * consentido na versÃ£o atual.
    * 
    * @returns Promise com mapa de status por tipo de consentimento.
    */
@@ -274,12 +274,12 @@ class ConsentService {
   }
 
   /**
-   * Exporta o histórico completo de consentimentos do usuário.
+   * Exporta o histÃ³rico completo de consentimentos do usuÃ¡rio.
    * 
-   * Implementa o direito de acesso da LGPD - permite ao usuário
-   * visualizar todo o histórico de consentimentos e revogações.
+   * Implementa o direito de acesso da LGPD - permite ao usuÃ¡rio
+   * visualizar todo o histÃ³rico de consentimentos e revogaÃ§Ãµes.
    * 
-   * @returns Promise com array completo do histórico de consentimentos.
+   * @returns Promise com array completo do histÃ³rico de consentimentos.
    */
   async exportConsentHistory(): Promise<UserConsent[]> {
     const { data, error } = await supabase
@@ -297,8 +297,8 @@ class ConsentService {
 }
 
 /**
- * Instância singleton do serviço de consentimentos.
- * Use esta instância para todas as operações de consentimento.
+ * InstÃ¢ncia singleton do serviÃ§o de consentimentos.
+ * Use esta instÃ¢ncia para todas as operaÃ§Ãµes de consentimento.
  * 
  * @example
  * ```typescript

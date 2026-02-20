@@ -1,4 +1,4 @@
-import { describe, it, expect, afterAll } from 'vitest';
+﻿import { describe, it, expect, afterAll } from 'vitest';
 import { createCRMTools } from '../lib/ai/tools';
 import { loadEnvFile } from './helpers/env';
 import {
@@ -47,15 +47,15 @@ async function callTool(map: ToolMap, name: string, input: unknown): Promise<unk
 function expectNoFatal(res: unknown, context: string): void {
   const obj = asObj(res);
   // Permitimos { error: '...' } como resposta "controlada" (ex: input faltante),
-  // mas não permitimos exception, null inesperado ou shapes completamente fora.
+  // mas nÃ£o permitimos exception, null inesperado ou shapes completamente fora.
   expect(res, context).not.toBeUndefined();
   if (obj && typeof obj.error === 'string') {
-    // erro controlado é ok (aqui a suíte é um smoke+contrato)
+    // erro controlado Ã© ok (aqui a suÃ­te Ã© um smoke+contrato)
     return;
   }
 }
 
-describeSupabase('AI Tools - matriz 5 vendedores (integração real)', () => {
+describeSupabase('AI Tools - matriz 5 vendedores (integraÃ§Ã£o real)', () => {
   let fx: SalesTeamFixtureBundle | null = null;
 
   afterAll(async () => {
@@ -67,12 +67,12 @@ describeSupabase('AI Tools - matriz 5 vendedores (integração real)', () => {
       fx = await createSalesTeamFixtures();
     } catch (e) {
       if (e instanceof AuthAdminUnavailableError) {
-        ctx.skip(`Auth Admin indisponível neste projeto Supabase (não dá para criar vendedores reais): ${e.message}`);
+        ctx.skip(`Auth Admin indisponÃ­vel neste projeto Supabase (nÃ£o dÃ¡ para criar vendedores reais): ${e.message}`);
       }
       throw e;
     }
 
-    // Sanity: garantimos que o objeto retornado contém as tools esperadas
+    // Sanity: garantimos que o objeto retornado contÃ©m as tools esperadas
     const expectedTools = [
       'analyzePipeline',
       'getBoardMetrics',
@@ -178,7 +178,7 @@ describeSupabase('AI Tools - matriz 5 vendedores (integração real)', () => {
       );
 
       expectNoFatal(
-        await callTool(tools, 'logActivity', { title: `Ligação registrada ${seller.firstName} ${fx.runId}`, dealId: bundle.openDealId, type: 'CALL' }),
+        await callTool(tools, 'logActivity', { title: `LigaÃ§Ã£o registrada ${seller.firstName} ${fx.runId}`, dealId: bundle.openDealId, type: 'CALL' }),
         'logActivity',
       );
 
@@ -247,11 +247,11 @@ describeSupabase('AI Tools - matriz 5 vendedores (integração real)', () => {
         'markDealAsWon',
       );
       expectNoFatal(
-        await callTool(tools, 'markDealAsLost', { dealId: bundle.lostDealId, reason: 'Preço' }),
+        await callTool(tools, 'markDealAsLost', { dealId: bundle.lostDealId, reason: 'PreÃ§o' }),
         'markDealAsLost',
       );
 
-      // assign deal (para o próximo vendedor, em círculo)
+      // assign deal (para o prÃ³ximo vendedor, em cÃ­rculo)
       const idx = fx.users.findIndex((u) => u.userId === seller.userId);
       const next = fx.users[(idx + 1) % fx.users.length];
       expectNoFatal(
@@ -259,11 +259,11 @@ describeSupabase('AI Tools - matriz 5 vendedores (integração real)', () => {
         'assignDeal',
       );
 
-      // estágios
+      // estÃ¡gios
       const stages = await callTool(tools, 'listStages', { boardId: board.boardId });
       expectNoFatal(stages, 'listStages');
 
-      // Faz update/reorder em dados isolados do board do próprio seller
+      // Faz update/reorder em dados isolados do board do prÃ³prio seller
       const stageIdToUpdate = board.stageIds.proposta;
       expectNoFatal(
         await callTool(tools, 'updateStage', { stageId: stageIdToUpdate, label: `Proposta (${seller.firstName})` }),

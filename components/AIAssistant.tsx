@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @fileoverview Assistente de IA (Next-first)
  *
  * Wrapper simples para manter compatibilidade com pontos do app que ainda
@@ -21,7 +21,7 @@ interface AIAssistantProps {
   dealId?: string;
   contactId?: string;
   cockpitSnapshot?: unknown;
-  /** Força o chat a usar apenas props (sem AIContext) quando necessário. */
+  /** ForÃ§a o chat a usar apenas props (sem AIContext) quando necessÃ¡rio. */
   contextMode?: 'auto' | 'props-only';
 }
 
@@ -37,7 +37,7 @@ interface AIAssistantProps {
   contactId,
   cockpitSnapshot,
   contextMode,
-} - Parâmetro `{
+} - ParÃ¢metro `{
   isOpen,
   onClose,
   variant = 'overlay',

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Analyzers Registry
  * Ponto central para executar todos os analyzers
  */

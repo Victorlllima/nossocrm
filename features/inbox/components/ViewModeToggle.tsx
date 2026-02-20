@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { LayoutDashboard, List, Target } from 'lucide-react';
 import { ViewMode } from '../hooks/useInboxController';
 
@@ -10,12 +10,12 @@ interface ViewModeToggleProps {
 /**
  * Componente React `ViewModeToggle`.
  *
- * @param {ViewModeToggleProps} { mode, onChange } - Parâmetro `{ mode, onChange }`.
+ * @param {ViewModeToggleProps} { mode, onChange } - ParÃ¢metro `{ mode, onChange }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const ViewModeToggle: React.FC<ViewModeToggleProps> = ({ mode, onChange }) => {
   return (
-    <div className="inline-flex items-center bg-slate-100 dark:bg-white/5 rounded-lg p-1 border border-slate-200 dark:border-white/10" role="group" aria-label="Modo de visualização">
+    <div className="inline-flex items-center bg-slate-100 dark:bg-white/5 rounded-lg p-1 border border-slate-200 dark:border-white/10" role="group" aria-label="Modo de visualizaÃ§Ã£o">
       <button
         onClick={() => onChange('overview')}
         aria-pressed={mode === 'overview'}
@@ -25,7 +25,7 @@ export const ViewModeToggle: React.FC<ViewModeToggleProps> = ({ mode, onChange }
           }`}
       >
         <LayoutDashboard size={16} aria-hidden="true" />
-        Visão Geral
+        VisÃ£o Geral
       </button>
       <button
         onClick={() => onChange('list')}

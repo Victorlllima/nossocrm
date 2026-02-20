@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Deal Notes Service
  * CRUD operations for deal notes persisted in Supabase
  */
@@ -19,7 +19,7 @@ export const dealNotesService = {
      */
     async getNotesForDeal(dealId: string) {
         if (!supabase) {
-            return { data: null as DealNote[] | null, error: new Error('Supabase não configurado') };
+            return { data: null as DealNote[] | null, error: new Error('Supabase nÃ£o configurado') };
         }
         const { data, error } = await supabase
             .from('deal_notes')
@@ -35,7 +35,7 @@ export const dealNotesService = {
      */
     async createNote(dealId: string, content: string) {
         if (!supabase) {
-            return { data: null as DealNote | null, error: new Error('Supabase não configurado') };
+            return { data: null as DealNote | null, error: new Error('Supabase nÃ£o configurado') };
         }
         const { data: { user } } = await supabase.auth.getUser();
 
@@ -57,7 +57,7 @@ export const dealNotesService = {
      */
     async updateNote(noteId: string, content: string) {
         if (!supabase) {
-            return { data: null as DealNote | null, error: new Error('Supabase não configurado') };
+            return { data: null as DealNote | null, error: new Error('Supabase nÃ£o configurado') };
         }
         const { data, error } = await supabase
             .from('deal_notes')
@@ -74,7 +74,7 @@ export const dealNotesService = {
      */
     async deleteNote(noteId: string) {
         if (!supabase) {
-            return { error: new Error('Supabase não configurado') };
+            return { error: new Error('Supabase nÃ£o configurado') };
         }
         const { error } = await supabase
             .from('deal_notes')

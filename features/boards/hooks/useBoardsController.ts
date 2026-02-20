@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+﻿import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { DealView, Board, CustomFieldDefinition } from '@/types';
 import {
@@ -24,9 +24,9 @@ import { useAI } from '@/context/AIContext';
 import { PeriodFilter } from '@/features/dashboard/hooks/useDashboardMetrics';
 
 /**
- * Função pública `isDealRotting` do projeto.
+ * FunÃ§Ã£o pÃºblica `isDealRotting` do projeto.
  *
- * @param {DealView} deal - Parâmetro `deal`.
+ * @param {DealView} deal - ParÃ¢metro `deal`.
  * @returns {boolean} Retorna um valor do tipo `boolean`.
  */
 export const isDealRotting = (deal: DealView) => {
@@ -37,9 +37,9 @@ export const isDealRotting = (deal: DealView) => {
 };
 
 /**
- * Função pública `getActivityStatus` do projeto.
+ * FunÃ§Ã£o pÃºblica `getActivityStatus` do projeto.
  *
- * @param {DealView} deal - Parâmetro `deal`.
+ * @param {DealView} deal - ParÃ¢metro `deal`.
  * @returns {"yellow" | "red" | "green" | "gray"} Retorna um valor do tipo `"yellow" | "red" | "green" | "gray"`.
  */
 export const getActivityStatus = (deal: DealView) => {
@@ -52,7 +52,7 @@ export const getActivityStatus = (deal: DealView) => {
 };
 
 /**
- * Hook React `useBoardsController` que encapsula uma lógica reutilizável.
+ * Hook React `useBoardsController` que encapsula uma lÃ³gica reutilizÃ¡vel.
  * @returns {{ boards: Board[]; boardsLoading: boolean; boardsFetched: boolean; activeBoard: Board | null; activeBoardId: string | null; handleSelectBoard: (boardId: string) => void; ... 45 more ...; handleLossReasonClose: () => void; }} Retorna um valor do tipo `{ boards: Board[]; boardsLoading: boolean; boardsFetched: boolean; activeBoard: Board | null; activeBoardId: string | null; handleSelectBoard: (boardId: string) => void; ... 45 more ...; handleLossReasonClose: () => void; }`.
  */
 export const useBoardsController = () => {
@@ -100,13 +100,13 @@ export const useBoardsController = () => {
 
   // Set default board when boards load OR when active board doesn't exist anymore
   useEffect(() => {
-    // Se não há activeBoardId, usa o default
+    // Se nÃ£o hÃ¡ activeBoardId, usa o default
     if (!activeBoardId && defaultBoard) {
       setActiveBoardId(defaultBoard.id);
       return;
     }
 
-    // Se o activeBoardId não existe mais nos boards carregados, limpa e usa default
+    // Se o activeBoardId nÃ£o existe mais nos boards carregados, limpa e usa default
     if (activeBoardId && boards.length > 0) {
       const boardExists = boards.some(b => b.id === activeBoardId);
       if (!boardExists) {
@@ -116,14 +116,14 @@ export const useBoardsController = () => {
     }
   }, [activeBoardId, defaultBoard, boards, setActiveBoardId]);
 
-  // Get active board - SEMPRE sincronizado com activeBoardId válido
+  // Get active board - SEMPRE sincronizado com activeBoardId vÃ¡lido
   const activeBoard = useMemo(() => {
     const found = boards.find(b => b.id === activeBoardId);
-    // Se não encontrou, retorna o default (mas o useEffect acima vai corrigir o ID)
+    // Se nÃ£o encontrou, retorna o default (mas o useEffect acima vai corrigir o ID)
     return found || defaultBoard || null;
   }, [boards, activeBoardId, defaultBoard]);
 
-  // ID efetivo - garante que é sempre do board que está sendo exibido
+  // ID efetivo - garante que Ã© sempre do board que estÃ¡ sendo exibido
   const effectiveActiveBoardId = activeBoard?.id || null;
 
   // Deals for active board
@@ -222,7 +222,7 @@ export const useBoardsController = () => {
     lastContextSignatureRef.current = contextSignature;
 
     if (process.env.NODE_ENV !== 'production') {
-      console.log('[BoardsController] 🎯 Setting AI Context for board:', activeBoard.id, activeBoard.name);
+      console.log('[BoardsController] ðŸŽ¯ Setting AI Context for board:', activeBoard.id, activeBoard.name);
     }
 
     setContext({
@@ -503,7 +503,7 @@ export const useBoardsController = () => {
           deal = candidates[0];
         } else {
           if (candidates.length > 1) {
-            addToast('Não foi possível mover: existem múltiplos negócios com o mesmo título. Aguarde salvar e tente novamente.', 'info');
+            addToast('NÃ£o foi possÃ­vel mover: existem mÃºltiplos negÃ³cios com o mesmo tÃ­tulo. Aguarde salvar e tente novamente.', 'info');
           }
         }
       }
@@ -514,7 +514,7 @@ export const useBoardsController = () => {
 
       // Guard: never send temp-* ids to the backend. This happens when user drags immediately after creating a deal.
       if (deal.id.startsWith('temp-')) {
-        addToast('Aguarde o negócio salvar para mover (1s) e tente novamente.', 'info');
+        addToast('Aguarde o negÃ³cio salvar para mover (1s) e tente novamente.', 'info');
         setDraggingId(null);
         return;
       }
@@ -586,7 +586,7 @@ export const useBoardsController = () => {
       return;
     }
     if (deal.id.startsWith('temp-')) {
-      addToast('Aguarde o negócio salvar para mover (1s) e tente novamente.', 'info');
+      addToast('Aguarde o negÃ³cio salvar para mover (1s) e tente novamente.', 'info');
       return;
     }
 
@@ -625,7 +625,7 @@ export const useBoardsController = () => {
 
     const titles = {
       CALL: 'Ligar para Cliente',
-      MEETING: 'Reunião de Acompanhamento',
+      MEETING: 'ReuniÃ£o de Acompanhamento',
       EMAIL: 'Enviar Email de Follow-up',
     };
 
@@ -636,7 +636,7 @@ export const useBoardsController = () => {
           dealTitle,
           type,
           title: titles[type],
-          description: 'Agendado via Acesso Rápido',
+          description: 'Agendado via Acesso RÃ¡pido',
           date: tomorrow.toISOString(),
           completed: false,
           user: { name: 'Eu', avatar: '' },
@@ -668,8 +668,8 @@ export const useBoardsController = () => {
     const tempId = makeTempId();
     // Removed optimistic setActiveBoardId to prevent "empty board" flash or redirection issues
     setBoardCreateOverlay({
-      title: 'Criando board…',
-      subtitle: boardData?.name ? `— ${boardData.name}` : undefined,
+      title: 'Criando boardâ€¦',
+      subtitle: boardData?.name ? `â€” ${boardData.name}` : undefined,
     });
 
     createBoardMutation.mutate({ board: boardData, order, clientTempId: tempId }, {
@@ -791,7 +791,7 @@ export const useBoardsController = () => {
 
     const { targetBoardId } = boardToDelete;
 
-    // Caso 1: Usuário quer deletar os deals junto
+    // Caso 1: UsuÃ¡rio quer deletar os deals junto
     if (targetBoardId === '__DELETE__') {
       try {
         // Deleta todos os deals do board primeiro
@@ -799,14 +799,14 @@ export const useBoardsController = () => {
         const { error: deleteDealsError } = await dealsService.deleteByBoardId(boardToDelete.id);
 
         if (deleteDealsError) {
-          addToast('Erro ao excluir negócios: ' + deleteDealsError.message, 'error');
+          addToast('Erro ao excluir negÃ³cios: ' + deleteDealsError.message, 'error');
           return;
         }
 
         // Agora deleta o board
         deleteBoardMutation.mutate(boardToDelete.id, {
           onSuccess: () => {
-            addToast(`Board "${boardToDelete.name}" e seus negócios foram excluídos`, 'success');
+            addToast(`Board "${boardToDelete.name}" e seus negÃ³cios foram excluÃ­dos`, 'success');
             if (boardToDelete.id === activeBoardId && defaultBoard && defaultBoard.id !== boardToDelete.id) {
               setActiveBoardId(defaultBoard.id);
             }
@@ -830,7 +830,7 @@ export const useBoardsController = () => {
         { boardId: boardToDelete.id, targetBoardId },
         {
           onSuccess: () => {
-            addToast(`Board "${boardToDelete.name}" excluído! Negócios movidos com sucesso.`, 'success');
+            addToast(`Board "${boardToDelete.name}" excluÃ­do! NegÃ³cios movidos com sucesso.`, 'success');
             if (boardToDelete.id === activeBoardId) {
               setActiveBoardId(targetBoardId);
             }
@@ -848,7 +848,7 @@ export const useBoardsController = () => {
     // Caso 3: Board sem deals - delete normal
     deleteBoardMutation.mutate(boardToDelete.id, {
       onSuccess: () => {
-        addToast(`Board "${boardToDelete.name}" excluído com sucesso`, 'success');
+        addToast(`Board "${boardToDelete.name}" excluÃ­do com sucesso`, 'success');
         if (boardToDelete.id === activeBoardId && defaultBoard) {
           setActiveBoardId(defaultBoard.id);
         }
@@ -867,7 +867,7 @@ export const useBoardsController = () => {
     }
   };
 
-  // Boards disponíveis para mover deals (exclui o board sendo deletado)
+  // Boards disponÃ­veis para mover deals (exclui o board sendo deletado)
   const availableBoardsForMove = useMemo(() => {
     if (!boardToDelete) return [];
     return boards.filter(b => b.id !== boardToDelete.id);

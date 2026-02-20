@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+﻿import React, { useEffect, useMemo, useState } from 'react';
 import { Copy, Download, ArrowUp, ArrowDown } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import type { Board, BoardStage, JourneyDefinition } from '@/types';
@@ -7,7 +7,7 @@ import { z } from 'zod';
 
 function slugify(input: string) {
   // NOTE: avoid Unicode property escapes (\p{L}) for broader browser compatibility (Safari).
-  // Normalize accents → ASCII-ish, then keep [a-z0-9-].
+  // Normalize accents â†’ ASCII-ish, then keep [a-z0-9-].
   const ascii = (input ?? '')
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '');
@@ -93,7 +93,7 @@ function buildDefaultJourneyName(selectedBoards: Board[]) {
   if (selectedBoards.length <= 1) return selectedBoards[0]?.name || 'Jornada';
   const first = selectedBoards[0]?.name ?? 'Board 1';
   const last = selectedBoards[selectedBoards.length - 1]?.name ?? 'Board N';
-  return `Jornada - ${first} → ${last}`;
+  return `Jornada - ${first} â†’ ${last}`;
 }
 
 const JourneySchema = z.object({
@@ -125,7 +125,7 @@ const JourneySchema = z.object({
 });
 
 function guessWonLostStageIds(stages: BoardStage[]) {
-  const won = stages.find(s => /\b(ganho|won|fechado ganho|conclu[ií]do)\b/i.test(s.label))?.id;
+  const won = stages.find(s => /\b(ganho|won|fechado ganho|conclu[iÃ­]do)\b/i.test(s.label))?.id;
   const lost = stages.find(s => /\b(perdido|lost|churn|cancelad[oa])\b/i.test(s.label))?.id;
   return { wonStageId: won, lostStageId: lost };
 }
@@ -133,7 +133,7 @@ function guessWonLostStageIds(stages: BoardStage[]) {
 /**
  * Componente React `ExportTemplateModal`.
  *
- * @param {{ isOpen: boolean; onClose: () => void; boards: Board[]; activeBoard: Board; onCreateBoardAsync?: ((board: Omit<Board, "id" | "createdAt">, order?: number | undefined) => Promise<...>) | undefined; }} props - Parâmetro `props`.
+ * @param {{ isOpen: boolean; onClose: () => void; boards: Board[]; activeBoard: Board; onCreateBoardAsync?: ((board: Omit<Board, "id" | "createdAt">, order?: number | undefined) => Promise<...>) | undefined; }} props - ParÃ¢metro `props`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export function ExportTemplateModal(props: {
@@ -288,7 +288,7 @@ export function ExportTemplateModal(props: {
       addToast('journey.json copiado!', 'success');
     } catch (err) {
       console.error('[ExportTemplateModal] copy failed:', err);
-      addToast('Não consegui copiar (permissão do navegador).', 'error');
+      addToast('NÃ£o consegui copiar (permissÃ£o do navegador).', 'error');
     }
   };
 
@@ -307,13 +307,13 @@ export function ExportTemplateModal(props: {
     try {
       parsedJson = JSON.parse(raw);
     } catch {
-      setImportError('JSON inválido (não consegui fazer parse).');
+      setImportError('JSON invÃ¡lido (nÃ£o consegui fazer parse).');
       return;
     }
 
     const result = JourneySchema.safeParse(parsedJson);
     if (!result.success) {
-      setImportError('JSON não bate com o schema esperado de Journey (schemaVersion/boards/columns).');
+      setImportError('JSON nÃ£o bate com o schema esperado de Journey (schemaVersion/boards/columns).');
       return;
     }
 
@@ -333,11 +333,11 @@ export function ExportTemplateModal(props: {
 
   const handleInstallImportedJourney = async () => {
     if (!importJourney) {
-      addToast('Selecione um journey.json válido.', 'error');
+      addToast('Selecione um journey.json vÃ¡lido.', 'error');
       return;
     }
     if (!onCreateBoardAsync) {
-      addToast('Import indisponível nesta tela.', 'error');
+      addToast('Import indisponÃ­vel nesta tela.', 'error');
       return;
     }
 
@@ -422,7 +422,7 @@ export function ExportTemplateModal(props: {
           <div>
             <div className="text-sm font-bold text-slate-900 dark:text-white">Importar template (arquivo JSON)</div>
             <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-              Faça upload do arquivo exportado e clique em <b>Instalar</b>.
+              FaÃ§a upload do arquivo exportado e clique em <b>Instalar</b>.
             </div>
           </div>
 
@@ -438,14 +438,14 @@ export function ExportTemplateModal(props: {
             onClick={() => setShowPasteImport(v => !v)}
             className="text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors w-fit"
           >
-            {showPasteImport ? 'Ocultar opção de colar JSON' : 'Colar JSON manualmente (avançado)'}
+            {showPasteImport ? 'Ocultar opÃ§Ã£o de colar JSON' : 'Colar JSON manualmente (avanÃ§ado)'}
           </button>
 
           {showPasteImport && (
             <textarea
               value={importText}
               onChange={e => parseImport(e.target.value)}
-              placeholder="Cole o conteúdo do arquivo JSON aqui…"
+              placeholder="Cole o conteÃºdo do arquivo JSON aquiâ€¦"
               className="w-full min-h-44 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-black/30 px-3 py-2 text-xs font-mono"
             />
           )}
@@ -456,7 +456,7 @@ export function ExportTemplateModal(props: {
 
           {importJourney && (
             <div className="text-xs text-slate-600 dark:text-slate-300">
-              <b>Detectado:</b> {importJourney.boards.length} board(s){importJourney.name ? ` • ${importJourney.name}` : ''}
+              <b>Detectado:</b> {importJourney.boards.length} board(s){importJourney.name ? ` â€¢ ${importJourney.name}` : ''}
             </div>
           )}
 
@@ -470,7 +470,7 @@ export function ExportTemplateModal(props: {
                 : 'bg-primary-600 hover:bg-primary-700 text-white'
                 }`}
             >
-              <Download size={16} /> {isImporting ? 'Instalando…' : 'Instalar jornada'}
+              <Download size={16} /> {isImporting ? 'Instalandoâ€¦' : 'Instalar jornada'}
             </button>
           </div>
         </div>
@@ -482,7 +482,7 @@ export function ExportTemplateModal(props: {
             Exportar template
           </div>
           <div className="text-xs text-slate-500 dark:text-slate-400">
-            Selecione 1 board (template simples) ou vários (jornada).
+            Selecione 1 board (template simples) ou vÃ¡rios (jornada).
           </div>
         </div>
       )}
@@ -493,7 +493,7 @@ export function ExportTemplateModal(props: {
           <div className="rounded-xl border border-slate-200 dark:border-white/10 p-4 bg-slate-50/50 dark:bg-white/5">
             <div className="text-sm font-bold text-slate-900 dark:text-white">1) Baixar arquivo do template</div>
             <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-              Esse arquivo é o que você vai guardar/publicar na comunidade.
+              Esse arquivo Ã© o que vocÃª vai guardar/publicar na comunidade.
             </div>
 
             <div className="mt-4">
@@ -510,7 +510,7 @@ export function ExportTemplateModal(props: {
             <div className="mt-4">
               <div className="text-xs font-semibold text-slate-600 dark:text-slate-300 mb-2">boards da jornada (ordem importa)</div>
               <div className="text-xs text-slate-500 dark:text-slate-400 mb-2">
-                <b>Ordem que será exportada:</b> {selectedBoards.map(b => b.name).join(' → ') || '(nenhum)'}
+                <b>Ordem que serÃ¡ exportada:</b> {selectedBoards.map(b => b.name).join(' â†’ ') || '(nenhum)'}
               </div>
               <div className="rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-2 max-h-64 overflow-auto space-y-1">
                 {boards.map(b => {
@@ -574,7 +574,7 @@ export function ExportTemplateModal(props: {
               onClick={() => setShowTechnicalDetails(v => !v)}
               className="mt-3 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors"
             >
-              {showTechnicalDetails ? 'Ocultar detalhes técnicos' : 'Mostrar detalhes técnicos'}
+              {showTechnicalDetails ? 'Ocultar detalhes tÃ©cnicos' : 'Mostrar detalhes tÃ©cnicos'}
             </button>
 
             {showTechnicalDetails && (

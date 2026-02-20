@@ -1,26 +1,26 @@
-'use server'
+﻿'use server'
 
 import { createClient } from '@/lib/supabase/server'
 import { headers } from 'next/headers'
 import { z } from 'zod'
 
 /**
- * Schema de validação para cadastro
+ * Schema de validaÃ§Ã£o para cadastro
  */
 const signupSchema = z.object({
     email: z
         .string()
-        .min(1, 'Email é obrigatório')
-        .email('Email inválido'),
+        .min(1, 'Email Ã© obrigatÃ³rio')
+        .email('Email invÃ¡lido'),
     password: z
         .string()
-        .min(6, 'Senha deve ter no mínimo 6 caracteres')
-        .max(72, 'Senha deve ter no máximo 72 caracteres'),
+        .min(6, 'Senha deve ter no mÃ­nimo 6 caracteres')
+        .max(72, 'Senha deve ter no mÃ¡ximo 72 caracteres'),
     confirmPassword: z
         .string()
-        .min(1, 'Confirmação de senha é obrigatória'),
+        .min(1, 'ConfirmaÃ§Ã£o de senha Ã© obrigatÃ³ria'),
 }).refine((data) => data.password === data.confirmPassword, {
-    message: 'As senhas não coincidem',
+    message: 'As senhas nÃ£o coincidem',
     path: ['confirmPassword'],
 })
 
@@ -35,17 +35,17 @@ export type SignupState = {
 }
 
 /**
- * Server Action para cadastro de usuário
+ * Server Action para cadastro de usuÃ¡rio
  * 
- * @param prevState - Estado anterior do formulário
- * @param formData - Dados do formulário
- * @returns Estado atualizado com resultado da operação
+ * @param prevState - Estado anterior do formulÃ¡rio
+ * @param formData - Dados do formulÃ¡rio
+ * @returns Estado atualizado com resultado da operaÃ§Ã£o
  */
 export async function signup(
     prevState: SignupState | null,
     formData: FormData
 ): Promise<SignupState> {
-    // Extrai os dados do formulário
+    // Extrai os dados do formulÃ¡rio
     const rawData = {
         email: formData.get('email') as string,
         password: formData.get('password') as string,
@@ -65,7 +65,7 @@ export async function signup(
 
     const { email, password } = validatedFields.data
 
-    // Obtém a origem para o redirect do email
+    // ObtÃ©m a origem para o redirect do email
     const headersList = await headers()
     const origin = headersList.get('origin') || headersList.get('x-forwarded-host') || 'http://localhost:3000'
     const protocol = headersList.get('x-forwarded-proto') || 'http'
@@ -87,14 +87,14 @@ export async function signup(
             if (error.message.includes('already registered')) {
                 return {
                     success: false,
-                    message: 'Este email já está cadastrado. Tente fazer login.',
+                    message: 'Este email jÃ¡ estÃ¡ cadastrado. Tente fazer login.',
                 }
             }
 
             if (error.message.includes('Password')) {
                 return {
                     success: false,
-                    message: 'Senha não atende aos requisitos de segurança.',
+                    message: 'Senha nÃ£o atende aos requisitos de seguranÃ§a.',
                     errors: { password: [error.message] },
                 }
             }
@@ -105,11 +105,11 @@ export async function signup(
             }
         }
 
-        // Verifica se o email precisa de confirmação
+        // Verifica se o email precisa de confirmaÃ§Ã£o
         if (data?.user?.identities?.length === 0) {
             return {
                 success: false,
-                message: 'Este email já está cadastrado. Tente fazer login.',
+                message: 'Este email jÃ¡ estÃ¡ cadastrado. Tente fazer login.',
             }
         }
 

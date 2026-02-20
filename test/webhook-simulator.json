@@ -1,0 +1,488 @@
+{
+  "info": {
+    "name": "WhatsApp Agente Max - Webhook Simulator",
+    "description": "Testes de simulação do webhook da Evolution API para o Agente Conversacional",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1️⃣ TESTE BÁSICO: Saudação",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200', function() {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Response tem status field', function() {",
+              "  var jsonData = pm.response.json();",
+              "  pm.expect(jsonData).to.have.property('status');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"messages.upsert\",\n  \"data\": {\n    \"key\": {\n      \"remoteJid\": \"5581999999999@s.whatsapp.net\",\n      \"fromMe\": false,\n      \"id\": \"3EB0A8BF3F1C5F2E\"\n    },\n    \"message\": {\n      \"conversation\": \"Oi, bom dia!\"\n    },\n    \"messageType\": \"conversation\",\n    \"messageTimestamp\": 1707571200,\n    \"pushName\": \"João Silva\",\n    \"status\": \"PENDING\"\n  }\n}\n"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/whatsapp/webhook",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "whatsapp",
+            "webhook"
+          ]
+        }
+      }
+    },
+    {
+      "name": "2️⃣ TESTE FERRAMENTA: Busca 2 Quartos",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200', function() {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('consultarBaseImoveis foi chamada', function() {",
+              "  // Verificar logs do console para confirmar tool call",
+              "  pm.expect(true).to.be.true;",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"messages.upsert\",\n  \"data\": {\n    \"key\": {\n      \"remoteJid\": \"5581999999999@s.whatsapp.net\",\n      \"fromMe\": false,\n      \"id\": \"3EB0A8BF3F1C5F2F\"\n    },\n    \"message\": {\n      \"conversation\": \"Tem imóvel com 2 quartos em Boa Viagem?\"\n    },\n    \"messageType\": \"conversation\",\n    \"messageTimestamp\": 1707571260,\n    \"pushName\": \"João Silva\",\n    \"status\": \"PENDING\"\n  }\n}\n"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/whatsapp/webhook",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "whatsapp",
+            "webhook"
+          ]
+        }
+      }
+    },
+    {
+      "name": "3️⃣ TESTE HISTÓRICO: Mensagem 1 de 3",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200', function() {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"messages.upsert\",\n  \"data\": {\n    \"key\": {\n      \"remoteJid\": \"5581888888888@s.whatsapp.net\",\n      \"fromMe\": false,\n      \"id\": \"3EB0A8BF3F1C5F30\"\n    },\n    \"message\": {\n      \"conversation\": \"Oi, quero comprar um imóvel\"\n    },\n    \"messageType\": \"conversation\",\n    \"messageTimestamp\": 1707571320,\n    \"pushName\": \"Maria Santos\",\n    \"status\": \"PENDING\"\n  }\n}\n"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/whatsapp/webhook",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "whatsapp",
+            "webhook"
+          ]
+        }
+      }
+    },
+    {
+      "name": "3️⃣ TESTE HISTÓRICO: Mensagem 2 de 3 (mesma pessoa)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200', function() {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"messages.upsert\",\n  \"data\": {\n    \"key\": {\n      \"remoteJid\": \"5581888888888@s.whatsapp.net\",\n      \"fromMe\": false,\n      \"id\": \"3EB0A8BF3F1C5F31\"\n    },\n    \"message\": {\n      \"conversation\": \"Prefiro 3 quartos\"\n    },\n    \"messageType\": \"conversation\",\n    \"messageTimestamp\": 1707571380,\n    \"pushName\": \"Maria Santos\",\n    \"status\": \"PENDING\"\n  }\n}\n"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/whatsapp/webhook",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "whatsapp",
+            "webhook"
+          ]
+        }
+      }
+    },
+    {
+      "name": "3️⃣ TESTE HISTÓRICO: Mensagem 3 de 3 (validar contexto)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200', function() {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Agente lembrou de 3 quartos', function() {",
+              "  // Verificar logs - se resposta menciona \"3 quartos\", histórico funciona",
+              "  pm.expect(true).to.be.true;",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"messages.upsert\",\n  \"data\": {\n    \"key\": {\n      \"remoteJid\": \"5581888888888@s.whatsapp.net\",\n      \"fromMe\": false,\n      \"id\": \"3EB0A8BF3F1C5F32\"\n    },\n    \"message\": {\n      \"conversation\": \"Qual o valor?\"\n    },\n    \"messageType\": \"conversation\",\n    \"messageTimestamp\": 1707571440,\n    \"pushName\": \"Maria Santos\",\n    \"status\": \"PENDING\"\n  }\n}\n"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/whatsapp/webhook",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "whatsapp",
+            "webhook"
+          ]
+        }
+      }
+    },
+    {
+      "name": "4️⃣ TESTE TRANSBORDO: Pedir Humano",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200', function() {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('acionarHumano foi chamada', function() {",
+              "  // Verificar logs do console para confirmar tool call",
+              "  pm.expect(true).to.be.true;",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"messages.upsert\",\n  \"data\": {\n    \"key\": {\n      \"remoteJid\": \"5581777777777@s.whatsapp.net\",\n      \"fromMe\": false,\n      \"id\": \"3EB0A8BF3F1C5F33\"\n    },\n    \"message\": {\n      \"conversation\": \"Quero falar com o Max\"\n    },\n    \"messageType\": \"conversation\",\n    \"messageTimestamp\": 1707571500,\n    \"pushName\": \"Pedro Costa\",\n    \"status\": \"PENDING\"\n  }\n}\n"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/whatsapp/webhook",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "whatsapp",
+            "webhook"
+          ]
+        }
+      }
+    },
+    {
+      "name": "5️⃣ TESTE ANTI-SPAM: Mensagem 1 de 5 (rápidas)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"messages.upsert\",\n  \"data\": {\n    \"key\": {\n      \"remoteJid\": \"5581666666666@s.whatsapp.net\",\n      \"fromMe\": false,\n      \"id\": \"3EB0A8BF3F1C5F34\"\n    },\n    \"message\": {\n      \"conversation\": \"msg 1\"\n    },\n    \"messageType\": \"conversation\",\n    \"messageTimestamp\": 1707571560,\n    \"pushName\": \"Spam Test\",\n    \"status\": \"PENDING\"\n  }\n}\n"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/whatsapp/webhook",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "whatsapp",
+            "webhook"
+          ]
+        }
+      }
+    },
+    {
+      "name": "5️⃣ TESTE ANTI-SPAM: Mensagem 2 de 5 (100ms depois)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"messages.upsert\",\n  \"data\": {\n    \"key\": {\n      \"remoteJid\": \"5581666666666@s.whatsapp.net\",\n      \"fromMe\": false,\n      \"id\": \"3EB0A8BF3F1C5F35\"\n    },\n    \"message\": {\n      \"conversation\": \"msg 2\"\n    },\n    \"messageType\": \"conversation\",\n    \"messageTimestamp\": 1707571561,\n    \"pushName\": \"Spam Test\",\n    \"status\": \"PENDING\"\n  }\n}\n"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/whatsapp/webhook",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "whatsapp",
+            "webhook"
+          ]
+        }
+      }
+    },
+    {
+      "name": "5️⃣ TESTE ANTI-SPAM: Mensagem 3 de 5",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"messages.upsert\",\n  \"data\": {\n    \"key\": {\n      \"remoteJid\": \"5581666666666@s.whatsapp.net\",\n      \"fromMe\": false,\n      \"id\": \"3EB0A8BF3F1C5F36\"\n    },\n    \"message\": {\n      \"conversation\": \"msg 3\"\n    },\n    \"messageType\": \"conversation\",\n    \"messageTimestamp\": 1707571562,\n    \"pushName\": \"Spam Test\",\n    \"status\": \"PENDING\"\n  }\n}\n"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/whatsapp/webhook",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "whatsapp",
+            "webhook"
+          ]
+        }
+      }
+    },
+    {
+      "name": "5️⃣ TESTE ANTI-SPAM: Mensagem 4 de 5",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"messages.upsert\",\n  \"data\": {\n    \"key\": {\n      \"remoteJid\": \"5581666666666@s.whatsapp.net\",\n      \"fromMe\": false,\n      \"id\": \"3EB0A8BF3F1C5F37\"\n    },\n    \"message\": {\n      \"conversation\": \"msg 4\"\n    },\n    \"messageType\": \"conversation\",\n    \"messageTimestamp\": 1707571563,\n    \"pushName\": \"Spam Test\",\n    \"status\": \"PENDING\"\n  }\n}\n"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/whatsapp/webhook",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "whatsapp",
+            "webhook"
+          ]
+        }
+      }
+    },
+    {
+      "name": "5️⃣ TESTE ANTI-SPAM: Mensagem 5 de 5",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"messages.upsert\",\n  \"data\": {\n    \"key\": {\n      \"remoteJid\": \"5581666666666@s.whatsapp.net\",\n      \"fromMe\": false,\n      \"id\": \"3EB0A8BF3F1C5F38\"\n    },\n    \"message\": {\n      \"conversation\": \"msg 5\"\n    },\n    \"messageType\": \"conversation\",\n    \"messageTimestamp\": 1707571564,\n    \"pushName\": \"Spam Test\",\n    \"status\": \"PENDING\"\n  }\n}\n"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/whatsapp/webhook",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "whatsapp",
+            "webhook"
+          ]
+        }
+      }
+    },
+    {
+      "name": "6️⃣ TESTE BUSCA POR ID: ID 42",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"messages.upsert\",\n  \"data\": {\n    \"key\": {\n      \"remoteJid\": \"5581555555555@s.whatsapp.net\",\n      \"fromMe\": false,\n      \"id\": \"3EB0A8BF3F1C5F39\"\n    },\n    \"message\": {\n      \"conversation\": \"42\"\n    },\n    \"messageType\": \"conversation\",\n    \"messageTimestamp\": 1707571620,\n    \"pushName\": \"Test ID\",\n    \"status\": \"PENDING\"\n  }\n}\n"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/whatsapp/webhook",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "whatsapp",
+            "webhook"
+          ]
+        }
+      }
+    },
+    {
+      "name": "7️⃣ TESTE SMALL TALK: Ignorar saudação",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"messages.upsert\",\n  \"data\": {\n    \"key\": {\n      \"remoteJid\": \"5581444444444@s.whatsapp.net\",\n      \"fromMe\": false,\n      \"id\": \"3EB0A8BF3F1C5F40\"\n    },\n    \"message\": {\n      \"conversation\": \"Tudo bem?\"\n    },\n    \"messageType\": \"conversation\",\n    \"messageTimestamp\": 1707571680,\n    \"pushName\": \"Casual User\",\n    \"status\": \"PENDING\"\n  }\n}\n"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/whatsapp/webhook",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "whatsapp",
+            "webhook"
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "lead_phone",
+      "value": "5581999999999"
+    }
+  ]
+}

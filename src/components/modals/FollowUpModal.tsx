@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Calendar, Clock, MessageSquare, Send, Loader2 } from 'lucide-react';
 import { Modal, ModalForm } from '@/components/ui/Modal';
@@ -40,7 +40,7 @@ export const FollowUpModal: React.FC<FollowUpModalProps> = ({
     defaultValues: {
       date: new Date(Date.now() + 86400000).toISOString().split('T')[0], // Tomorrow
       time: '14:00',
-      message: 'Olá! Conseguiu ver aquela proposta que te enviei?',
+      message: 'OlÃ¡! Conseguiu ver aquela proposta que te enviei?',
     },
   });
 
@@ -77,11 +77,11 @@ export const FollowUpModal: React.FC<FollowUpModalProps> = ({
     <Modal isOpen={isOpen} onClose={onClose} title="Agendar Follow-up Inteligente" size="md">
       <div className="mb-6">
         <p className="text-sm text-slate-500 dark:text-slate-400">
-          Agende uma mensagem automática para o WhatsApp. A IA irá cancelar o envio se o cliente responder antes.
+          Agende uma mensagem automÃ¡tica para o WhatsApp. A IA irÃ¡ cancelar o envio se o cliente responder antes.
         </p>
         {dealTitle && (
           <div className="mt-2 text-xs font-semibold px-2 py-1 bg-slate-100 dark:bg-white/5 rounded inline-block">
-            Negócio: {dealTitle}
+            NegÃ³cio: {dealTitle}
           </div>
         )}
       </div>
@@ -94,7 +94,7 @@ export const FollowUpModal: React.FC<FollowUpModalProps> = ({
             </label>
             <input
               type="date"
-              {...register('date', { required: 'Data é obrigatória' })}
+              {...register('date', { required: 'Data Ã© obrigatÃ³ria' })}
               className="w-full px-3 py-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg text-sm text-slate-900 dark:text-white"
             />
           </div>
@@ -104,7 +104,7 @@ export const FollowUpModal: React.FC<FollowUpModalProps> = ({
             </label>
             <input
               type="time"
-              {...register('time', { required: 'Hora é obrigatória' })}
+              {...register('time', { required: 'Hora Ã© obrigatÃ³ria' })}
               className="w-full px-3 py-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg text-sm text-slate-900 dark:text-white"
             />
           </div>
@@ -115,10 +115,10 @@ export const FollowUpModal: React.FC<FollowUpModalProps> = ({
             <MessageSquare size={12} /> Mensagem de Follow-up
           </label>
           <textarea
-            {...register('message', { required: 'Mensagem é obrigatória' })}
+            {...register('message', { required: 'Mensagem Ã© obrigatÃ³ria' })}
             rows={4}
             className="w-full px-3 py-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg text-sm text-slate-900 dark:text-white"
-            placeholder="O que o robô deve dizer?"
+            placeholder="O que o robÃ´ deve dizer?"
           />
         </div>
 

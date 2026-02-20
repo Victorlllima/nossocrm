@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { X, Phone, Calendar, Clock, CheckCircle } from 'lucide-react';
 
 export type ScheduleType = 'CALL' | 'MEETING' | 'TASK';
@@ -24,8 +24,8 @@ export interface ScheduleData {
 }
 
 const typeConfig = {
-    CALL: { label: 'Ligação', icon: Phone, color: 'blue' },
-    MEETING: { label: 'Reunião', icon: Calendar, color: 'purple' },
+    CALL: { label: 'LigaÃ§Ã£o', icon: Phone, color: 'blue' },
+    MEETING: { label: 'ReuniÃ£o', icon: Calendar, color: 'purple' },
     TASK: { label: 'Tarefa', icon: Clock, color: 'orange' },
 };
 
@@ -42,7 +42,7 @@ const typeConfig = {
     initialDescription,
     initialDate,
     initialTime,
-} - Parâmetro `{
+} - ParÃ¢metro `{
     isOpen,
     onClose,
     onSave,
@@ -102,7 +102,7 @@ export function ScheduleModal({
     useEffect(() => {
         if (!isOpen) return;
         if (titleTouched) return;
-        // Se abriu com um título sugerido (ex.: IA) e ainda está no tipo inicial, não sobrescrever.
+        // Se abriu com um tÃ­tulo sugerido (ex.: IA) e ainda estÃ¡ no tipo inicial, nÃ£o sobrescrever.
         if (typeof initialTitle === 'string' && initialTitle.trim() && type === initialType) return;
 
         setTitle(typeConfig[type].label + ' com ' + contactName);
@@ -188,7 +188,7 @@ export function ScheduleModal({
 
                     {/* Title */}
                     <div>
-                        <label className="block text-xs font-medium text-slate-400 mb-2">Título</label>
+                        <label className="block text-xs font-medium text-slate-400 mb-2">TÃ­tulo</label>
                         <input
                             type="text"
                             value={title}
@@ -197,7 +197,7 @@ export function ScheduleModal({
                                 setTitle(e.target.value);
                             }}
                             className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-primary-500"
-                            placeholder="Ex: Ligar para João"
+                            placeholder="Ex: Ligar para JoÃ£o"
                         />
                     </div>
 
@@ -214,7 +214,7 @@ export function ScheduleModal({
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-slate-400 mb-2">Horário</label>
+                            <label className="block text-xs font-medium text-slate-400 mb-2">HorÃ¡rio</label>
                             <input
                                 type="time"
                                 value={time}
@@ -226,7 +226,7 @@ export function ScheduleModal({
 
                     {/* Quick time buttons */}
                     <div className="flex gap-2 flex-wrap">
-                        {['Hoje', 'Amanhã', 'Próx. semana'].map((label, idx) => {
+                        {['Hoje', 'AmanhÃ£', 'PrÃ³x. semana'].map((label, idx) => {
                             const d = new Date();
                             if (idx === 1) d.setDate(d.getDate() + 1);
                             if (idx === 2) d.setDate(d.getDate() + 7);
@@ -248,7 +248,7 @@ export function ScheduleModal({
 
                     {/* Description */}
                     <div>
-                        <label className="block text-xs font-medium text-slate-400 mb-2">Descrição (opcional)</label>
+                        <label className="block text-xs font-medium text-slate-400 mb-2">DescriÃ§Ã£o (opcional)</label>
                         <textarea
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
@@ -273,7 +273,7 @@ export function ScheduleModal({
                         className="flex-1 px-4 py-2 bg-primary-500 hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
                     >
                         {isSaving ? (
-                            <span className="animate-spin">⏳</span>
+                            <span className="animate-spin">â³</span>
                         ) : (
                             <CheckCircle size={16} />
                         )}

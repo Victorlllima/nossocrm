@@ -1,4 +1,4 @@
-/**
+﻿/**
  * TanStack Query hooks for Boards - Supabase Edition
  *
  * Features:

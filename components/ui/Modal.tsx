@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Reusable Modal component with consistent styling
  * 
  * Accessibility Features:
@@ -73,7 +73,7 @@ const sizeClasses = {
   initialFocus,
   focusTrapEnabled = true,
   closeOnBackdropClick = true,
-} - Parâmetro `{ 
+} - ParÃ¢metro `{ 
   isOpen, 
   onClose, 
   title, 
@@ -185,7 +185,7 @@ interface ModalFormProps extends React.FormHTMLAttributes<HTMLFormElement> {
 /**
  * Componente React `ModalForm`.
  *
- * @param {ModalFormProps} { children, className, ...props } - Parâmetro `{ children, className, ...props }`.
+ * @param {ModalFormProps} { children, className, ...props } - ParÃ¢metro `{ children, className, ...props }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const ModalForm: React.FC<ModalFormProps> = ({ children, className, ...props }) => (

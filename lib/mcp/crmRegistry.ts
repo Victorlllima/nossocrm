@@ -1,4 +1,4 @@
-import { createCRMTools } from '@/lib/ai/tools';
+﻿import { createCRMTools } from '@/lib/ai/tools';
 import type { CRMCallOptions } from '@/types/ai';
 import { getCrmCatalogEntry, type CrmToolCatalogEntry } from './crmToolCatalog';
 
@@ -41,7 +41,7 @@ export type CrmMcpRegistry = {
 /**
  * Builds a registry that exposes the CRM AI tools (`createCRMTools`) as MCP tools.
  *
- * This is intentionally a pure “adapter” layer:
+ * This is intentionally a pure â€œadapterâ€ layer:
  * - No HTTP / JSON-RPC logic.
  * - No auth logic.
  * - No Zod->JSON Schema conversion (done elsewhere).
@@ -64,7 +64,7 @@ export function buildCrmMcpRegistry(params: {
 
     const catalog: CrmToolCatalogEntry | undefined = getCrmCatalogEntry(internalKey);
 
-    // Fallback policy for “new/unmapped” tools:
+    // Fallback policy for â€œnew/unmappedâ€ tools:
     // never crash registry building; expose the tool with a safe, clearly-unmapped name.
     const name = catalog?.name ?? `crm.unmapped.${internalKey}`;
     const title = catalog?.title ?? internalKey;

@@ -1,17 +1,17 @@
-/**
- * @fileoverview Utilitários de sanitização e validação para Supabase.
+﻿/**
+ * @fileoverview UtilitÃ¡rios de sanitizaÃ§Ã£o e validaÃ§Ã£o para Supabase.
  * 
- * Este módulo fornece funções para validar e sanitizar dados antes
+ * Este mÃ³dulo fornece funÃ§Ãµes para validar e sanitizar dados antes
  * de enviar ao Supabase, prevenindo erros de FK e garantindo integridade.
  * 
  * ## Conceitos Multi-Tenant
  * 
  * - **organization_id**: ID do tenant (quem paga pelo SaaS) - vem do auth/profile
- * - **client_company_id**: Empresa do cliente cadastrada no CRM - relacionamento de negócio
+ * - **client_company_id**: Empresa do cliente cadastrada no CRM - relacionamento de negÃ³cio
  * 
  * ## Regra de Ouro
  * 
- * Todos os UUIDs devem ser válidos ou NULL - nunca string vazia!
+ * Todos os UUIDs devem ser vÃ¡lidos ou NULL - nunca string vazia!
  * 
  * @module lib/supabase/utils
  * 
@@ -19,10 +19,10 @@
  * ```typescript
  * import { sanitizeUUID, requireUUID, sanitizeText } from '@/lib/supabase/utils';
  * 
- * // Campo opcional - retorna null se inválido
+ * // Campo opcional - retorna null se invÃ¡lido
  * const contactId = sanitizeUUID(form.contactId);
  * 
- * // Campo obrigatório - lança erro se inválido
+ * // Campo obrigatÃ³rio - lanÃ§a erro se invÃ¡lido
  * const boardId = requireUUID(form.boardId, 'Board ID');
  * ```
  */
@@ -31,16 +31,16 @@ import { OrganizationId, ClientCompanyId } from '@/types';
 import { supabase } from './client';
 
 /**
- * Expressão regular para validação de UUID v4.
+ * ExpressÃ£o regular para validaÃ§Ã£o de UUID v4.
  * @constant
  */
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 /**
- * Verifica se um valor é um UUID válido.
+ * Verifica se um valor Ã© um UUID vÃ¡lido.
  * 
  * @param value - Valor a ser verificado.
- * @returns true se for um UUID válido, false caso contrário.
+ * @returns true se for um UUID vÃ¡lido, false caso contrÃ¡rio.
  * 
  * @example
  * ```typescript
@@ -56,13 +56,13 @@ export function isValidUUID(value: unknown): value is string {
 }
 
 /**
- * Sanitiza um campo UUID - retorna null se inválido.
+ * Sanitiza um campo UUID - retorna null se invÃ¡lido.
  * 
  * Use para TODOS os campos FK opcionais. Previne erros de
- * constraint violation quando o usuário não preenche um campo.
+ * constraint violation quando o usuÃ¡rio nÃ£o preenche um campo.
  * 
  * @param value - UUID a ser sanitizado.
- * @returns UUID válido ou null.
+ * @returns UUID vÃ¡lido ou null.
  * 
  * @example
  * ```typescript
@@ -75,16 +75,16 @@ export function isValidUUID(value: unknown): value is string {
 export function sanitizeUUID(value: string | undefined | null): string | null {
   if (!value || value === '' || value.trim() === '') return null;
   if (!isValidUUID(value)) {
-    console.warn(`[sanitizeUUID] UUID inválido descartado: "${value}"`);
+    console.warn(`[sanitizeUUID] UUID invÃ¡lido descartado: "${value}"`);
     return null;
   }
   return value;
 }
 
 /**
- * Sanitiza múltiplos campos UUID de um objeto.
+ * Sanitiza mÃºltiplos campos UUID de um objeto.
  * 
- * Útil para processar formulários com vários campos UUID de uma vez.
+ * Ãštil para processar formulÃ¡rios com vÃ¡rios campos UUID de uma vez.
  * 
  * @param obj - Objeto contendo os campos.
  * @param uuidFields - Lista de campos a serem sanitizados.
@@ -112,25 +112,25 @@ export function sanitizeUUIDs<T extends Record<string, unknown>>(
 }
 
 /**
- * Valida que um UUID existe e é válido, lançando erro se não for.
+ * Valida que um UUID existe e Ã© vÃ¡lido, lanÃ§ando erro se nÃ£o for.
  * 
- * Use para campos OBRIGATÓRIOS como board_id em deals.
+ * Use para campos OBRIGATÃ“RIOS como board_id em deals.
  * 
  * @param value - UUID a ser validado.
  * @param fieldName - Nome do campo para mensagem de erro.
- * @returns UUID válido.
- * @throws Error se o UUID for inválido ou vazio.
+ * @returns UUID vÃ¡lido.
+ * @throws Error se o UUID for invÃ¡lido ou vazio.
  * 
  * @example
  * ```typescript
  * const boardId = requireUUID(form.boardId, 'Board ID');
- * // Retorna UUID válido ou lança erro
+ * // Retorna UUID vÃ¡lido ou lanÃ§a erro
  * ```
  */
 export function requireUUID(value: string | undefined | null, fieldName: string): string {
   const sanitized = sanitizeUUID(value);
   if (!sanitized) {
-    throw new Error(`${fieldName} é obrigatório e deve ser um UUID válido`);
+    throw new Error(`${fieldName} Ã© obrigatÃ³rio e deve ser um UUID vÃ¡lido`);
   }
   return sanitized;
 }
@@ -164,10 +164,10 @@ export function requireOrganizationId(value: string | undefined | null): Organiz
 /**
  * Sanitiza client_company_id (empresa CRM do cliente).
  * 
- * Alias semântico para empresas cadastradas no CRM.
+ * Alias semÃ¢ntico para empresas cadastradas no CRM.
  * 
  * @param value - Client company ID a ser sanitizado.
- * @returns ClientCompanyId válido ou null.
+ * @returns ClientCompanyId vÃ¡lido ou null.
  */
 export function sanitizeClientCompanyId(value: string | undefined | null): ClientCompanyId | null {
   return sanitizeUUID(value) as ClientCompanyId | null;
@@ -192,11 +192,11 @@ export function sanitizeText(value: string | undefined | null): string | null {
 }
 
 /**
- * Sanitiza número - retorna valor default se inválido.
+ * Sanitiza nÃºmero - retorna valor default se invÃ¡lido.
  * 
  * @param value - Valor a ser convertido.
- * @param defaultValue - Valor padrão se inválido (default: 0).
- * @returns Número válido ou valor padrão.
+ * @param defaultValue - Valor padrÃ£o se invÃ¡lido (default: 0).
+ * @returns NÃºmero vÃ¡lido ou valor padrÃ£o.
  * 
  * @example
  * ```typescript

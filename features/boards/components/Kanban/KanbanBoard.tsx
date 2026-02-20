@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+﻿import React, { useCallback, useMemo, useState } from 'react';
 import { DealView, BoardStage } from '@/types';
 import { DealCard } from './DealCard';
 import { isDealRotting, getActivityStatus } from '@/features/boards/hooks/useBoardsController';
@@ -10,7 +10,7 @@ import { useCRM } from '@/context/CRMContext';
  * UI: Drop highlight should follow the stage color.
  *
  * Note on Tailwind: stage colors come from persisted values like `bg-blue-500`.
- * Tailwind only generates classes it can “see” in source, so we map to a finite set
+ * Tailwind only generates classes it can â€œseeâ€ in source, so we map to a finite set
  * of explicit `border-<color>-500`, `bg-<color>-100/20`, and `shadow-<color>-500/30` classes here.
  */
 function dropHighlightClasses(stageBgClass?: string): string {
@@ -83,7 +83,7 @@ interface KanbanBoardProps {
   handleQuickAddActivity,
   setLastMouseDownDealId,
   onMoveDealToStage,
-} - Parâmetro `{
+} - ParÃ¢metro `{
   stages,
   filteredDeals,
   draggingId,
@@ -124,9 +124,9 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
   } | null>(null);
 
   /**
-   * Performance: o Kanban renderiza listas grandes. Evitamos padrões O(S*N) no render:
+   * Performance: o Kanban renderiza listas grandes. Evitamos padrÃµes O(S*N) no render:
    * - Antes: para cada stage, fazia `filteredDeals.filter(...)` + `reduce(...)`.
-   * - Agora: agrupamos 1 vez (O(N)) e só lemos por stage (O(S)).
+   * - Agora: agrupamos 1 vez (O(N)) e sÃ³ lemos por stage (O(S)).
    */
   const dealsByStageId = useMemo(() => {
     const map = new Map<string, DealView[]>();
@@ -141,7 +141,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
     return { map, totals };
   }, [filteredDeals]);
 
-  // Performance: evita `find` por stage (O(S*L)). Map é O(1) por lookup.
+  // Performance: evita `find` por stage (O(S*L)). Map Ã© O(1) por lookup.
   const lifecycleStageNameById = useMemo(() => {
     const map = new Map<string, string>();
     for (const ls of lifecycleStages ?? []) {
@@ -259,12 +259,12 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
               >
                 {stageDeals.length === 0 && !draggingId && (
                   <div className="h-full flex items-center justify-center text-slate-400 dark:text-slate-600 text-sm py-8">
-                    Sem negócios
+                    Sem negÃ³cios
                   </div>
                 )}
                 {isOver && stageDeals.length === 0 && (
                   <div className="h-full flex items-center justify-center text-green-500 dark:text-green-400 text-sm py-8 font-bold animate-pulse pointer-events-none">
-                    ✓ Solte aqui!
+                    âœ“ Solte aqui!
                   </div>
                 )}
                 {stageDeals.map(deal => (
@@ -281,7 +281,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
                     onDragStart={handleDragStart}
                     onSelect={handleSelectDeal}
                     // Performance: avoid passing openMenuId (string) to all cards.
-                    // Only 1–2 cards will flip `isMenuOpen` when the menu is toggled.
+                    // Only 1â€“2 cards will flip `isMenuOpen` when the menu is toggled.
                     isMenuOpen={openActivityMenuId === deal.id}
                     setOpenMenuId={setOpenActivityMenuId}
                     onQuickAddActivity={handleQuickAddActivity}

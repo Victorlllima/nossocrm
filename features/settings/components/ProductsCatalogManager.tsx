@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+﻿import React, { useEffect, useMemo, useState } from 'react';
 import { Package, Pencil, Plus, Save, Trash2, ToggleLeft, ToggleRight, X } from 'lucide-react';
 import { productsService } from '@/lib/supabase';
 import type { Product } from '@/types';
@@ -123,11 +123,11 @@ export const ProductsCatalogManager: React.FC = () => {
     const price = Number(editPrice);
 
     if (name.length < 2) {
-      setError('Nome inválido.');
+      setError('Nome invÃ¡lido.');
       return;
     }
     if (!Number.isFinite(price) || price < 0) {
-      setError('Preço inválido.');
+      setError('PreÃ§o invÃ¡lido.');
       return;
     }
 
@@ -150,7 +150,7 @@ export const ProductsCatalogManager: React.FC = () => {
   };
 
   const remove = async (p: Product) => {
-    const ok = window.confirm(`Excluir "${p.name}"? Isso não remove itens já usados em deals históricos.`);
+    const ok = window.confirm(`Excluir "${p.name}"? Isso nÃ£o remove itens jÃ¡ usados em deals histÃ³ricos.`);
     if (!ok) return;
     setLoading(true);
     setError(null);
@@ -170,10 +170,10 @@ export const ProductsCatalogManager: React.FC = () => {
         <div className="flex items-start justify-between gap-6">
           <div className="min-w-0">
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1 flex items-center gap-2">
-              <Package className="h-5 w-5" /> Produtos/Serviços
+              <Package className="h-5 w-5" /> Produtos/ServiÃ§os
             </h3>
             <p className="text-sm text-slate-500 dark:text-slate-400">
-              Catálogo base da empresa. No deal você ainda pode adicionar itens personalizados quando precisar adaptar ao cliente.
+              CatÃ¡logo base da empresa. No deal vocÃª ainda pode adicionar itens personalizados quando precisar adaptar ao cliente.
             </p>
           </div>
         </div>
@@ -191,12 +191,12 @@ export const ProductsCatalogManager: React.FC = () => {
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Ex.: Sessão, Pacote, Implantação…"
+              placeholder="Ex.: SessÃ£o, Pacote, ImplantaÃ§Ã£oâ€¦"
               className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/40"
             />
           </div>
           <div className="lg:col-span-2">
-            <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Preço padrão</label>
+            <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">PreÃ§o padrÃ£o</label>
             <input
               value={price}
               onChange={(e) => setPrice(e.target.value)}
@@ -214,7 +214,7 @@ export const ProductsCatalogManager: React.FC = () => {
             />
           </div>
           <div className="lg:col-span-3">
-            <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Descrição (opcional)</label>
+            <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">DescriÃ§Ã£o (opcional)</label>
             <input
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -264,7 +264,7 @@ export const ProductsCatalogManager: React.FC = () => {
                             />
                           </div>
                           <div className="sm:col-span-2">
-                            <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">Preço</label>
+                            <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">PreÃ§o</label>
                             <input
                               value={editPrice}
                               onChange={(e) => setEditPrice(e.target.value)}
@@ -281,7 +281,7 @@ export const ProductsCatalogManager: React.FC = () => {
                             />
                           </div>
                           <div className="sm:col-span-3">
-                            <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">Descrição</label>
+                            <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">DescriÃ§Ã£o</label>
                             <input
                               value={editDescription}
                               onChange={(e) => setEditDescription(e.target.value)}
@@ -300,7 +300,7 @@ export const ProductsCatalogManager: React.FC = () => {
                             )}
                           </div>
                           <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate">
-                            {formatBRL(p.price)}{p.sku ? ` • SKU: ${p.sku}` : ''}{p.description ? ` • ${p.description}` : ''}
+                            {formatBRL(p.price)}{p.sku ? ` â€¢ SKU: ${p.sku}` : ''}{p.description ? ` â€¢ ${p.description}` : ''}
                           </div>
                         </>
                       )}
@@ -313,7 +313,7 @@ export const ProductsCatalogManager: React.FC = () => {
                             onClick={saveEdit}
                             className="px-2 py-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10"
                             title="Salvar"
-                            aria-label="Salvar alterações"
+                            aria-label="Salvar alteraÃ§Ãµes"
                             disabled={loading}
                           >
                             <Save className="h-4 w-4 text-primary-600" />
@@ -323,7 +323,7 @@ export const ProductsCatalogManager: React.FC = () => {
                             onClick={cancelEdit}
                             className="px-2 py-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10"
                             title="Cancelar"
-                            aria-label="Cancelar edição"
+                            aria-label="Cancelar ediÃ§Ã£o"
                             disabled={loading}
                           >
                             <X className="h-4 w-4 text-slate-500" />

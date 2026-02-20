@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+﻿import React, { useMemo, useState } from 'react';
 import { Webhook, ArrowRight, Copy, Check, Link as LinkIcon, Pencil, Power, Trash2, KeyRound, HelpCircle } from 'lucide-react';
 import { SettingsSection } from './SettingsSection';
 import { Modal } from '@/components/ui/Modal';
@@ -93,7 +93,7 @@ export const WebhooksSection: React.FC = () => {
   const [isFollowUpOpen, setIsFollowUpOpen] = useState(false);
   const [followUpUrl, setFollowUpUrl] = useState('');
 
-  // Quick start (produto) — inbound/outbound
+  // Quick start (produto) â€” inbound/outbound
   const [isQuickStartOpen, setIsQuickStartOpen] = useState(false);
   const [quickStartTab, setQuickStartTab] = useState<'inbound' | 'outbound'>('inbound');
   const [inboundStep, setInboundStep] = useState<1 | 2 | 3>(1);
@@ -161,7 +161,7 @@ export const WebhooksSection: React.FC = () => {
 
   React.useEffect(() => {
     if (!selectedStageId && stages.length > 0) {
-      // Heurística: preferir um estágio com label "Novo" se existir, senão o primeiro
+      // HeurÃ­stica: preferir um estÃ¡gio com label "Novo" se existir, senÃ£o o primeiro
       const preferred =
         stages.find(s => (s.label || '').toLowerCase().includes('novo')) || stages[0];
       setSelectedStageId(preferred.id);
@@ -378,7 +378,7 @@ export const WebhooksSection: React.FC = () => {
         .delete()
         .eq('id', activeInbound.id);
       if (error) throw error;
-      addToast('Configuração de entrada removida.', 'success');
+      addToast('ConfiguraÃ§Ã£o de entrada removida.', 'success');
       await loadWebhooks();
     } catch (e: any) {
       addToast(e?.message || 'Erro ao excluir webhook', 'error');
@@ -450,13 +450,13 @@ export const WebhooksSection: React.FC = () => {
   return (
     <SettingsSection title="Webhooks" icon={Webhook}>
       <p className="text-sm text-slate-600 dark:text-slate-300 mb-5 leading-relaxed">
-        Ative automações sem técnico: escolha onde os leads entram e (opcionalmente) conecte um endpoint
+        Ative automaÃ§Ãµes sem tÃ©cnico: escolha onde os leads entram e (opcionalmente) conecte um endpoint
         para follow-up quando um lead mudar de etapa.
       </p>
 
       <div className="mb-5 flex items-center justify-between gap-3">
         <div className="text-xs text-slate-500 dark:text-slate-400">
-          Dica: se você está integrando com Hotmart/n8n/Make, use o guia rápido.
+          Dica: se vocÃª estÃ¡ integrando com Hotmart/n8n/Make, use o guia rÃ¡pido.
         </div>
         <button
           onClick={() => openQuickStart('inbound')}
@@ -469,7 +469,7 @@ export const WebhooksSection: React.FC = () => {
 
       {!canUse ? (
         <div className="p-4 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-sm text-slate-600 dark:text-slate-300">
-          Disponível apenas para administradores.
+          DisponÃ­vel apenas para administradores.
         </div>
       ) : (
         <div className="space-y-4">
@@ -479,7 +479,7 @@ export const WebhooksSection: React.FC = () => {
               <div>
                 <h4 className="text-sm font-bold text-slate-900 dark:text-white">Entrada de Leads (Webhook)</h4>
                 <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">
-                  Receba leads de Hotmart, formulários, n8n/Make e crie automaticamente um negócio no funil.
+                  Receba leads de Hotmart, formulÃ¡rios, n8n/Make e crie automaticamente um negÃ³cio no funil.
                 </p>
               </div>
               <span className={`text-[10px] font-bold px-2 py-1 rounded uppercase ${hasInbound ? 'bg-green-100 dark:bg-green-500/10 text-green-700 dark:text-green-400' : 'bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300'}`}>
@@ -493,8 +493,8 @@ export const WebhooksSection: React.FC = () => {
                   Fonte: <span className="font-medium text-slate-700 dark:text-slate-200">{activeInbound.name}</span>
                   {inboundBoardName && inboundStageLabel ? (
                     <>
-                      {' '}· <span className="text-slate-600 dark:text-slate-300">{inboundBoardName}</span>
-                      {' '}→ <span className="text-slate-600 dark:text-slate-300">{inboundStageLabel}</span>
+                      {' '}Â· <span className="text-slate-600 dark:text-slate-300">{inboundBoardName}</span>
+                      {' '}â†’ <span className="text-slate-600 dark:text-slate-300">{inboundStageLabel}</span>
                     </>
                   ) : null}
                 </div>
@@ -567,11 +567,11 @@ export const WebhooksSection: React.FC = () => {
             )}
           </div>
 
-          {/* Saída */}
+          {/* SaÃ­da */}
           <div className="p-5 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h4 className="text-sm font-bold text-slate-900 dark:text-white">Follow-up (Webhook de saída)</h4>
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white">Follow-up (Webhook de saÃ­da)</h4>
                 <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">
                   Quando um lead mudar de etapa, enviamos um aviso para seu WhatsApp/n8n/Make.
                 </p>
@@ -658,16 +658,16 @@ export const WebhooksSection: React.FC = () => {
       <Modal
         isOpen={isQuickStartOpen}
         onClose={() => setIsQuickStartOpen(false)}
-        title="Webhooks (guia rápido)"
+        title="Webhooks (guia rÃ¡pido)"
         size="xl"
         bodyClassName="max-h-[70vh] overflow-auto"
       >
         <div className="space-y-5">
           <div className="flex items-start justify-between gap-3">
             <div className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              Conecte em <b>minutos</b>: gere URL/Secret, configure no seu provedor e faça um teste.
+              Conecte em <b>minutos</b>: gere URL/Secret, configure no seu provedor e faÃ§a um teste.
               <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                Você pode usar <code className="font-mono">X-Webhook-Secret</code> <span className="mx-1">ou</span>{' '}
+                VocÃª pode usar <code className="font-mono">X-Webhook-Secret</code> <span className="mx-1">ou</span>{' '}
                 <code className="font-mono">Authorization: Bearer</code>.
               </div>
             </div>
@@ -702,7 +702,7 @@ export const WebhooksSection: React.FC = () => {
           {quickStartTab === 'outbound' ? (
         <div className="space-y-4">
               <div className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
-                <b>Follow-up</b> envia um aviso quando um lead muda de etapa. Você cola uma URL (n8n/Make/WhatsApp) e
+                <b>Follow-up</b> envia um aviso quando um lead muda de etapa. VocÃª cola uma URL (n8n/Make/WhatsApp) e
                 valida o Secret no seu lado.
               </div>
               <div className="p-4 rounded-2xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10">
@@ -732,7 +732,7 @@ export const WebhooksSection: React.FC = () => {
                 </div>
               </div>
               <div className="text-xs text-slate-500 dark:text-slate-400">
-                Dica: para testar, mova um deal de etapa — o aviso dispara somente na mudança.
+                Dica: para testar, mova um deal de etapa â€” o aviso dispara somente na mudanÃ§a.
               </div>
             </div>
           ) : (
@@ -741,7 +741,7 @@ export const WebhooksSection: React.FC = () => {
               <div className="flex items-center gap-2">
                 {[
                   { n: 1 as const, label: 'Destino' },
-                  { n: 2 as const, label: 'Conexão' },
+                  { n: 2 as const, label: 'ConexÃ£o' },
                   { n: 3 as const, label: 'Teste' },
                 ].map((s, idx) => (
                   <button
@@ -793,7 +793,7 @@ export const WebhooksSection: React.FC = () => {
                         {boards.map((b) => (
                 <option key={b.id} value={b.id}>
                             {b.name}
-                            {b.isDefault ? ' (padrão)' : ''}
+                            {b.isDefault ? ' (padrÃ£o)' : ''}
                 </option>
               ))}
             </select>
@@ -820,10 +820,10 @@ export const WebhooksSection: React.FC = () => {
                     <div className="text-xs text-slate-500 dark:text-slate-400">
                       {activeInbound ? (
                         <>
-                          Atual: <b>{inboundBoardName}</b> → <b>{inboundStageLabel}</b>
+                          Atual: <b>{inboundBoardName}</b> â†’ <b>{inboundStageLabel}</b>
                         </>
                       ) : (
-                        <>Você vai gerar uma URL única e um Secret (senha) para esse destino.</>
+                        <>VocÃª vai gerar uma URL Ãºnica e um Secret (senha) para esse destino.</>
                       )}
                     </div>
 
@@ -854,7 +854,7 @@ export const WebhooksSection: React.FC = () => {
                 </div>
               ) : null}
 
-              {/* Step 2: Conexão */}
+              {/* Step 2: ConexÃ£o */}
               {inboundStep === 2 ? (
         <div className="space-y-4">
                   <div className="text-sm text-slate-700 dark:text-slate-200">
@@ -924,7 +924,7 @@ export const WebhooksSection: React.FC = () => {
                     ) : (
                       <div className="flex items-center justify-between gap-3">
                         <div className="text-sm text-slate-700 dark:text-slate-200">
-                          Gere sua URL e Secret para começar.
+                          Gere sua URL e Secret para comeÃ§ar.
                         </div>
                         <button
                           type="button"
@@ -976,7 +976,7 @@ export const WebhooksSection: React.FC = () => {
                         </>
                       ) : inboundProvider === 'make' ? (
                         <>
-                          Use um módulo <b>HTTP</b> com <b>POST</b> e <b>JSON</b>. Headers: <code className="font-mono">X-Webhook-Secret</code>{' '}
+                          Use um mÃ³dulo <b>HTTP</b> com <b>POST</b> e <b>JSON</b>. Headers: <code className="font-mono">X-Webhook-Secret</code>{' '}
                           (ou <code className="font-mono">Authorization: Bearer</code>). Body: email ou phone.
                         </>
                       ) : (
@@ -988,7 +988,7 @@ export const WebhooksSection: React.FC = () => {
                     </div>
 
                     <div className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                      Quer deixar “bonito”? Envie também <code className="font-mono">contact_name</code>,{' '}
+                      Quer deixar â€œbonitoâ€? Envie tambÃ©m <code className="font-mono">contact_name</code>,{' '}
                       <code className="font-mono">company_name</code> e <code className="font-mono">deal_title</code>.
                     </div>
                   </div>
@@ -1018,7 +1018,7 @@ export const WebhooksSection: React.FC = () => {
               {inboundStep === 3 ? (
                 <div className="space-y-4">
                   <div className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
-                    Envie um evento de teste para confirmar que está tudo certo. Isso cria/atualiza um lead de teste no
+                    Envie um evento de teste para confirmar que estÃ¡ tudo certo. Isso cria/atualiza um lead de teste no
                     funil.
                   </div>
 
@@ -1046,19 +1046,19 @@ export const WebhooksSection: React.FC = () => {
                               : 'bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500/30 text-red-800 dark:text-red-200'
                           )}
                         >
-                          <div className="font-bold">{testResult.ok ? 'Recebido ✓' : 'Falhou'}</div>
+                          <div className="font-bold">{testResult.ok ? 'Recebido âœ“' : 'Falhou'}</div>
                           <div className="mt-1">{testResult.message}</div>
                         </div>
                       ) : (
                         <div className="text-xs text-slate-500 dark:text-slate-400">
-                          Dica: se o seu provedor estiver configurado, você também pode mandar um lead real e ver os
+                          Dica: se o seu provedor estiver configurado, vocÃª tambÃ©m pode mandar um lead real e ver os
                           eventos aqui.
                         </div>
                       )}
                     </div>
 
                     <div className="p-4 rounded-2xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 space-y-3">
-                      <div className="text-sm font-bold text-slate-900 dark:text-white">Últimos recebidos</div>
+                      <div className="text-sm font-bold text-slate-900 dark:text-white">Ãšltimos recebidos</div>
                       {activeInbound ? (
                         inboundEvents.length > 0 ? (
                           <div className="space-y-2">
@@ -1072,7 +1072,7 @@ export const WebhooksSection: React.FC = () => {
                                     {new Date(ev.received_at).toLocaleString()}
                                   </div>
                                   <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
-                                    {ev.external_event_id ? `event_id: ${ev.external_event_id}` : 'event_id: —'}
+                                    {ev.external_event_id ? `event_id: ${ev.external_event_id}` : 'event_id: â€”'}
                                   </div>
                                 </div>
                                 <div className="text-xs font-bold">
@@ -1089,7 +1089,7 @@ export const WebhooksSection: React.FC = () => {
                           </div>
                         ) : (
                           <div className="text-sm text-slate-600 dark:text-slate-300">
-                            Ainda não recebemos nada. Envie um teste.
+                            Ainda nÃ£o recebemos nada. Envie um teste.
                           </div>
                         )
                       ) : (
@@ -1149,7 +1149,7 @@ export const WebhooksSection: React.FC = () => {
               onClick={() => setIsFollowUpOpen(false)}
               className="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
             >
-              Agora não
+              Agora nÃ£o
             </button>
             <button
               onClick={handleSaveFollowUp}
@@ -1170,7 +1170,7 @@ export const WebhooksSection: React.FC = () => {
         title="Excluir webhook de entrada?"
         message={
           <div>
-            Isso remove apenas a <b>configuração</b> do webhook (URL/secret param de entrada). Leads já criados no CRM não serão apagados.
+            Isso remove apenas a <b>configuraÃ§Ã£o</b> do webhook (URL/secret param de entrada). Leads jÃ¡ criados no CRM nÃ£o serÃ£o apagados.
           </div>
         }
         confirmText="Excluir"
@@ -1182,10 +1182,10 @@ export const WebhooksSection: React.FC = () => {
         isOpen={confirmDeleteOutboundOpen}
         onClose={() => setConfirmDeleteOutboundOpen(false)}
         onConfirm={handleDeleteOutbound}
-        title="Excluir follow-up (webhook de saída)?"
+        title="Excluir follow-up (webhook de saÃ­da)?"
         message={
           <div>
-            Isso remove apenas a <b>configuração</b> do follow-up. O CRM não enviará mais notificações quando o lead mudar de etapa.
+            Isso remove apenas a <b>configuraÃ§Ã£o</b> do follow-up. O CRM nÃ£o enviarÃ¡ mais notificaÃ§Ãµes quando o lead mudar de etapa.
           </div>
         }
         confirmText="Excluir"

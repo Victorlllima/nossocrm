@@ -1,0 +1,16 @@
+{
+  "event": "messages.upsert",
+  "data": {
+    "key": {
+      "remoteJid": "5581888888888@s.whatsapp.net",
+      "fromMe": false,
+      "id": "3EB0A8BF3F1C5F32"
+    },
+    "message": {
+      "conversation": "Qual o valor?"
+    },
+    "messageType": "conversation",
+    "messageTimestamp": 1707571440,
+    "pushName": "Maria Santos"
+  }
+}

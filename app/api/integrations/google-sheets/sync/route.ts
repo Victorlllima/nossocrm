@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { createStaticAdminClient } from '@/lib/supabase/server';
 import { getSheetsClient, Lead } from '@/lib/integrations/google-sheets';
 import { getEvolutionClient } from '@/lib/integrations/evolution-api';
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
   try {
     const supabase = createStaticAdminClient();
 
-    // Buscar a primeira organização
+    // Buscar a primeira organizaÃ§Ã£o
     const { data: profiles, error: profileError } = await supabase
       .from('profiles')
       .select('organization_id')
@@ -21,14 +21,14 @@ export async function POST(request: NextRequest) {
 
     if (profileError || !profiles) {
       return NextResponse.json(
-        { error: 'Organização não encontrada' },
+        { error: 'OrganizaÃ§Ã£o nÃ£o encontrada' },
         { status: 404 }
       );
     }
 
     const organizationId = profiles.organization_id;
 
-    // Buscar board padrão
+    // Buscar board padrÃ£o
     const { data: defaultBoard, error: boardError } = await supabase
       .from('boards')
       .select('id, name')
@@ -39,12 +39,12 @@ export async function POST(request: NextRequest) {
     if (boardError || !defaultBoard) {
       console.error('[Google Sheets Sync] Board error:', boardError);
       return NextResponse.json(
-        { error: 'Board padrão não encontrado' },
+        { error: 'Board padrÃ£o nÃ£o encontrado' },
         { status: 404 }
       );
     }
 
-    // Buscar estágios do board
+    // Buscar estÃ¡gios do board
     const { data: stages, error: stagesError } = await supabase
       .from('board_stages')
       .select('id, name, order')
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
 
     if (stagesError || !stages || stages.length === 0) {
       return NextResponse.json(
-        { error: 'Board padrão não tem estágios configurados.' },
+        { error: 'Board padrÃ£o nÃ£o tem estÃ¡gios configurados.' },
         { status: 404 }
       );
     }
@@ -117,8 +117,18 @@ export async function POST(request: NextRequest) {
 
     const evolutionClient = getEvolutionClient();
 
+    // Configurações de Telefone para HML e Produção
+    const RED_TEST_PHONE = '5561992978796'; // Seu número para conferência
+    const MAX_REAL_PHONE = '5561990445393'; // Novo número do Max
+    const IS_HML = process.env.HML_MODE === 'true';
+
     for (const lead of newLeads) {
       try {
+        // Normalizar o número extraído do Google Sheets: remover tudo que não for dígito.
+        // O Lead Adelice Coelho chegou com 'p:+554284218951', causando erro na Evolution API.
+        const sanitizedPhone = lead.phone_number?.replace(/\D/g, '') || '';
+        lead.phone_number = sanitizedPhone;
+
         // 1. Criar ou buscar contato
         const { data: existingContact } = await supabase
           .from('contacts')
@@ -250,13 +260,15 @@ export async function POST(request: NextRequest) {
 
         // 4. Determinar destinatários (HML ou Produção)
         const IS_HML = process.env.HML_MODE === 'true';
-        const RED_AUDIT_PHONE = process.env.RED_AUDIT_PHONE || process.env.MAX_PHONE_NUMBER;
-        const MAX_REAL_PHONE = process.env.MAX_PHONE_NUMBER;
+        const RED_AUDIT_PHONE = process.env.RED_AUDIT_PHONE || '5561992978796'; // Seu número para conferência
+        const MAX_REAL_PHONE = process.env.MAX_PHONE_NUMBER || '5561990445393'; // Novo número do Max
 
         // Em HML: todas mensagens vão apenas para Red
         // Em Produção: Max + Red recebem notificação, Lead recebe contato inicial
         const targetMaxNumbers = IS_HML ? [RED_AUDIT_PHONE] : [MAX_REAL_PHONE, RED_AUDIT_PHONE].filter(Boolean);
         const targetLeadPhone = IS_HML ? RED_AUDIT_PHONE : lead.phone_number;
+
+        console.log(`[Google Sheets Sync] Notificando Max/Auditoria: ${targetMaxNumbers.join(', ')}`);
 
         // 5. Notificação Max (SEMPRE envia, seja lead novo ou reincidente)
         const notificationPrefix = existingDeal ? '🔄 INTERESSE ADICIONAL' : '🆕 NOVO LEAD';
@@ -265,11 +277,12 @@ export async function POST(request: NextRequest) {
           telefone: lead.phone_number,
           empreendimento: lead.form_name,
           data: new Date(lead.created_time).toLocaleString('pt-BR'),
-          respostas: existingDeal ? `${notificationPrefix} - Cliente demonstrou interesse em mais um imóvel` : 'Importado via Planilha',
+          respostas: existingDeal ? `${notificationPrefix} - Cliente demonstrou interesse em mais um imóvel` : 'Importado via Planilha\n🔍 MODO AUDITORIA ATIVO',
         }, targetMaxNumbers as string[]);
 
         // 6. Contato Lead (SEMPRE envia, seja lead novo ou reincidente)
         // Cliente recebe mensagem sobre o novo imóvel de interesse
+        console.log(`[Google Sheets Sync] Enviando contato real/teste para: ${targetLeadPhone}`);
         const contactResponse = await evolutionClient.sendInitialContactToLead({
           nome: lead.full_name,
           telefone: targetLeadPhone!,
@@ -291,6 +304,7 @@ export async function POST(request: NextRequest) {
           });
         }
 
+        // 7. Cópia do Contato para Red (Auditoria)
         // 7. Cópia do Contato para Red (Auditoria)
         // Se estiver em produção, mandamos uma cópia explicita para auditoria
         if (!IS_HML && RED_AUDIT_PHONE) {

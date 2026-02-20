@@ -1,4 +1,4 @@
-/**
+﻿/**
  * TanStack Query hooks for Activities - Supabase Edition
  *
  * Features:

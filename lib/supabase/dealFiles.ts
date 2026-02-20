@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Deal Files Service
  * Upload, download and manage files attached to deals via Supabase Storage
  */
@@ -23,7 +23,7 @@ export const dealFilesService = {
      */
     async getFilesForDeal(dealId: string) {
         if (!supabase) {
-            return { data: null as DealFile[] | null, error: new Error('Supabase não configurado') };
+            return { data: null as DealFile[] | null, error: new Error('Supabase nÃ£o configurado') };
         }
         const { data, error } = await supabase
             .from('deal_files')
@@ -39,7 +39,7 @@ export const dealFilesService = {
      */
     async uploadFile(dealId: string, file: File) {
         if (!supabase) {
-            return { data: null as DealFile | null, error: new Error('Supabase não configurado') };
+            return { data: null as DealFile | null, error: new Error('Supabase nÃ£o configurado') };
         }
         const { data: { user } } = await supabase.auth.getUser();
 
@@ -78,7 +78,7 @@ export const dealFilesService = {
      */
     async getDownloadUrl(filePath: string) {
         if (!supabase) {
-            return { url: null, error: new Error('Supabase não configurado') };
+            return { url: null, error: new Error('Supabase nÃ£o configurado') };
         }
         const { data, error } = await supabase.storage
             .from(BUCKET_NAME)
@@ -92,7 +92,7 @@ export const dealFilesService = {
      */
     async downloadFile(filePath: string) {
         if (!supabase) {
-            return { data: null, error: new Error('Supabase não configurado') };
+            return { data: null, error: new Error('Supabase nÃ£o configurado') };
         }
         const { data, error } = await supabase.storage
             .from(BUCKET_NAME)
@@ -106,7 +106,7 @@ export const dealFilesService = {
      */
     async deleteFile(fileId: string, filePath: string) {
         if (!supabase) {
-            return { error: new Error('Supabase não configurado') };
+            return { error: new Error('Supabase nÃ£o configurado') };
         }
         // Delete from storage
         const { error: storageError } = await supabase.storage

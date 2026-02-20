@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Realtime Sync Presets
  * 
  * Pre-configured table combinations for common sync scenarios.

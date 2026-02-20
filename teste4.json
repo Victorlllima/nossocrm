@@ -1,0 +1,16 @@
+{
+  "event": "messages.upsert",
+  "data": {
+    "key": {
+      "remoteJid": "5581777777777@s.whatsapp.net",
+      "fromMe": false,
+      "id": "3EB0A8BF3F1C5F33"
+    },
+    "message": {
+      "conversation": "Quero falar com o Max"
+    },
+    "messageType": "conversation",
+    "messageTimestamp": 1707571500,
+    "pushName": "Pedro Costa"
+  }
+}

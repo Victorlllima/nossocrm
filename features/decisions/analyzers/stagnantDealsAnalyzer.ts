@@ -1,6 +1,6 @@
-/**
+﻿/**
  * Stagnant Deals Analyzer
- * Detecta deals que estão parados há muito tempo sem atividade
+ * Detecta deals que estÃ£o parados hÃ¡ muito tempo sem atividade
  */
 
 import { DealView, Activity } from '@/types';
@@ -9,7 +9,7 @@ import { Decision, AnalyzerResult, AnalyzerConfig, SuggestedAction } from '../ty
 export const stagnantDealsConfig: AnalyzerConfig = {
   id: 'stagnant_deals',
   name: 'Deals Parados',
-  description: 'Detecta deals sem atividade há mais de X dias',
+  description: 'Detecta deals sem atividade hÃ¡ mais de X dias',
   enabled: true,
   params: {
     minDaysStagnant: 7,
@@ -52,29 +52,29 @@ function generateReasoning(
   const parts: string[] = [];
   
   if (daysSinceActivity > 14) {
-    parts.push(`Este deal está parado há ${daysSinceActivity} dias, o que é crítico.`);
+    parts.push(`Este deal estÃ¡ parado hÃ¡ ${daysSinceActivity} dias, o que Ã© crÃ­tico.`);
   } else {
-    parts.push(`Este deal não tem atividade há ${daysSinceActivity} dias.`);
+    parts.push(`Este deal nÃ£o tem atividade hÃ¡ ${daysSinceActivity} dias.`);
   }
 
   if (lastActivity) {
-    const activityType = lastActivity.type === 'CALL' ? 'uma ligação' :
+    const activityType = lastActivity.type === 'CALL' ? 'uma ligaÃ§Ã£o' :
                         lastActivity.type === 'EMAIL' ? 'um email' :
-                        lastActivity.type === 'MEETING' ? 'uma reunião' : 'uma tarefa';
-    parts.push(`A última interação foi ${activityType}: "${lastActivity.title}".`);
+                        lastActivity.type === 'MEETING' ? 'uma reuniÃ£o' : 'uma tarefa';
+    parts.push(`A Ãºltima interaÃ§Ã£o foi ${activityType}: "${lastActivity.title}".`);
     
     // Suggest alternative based on last activity
     if (lastActivity.type === 'EMAIL') {
-      parts.push('Como a última tentativa foi por email, sugerimos uma ligação para ter resposta mais rápida.');
+      parts.push('Como a Ãºltima tentativa foi por email, sugerimos uma ligaÃ§Ã£o para ter resposta mais rÃ¡pida.');
     } else if (lastActivity.type === 'CALL') {
-      parts.push('Já tentamos ligar antes. Uma reunião presencial ou por vídeo pode destravar a negociação.');
+      parts.push('JÃ¡ tentamos ligar antes. Uma reuniÃ£o presencial ou por vÃ­deo pode destravar a negociaÃ§Ã£o.');
     }
   } else {
-    parts.push('Não há registro de atividades anteriores com este cliente.');
+    parts.push('NÃ£o hÃ¡ registro de atividades anteriores com este cliente.');
   }
 
   if (deal.value > 50000) {
-    parts.push(`Com valor de R$ ${deal.value.toLocaleString('pt-BR')}, este deal merece atenção prioritária.`);
+    parts.push(`Com valor de R$ ${deal.value.toLocaleString('pt-BR')}, este deal merece atenÃ§Ã£o prioritÃ¡ria.`);
   }
 
   return parts.join(' ');
@@ -86,19 +86,19 @@ function generateSuggestedAction(
 ): SuggestedAction {
   // Default: schedule a call
   let actionType: 'CALL' | 'MEETING' | 'EMAIL' = 'CALL';
-  let label = 'Agendar Ligação';
+  let label = 'Agendar LigaÃ§Ã£o';
   let icon = 'Phone';
   
   // If last activity was call, suggest meeting
   if (lastActivity?.type === 'CALL') {
     actionType = 'MEETING';
-    label = 'Agendar Reunião';
+    label = 'Agendar ReuniÃ£o';
     icon = 'Calendar';
   }
   // If last was email, suggest call
   else if (lastActivity?.type === 'EMAIL') {
     actionType = 'CALL';
-    label = 'Agendar Ligação';
+    label = 'Agendar LigaÃ§Ã£o';
     icon = 'Phone';
   }
 
@@ -116,7 +116,7 @@ function generateSuggestedAction(
       activityType: actionType,
       activityTitle: `Follow-up: ${deal.title}`,
       activityDate: tomorrow.toISOString(),
-      activityDescription: `Retomar contato após ${lastActivity ? 'última atividade: ' + lastActivity.title : 'período sem interação'}`,
+      activityDescription: `Retomar contato apÃ³s ${lastActivity ? 'Ãºltima atividade: ' + lastActivity.title : 'perÃ­odo sem interaÃ§Ã£o'}`,
       dealId: deal.id,
       contactId: deal.contactId,
     },
@@ -159,7 +159,7 @@ function generateAlternativeActions(deal: DealView): SuggestedAction[] {
       payload: {
         channel: 'whatsapp',
         recipient: deal.contactName,
-        messageTemplate: `Olá! Gostaria de retomar nossa conversa sobre ${deal.title}. Podemos agendar uma call essa semana?`,
+        messageTemplate: `OlÃ¡! Gostaria de retomar nossa conversa sobre ${deal.title}. Podemos agendar uma call essa semana?`,
         dealId: deal.id,
         contactId: deal.contactId,
       },
@@ -170,11 +170,11 @@ function generateAlternativeActions(deal: DealView): SuggestedAction[] {
 }
 
 /**
- * Função pública `analyzeStagnantDeals` do projeto.
+ * FunÃ§Ã£o pÃºblica `analyzeStagnantDeals` do projeto.
  *
- * @param {DealView[]} deals - Parâmetro `deals`.
- * @param {Activity[]} activities - Parâmetro `activities`.
- * @param {AnalyzerConfig} config - Parâmetro `config`.
+ * @param {DealView[]} deals - ParÃ¢metro `deals`.
+ * @param {Activity[]} activities - ParÃ¢metro `activities`.
+ * @param {AnalyzerConfig} config - ParÃ¢metro `config`.
  * @returns {AnalyzerResult} Retorna um valor do tipo `AnalyzerResult`.
  */
 export function analyzeStagnantDeals(
@@ -227,8 +227,8 @@ export function analyzeStagnantDeals(
         type: 'stagnant_deal',
         priority,
         category: 'follow_up',
-        title: `Deal "${deal.title}" parado há ${daysSinceActivity} dias`,
-        description: `${deal.companyName || 'Empresa não informada'} • R$ ${deal.value.toLocaleString('pt-BR')} • Estágio: ${deal.stageLabel}`,
+        title: `Deal "${deal.title}" parado hÃ¡ ${daysSinceActivity} dias`,
+        description: `${deal.companyName || 'Empresa nÃ£o informada'} â€¢ R$ ${deal.value.toLocaleString('pt-BR')} â€¢ EstÃ¡gio: ${deal.stageLabel}`,
         reasoning: generateReasoning(deal, daysSinceActivity, lastActivity),
         dealId: deal.id,
         contactId: deal.contactId,

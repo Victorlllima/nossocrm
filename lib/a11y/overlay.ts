@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Small overlay helpers (shared by sheets/menus).
  */
 

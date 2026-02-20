@@ -1,14 +1,14 @@
-/**
+﻿/**
  * @fileoverview Contexto Principal do CRM
  * 
- * Provider composto que agrega todos os contextos de domínio (deals, contacts,
+ * Provider composto que agrega todos os contextos de domÃ­nio (deals, contacts,
  * activities, boards, settings) em uma API unificada para compatibilidade.
  * 
  * @module context/CRMContext
  * 
  * Este contexto serve como camada de compatibilidade, delegando para
  * contextos especializados internamente. Para novos desenvolvimentos,
- * considere usar os hooks específicos diretamente.
+ * considere usar os hooks especÃ­ficos diretamente.
  * 
  * @example
  * ```tsx
@@ -21,7 +21,7 @@
  *   setAiApiKey
  * } = useCRM();
  * 
- * // Alternativa: hooks específicos (recomendado)
+ * // Alternativa: hooks especÃ­ficos (recomendado)
  * import { useDeals } from '@/context/deals/DealsContext';
  * const { rawDeals, addDeal } = useDeals();
  * ```
@@ -59,14 +59,14 @@ import { SettingsProvider, useSettings } from './settings/SettingsContext';
 /**
  * Tipo do contexto CRM unificado
  * 
- * Interface de compatibilidade que expõe funcionalidades de todos os
- * contextos de domínio. Mantida para código legado.
+ * Interface de compatibilidade que expÃµe funcionalidades de todos os
+ * contextos de domÃ­nio. Mantida para cÃ³digo legado.
  * 
  * @interface CRMContextType
  */
 interface CRMContextType {
   // Loading states
-  /** Se algum contexto está carregando */
+  /** Se algum contexto estÃ¡ carregando */
   loading: boolean;
   /** Primeiro erro encontrado, se houver */
   error: string | null;
@@ -80,17 +80,17 @@ interface CRMContextType {
   contacts: Contact[];
   /** @deprecated Usar leadsFromContacts */
   leads: Lead[];
-  /** Contatos em estágio de lead */
+  /** Contatos em estÃ¡gio de lead */
   leadsFromContacts: Contact[];
-  /** Catálogo de produtos */
+  /** CatÃ¡logo de produtos */
   products: Product[];
-  /** Definições de campos customizados */
+  /** DefiniÃ§Ãµes de campos customizados */
   customFieldDefinitions: CustomFieldDefinition[];
-  /** Tags disponíveis */
+  /** Tags disponÃ­veis */
   availableTags: string[];
 
   // Lifecycle Stages
-  /** Estágios do funil de lifecycle */
+  /** EstÃ¡gios do funil de lifecycle */
   lifecycleStages: LifecycleStage[];
   addLifecycleStage: (stage: Omit<LifecycleStage, 'id' | 'order'>) => Promise<LifecycleStage | null>;
   updateLifecycleStage: (id: string, updates: Partial<LifecycleStage>) => Promise<void>;
@@ -118,7 +118,7 @@ interface CRMContextType {
   removeItemFromDeal: (dealId: string, itemId: string) => Promise<void>;
 
   // Activities
-  /** Lista de atividades (tarefas, reuniões) */
+  /** Lista de atividades (tarefas, reuniÃµes) */
   activities: Activity[];
   addActivity: (activity: Omit<Activity, 'id' | 'createdAt'>) => Promise<Activity | null>;
   updateActivity: (id: string, updates: Partial<Activity>) => Promise<void>;
@@ -154,7 +154,7 @@ interface CRMContextType {
   removeTag: (tag: string) => void;
 
   // Utilities
-  /** Verifica saúde da carteira */
+  /** Verifica saÃºde da carteira */
   checkWalletHealth: () => Promise<number>;
   checkStagnantDeals: () => Promise<number>;
 
@@ -367,7 +367,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const optimisticBoardId = deal.boardId || '';
     const optimisticStageId = deal.status || '';
     const optimisticStageLabel =
-      activeBoard?.stages?.find((s) => s.id === optimisticStageId)?.label || 'Estágio não identificado';
+      activeBoard?.stages?.find((s) => s.id === optimisticStageId)?.label || 'EstÃ¡gio nÃ£o identificado';
     const optimisticContactName = (relatedData?.contact?.name || 'Sem contato').trim() || 'Sem contato';
     const optimisticContactEmail = (relatedData?.contact?.email || '').trim();
     const optimisticCompanyName = (relatedData?.companyName || 'Sem empresa').trim() || 'Sem empresa';
@@ -375,7 +375,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     // #region agent log
     if (process.env.NODE_ENV !== 'production') {
       const logData = { tempId: optimisticTempId.slice(0, 15), title: deal.title, boardId: optimisticBoardId.slice(0, 8), stageId: optimisticStageId.slice(0, 8) };
-      console.log(`[CRMContext.addDeal] 🔄 Starting optimistic insert`, logData);
+      console.log(`[CRMContext.addDeal] ðŸ”„ Starting optimistic insert`, logData);
       fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'CRMContext.tsx:365',message:'Starting optimistic insert',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'crm-create-deal',hypothesisId:'CRM1'})}).catch(()=>{});
     }
     // #endregion
@@ -403,7 +403,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         
         // #region agent log
         if (process.env.NODE_ENV !== 'production') {
-          console.log(`[CRMContext.addDeal] ✅ Temp deal inserted into cache`, { tempId: optimisticTempId.slice(0, 15) });
+          console.log(`[CRMContext.addDeal] âœ… Temp deal inserted into cache`, { tempId: optimisticTempId.slice(0, 15) });
           fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'CRMContext.tsx:390',message:'Temp deal inserted into cache',data:{tempId:optimisticTempId.slice(0,15)},timestamp:Date.now(),sessionId:'debug-session',runId:'crm-create-deal',hypothesisId:'CRM2'})}).catch(()=>{});
         }
         // #endregion
@@ -475,7 +475,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
     // #region agent log
     if (process.env.NODE_ENV !== 'production') {
-      console.log(`[CRMContext.addDeal] 📤 Calling addDealState (server)`, { title: deal.title });
+      console.log(`[CRMContext.addDeal] ðŸ“¤ Calling addDealState (server)`, { title: deal.title });
       fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'CRMContext.tsx:475',message:'Calling addDealState',data:{title:deal.title},timestamp:Date.now(),sessionId:'debug-session',runId:'crm-create-deal',hypothesisId:'CRM3'})}).catch(()=>{});
     }
     // #endregion
@@ -488,7 +488,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
     // #region agent log
     if (process.env.NODE_ENV !== 'production') {
-      console.log(`[CRMContext.addDeal] ✅ Server returned`, { dealId: createdDeal?.id?.slice(0, 8) || 'null', title: createdDeal?.title });
+      console.log(`[CRMContext.addDeal] âœ… Server returned`, { dealId: createdDeal?.id?.slice(0, 8) || 'null', title: createdDeal?.title });
       fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'CRMContext.tsx:485',message:'Server returned',data:{dealId:createdDeal?.id?.slice(0,8)||'null',title:createdDeal?.title},timestamp:Date.now(),sessionId:'debug-session',runId:'crm-create-deal',hypothesisId:'CRM4'})}).catch(()=>{});
     }
     // #endregion
@@ -496,7 +496,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     // Replace/remove the optimistic deal with the real one (avoids duplicates when refetch completes).
     // #region agent log
     if (process.env.NODE_ENV !== 'production') {
-      console.log(`[CRMContext.addDeal] 🔍 H5 Check: optimisticBoardId`, { optimisticBoardId, hasValue: !!optimisticBoardId });
+      console.log(`[CRMContext.addDeal] ðŸ” H5 Check: optimisticBoardId`, { optimisticBoardId, hasValue: !!optimisticBoardId });
       fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'CRMContext.tsx:497',message:'H5 Check optimisticBoardId',data:{optimisticBoardId,hasValue:!!optimisticBoardId},timestamp:Date.now(),sessionId:'debug-session',runId:'crm-create-deal',hypothesisId:'H5'})}).catch(()=>{});
     }
     // #endregion
@@ -514,7 +514,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
           
           // #region agent log
           if (process.env.NODE_ENV !== 'production') {
-            console.log(`[CRMContext.addDeal] 🔄 Replacing temp with real deal`, { tempId: optimisticTempId.slice(0, 15), realId: createdDeal.id.slice(0, 8) });
+            console.log(`[CRMContext.addDeal] ðŸ”„ Replacing temp with real deal`, { tempId: optimisticTempId.slice(0, 15), realId: createdDeal.id.slice(0, 8) });
             fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'CRMContext.tsx:505',message:'Replacing temp with real',data:{tempId:optimisticTempId.slice(0,15),realId:createdDeal.id.slice(0,8)},timestamp:Date.now(),sessionId:'debug-session',runId:'crm-create-deal',hypothesisId:'CRM5'})}).catch(()=>{});
           }
           // #endregion
@@ -527,7 +527,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
               
               // #region agent log
               if (process.env.NODE_ENV !== 'production') {
-                console.log(`[CRMContext.addDeal] 📊 Cache state before swap`, { cacheSize: old.length, tempFound: old.some(d => d.id === optimisticTempId), realExists: already });
+                console.log(`[CRMContext.addDeal] ðŸ“Š Cache state before swap`, { cacheSize: old.length, tempFound: old.some(d => d.id === optimisticTempId), realExists: already });
                 fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'CRMContext.tsx:515',message:'Cache state before swap',data:{cacheSize:old.length,tempFound:old.some(d=>d.id===optimisticTempId),realExists:already},timestamp:Date.now(),sessionId:'debug-session',runId:'crm-create-deal',hypothesisId:'CRM6'})}).catch(()=>{});
               }
               // #endregion
@@ -545,7 +545,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       } catch (e) {
         // #region agent log
         if (process.env.NODE_ENV !== 'production') {
-          console.log(`[CRMContext.addDeal] ❌ H3 Error in setQueryData`, { error: String(e) });
+          console.log(`[CRMContext.addDeal] âŒ H3 Error in setQueryData`, { error: String(e) });
           fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'CRMContext.tsx:548',message:'H3 Error in setQueryData',data:{error:String(e)},timestamp:Date.now(),sessionId:'debug-session',runId:'crm-create-deal',hypothesisId:'H3'})}).catch(()=>{});
         }
         // #endregion
@@ -556,7 +556,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     if (process.env.NODE_ENV !== 'production') {
       const finalCache = queryClient.getQueryData<DealView[]>([...queryKeys.deals.lists(), 'view']) || [];
       const dealInCache = finalCache.some(d => d.id === createdDeal?.id);
-      console.log(`[CRMContext.addDeal] 📊 H2 Final cache state`, { cacheSize: finalCache.length, dealInCache, createdDealId: createdDeal?.id?.slice(0,8) });
+      console.log(`[CRMContext.addDeal] ðŸ“Š H2 Final cache state`, { cacheSize: finalCache.length, dealInCache, createdDealId: createdDeal?.id?.slice(0,8) });
       fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'CRMContext.tsx:555',message:'H2 Final cache state',data:{cacheSize:finalCache.length,dealInCache,createdDealId:createdDeal?.id?.slice(0,8)},timestamp:Date.now(),sessionId:'debug-session',runId:'crm-create-deal',hypothesisId:'H2'})}).catch(()=>{});
     }
     // #endregion
@@ -566,7 +566,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         dealId: createdDeal.id,
         dealTitle: createdDeal.title,
         type: 'STATUS_CHANGE',
-        title: 'Negócio Criado',
+        title: 'NegÃ³cio Criado',
         date: new Date().toISOString(),
         user: { name: 'Eu', avatar: 'https://i.pravatar.cc/150?u=me' },
         completed: true,
@@ -577,7 +577,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     if (process.env.NODE_ENV !== 'production') {
       const postActivityCache = queryClient.getQueryData<DealView[]>([...queryKeys.deals.lists(), 'view']) || [];
       const stillInCache = postActivityCache.some(d => d.id === createdDeal?.id);
-      console.log(`[CRMContext.addDeal] 🏁 H4 Post-activity cache`, { cacheSize: postActivityCache.length, stillInCache, returning: !!createdDeal });
+      console.log(`[CRMContext.addDeal] ðŸ H4 Post-activity cache`, { cacheSize: postActivityCache.length, stillInCache, returning: !!createdDeal });
       fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'CRMContext.tsx:580',message:'H4 Post-activity cache',data:{cacheSize:postActivityCache.length,stillInCache,returning:!!createdDeal},timestamp:Date.now(),sessionId:'debug-session',runId:'crm-create-deal',hypothesisId:'H4'})}).catch(()=>{});
     }
     // #endregion
@@ -586,7 +586,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   }, [companies, contacts, activeBoard, addCompany, addContact, addDealState, addActivity, queryClient]);
 
   // moveDeal foi removido - use useMoveDeal de @/lib/query/hooks
-  // O hook unificado trata: detecção won/lost, atividades, LinkedStage, etc.
+  // O hook unificado trata: detecÃ§Ã£o won/lost, atividades, LinkedStage, etc.
 
   const convertContactToDeal = useCallback(async (contactId: string) => {
     const contact = contacts.find(c => c.id === contactId);
@@ -605,7 +605,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
     if (activeBoard && activeBoard.stages.length > 0) {
       const newDeal: Omit<Deal, 'id' | 'createdAt'> = {
-        title: `Negócio com ${contact.name}`,
+        title: `NegÃ³cio com ${contact.name}`,
         companyId,
         contactId: contact.id,
         boardId: activeBoardId,
@@ -664,7 +664,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     if (!newContact || !activeBoard || activeBoard.stages.length === 0) return;
 
     const newDeal: Omit<Deal, 'id' | 'createdAt'> = {
-      title: `Negócio com ${lead.companyName}`,
+      title: `NegÃ³cio com ${lead.companyName}`,
       companyId: newCompany.id,
       contactId: newContact.id,
       boardId: activeBoardId,
@@ -703,12 +703,12 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
     const riskyContacts = contacts.filter(c => {
-      // Padrão de mercado: só considerar clientes ativos (não leads)
+      // PadrÃ£o de mercado: sÃ³ considerar clientes ativos (nÃ£o leads)
       if (c.status !== 'ACTIVE' || c.stage !== 'CUSTOMER') return false;
 
       const createdAtTs = Date.parse(c.createdAt);
 
-      // Sem histórico: carência de 30 dias após criação
+      // Sem histÃ³rico: carÃªncia de 30 dias apÃ³s criaÃ§Ã£o
       if (!c.lastPurchaseDate && !c.lastInteraction) {
         return createdAtTs < thirtyDaysAgo.getTime();
       }
@@ -728,7 +728,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     for (const contact of riskyContacts) {
       const existingTask = activities.find(
         a =>
-          a.title === 'Análise de Carteira: Risco de Churn' &&
+          a.title === 'AnÃ¡lise de Carteira: Risco de Churn' &&
           a.description?.includes(contact.name) &&
           !a.completed
       );
@@ -738,8 +738,8 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
           dealId: '',
           dealTitle: 'Carteira de Clientes',
           type: 'TASK',
-          title: 'Análise de Carteira: Risco de Churn',
-          description: `O cliente ${contact.name} ${companies.find(c => c.id === (contact.clientCompanyId || contact.companyId))?.name ? `(Empresa: ${companies.find(c => c.id === (contact.clientCompanyId || contact.companyId))?.name})` : ''} está inativo há mais de 30 dias.`,
+          title: 'AnÃ¡lise de Carteira: Risco de Churn',
+          description: `O cliente ${contact.name} ${companies.find(c => c.id === (contact.clientCompanyId || contact.companyId))?.name ? `(Empresa: ${companies.find(c => c.id === (contact.clientCompanyId || contact.companyId))?.name})` : ''} estÃ¡ inativo hÃ¡ mais de 30 dias.`,
           date: new Date().toISOString(),
           user: { name: 'Sistema', avatar: '' },
           completed: false,
@@ -766,11 +766,11 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     if (stagnantDeals.length > 0) {
       for (const deal of stagnantDeals.slice(0, 3)) {
         const existingAlert = activities.find(
-          a => a.dealId === deal.id && a.title === 'Alerta de Estagnação' && !a.completed
+          a => a.dealId === deal.id && a.title === 'Alerta de EstagnaÃ§Ã£o' && !a.completed
         );
 
         if (!existingAlert) {
-          // Buscar o label do estágio para a mensagem (não UUID)
+          // Buscar o label do estÃ¡gio para a mensagem (nÃ£o UUID)
           const board = getBoardById(deal.boardId);
           const stageLabel = board?.stages.find(s => s.id === deal.status)?.label || deal.status;
 
@@ -778,8 +778,8 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
             dealId: deal.id,
             dealTitle: deal.title,
             type: 'TASK',
-            title: 'Alerta de Estagnação',
-            description: `Oportunidade parada em ${stageLabel} há mais de 10 dias.`,
+            title: 'Alerta de EstagnaÃ§Ã£o',
+            description: `Oportunidade parada em ${stageLabel} hÃ¡ mais de 10 dias.`,
             date: new Date().toISOString(),
             user: { name: 'Sistema', avatar: '' },
             completed: false,
@@ -956,7 +956,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 /**
  * Componente React `CRMProvider`.
  *
- * @param {{ children: ReactNode; }} { children } - Parâmetro `{ children }`.
+ * @param {{ children: ReactNode; }} { children } - ParÃ¢metro `{ children }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const CRMProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -980,7 +980,7 @@ export const CRMProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 // ============================================
 
 /**
- * Hook React `useCRM` que encapsula uma lógica reutilizável.
+ * Hook React `useCRM` que encapsula uma lÃ³gica reutilizÃ¡vel.
  * @returns {CRMContextType} Retorna um valor do tipo `CRMContextType`.
  */
 export const useCRM = () => {

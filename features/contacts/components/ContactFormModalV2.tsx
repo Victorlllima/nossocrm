@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -27,7 +27,7 @@ interface ContactFormModalProps {
   onSubmit,
   editingContact,
   defaultCompanyName = '',
-} - Parâmetro `{
+} - ParÃ¢metro `{
   isOpen,
   onClose,
   onSubmit,
@@ -125,14 +125,14 @@ export const ContactFormModalV2: React.FC<ContactFormModalProps> = ({
           hint={
             editingContact
               ? 'Edite para alterar a empresa. Deixe em branco para desvincular.'
-              : 'Se a empresa já existir, o contato será vinculado a ela.'
+              : 'Se a empresa jÃ¡ existir, o contato serÃ¡ vinculado a ela.'
           }
           error={errors.companyName}
           registration={register('companyName')}
         />
 
         <SubmitButton isLoading={isSubmitting}>
-          {editingContact ? 'Salvar Alterações' : 'Criar Contato'}
+          {editingContact ? 'Salvar AlteraÃ§Ãµes' : 'Criar Contato'}
         </SubmitButton>
       </ModalForm>
     </Modal>

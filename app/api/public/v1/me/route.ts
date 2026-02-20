@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import { authPublicApi } from '@/lib/public-api/auth';
 
 export const runtime = 'nodejs';

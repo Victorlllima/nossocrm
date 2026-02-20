@@ -1,4 +1,4 @@
-// OpenAPI 3.1.2 "source of truth" for NossoCRM Public API (Integrations).
+﻿// OpenAPI 3.1.2 "source of truth" for NossoCRM Public API (Integrations).
 //
 // NOTE:
 // - Keep this file updated together with route implementations.
@@ -13,16 +13,16 @@ export function getPublicApiOpenApiDocument(): OpenApiDocument {
       title: 'NossoCRM Public API',
       version: 'v1',
       description:
-        'API pública do NossoCRM para integrações (n8n/Make). Produto em primeiro lugar: copiar → colar → testar.',
+        'API pÃºblica do NossoCRM para integraÃ§Ãµes (n8n/Make). Produto em primeiro lugar: copiar â†’ colar â†’ testar.',
     },
     servers: [{ url: '/api/public/v1' }],
     tags: [
-      { name: 'Meta', description: 'Sobre a API e autenticação' },
+      { name: 'Meta', description: 'Sobre a API e autenticaÃ§Ã£o' },
       { name: 'Boards', description: 'Pipelines/boards e etapas' },
       { name: 'Companies', description: 'Empresas (clientes do CRM)' },
       { name: 'Contacts', description: 'Contatos (leads/pessoas)' },
-      { name: 'Deals', description: 'Negócios (cards)' },
-      { name: 'Activities', description: 'Atividades (nota/tarefa/reunião/ligação)' },
+      { name: 'Deals', description: 'NegÃ³cios (cards)' },
+      { name: 'Activities', description: 'Atividades (nota/tarefa/reuniÃ£o/ligaÃ§Ã£o)' },
     ],
     components: {
       securitySchemes: {
@@ -30,7 +30,7 @@ export function getPublicApiOpenApiDocument(): OpenApiDocument {
           type: 'apiKey',
           in: 'header',
           name: 'X-Api-Key',
-          description: 'Chave gerada na interface (Settings → Integrações).',
+          description: 'Chave gerada na interface (Settings â†’ IntegraÃ§Ãµes).',
         },
       },
       schemas: {
@@ -57,7 +57,7 @@ export function getPublicApiOpenApiDocument(): OpenApiDocument {
           additionalProperties: false,
           properties: {
             id: { type: 'string', description: 'UUID do board' },
-            key: { type: ['string', 'null'], description: 'Slug estável (integrações)' },
+            key: { type: ['string', 'null'], description: 'Slug estÃ¡vel (integraÃ§Ãµes)' },
             name: { type: 'string' },
             description: { type: ['string', 'null'] },
             position: { type: 'integer' },
@@ -69,7 +69,7 @@ export function getPublicApiOpenApiDocument(): OpenApiDocument {
           type: 'object',
           additionalProperties: false,
           properties: {
-            id: { type: 'string', description: 'UUID do estágio' },
+            id: { type: 'string', description: 'UUID do estÃ¡gio' },
             label: { type: 'string' },
             color: { type: ['string', 'null'] },
             order: { type: 'integer' },
@@ -173,7 +173,7 @@ export function getPublicApiOpenApiDocument(): OpenApiDocument {
       },
       responses: {
         Unauthorized: {
-          description: 'API key ausente ou inválida',
+          description: 'API key ausente ou invÃ¡lida',
           content: {
             'application/json': {
               schema: { $ref: '#/components/schemas/ErrorResponse' },
@@ -253,7 +253,7 @@ export function getPublicApiOpenApiDocument(): OpenApiDocument {
           parameters: [
             { name: 'q', in: 'query', schema: { type: 'string' }, description: 'Busca por name/key' },
             { name: 'key', in: 'query', schema: { type: 'string' }, description: 'Filtro exato por key' },
-            { name: 'limit', in: 'query', schema: { type: 'integer', minimum: 1, maximum: 250 }, description: 'Tamanho da página' },
+            { name: 'limit', in: 'query', schema: { type: 'integer', minimum: 1, maximum: 250 }, description: 'Tamanho da pÃ¡gina' },
             { name: 'cursor', in: 'query', schema: { type: 'string' }, description: 'Cursor opaco' },
           ],
           responses: {
@@ -472,7 +472,7 @@ export function getPublicApiOpenApiDocument(): OpenApiDocument {
                     email: { type: 'string' },
                     phone: { type: 'string' },
                     role: { type: 'string' },
-                    company_name: { type: 'string', description: 'Nome da empresa (auto-cria/vincula em crm_companies quando client_company_id não é enviado)' },
+                    company_name: { type: 'string', description: 'Nome da empresa (auto-cria/vincula em crm_companies quando client_company_id nÃ£o Ã© enviado)' },
                     client_company_id: { type: 'string' },
                     avatar: { type: 'string' },
                     status: { type: 'string' },
@@ -602,7 +602,7 @@ export function getPublicApiOpenApiDocument(): OpenApiDocument {
                       type: 'object',
                       additionalProperties: false,
                       properties: {
-                        to_stage_id: { type: 'string', description: 'UUID do estágio de destino' },
+                        to_stage_id: { type: 'string', description: 'UUID do estÃ¡gio de destino' },
                         mark: { type: 'string', enum: ['won', 'lost'], description: 'Opcional: marca o deal como ganho/perdido independentemente da etapa' },
                       },
                       required: ['to_stage_id'],
@@ -611,7 +611,7 @@ export function getPublicApiOpenApiDocument(): OpenApiDocument {
                       type: 'object',
                       additionalProperties: false,
                       properties: {
-                        to_stage_label: { type: 'string', description: 'Label do estágio de destino (case-insensitive) dentro do board do deal' },
+                        to_stage_label: { type: 'string', description: 'Label do estÃ¡gio de destino (case-insensitive) dentro do board do deal' },
                         mark: { type: 'string', enum: ['won', 'lost'], description: 'Opcional: marca o deal como ganho/perdido independentemente da etapa' },
                       },
                       required: ['to_stage_label'],
@@ -647,8 +647,8 @@ export function getPublicApiOpenApiDocument(): OpenApiDocument {
                     board_key_or_id: { type: 'string', description: 'Key (slug) do board ou UUID do board' },
                     phone: { type: 'string', description: 'Telefone E.164 (ex: +5511999999999)' },
                     email: { type: 'string', description: 'Email (lowercase recomendado)' },
-                    to_stage_label: { type: 'string', description: 'Label do estágio de destino (case-insensitive) dentro do board' },
-                    to_stage_id: { type: 'string', description: 'UUID do estágio de destino (alternativa ao label)' },
+                    to_stage_label: { type: 'string', description: 'Label do estÃ¡gio de destino (case-insensitive) dentro do board' },
+                    to_stage_id: { type: 'string', description: 'UUID do estÃ¡gio de destino (alternativa ao label)' },
                     mark: { type: 'string', enum: ['won', 'lost'], description: 'Opcional: marca o deal como ganho/perdido independentemente da etapa' },
                   },
                   required: ['board_key_or_id'],

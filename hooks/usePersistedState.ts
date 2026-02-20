@@ -1,8 +1,8 @@
-/**
+﻿/**
  * @fileoverview Hook de Estado Persistido em localStorage
  * 
- * Hook utilitário que sincroniza estado React com localStorage,
- * mantendo dados entre sessões do navegador.
+ * Hook utilitÃ¡rio que sincroniza estado React com localStorage,
+ * mantendo dados entre sessÃµes do navegador.
  * 
  * @module hooks/usePersistedState
  * 
@@ -30,14 +30,14 @@ import React, { useState, useEffect } from 'react';
  * Funciona como useState mas automaticamente salva e recupera
  * o valor do localStorage usando a chave fornecida.
  * 
- * @template T - Tipo do estado (deve ser serializável em JSON)
- * @param {string} key - Chave única no localStorage
- * @param {T} initialValue - Valor inicial se não houver dado salvo
+ * @template T - Tipo do estado (deve ser serializÃ¡vel em JSON)
+ * @param {string} key - Chave Ãºnica no localStorage
+ * @param {T} initialValue - Valor inicial se nÃ£o houver dado salvo
  * @returns {[T, React.Dispatch<React.SetStateAction<T>>]} Tupla [estado, setter]
  * 
  * @example
  * ```tsx
- * // Salvar preferências do usuário
+ * // Salvar preferÃªncias do usuÃ¡rio
  * const [prefs, setPrefs] = usePersistedState('user-prefs', {
  *   showCompleted: true,
  *   sortBy: 'date',
@@ -48,7 +48,7 @@ import React, { useState, useEffect } from 'react';
  * ```
  * 
  * @remarks
- * - Usa JSON.stringify/parse para serialização
+ * - Usa JSON.stringify/parse para serializaÃ§Ã£o
  * - Falhas silenciosas em caso de erro (retorna initialValue)
  * - Atualiza localStorage sempre que estado muda
  */

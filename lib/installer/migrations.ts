@@ -1,4 +1,4 @@
-import fs from 'fs';
+﻿import fs from 'fs';
 import path from 'path';
 import { Client } from 'pg';
 
@@ -67,7 +67,7 @@ async function connectClientWithRetry(
       const delayMs = initialDelayMs * Math.pow(2, attempt - 1);
       const msg = err instanceof Error ? err.message : String(err);
       console.log(
-        `[migrations] Conexão falhou (${msg}), tentativa ${attempt}/${maxAttempts}. Aguardando ${Math.round(
+        `[migrations] ConexÃ£o falhou (${msg}), tentativa ${attempt}/${maxAttempts}. Aguardando ${Math.round(
           delayMs / 1000
         )}s...`
       );
@@ -97,12 +97,12 @@ async function waitForStorageReady(client: Client, opts?: { timeoutMs?: number; 
   }
 
   throw new Error(
-    'Supabase Storage ainda não está pronto (storage.buckets não existe). Aguarde o projeto terminar de provisionar e tente novamente.'
+    'Supabase Storage ainda nÃ£o estÃ¡ pronto (storage.buckets nÃ£o existe). Aguarde o projeto terminar de provisionar e tente novamente.'
   );
 }
 
 /**
- * Função pública `runSchemaMigration` do projeto.
+ * FunÃ§Ã£o pÃºblica `runSchemaMigration` do projeto.
  */
 export async function runSchemaMigration(dbUrl: string) {
   const schemaSql = fs.readFileSync(SCHEMA_PATH, 'utf8');

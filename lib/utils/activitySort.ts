@@ -1,10 +1,10 @@
-import type { Activity } from '@/types';
+﻿import type { Activity } from '@/types';
 
 /**
- * Ordenação inteligente de atividades seguindo padrão de mercado para CRMs:
+ * OrdenaÃ§Ã£o inteligente de atividades seguindo padrÃ£o de mercado para CRMs:
  * 1. Atrasadas (data < hoje) - mais antigas primeiro (mais urgente)
- * 2. Hoje (data === hoje) - mais próximas primeiro
- * 3. Futuras (data > hoje) - mais próximas primeiro
+ * 2. Hoje (data === hoje) - mais prÃ³ximas primeiro
+ * 3. Futuras (data > hoje) - mais prÃ³ximas primeiro
  * 
  * @param activities - Array de atividades para ordenar
  * @returns Array ordenado
@@ -35,10 +35,10 @@ export function sortActivitiesSmart(activities: Activity[]): Activity[] {
   // Atrasadas: mais antigas primeiro (crescente) = mais urgente
   overdue.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   
-  // Hoje: ordena por hora (mais próximas primeiro)
+  // Hoje: ordena por hora (mais prÃ³ximas primeiro)
   todayActivities.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   
-  // Futuras: mais próximas primeiro (crescente)
+  // Futuras: mais prÃ³ximas primeiro (crescente)
   future.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   
   // Retorna: atrasadas + hoje + futuras

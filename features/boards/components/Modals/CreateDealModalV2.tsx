@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCRM } from '@/context/CRMContext';
@@ -16,7 +16,7 @@ interface CreateDealModalV2Props {
 /**
  * Componente React `CreateDealModalV2`.
  *
- * @param {CreateDealModalV2Props} { isOpen, onClose } - Parâmetro `{ isOpen, onClose }`.
+ * @param {CreateDealModalV2Props} { isOpen, onClose } - ParÃ¢metro `{ isOpen, onClose }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const CreateDealModalV2: React.FC<CreateDealModalV2Props> = ({ isOpen, onClose }) => {
@@ -51,16 +51,16 @@ export const CreateDealModalV2: React.FC<CreateDealModalV2Props> = ({ isOpen, on
 
   const handleFormSubmit = (data: DealFormData) => {
     if (!activeBoard || !activeBoardId || activeBoard.stages.length === 0) {
-      // Sem board ativo/estágios não dá para criar deal com status inicial.
+      // Sem board ativo/estÃ¡gios nÃ£o dÃ¡ para criar deal com status inicial.
       // Mantemos um fallback silencioso para evitar crash em build/runtime.
-      console.warn('[CreateDealModalV2] activeBoard/activeBoardId ausentes ou sem estágios');
+      console.warn('[CreateDealModalV2] activeBoard/activeBoardId ausentes ou sem estÃ¡gios');
       return;
     }
 
     const companyId = 'c-' + crypto.randomUUID().substring(0, 8);
     const contactId = 'p-' + crypto.randomUUID().substring(0, 8);
 
-    // Usa o primeiro estágio do board ativo
+    // Usa o primeiro estÃ¡gio do board ativo
     const firstStage = activeBoard.stages[0];
 
     const deal: Deal = {
@@ -97,11 +97,11 @@ export const CreateDealModalV2: React.FC<CreateDealModalV2Props> = ({ isOpen, on
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Novo Negócio">
+    <Modal isOpen={isOpen} onClose={onClose} title="Novo NegÃ³cio">
       {/* @ts-expect-error - handleSubmit type variance with DealFormData, safe at runtime */}
       <ModalForm onSubmit={handleSubmit(handleFormSubmit)}>
         <InputField
-          label="Nome do Negócio"
+          label="Nome do NegÃ³cio"
           placeholder="Ex: Contrato Anual - Acme"
           error={errors.title}
           registration={register('title')}
@@ -142,7 +142,7 @@ export const CreateDealModalV2: React.FC<CreateDealModalV2Props> = ({ isOpen, on
           </div>
         </div>
 
-        <SubmitButton isLoading={isSubmitting}>Criar Negócio</SubmitButton>
+        <SubmitButton isLoading={isSubmitting}>Criar NegÃ³cio</SubmitButton>
       </ModalForm>
     </Modal>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Search, Filter } from 'lucide-react';
 import { Activity } from '@/types';
 
@@ -17,7 +17,7 @@ interface ActivitiesFiltersProps {
   setSearchTerm,
   filterType,
   setFilterType,
-} - Parâmetro `{
+} - ParÃ¢metro `{
   searchTerm,
   setSearchTerm,
   filterType,
@@ -51,8 +51,8 @@ export const ActivitiesFilters: React.FC<ActivitiesFiltersProps> = ({
           onChange={e => setFilterType(e.target.value as Activity['type'] | 'ALL')}
         >
           <option value="ALL">Todos os tipos</option>
-          <option value="CALL">Ligações</option>
-          <option value="MEETING">Reuniões</option>
+          <option value="CALL">LigaÃ§Ãµes</option>
+          <option value="MEETING">ReuniÃµes</option>
           <option value="EMAIL">Emails</option>
           <option value="TASK">Tarefas</option>
         </select>

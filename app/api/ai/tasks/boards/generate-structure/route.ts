@@ -1,4 +1,4 @@
-import { generateObject } from 'ai';
+﻿import { generateObject } from 'ai';
 import { z } from 'zod';
 import { requireAITaskContext, AITaskHttpError } from '@/lib/ai/tasks/server';
 import { GenerateBoardStructureInputSchema, BoardStructureOutputSchema } from '@/lib/ai/tasks/schemas';
@@ -18,7 +18,7 @@ function json(body: unknown, status = 200): Response {
 /**
  * Handler HTTP `POST` deste endpoint (Next.js Route Handler).
  *
- * @param {Request} req - Objeto da requisição.
+ * @param {Request} req - Objeto da requisiÃ§Ã£o.
  * @returns {Promise<Response>} Retorna um valor do tipo `Promise<Response>`.
  */
 export async function POST(req: Request) {
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     const { model, supabase, organizationId } = await requireAITaskContext(req);
     const enabled = await isAIFeatureEnabled(supabase as any, organizationId, 'ai_board_generate_structure');
     if (!enabled) {
-      return json({ error: { code: 'AI_FEATURE_DISABLED', message: 'Função de IA desativada: Gerar estrutura de board.' } }, 403);
+      return json({ error: { code: 'AI_FEATURE_DISABLED', message: 'FunÃ§Ã£o de IA desativada: Gerar estrutura de board.' } }, 403);
     }
 
     const body = await req.json().catch(() => null);
@@ -60,7 +60,7 @@ export async function POST(req: Request) {
   } catch (err: unknown) {
     if (err instanceof AITaskHttpError) return err.toResponse();
     if (err instanceof z.ZodError) {
-      return json({ error: { code: 'INVALID_INPUT', message: 'Payload inválido.' } }, 400);
+      return json({ error: { code: 'INVALID_INPUT', message: 'Payload invÃ¡lido.' } }, 400);
     }
 
     console.error('[api/ai/tasks/boards/generate-structure] Error:', err);

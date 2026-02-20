@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useCallback } from 'react';
+﻿import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useToast } from '@/context/ToastContext';
 import { Contact, Company, ContactStage, PaginationState, ContactsServerFilters, DEFAULT_PAGE_SIZE, ContactSortableColumn } from '@/types';
@@ -24,7 +24,7 @@ import { normalizePhoneE164 } from '@/lib/phone';
 import { generateFakeContacts } from '@/lib/debug';
 
 /**
- * Hook React `useContactsController` que encapsula uma lógica reutilizável.
+ * Hook React `useContactsController` que encapsula uma lÃ³gica reutilizÃ¡vel.
  * @returns {{ search: string; setSearch: Dispatch<SetStateAction<string>>; statusFilter: "ALL" | "ACTIVE" | "INACTIVE" | "CHURNED" | "RISK"; setStatusFilter: Dispatch<SetStateAction<"ALL" | ... 3 more ... | "RISK">>; ... 51 more ...; addToast: (message: string, type?: ToastType | undefined) => void; }} Retorna um valor do tipo `{ search: string; setSearch: Dispatch<SetStateAction<string>>; statusFilter: "ALL" | "ACTIVE" | "INACTIVE" | "CHURNED" | "RISK"; setStatusFilter: Dispatch<SetStateAction<"ALL" | ... 3 more ... | "RISK">>; ... 51 more ...; addToast: (message: string, type?: ToastType | undefined) => void; }`.
  */
 export const useContactsController = () => {
@@ -242,7 +242,7 @@ export const useContactsController = () => {
     (addToast || showToast)('Excluindo empresa...', 'info');
     try {
       await deleteCompanyMutation.mutateAsync(deleteCompanyId);
-      (addToast || showToast)('Empresa excluída com sucesso', 'success');
+      (addToast || showToast)('Empresa excluÃ­da com sucesso', 'success');
     } catch (e) {
       (addToast || showToast)(`Erro ao excluir empresa: ${(e as Error).message}`, 'error');
     }
@@ -266,7 +266,7 @@ export const useContactsController = () => {
           { id: deleteId },
           {
             onSuccess: () => {
-              (addToast || showToast)('Contato excluído com sucesso', 'success');
+              (addToast || showToast)('Contato excluÃ­do com sucesso', 'success');
               setDeleteId(null);
             },
             onError: (error: Error) => {
@@ -275,7 +275,7 @@ export const useContactsController = () => {
           }
         );
       } catch (error) {
-        (addToast || showToast)('Erro ao verificar negócios do contato', 'error');
+        (addToast || showToast)('Erro ao verificar negÃ³cios do contato', 'error');
       }
     }
   };
@@ -286,7 +286,7 @@ export const useContactsController = () => {
         { id: deleteWithDeals.id, forceDeleteDeals: true },
         {
           onSuccess: () => {
-            (addToast || showToast)(`Contato e ${deleteWithDeals.dealCount} negócio(s) excluídos`, 'success');
+            (addToast || showToast)(`Contato e ${deleteWithDeals.dealCount} negÃ³cio(s) excluÃ­dos`, 'success');
             setDeleteWithDeals(null);
           },
           onError: (error: Error) => {
@@ -353,7 +353,7 @@ export const useContactsController = () => {
 
     if (successCount > 0) {
       (addToast || showToast)(
-        `${successCount} ${viewMode === 'companies' ? 'empresa(s)' : 'contato(s)'} excluído(s)`,
+        `${successCount} ${viewMode === 'companies' ? 'empresa(s)' : 'contato(s)'} excluÃ­do(s)`,
         'success'
       );
     }
@@ -502,11 +502,11 @@ export const useContactsController = () => {
   // Open modal to select board for deal creation (or create directly if only 1 board)
   const convertContactToDeal = (contactId: string) => {
     if (boards.length === 0) {
-      addToast('Nenhum board disponível. Crie um board primeiro.', 'error');
+      addToast('Nenhum board disponÃ­vel. Crie um board primeiro.', 'error');
       return;
     }
 
-    // Se só tem 1 board, cria direto sem abrir modal
+    // Se sÃ³ tem 1 board, cria direto sem abrir modal
     if (boards.length === 1) {
       createDealDirectly(contactId, boards[0]);
       return;
@@ -521,12 +521,12 @@ export const useContactsController = () => {
     const contact = contacts.find(c => c.id === contactId);
 
     if (!contact) {
-      addToast('Contato não encontrado', 'error');
+      addToast('Contato nÃ£o encontrado', 'error');
       return;
     }
 
     if (!board.stages?.length) {
-      addToast('Board não tem estágios configurados', 'error');
+      addToast('Board nÃ£o tem estÃ¡gios configurados', 'error');
       console.error('Board sem stages:', board);
       return;
     }
@@ -610,15 +610,15 @@ export const useContactsController = () => {
   const companyNameById = useMemo(() => {
     const map = new Map<string, string>();
     for (const c of companies) {
-      if (c?.id) map.set(c.id, c.name || 'Empresa não vinculada');
+      if (c?.id) map.set(c.id, c.name || 'Empresa nÃ£o vinculada');
     }
     return map;
   }, [companies]);
 
   const getCompanyName = useCallback(
     (clientCompanyId: string | undefined | null) => {
-      if (!clientCompanyId) return 'Empresa não vinculada';
-      return companyNameById.get(clientCompanyId) || 'Empresa não vinculada';
+      if (!clientCompanyId) return 'Empresa nÃ£o vinculada';
+      return companyNameById.get(clientCompanyId) || 'Empresa nÃ£o vinculada';
     },
     [companyNameById]
   );

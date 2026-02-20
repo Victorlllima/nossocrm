@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Search, User, Plus, Building2 } from 'lucide-react';
@@ -35,7 +35,7 @@ export const ContactSearchCombobox: React.FC<ContactSearchComboboxProps> = ({
   const { data: contacts = [] } = useContacts();
   const { data: companies = [] } = useCompanies();
 
-  // Criar mapa de empresas para lookup rápido
+  // Criar mapa de empresas para lookup rÃ¡pido
   const companyMap = useMemo(() => {
     return new Map(companies.map(c => [c.id, c]));
   }, [companies]);
@@ -130,7 +130,7 @@ export const ContactSearchCombobox: React.FC<ContactSearchComboboxProps> = ({
     }
   };
 
-  // Se já tem contato selecionado, não renderiza o combobox
+  // Se jÃ¡ tem contato selecionado, nÃ£o renderiza o combobox
   if (selectedContact) {
     return null;
   }
@@ -185,7 +185,7 @@ export const ContactSearchCombobox: React.FC<ContactSearchComboboxProps> = ({
                       </p>
                       <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                         {contact.email && <span className="truncate">{contact.email}</span>}
-                        {contact.email && contact.phone && <span>•</span>}
+                        {contact.email && contact.phone && <span>â€¢</span>}
                         {contact.phone && <span>{contact.phone}</span>}
                       </div>
                       {company && (
@@ -205,7 +205,7 @@ export const ContactSearchCombobox: React.FC<ContactSearchComboboxProps> = ({
             </div>
           )}
           
-          {/* Opção de criar novo */}
+          {/* OpÃ§Ã£o de criar novo */}
           <button
             type="button"
             onClick={handleCreateNew}

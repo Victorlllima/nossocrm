@@ -1,4 +1,4 @@
-import React from 'react'
+﻿import React from 'react'
 import Link from 'next/link'
 import { Rocket, KanbanSquare, Users, ArrowRight, Sparkles } from 'lucide-react'
 
@@ -9,7 +9,7 @@ interface EmptyStateProps {
 
 /**
  * Componente de Empty State para o Dashboard
- * Exibido quando o usuário não tem dados (novo usuário pós-onboarding)
+ * Exibido quando o usuÃ¡rio nÃ£o tem dados (novo usuÃ¡rio pÃ³s-onboarding)
  */
 export function DashboardEmptyState({ hasNoDeals = true, hasNoContacts = true }: EmptyStateProps) {
     return (
@@ -26,7 +26,7 @@ export function DashboardEmptyState({ hasNoDeals = true, hasNoContacts = true }:
 
             {/* Subtitle */}
             <p className="text-slate-500 dark:text-slate-400 max-w-md mb-8">
-                Seu CRM está pronto. Comece adicionando seus primeiros negócios e contatos para ver suas métricas aqui.
+                Seu CRM estÃ¡ pronto. Comece adicionando seus primeiros negÃ³cios e contatos para ver suas mÃ©tricas aqui.
             </p>
 
             {/* Action Cards */}
@@ -40,7 +40,7 @@ export function DashboardEmptyState({ hasNoDeals = true, hasNoContacts = true }:
                             <KanbanSquare className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                         </div>
                         <h3 className="font-semibold text-slate-900 dark:text-white mb-1">
-                            Criar Negócio
+                            Criar NegÃ³cio
                         </h3>
                         <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">
                             Adicione seu primeiro deal no pipeline de vendas.
@@ -83,7 +83,7 @@ export function DashboardEmptyState({ hasNoDeals = true, hasNoContacts = true }:
                             Dica do Max Lima
                         </p>
                         <p className="text-sm text-primary-600 dark:text-primary-400 mt-1">
-                            Use o assistente de IA (ícone ✨ no header) para tirar dúvidas e criar conteúdos como emails e scripts de vendas.
+                            Use o assistente de IA (Ã­cone âœ¨ no header) para tirar dÃºvidas e criar conteÃºdos como emails e scripts de vendas.
                         </p>
                     </div>
                 </div>

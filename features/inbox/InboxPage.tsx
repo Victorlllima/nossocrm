@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+﻿import React, { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useInboxController } from './hooks/useInboxController';
 import { ViewModeToggle } from './components/ViewModeToggle';
@@ -14,7 +14,7 @@ import { DebugFillButton } from '@/components/debug/DebugFillButton';
 export const InboxPage: React.FC = () => {
   const router = useRouter();
 
-  // Controla “intenção” ao abrir a Lista (ex.: abrir já com sugestões expandidas)
+  // Controla â€œintenÃ§Ã£oâ€ ao abrir a Lista (ex.: abrir jÃ¡ com sugestÃµes expandidas)
   const [listPreset, setListPreset] = useState<'default' | 'suggestions-expanded'>('default');
 
   const {
@@ -28,7 +28,7 @@ export const InboxPage: React.FC = () => {
     todayTasks,
     upcomingActivities,
 
-    // Sugestões IA
+    // SugestÃµes IA
     aiSuggestions,
 
     // Focus Mode
@@ -47,7 +47,7 @@ export const InboxPage: React.FC = () => {
     handleSnoozeActivity,
     handleDiscardActivity,
 
-    // Handlers Sugestões
+    // Handlers SugestÃµes
     handleAcceptSuggestion,
     handleDismissSuggestion,
     handleSnoozeSuggestion,

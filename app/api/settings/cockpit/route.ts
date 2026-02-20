@@ -1,4 +1,4 @@
-// Esta rota foi descontinuada.
+﻿// Esta rota foi descontinuada.
 // Optamos por deixar os defaults do cockpit hardcoded no frontend (features/deals/cockpit/DealCockpitClient).
 
 function json<T>(body: T, status = 200): Response {

@@ -1,10 +1,10 @@
-import { createQueryKeys, createExtendedQueryKeys } from './createQueryKeys';
+﻿import { createQueryKeys, createExtendedQueryKeys } from './createQueryKeys';
 import { PaginationState, ContactsServerFilters } from '@/types';
 
 /**
  * Query keys centralizadas para gerenciamento de cache.
  * 
- * Usar estas keys garante consistência na invalidação e prefetch.
+ * Usar estas keys garante consistÃªncia na invalidaÃ§Ã£o e prefetch.
  * Pattern: `queryKeys.entity.action(params)`
  * 
  * @example
@@ -12,7 +12,7 @@ import { PaginationState, ContactsServerFilters } from '@/types';
  * // Invalidar todos os deals
  * queryClient.invalidateQueries({ queryKey: queryKeys.deals.all });
  * 
- * // Invalidar deals de um board específico
+ * // Invalidar deals de um board especÃ­fico
  * queryClient.invalidateQueries({ 
  *   queryKey: queryKeys.deals.list({ boardId: 'xxx' }) 
  * });
@@ -47,7 +47,7 @@ export const queryKeys = {
 
 /**
  * Constante para a query key da view de deals (DealView[]).
- * Esta é a ÚNICA fonte de verdade para deals no Kanban e outras UIs.
+ * Esta Ã© a ÃšNICA fonte de verdade para deals no Kanban e outras UIs.
  * Todos os pontos de escrita (mutations, Realtime, otimismo) devem usar esta key.
  * 
  * @example

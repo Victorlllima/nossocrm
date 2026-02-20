@@ -1,4 +1,4 @@
-// Test route for AI tools - bypasses auth for development testing
+﻿// Test route for AI tools - bypasses auth for development testing
 // DELETE THIS FILE BEFORE PRODUCTION!
 
 import { NextResponse } from 'next/server';
@@ -16,7 +16,7 @@ const isTestRouteEnabled =
 /**
  * Handler HTTP `POST` deste endpoint (Next.js Route Handler).
  *
- * @param {Request} req - Objeto da requisição.
+ * @param {Request} req - Objeto da requisiÃ§Ã£o.
  * @returns {Promise<NextResponse<{ error: string; }> | NextResponse<{ success: boolean; tool: any; context: { boardId: any; stageName: any; }; stage: { id: any; name: any; label: any; }; dealsCount: number; deals: { ...; }[]; }>>} Retorna um valor do tipo `Promise<NextResponse<{ error: string; }> | NextResponse<{ success: boolean; tool: any; context: { boardId: any; stageName: any; }; stage: { id: any; name: any; label: any; }; dealsCount: number; deals: { ...; }[]; }>>`.
  */
 export async function POST(req: Request) {
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: 'Not Found' }, { status: 404 });
     }
 
-    // Mitigação CSRF / hardening (mesmo em dev): só aceita same-origin quando Origin existir.
+    // MitigaÃ§Ã£o CSRF / hardening (mesmo em dev): sÃ³ aceita same-origin quando Origin existir.
     if (!isAllowedOrigin(req)) {
         return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }

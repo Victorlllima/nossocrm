@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Audit Log Dashboard Component
  * T046: Create AuditLogDashboard Component
  * T050: Includes Security Alerts Section
@@ -47,9 +47,9 @@ const formatRelative = (dateStr: string, nowTs: number) => {
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
   
   if (diffMins < 1) return 'agora';
-  if (diffMins < 60) return `há ${diffMins} min`;
-  if (diffHours < 24) return `há ${diffHours}h`;
-  if (diffDays < 7) return `há ${diffDays}d`;
+  if (diffMins < 60) return `hÃ¡ ${diffMins} min`;
+  if (diffHours < 24) return `hÃ¡ ${diffHours}h`;
+  if (diffDays < 7) return `hÃ¡ ${diffDays}d`;
   return PT_BR_DATE_TIME_FORMATTER.format(new Date(ts));
 };
 
@@ -100,21 +100,21 @@ const SEVERITY_CONFIG = {
     bgColor: 'bg-red-50 dark:bg-red-500/10',
     textColor: 'text-red-600 dark:text-red-400',
     borderColor: 'border-red-200 dark:border-red-500/30',
-    label: 'Crítico',
+    label: 'CrÃ­tico',
   },
 };
 
 const ACTION_LABELS: Record<string, string> = {
   CROSS_TENANT_ATTEMPT: 'Tentativa Cross-Tenant',
-  DATA_EXPORT: 'Exportação de Dados',
-  DATA_DELETION: 'Exclusão de Dados',
-  REVOKE_AI_CONSENT: 'Revogação Consentimento IA',
-  REVOKE_ALL_CONSENT: 'Revogação Total de Consentimento',
+  DATA_EXPORT: 'ExportaÃ§Ã£o de Dados',
+  DATA_DELETION: 'ExclusÃ£o de Dados',
+  REVOKE_AI_CONSENT: 'RevogaÃ§Ã£o Consentimento IA',
+  REVOKE_ALL_CONSENT: 'RevogaÃ§Ã£o Total de Consentimento',
   LOGIN: 'Login',
   LOGOUT: 'Logout',
-  PASSWORD_CHANGE: 'Alteração de Senha',
-  USER_CREATED: 'Usuário Criado',
-  USER_DELETED: 'Usuário Excluído',
+  PASSWORD_CHANGE: 'AlteraÃ§Ã£o de Senha',
+  USER_CREATED: 'UsuÃ¡rio Criado',
+  USER_DELETED: 'UsuÃ¡rio ExcluÃ­do',
 };
 
 /**
@@ -151,7 +151,7 @@ export const AuditLogDashboard: React.FC = () => {
     if (!sb) {
       setLogs([]);
       setStats({ total: 0, critical: 0, warning: 0, info: 0 });
-      setError('Supabase não está configurado neste ambiente.');
+      setError('Supabase nÃ£o estÃ¡ configurado neste ambiente.');
       setLoading(false);
       return;
     }
@@ -252,7 +252,7 @@ export const AuditLogDashboard: React.FC = () => {
             Logs de Auditoria
           </h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            Monitore atividades de segurança e tentativas de acesso não autorizado
+            Monitore atividades de seguranÃ§a e tentativas de acesso nÃ£o autorizado
           </p>
         </div>
         <button
@@ -286,7 +286,7 @@ export const AuditLogDashboard: React.FC = () => {
             </div>
             <div>
               <p className="text-2xl font-bold text-red-600 dark:text-red-400">{stats.critical}</p>
-              <p className="text-sm text-slate-500 dark:text-slate-400">Críticos</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">CrÃ­ticos</p>
             </div>
           </div>
         </div>
@@ -330,7 +330,7 @@ export const AuditLogDashboard: React.FC = () => {
             className="px-3 py-1.5 bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-lg text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-500"
           >
             <option value="all">Todas Severidades</option>
-            <option value="critical">Crítico</option>
+            <option value="critical">CrÃ­tico</option>
             <option value="warning">Alerta</option>
             <option value="info">Info</option>
           </select>
@@ -340,11 +340,11 @@ export const AuditLogDashboard: React.FC = () => {
             onChange={(e) => setActionFilter(e.target.value)}
             className="px-3 py-1.5 bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-lg text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-500"
           >
-            <option value="all">Todas Ações</option>
+            <option value="all">Todas AÃ§Ãµes</option>
             <option value="CROSS_TENANT_ATTEMPT">Cross-Tenant</option>
-            <option value="DATA_EXPORT">Exportação</option>
-            <option value="DATA_DELETION">Exclusão</option>
-            <option value="REVOKE_AI_CONSENT">Revogação IA</option>
+            <option value="DATA_EXPORT">ExportaÃ§Ã£o</option>
+            <option value="DATA_DELETION">ExclusÃ£o</option>
+            <option value="REVOKE_AI_CONSENT">RevogaÃ§Ã£o IA</option>
           </select>
 
           <select
@@ -352,10 +352,10 @@ export const AuditLogDashboard: React.FC = () => {
             onChange={(e) => setTimeFilter(e.target.value)}
             className="px-3 py-1.5 bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-lg text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-500"
           >
-            <option value="24h">Últimas 24h</option>
-            <option value="7d">Últimos 7 dias</option>
-            <option value="30d">Últimos 30 dias</option>
-            <option value="90d">Últimos 90 dias</option>
+            <option value="24h">Ãšltimas 24h</option>
+            <option value="7d">Ãšltimos 7 dias</option>
+            <option value="30d">Ãšltimos 30 dias</option>
+            <option value="90d">Ãšltimos 90 dias</option>
           </select>
         </div>
       </div>
@@ -421,7 +421,7 @@ export const AuditLogDashboard: React.FC = () => {
                         {log.resource_type && (
                           <span className="text-slate-400">
                             {log.resource_type}
-                            {log.resource_id && ` → ${log.resource_id.slice(0, 8)}...`}
+                            {log.resource_id && ` â†’ ${log.resource_id.slice(0, 8)}...`}
                           </span>
                         )}
                       </div>

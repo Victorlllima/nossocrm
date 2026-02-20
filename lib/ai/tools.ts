@@ -1,7 +1,9 @@
-import { tool } from 'ai';
+﻿import { tool } from 'ai';
 import { z } from 'zod';
 import { createStaticAdminClient } from '@/lib/supabase/staticAdminClient';
 import type { CRMCallOptions } from '@/types/ai';
+
+const crmTool = (config: any) => tool(config);
 
 /**
  * Creates all CRM tools with context injection
@@ -15,16 +17,16 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
     const supabase = createStaticAdminClient();
     const organizationId = context.organizationId;
 
-    // Em UI normal, ações são gateadas por um card de Aprovar/Negar.
-    // Em scripts/CI (sem UI), isso pode impedir a execução real das tools.
-    // Use AI_TOOL_APPROVAL_BYPASS=true para permitir execução direta (somente dev/test).
+    // Em UI normal, aÃ§Ãµes sÃ£o gateadas por um card de Aprovar/Negar.
+    // Em scripts/CI (sem UI), isso pode impedir a execuÃ§Ã£o real das tools.
+    // Use AI_TOOL_APPROVAL_BYPASS=true para permitir execuÃ§Ã£o direta (somente dev/test).
     const bypassApproval = process.env.AI_TOOL_APPROVAL_BYPASS === 'true';
 
     const formatSupabaseFailure = (error: any) => {
         const msg = (error?.message || error?.error_description || String(error || '')).trim();
         const normalized = msg.toLowerCase();
 
-        // Mensagens comuns quando a service role key está ausente/errada ou não bate com a URL.
+        // Mensagens comuns quando a service role key estÃ¡ ausente/errada ou nÃ£o bate com a URL.
         const looksLikeAuth =
             normalized.includes('jwt') ||
             normalized.includes('invalid api key') ||
@@ -34,7 +36,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             normalized.includes('forbidden');
 
         const hint = looksLikeAuth
-            ? ' Dica: verifique se `SUPABASE_SERVICE_ROLE_KEY` está configurada e corresponde ao mesmo projeto do `NEXT_PUBLIC_SUPABASE_URL`.'
+            ? ' Dica: verifique se `SUPABASE_SERVICE_ROLE_KEY` estÃ¡ configurada e corresponde ao mesmo projeto do `NEXT_PUBLIC_SUPABASE_URL`.'
             : '';
 
         return `Falha ao consultar o Supabase. ${msg || 'Erro desconhecido.'}${hint}`;
@@ -56,7 +58,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             return {
                 ok: false as const,
                 error:
-                    'O board selecionado não pertence à sua organização no backend da IA. Se você acabou de trocar de organização/board, recarregue a página. Se persistir, verifique se a IA está apontando para o mesmo projeto Supabase do app.'
+                    'O board selecionado nÃ£o pertence Ã  sua organizaÃ§Ã£o no backend da IA. Se vocÃª acabou de trocar de organizaÃ§Ã£o/board, recarregue a pÃ¡gina. Se persistir, verifique se a IA estÃ¡ apontando para o mesmo projeto Supabase do app.'
             };
         }
 
@@ -76,7 +78,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
         }
 
         if (!deal) {
-            return { ok: false as const, error: 'Deal não encontrado nesta organização.' };
+            return { ok: false as const, error: 'Deal nÃ£o encontrado nesta organizaÃ§Ã£o.' };
         }
 
         return { ok: true as const, deal };
@@ -91,12 +93,12 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
 
         const stageName = (params.stageName || '').trim();
         if (!stageName) {
-            return { ok: false as const, error: 'Especifique o estágio destino.' };
+            return { ok: false as const, error: 'Especifique o estÃ¡gio destino.' };
         }
 
-        // “primeiro estágio” / “último estágio” (atalhos úteis)
+        // â€œprimeiro estÃ¡gioâ€ / â€œÃºltimo estÃ¡gioâ€ (atalhos Ãºteis)
         const lowered = stageName.toLowerCase();
-        if (/(primeiro|in[íi]cio|inicial)/.test(lowered)) {
+        if (/(primeiro|in[Ã­i]cio|inicial)/.test(lowered)) {
             const { data: first, error } = await supabase
                 .from('board_stages')
                 .select('id')
@@ -106,11 +108,11 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 .limit(1)
                 .maybeSingle();
             if (error) return { ok: false as const, error: formatSupabaseFailure(error) };
-            if (!first?.id) return { ok: false as const, error: 'Board não tem estágios configurados.' };
+            if (!first?.id) return { ok: false as const, error: 'Board nÃ£o tem estÃ¡gios configurados.' };
             return { ok: true as const, stageId: first.id };
         }
 
-        if (/(u[úu]ltimo|final)/.test(lowered)) {
+        if (/(u[Ãºu]ltimo|final)/.test(lowered)) {
             const { data: last, error } = await supabase
                 .from('board_stages')
                 .select('id')
@@ -120,7 +122,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 .limit(1)
                 .maybeSingle();
             if (error) return { ok: false as const, error: formatSupabaseFailure(error) };
-            if (!last?.id) return { ok: false as const, error: 'Board não tem estágios configurados.' };
+            if (!last?.id) return { ok: false as const, error: 'Board nÃ£o tem estÃ¡gios configurados.' };
             return { ok: true as const, stageId: last.id };
         }
 
@@ -141,31 +143,31 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 .eq('board_id', params.boardId);
 
             const stageNames = allStages?.map((s) => s.name || s.label).filter(Boolean).join(', ') || 'nenhum';
-            return { ok: false as const, error: `Estágio "${stageName}" não encontrado. Estágios disponíveis: ${stageNames}` };
+            return { ok: false as const, error: `EstÃ¡gio "${stageName}" nÃ£o encontrado. EstÃ¡gios disponÃ­veis: ${stageNames}` };
         }
 
         if (stages.length > 1) {
             const opts = stages.map((s) => s.name || s.label || s.id).join(', ');
-            return { ok: false as const, error: `Estágio "${stageName}" está ambíguo. Possíveis: ${opts}` };
+            return { ok: false as const, error: `EstÃ¡gio "${stageName}" estÃ¡ ambÃ­guo. PossÃ­veis: ${opts}` };
         }
 
         return { ok: true as const, stageId: stages[0].id };
     };
 
     const tools = {
-        // ============= ANÁLISE =============
-        analyzePipeline: tool({
-            description: 'Analisa o pipeline de vendas completo com métricas e breakdown por estágio',
-            inputSchema: z.object({
-                boardId: z.string().optional().describe('ID do board (usa contexto se não fornecido)'),
+        // ============= ANÃLISE =============
+        analyzePipeline: crmTool({
+            description: 'Analisa o pipeline de vendas completo com mÃ©tricas e breakdown por estÃ¡gio',
+            parameters: z.object({
+                boardId: z.string().optional().describe('ID do board (usa contexto se nÃ£o fornecido)'),
             }),
             execute: async ({ boardId }) => {
                 // supabase is already initialized
                 const targetBoardId = boardId || context.boardId;
-                console.log('[AI] 🚀 analyzePipeline EXECUTED!', { targetBoardId });
+                console.log('[AI] ðŸš€ analyzePipeline EXECUTED!', { targetBoardId });
 
                 if (!targetBoardId) {
-                    return { error: 'Nenhum board selecionado. Vá para um board ou especifique qual.' };
+                    return { error: 'Nenhum board selecionado. VÃ¡ para um board ou especifique qual.' };
                 }
 
                 const { data: deals } = await supabase
@@ -184,10 +186,10 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     ? Math.round(wonDeals.length / (wonDeals.length + lostDeals.length) * 100)
                     : 0;
 
-                // Agrupar por estágio
+                // Agrupar por estÃ¡gio
                 const stageMap = new Map<string, { count: number; value: number }>();
                 openDeals.forEach((deal: any) => {
-                    const stageName = deal.stage?.name || deal.stage?.label || 'Sem estágio';
+                    const stageName = deal.stage?.name || deal.stage?.label || 'Sem estÃ¡gio';
                     const existing = stageMap.get(stageName) || { count: 0, value: 0 };
                     stageMap.set(stageName, {
                         count: existing.count + 1,
@@ -208,15 +210,15 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             },
         }),
 
-        getBoardMetrics: tool({
-            description: 'Calcula métricas e KPIs do board: Win Rate, Total Pipeline, contagem de deals',
-            inputSchema: z.object({
+        getBoardMetrics: crmTool({
+            description: 'Calcula mÃ©tricas e KPIs do board: Win Rate, Total Pipeline, contagem de deals',
+            parameters: z.object({
                 boardId: z.string().optional(),
             }),
             execute: async ({ boardId }) => {
                 // supabase is already initialized
                 const targetBoardId = boardId || context.boardId;
-                console.log('[AI] 📊 getBoardMetrics EXECUTED!');
+                console.log('[AI] ðŸ“Š getBoardMetrics EXECUTED!');
 
                 if (!targetBoardId) {
                     return { error: 'Nenhum board selecionado.' };
@@ -250,9 +252,9 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
         }),
 
         // ============= BUSCA =============
-        searchDeals: tool({
-            description: 'Busca deals por título',
-            inputSchema: z.object({
+        searchDeals: crmTool({
+            description: 'Busca deals por tÃ­tulo',
+            parameters: z.object({
                 query: z.string().describe('Termo de busca'),
                 limit: z.number().optional().default(5),
             }),
@@ -260,27 +262,27 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 // supabase is already initialized
                 const cleanedQuery = String(query)
                     .trim()
-                    // remove aspas comuns no início/fim (modelo costuma mandar "Nike")
-                    .replace(/^["'“”‘’]+/, '')
-                    .replace(/["'“”‘’]+$/, '')
+                    // remove aspas comuns no inÃ­cio/fim (modelo costuma mandar "Nike")
+                    .replace(/^["'â€œâ€â€˜â€™]+/, '')
+                    .replace(/["'â€œâ€â€˜â€™]+$/, '')
                     .trim();
 
-                // Normalize pontuação e remova palavras “decorativas” que o modelo costuma incluir
+                // Normalize pontuaÃ§Ã£o e remova palavras â€œdecorativasâ€ que o modelo costuma incluir
                 // (ex.: "buscar deal Nike"), para evitar falso negativo.
                 const normalizedQuery = cleanedQuery
-                    // troca pontuações por espaço
+                    // troca pontuaÃ§Ãµes por espaÃ§o
                     .replace(/[^\p{L}\p{N}\s.-]+/gu, ' ')
                     .replace(/\s+/g, ' ')
                     .trim();
 
                 const strippedQuery = normalizedQuery
-                    .replace(/\b(buscar|busque|procure|procurar|encontre|encontrar|mostrar|liste|listar|deal|deals|neg[oó]cio|neg[oó]cios|oportunidade|oportunidades|card|cards)\b/gi, ' ')
+                    .replace(/\b(buscar|busque|procure|procurar|encontre|encontrar|mostrar|liste|listar|deal|deals|neg[oÃ³]cio|neg[oÃ³]cios|oportunidade|oportunidades|card|cards)\b/gi, ' ')
                     .replace(/\s+/g, ' ')
                     .trim();
 
                 const effectiveQuery = strippedQuery || normalizedQuery;
 
-                console.log('[AI] 🔍 searchDeals EXECUTED!', { query, cleanedQuery, effectiveQuery });
+                console.log('[AI] ðŸ” searchDeals EXECUTED!', { query, cleanedQuery, effectiveQuery });
 
                 if (!effectiveQuery) {
                     return { error: 'Informe um termo de busca.' };
@@ -299,7 +301,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 if (terms.length <= 1) {
                     queryBuilder = queryBuilder.ilike('title', `%${effectiveQuery}%`);
                 } else {
-                    // OR: title contém qualquer termo (mais robusto do que exigir a frase inteira)
+                    // OR: title contÃ©m qualquer termo (mais robusto do que exigir a frase inteira)
                     // Ex.: "deal Nike" -> encontra "Nike"
                     queryBuilder = queryBuilder.or(
                         terms.map((t) => `title.ilike.%${t}%`).join(',')
@@ -307,12 +309,12 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 }
 
                 if (context.boardId) {
-                    // Segurança: só permite consultar por board_id se o board for do mesmo tenant.
+                    // SeguranÃ§a: sÃ³ permite consultar por board_id se o board for do mesmo tenant.
                     const guard = await ensureBoardBelongsToOrganization(context.boardId);
                     if (!guard.ok) return { error: guard.error };
 
                     // Compat: inclui deals legados que ficaram com organization_id NULL.
-                    // Como o board já foi validado no tenant, isso não vaza dados.
+                    // Como o board jÃ¡ foi validado no tenant, isso nÃ£o vaza dados.
                     queryBuilder = queryBuilder
                         .eq('board_id', context.boardId)
                         .or(`organization_id.eq.${organizationId},organization_id.is.null`);
@@ -335,21 +337,21 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                         value: `R$ ${(d.value || 0).toLocaleString('pt-BR')}`,
                         stage: d.stage?.name || d.stage?.label || 'N/A',
                         contact: d.contact?.name || 'N/A',
-                        status: d.is_won ? '✅ Ganho' : d.is_lost ? '❌ Perdido' : '🔄 Aberto'
+                        status: d.is_won ? 'âœ… Ganho' : d.is_lost ? 'âŒ Perdido' : 'ðŸ”„ Aberto'
                     })) || []
                 };
             },
         }),
 
-        searchContacts: tool({
+        searchContacts: crmTool({
             description: 'Busca contatos por nome ou email',
-            inputSchema: z.object({
+            parameters: z.object({
                 query: z.string().describe('Termo de busca'),
                 limit: z.number().optional().default(5),
             }),
             execute: async ({ query, limit }) => {
                 // supabase is already initialized
-                console.log('[AI] 🔍 searchContacts EXECUTED!', query);
+                console.log('[AI] ðŸ” searchContacts EXECUTED!', query);
 
                 const { data: contacts } = await supabase
                     .from('contacts')
@@ -371,11 +373,11 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             },
         }),
 
-        listDealsByStage: tool({
-            description: 'Lista todos os deals em um estágio específico do funil',
-            inputSchema: z.object({
-                stageName: z.string().optional().describe('Nome do estágio (ex: Proposta, Negociação)'),
-                stageId: z.string().optional().describe('ID do estágio'),
+        listDealsByStage: crmTool({
+            description: 'Lista todos os deals em um estÃ¡gio especÃ­fico do funil',
+            parameters: z.object({
+                stageName: z.string().optional().describe('Nome do estÃ¡gio (ex: Proposta, NegociaÃ§Ã£o)'),
+                stageId: z.string().optional().describe('ID do estÃ¡gio'),
                 boardId: z.string().optional(),
                 limit: z.number().optional().default(10),
             }),
@@ -383,7 +385,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 // supabase is already initialized
                 const targetBoardId = boardId || context.boardId;
 
-                console.log('[AI] 📋 listDealsByStage EXECUTING:', {
+                console.log('[AI] ðŸ“‹ listDealsByStage EXECUTING:', {
                     stageName,
                     stageId,
                     boardId,
@@ -395,7 +397,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     return { error: 'Nenhum board selecionado.' };
                 }
 
-                // Segurança + compat: valida board no tenant e permite ler deals legados com organization_id NULL.
+                // SeguranÃ§a + compat: valida board no tenant e permite ler deals legados com organization_id NULL.
                 const boardGuard = await ensureBoardBelongsToOrganization(targetBoardId);
                 if (!boardGuard.ok) return { error: boardGuard.error };
 
@@ -412,14 +414,14 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 // If stageId looks like a stage NAME (not hex), treat it as stageName
                 if (finalStageId && !isValidUuid(finalStageId) && !isUuidPrefix(finalStageId)) {
                     // This is a stage name, not a UUID
-                    console.log('[AI] ⚠️ stageId is a name, converting to stageName:', finalStageId);
+                    console.log('[AI] âš ï¸ stageId is a name, converting to stageName:', finalStageId);
                     effectiveStageName = finalStageId;
                     finalStageId = undefined;
                 }
 
                 // If stageId is a partial UUID, search by prefix
                 if (finalStageId && !isValidUuid(finalStageId) && isUuidPrefix(finalStageId)) {
-                    console.log('[AI] ⚠️ Partial UUID, searching by prefix:', finalStageId);
+                    console.log('[AI] âš ï¸ Partial UUID, searching by prefix:', finalStageId);
                     const { data: stages } = await supabase
                         .from('board_stages')
                         .select('id, name')
@@ -429,7 +431,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
 
                     if (stages && stages.length > 0) {
                         finalStageId = stages[0].id;
-                        console.log('[AI] ✅ Found stage by prefix:', stages[0].name, finalStageId);
+                        console.log('[AI] âœ… Found stage by prefix:', stages[0].name, finalStageId);
                     } else {
                         finalStageId = undefined;
                     }
@@ -444,7 +446,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                         .eq('board_id', targetBoardId)
                         .or(`name.ilike.%${effectiveStageName}%,label.ilike.%${effectiveStageName}%`);
 
-                    console.log('[AI] 📋 Stage search by name:', {
+                    console.log('[AI] ðŸ“‹ Stage search by name:', {
                         stageName: effectiveStageName,
                         foundStages: stages,
                         stageError
@@ -460,15 +462,15 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                             .eq('board_id', targetBoardId);
 
                         const stageNames = allStages?.map(s => s.name || s.label).join(', ') || 'nenhum';
-                        return { error: `Estágio "${effectiveStageName}" não encontrado. Estágios disponíveis: ${stageNames}` };
+                        return { error: `EstÃ¡gio "${effectiveStageName}" nÃ£o encontrado. EstÃ¡gios disponÃ­veis: ${stageNames}` };
                     }
                 }
 
                 if (!finalStageId) {
-                    return { error: 'Estágio não identificado. Informe o nome do estágio (ex: "Proposta", "Descoberta").' };
+                    return { error: 'EstÃ¡gio nÃ£o identificado. Informe o nome do estÃ¡gio (ex: "Proposta", "Descoberta").' };
                 }
 
-                console.log('[AI] 📋 Querying deals with stageId:', finalStageId);
+                console.log('[AI] ðŸ“‹ Querying deals with stageId:', finalStageId);
 
                 const { data: deals, error: dealsError } = await supabase
                     .from('deals')
@@ -477,14 +479,14 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .eq('stage_id', finalStageId)
                     .or(`organization_id.eq.${organizationId},organization_id.is.null`)
                     .order('value', { ascending: false })
-                    // Busca mais do que o necessário e filtra client-side para tratar legacy NULL
+                    // Busca mais do que o necessÃ¡rio e filtra client-side para tratar legacy NULL
                     .limit(Math.max(limit * 5, 50));
 
                 if (dealsError) {
                     return { error: formatSupabaseFailure(dealsError) };
                 }
 
-                console.log('[AI] 📋 Deals query result:', {
+                console.log('[AI] ðŸ“‹ Deals query result:', {
                     dealsCount: deals?.length,
                     deals,
                     dealsError
@@ -508,16 +510,16 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 };
             },
         }),
-        listStagnantDeals: tool({
-            description: 'Lista deals parados/estagnados há mais de X dias sem atualização',
-            inputSchema: z.object({
+        listStagnantDeals: crmTool({
+            description: 'Lista deals parados/estagnados hÃ¡ mais de X dias sem atualizaÃ§Ã£o',
+            parameters: z.object({
                 boardId: z.string().optional(),
-                daysStagnant: z.number().int().positive().optional().default(7).describe('Dias sem atualização'),
+                daysStagnant: z.number().int().positive().optional().default(7).describe('Dias sem atualizaÃ§Ã£o'),
                 limit: z.number().int().positive().optional().default(10),
             }),
             execute: async ({ boardId, daysStagnant, limit }) => {
                 const targetBoardId = boardId || context.boardId;
-                console.log('[AI] ⏰ listStagnantDeals EXECUTED!');
+                console.log('[AI] â° listStagnantDeals EXECUTED!');
 
                 if (!targetBoardId) {
                     return { error: 'Nenhum board selecionado.' };
@@ -544,7 +546,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
 
                 return {
                     count: finalDeals.length || 0,
-                    message: `${finalDeals.length || 0} deals parados há mais de ${daysStagnant} dias`,
+                    message: `${finalDeals.length || 0} deals parados hÃ¡ mais de ${daysStagnant} dias`,
                     deals: finalDeals.map((d: any) => {
                         const days = Math.floor((Date.now() - new Date(d.updated_at).getTime()) / (1000 * 60 * 60 * 24));
                         return {
@@ -559,9 +561,9 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             },
         }),
 
-        listOverdueDeals: tool({
+        listOverdueDeals: crmTool({
             description: 'Lista deals que possuem atividades atrasadas',
-            inputSchema: z.object({
+            parameters: z.object({
                 boardId: z.string().optional(),
                 limit: z.number().int().positive().optional().default(10),
             }),
@@ -583,7 +585,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .order('date', { ascending: true });
 
                 if (!overdueActivities || overdueActivities.length === 0) {
-                    return { count: 0, message: 'Nenhuma atividade atrasada encontrada! 🎉', deals: [] };
+                    return { count: 0, message: 'Nenhuma atividade atrasada encontrada! ðŸŽ‰', deals: [] };
                 }
 
                 const dealIds = [...new Set(overdueActivities.map(a => a.deal_id).filter(Boolean))];
@@ -598,7 +600,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
 
                 return {
                     count: deals?.length || 0,
-                    message: `⚠️ ${deals?.length || 0} deals com atividades atrasadas`,
+                    message: `âš ï¸ ${deals?.length || 0} deals com atividades atrasadas`,
                     deals: deals?.map((d: any) => ({
                         id: d.id,
                         title: d.title,
@@ -610,14 +612,14 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             },
         }),
 
-        getDealDetails: tool({
-            description: 'Mostra os detalhes completos de um deal específico',
-            inputSchema: z.object({
-                dealId: z.string().optional().describe('ID do deal (usa contexto se não fornecido)'),
+        getDealDetails: crmTool({
+            description: 'Mostra os detalhes completos de um deal especÃ­fico',
+            parameters: z.object({
+                dealId: z.string().optional().describe('ID do deal (usa contexto se nÃ£o fornecido)'),
             }),
             execute: async ({ dealId }) => {
                 const targetDealId = dealId || context.dealId;
-                console.log('[AI] 🔎 getDealDetails EXECUTED!');
+                console.log('[AI] ðŸ”Ž getDealDetails EXECUTED!');
 
                 if (!targetDealId) {
                     return { error: 'Nenhum deal especificado.' };
@@ -636,7 +638,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .single();
 
                 if (error || !deal) {
-                    return { error: 'Deal não encontrado.' };
+                    return { error: 'Deal nÃ£o encontrado.' };
                 }
 
                 const pendingActivities = deal.activities?.filter((a: any) => !a.completed) || [];
@@ -645,7 +647,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     id: deal.id,
                     title: deal.title,
                     value: `R$ ${(deal.value || 0).toLocaleString('pt-BR')}`,
-                    status: deal.is_won ? '✅ Ganho' : deal.is_lost ? '❌ Perdido' : '🔄 Aberto',
+                    status: deal.is_won ? 'âœ… Ganho' : deal.is_lost ? 'âŒ Perdido' : 'ðŸ”„ Aberto',
                     stage: (deal.stage as any)?.name || (deal.stage as any)?.label || 'N/A',
                     priority: deal.priority || 'medium',
                     contact: (deal.contact as any)?.name || 'N/A',
@@ -656,18 +658,18 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             },
         }),
 
-        // ============= AÇÕES (COM APROVAÇÃO) =============
-        moveDeal: tool({
-            description: 'Move um deal para outro estágio do funil. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
-            inputSchema: z.object({
-                dealId: z.string().optional().describe('ID do deal (usa contexto se não fornecido)'),
-                stageName: z.string().optional().describe('Nome do estágio destino'),
-                stageId: z.string().optional().describe('ID do estágio destino'),
+        // ============= AÃ‡Ã•ES (COM APROVAÃ‡ÃƒO) =============
+        moveDeal: crmTool({
+            description: 'Move um deal para outro estÃ¡gio do funil. Requer aprovaÃ§Ã£o no card (Aprovar/Negar) â€” nÃ£o peÃ§a confirmaÃ§Ã£o em texto.',
+            parameters: z.object({
+                dealId: z.string().optional().describe('ID do deal (usa contexto se nÃ£o fornecido)'),
+                stageName: z.string().optional().describe('Nome do estÃ¡gio destino'),
+                stageId: z.string().optional().describe('ID do estÃ¡gio destino'),
             }),
             needsApproval: !bypassApproval,
             execute: async ({ dealId, stageName, stageId }) => {
                 const targetDealId = dealId || context.dealId;
-                console.log('[AI] 🔄 moveDeal EXECUTED!');
+                console.log('[AI] ðŸ”„ moveDeal EXECUTED!');
 
                 if (!targetDealId) {
                     return { error: 'Nenhum deal especificado.' };
@@ -681,7 +683,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .single();
 
                 if (!deal) {
-                    return { error: 'Deal não encontrado.' };
+                    return { error: 'Deal nÃ£o encontrado.' };
                 }
 
                 let targetStageId = stageId;
@@ -696,12 +698,12 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     if (stages && stages.length > 0) {
                         targetStageId = stages[0].id;
                     } else {
-                        return { error: `Estágio "${stageName}" não encontrado.` };
+                        return { error: `EstÃ¡gio "${stageName}" nÃ£o encontrado.` };
                     }
                 }
 
                 if (!targetStageId) {
-                    return { error: 'Especifique o estágio destino.' };
+                    return { error: 'Especifique o estÃ¡gio destino.' };
                 }
 
                 const { error } = await supabase
@@ -721,10 +723,10 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             },
         }),
 
-        createDeal: tool({
-            description: 'Cria um novo deal no board atual (ou informado). Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
-            inputSchema: z.object({
-                title: z.string().min(1).describe('Título do deal'),
+        createDeal: crmTool({
+            description: 'Cria um novo deal no board atual (ou informado). Requer aprovaÃ§Ã£o no card (Aprovar/Negar) â€” nÃ£o peÃ§a confirmaÃ§Ã£o em texto.',
+            parameters: z.object({
+                title: z.string().min(1).describe('TÃ­tulo do deal'),
                 value: z.number().optional().default(0).describe('Valor do deal em reais'),
                 contactName: z.string().optional().describe('Nome do contato'),
                 boardId: z.string().optional(),
@@ -732,7 +734,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             needsApproval: !bypassApproval,
             execute: async ({ title, value, contactName, boardId }) => {
                 const targetBoardId = boardId || context.boardId;
-                console.log('[AI] ➕ createDeal EXECUTED!', title);
+                console.log('[AI] âž• createDeal EXECUTED!', title);
 
                 if (!targetBoardId) {
                     return { error: 'Nenhum board selecionado.' };
@@ -748,7 +750,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
 
                 const firstStageId = stages?.[0]?.id;
                 if (!firstStageId) {
-                    return { error: 'Board não tem estágios configurados.' };
+                    return { error: 'Board nÃ£o tem estÃ¡gios configurados.' };
                 }
 
                 let contactId: string | null = null;
@@ -810,18 +812,18 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             },
         }),
 
-        updateDeal: tool({
-            description: 'Atualiza campos de um deal existente. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
-            inputSchema: z.object({
-                dealId: z.string().optional().describe('ID do deal (usa contexto se não fornecido)'),
-                title: z.string().optional().describe('Novo título'),
+        updateDeal: crmTool({
+            description: 'Atualiza campos de um deal existente. Requer aprovaÃ§Ã£o no card (Aprovar/Negar) â€” nÃ£o peÃ§a confirmaÃ§Ã£o em texto.',
+            parameters: z.object({
+                dealId: z.string().optional().describe('ID do deal (usa contexto se nÃ£o fornecido)'),
+                title: z.string().optional().describe('Novo tÃ­tulo'),
                 value: z.number().optional().describe('Novo valor'),
                 priority: z.enum(['low', 'medium', 'high', 'urgent']).optional(),
             }),
             needsApproval: !bypassApproval,
             execute: async ({ dealId, title, value, priority }) => {
                 const targetDealId = dealId || context.dealId;
-                console.log('[AI] ✏️ updateDeal EXECUTED!');
+                console.log('[AI] âœï¸ updateDeal EXECUTED!');
 
                 if (!targetDealId) {
                     return { error: 'Nenhum deal especificado.' };
@@ -846,12 +848,12 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             },
         }),
 
-        markDealAsWon: tool({
-            description: 'Marca um deal como GANHO/fechado com sucesso! 🎉 Pode encontrar o deal por ID, título, ou estágio. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
-            inputSchema: z.object({
+        markDealAsWon: crmTool({
+            description: 'Marca um deal como GANHO/fechado com sucesso! ðŸŽ‰ Pode encontrar o deal por ID, tÃ­tulo, ou estÃ¡gio. Requer aprovaÃ§Ã£o no card (Aprovar/Negar) â€” nÃ£o peÃ§a confirmaÃ§Ã£o em texto.',
+            parameters: z.object({
                 dealId: z.string().optional().describe('ID do deal (opcional se fornecer outros identificadores)'),
-                dealTitle: z.string().optional().describe('Título/nome do deal para buscar'),
-                stageName: z.string().optional().describe('Nome do estágio onde o deal está (ex: "Proposta")'),
+                dealTitle: z.string().optional().describe('TÃ­tulo/nome do deal para buscar'),
+                stageName: z.string().optional().describe('Nome do estÃ¡gio onde o deal estÃ¡ (ex: "Proposta")'),
                 wonValue: z.number().optional().describe('Valor final do fechamento'),
             }),
             needsApproval: !bypassApproval,
@@ -860,7 +862,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 let targetDealId = dealId || context.dealId;
                 const targetBoardId = context.boardId;
 
-                console.log('[AI] 🎉 markDealAsWon EXECUTING:', { dealId, dealTitle, stageName, targetBoardId });
+                console.log('[AI] ðŸŽ‰ markDealAsWon EXECUTING:', { dealId, dealTitle, stageName, targetBoardId });
 
                 // Smart lookup: find deal by title or stage if no dealId
                 if (!targetDealId && targetBoardId) {
@@ -881,7 +883,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     // Consideramos como "aberto" na busca.
                     const openFoundDeals = (foundDeals || []).filter((d: any) => !d.is_won && !d.is_lost);
 
-                    console.log('[AI] 🔍 Found deals:', {
+                    console.log('[AI] ðŸ” Found deals:', {
                         foundDealsCount: foundDeals?.length,
                         openFoundDealsCount: openFoundDeals.length,
                         openFoundDeals
@@ -910,11 +912,11 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 }
 
                 if (!targetDealId) {
-                    return { error: 'Não consegui identificar o deal. Forneça o ID, título ou nome do estágio.' };
+                    return { error: 'NÃ£o consegui identificar o deal. ForneÃ§a o ID, tÃ­tulo ou nome do estÃ¡gio.' };
                 }
 
-                // Se existir um estágio de "Ganho" no board, também mova o card para ele.
-                // Isso evita a sensação de "não moveu" quando a UI do kanban é baseada em stage_id.
+                // Se existir um estÃ¡gio de "Ganho" no board, tambÃ©m mova o card para ele.
+                // Isso evita a sensaÃ§Ã£o de "nÃ£o moveu" quando a UI do kanban Ã© baseada em stage_id.
                 let wonStageId: string | null = null;
                 const wonStageNameFromContext = context.wonStage || 'Ganho';
 
@@ -950,28 +952,28 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .single();
 
                 if (error || !deal) {
-                    return { success: false, error: error?.message || 'Deal não encontrado' };
+                    return { success: false, error: error?.message || 'Deal nÃ£o encontrado' };
                 }
 
                 return {
                     success: true,
-                    message: `🎉 Parabéns! Deal "${deal.title}" marcado como GANHO!`,
+                    message: `ðŸŽ‰ ParabÃ©ns! Deal "${deal.title}" marcado como GANHO!`,
                     value: `R$ ${(deal.value || 0).toLocaleString('pt-BR')}`
                 };
             },
         }),
 
-        markDealAsLost: tool({
-            description: 'Marca um deal como PERDIDO. Requer motivo da perda. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
-            inputSchema: z.object({
+        markDealAsLost: crmTool({
+            description: 'Marca um deal como PERDIDO. Requer motivo da perda. Requer aprovaÃ§Ã£o no card (Aprovar/Negar) â€” nÃ£o peÃ§a confirmaÃ§Ã£o em texto.',
+            parameters: z.object({
                 dealId: z.string().optional().describe('ID do deal'),
-                reason: z.string().describe('Motivo da perda (ex: Preço, Concorrente, Timing)'),
+                reason: z.string().describe('Motivo da perda (ex: PreÃ§o, Concorrente, Timing)'),
             }),
-            needsApproval: !bypassApproval, // ✅ Requer aprovação (bypassável em dev/test)
+            needsApproval: !bypassApproval, // âœ… Requer aprovaÃ§Ã£o (bypassÃ¡vel em dev/test)
             execute: async ({ dealId, reason }) => {
                 // supabase is already initialized
                 const targetDealId = dealId || context.dealId;
-                console.log('[AI] ❌ markDealAsLost EXECUTED!');
+                console.log('[AI] âŒ markDealAsLost EXECUTED!');
 
                 if (!targetDealId) {
                     return { error: 'Nenhum deal especificado.' };
@@ -992,7 +994,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .single();
 
                 if (error || !deal) {
-                    return { success: false, error: error?.message || 'Deal não encontrado' };
+                    return { success: false, error: error?.message || 'Deal nÃ£o encontrado' };
                 }
 
                 return {
@@ -1002,17 +1004,17 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             },
         }),
 
-        assignDeal: tool({
-            description: 'Reatribui um deal para outro vendedor/responsável. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
-            inputSchema: z.object({
+        assignDeal: crmTool({
+            description: 'Reatribui um deal para outro vendedor/responsÃ¡vel. Requer aprovaÃ§Ã£o no card (Aprovar/Negar) â€” nÃ£o peÃ§a confirmaÃ§Ã£o em texto.',
+            parameters: z.object({
                 dealId: z.string().optional().describe('ID do deal'),
-                newOwnerId: z.string().describe('ID do novo responsável (UUID)'),
+                newOwnerId: z.string().describe('ID do novo responsÃ¡vel (UUID)'),
             }),
-            needsApproval: !bypassApproval, // ✅ Requer aprovação (bypassável em dev/test)
+            needsApproval: !bypassApproval, // âœ… Requer aprovaÃ§Ã£o (bypassÃ¡vel em dev/test)
             execute: async ({ dealId, newOwnerId }) => {
                 // supabase is already initialized
                 const targetDealId = dealId || context.dealId;
-                console.log('[AI] 👤 assignDeal EXECUTED!');
+                console.log('[AI] ðŸ‘¤ assignDeal EXECUTED!');
 
                 if (!targetDealId) {
                     return { error: 'Nenhum deal especificado.' };
@@ -1025,7 +1027,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .eq('id', newOwnerId)
                     .single();
 
-                const ownerName = ownerProfile?.nickname || ownerProfile?.first_name || 'Novo responsável';
+                const ownerName = ownerProfile?.nickname || ownerProfile?.first_name || 'Novo responsÃ¡vel';
 
                 const { data: deal, error } = await supabase
                     .from('deals')
@@ -1039,20 +1041,20 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .single();
 
                 if (error || !deal) {
-                    return { success: false, error: error?.message || 'Deal não encontrado' };
+                    return { success: false, error: error?.message || 'Deal nÃ£o encontrado' };
                 }
 
                 return {
                     success: true,
-                    message: `Deal "${deal.title}" reatribuído para ${ownerName}`
+                    message: `Deal "${deal.title}" reatribuÃ­do para ${ownerName}`
                 };
             },
         }),
 
-        createTask: tool({
-            description: 'Cria uma nova tarefa ou atividade para acompanhamento. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
-            inputSchema: z.object({
-                title: z.string().describe('Título da tarefa'),
+        createTask: crmTool({
+            description: 'Cria uma nova tarefa ou atividade para acompanhamento. Requer aprovaÃ§Ã£o no card (Aprovar/Negar) â€” nÃ£o peÃ§a confirmaÃ§Ã£o em texto.',
+            parameters: z.object({
+                title: z.string().describe('TÃ­tulo da tarefa'),
                 description: z.string().optional(),
                 dueDate: z.string().optional().describe('Data de vencimento ISO'),
                 dealId: z.string().optional(),
@@ -1062,7 +1064,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             execute: async ({ title, description, dueDate, dealId, type }) => {
                 // supabase is already initialized
                 const targetDealId = dealId || context.dealId;
-                console.log('[AI] ✏️ createTask EXECUTED!', title);
+                console.log('[AI] âœï¸ createTask EXECUTED!', title);
 
                 const date = dueDate || new Date().toISOString();
 
@@ -1093,18 +1095,18 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             },
         }),
 
-        moveDealsBulk: tool({
+        moveDealsBulk: crmTool({
             description:
-                'Move vários deals de uma vez para outro estágio. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
-            inputSchema: z.object({
+                'Move vÃ¡rios deals de uma vez para outro estÃ¡gio. Requer aprovaÃ§Ã£o no card (Aprovar/Negar) â€” nÃ£o peÃ§a confirmaÃ§Ã£o em texto.',
+            parameters: z.object({
                 dealIds: z.array(z.string()).min(1).describe('IDs dos deals a mover'),
-                boardId: z.string().optional().describe('Board alvo (usa contexto se não fornecido)'),
-                stageName: z.string().optional().describe('Nome do estágio destino (ex: "Contatado")'),
-                stageId: z.string().optional().describe('ID do estágio destino'),
-                allowPartial: z.boolean().optional().default(true).describe('Se true, ignora IDs que não pertencem ao tenant e move o restante'),
-                maxDeals: z.number().int().positive().optional().default(50).describe('Guardrail: máximo de deals por ação'),
-                createFollowUpTask: z.boolean().optional().default(false).describe('Se true, cria 1 tarefa por deal após mover (guardrails aplicados)'),
-                followUpTitle: z.string().optional().describe('Título da tarefa de follow-up'),
+                boardId: z.string().optional().describe('Board alvo (usa contexto se nÃ£o fornecido)'),
+                stageName: z.string().optional().describe('Nome do estÃ¡gio destino (ex: "Contatado")'),
+                stageId: z.string().optional().describe('ID do estÃ¡gio destino'),
+                allowPartial: z.boolean().optional().default(true).describe('Se true, ignora IDs que nÃ£o pertencem ao tenant e move o restante'),
+                maxDeals: z.number().int().positive().optional().default(50).describe('Guardrail: mÃ¡ximo de deals por aÃ§Ã£o'),
+                createFollowUpTask: z.boolean().optional().default(false).describe('Se true, cria 1 tarefa por deal apÃ³s mover (guardrails aplicados)'),
+                followUpTitle: z.string().optional().describe('TÃ­tulo da tarefa de follow-up'),
                 followUpDueInDays: z.number().int().positive().optional().default(2),
                 followUpType: z.enum(['CALL', 'MEETING', 'EMAIL', 'TASK']).optional().default('TASK'),
             }),
@@ -1113,12 +1115,12 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 const unique = Array.from(new Set((dealIds || []).filter(Boolean)));
                 if (unique.length === 0) return { error: 'Informe pelo menos 1 deal.' };
                 if (unique.length > maxDeals) {
-                    return { error: `Muitos deals (${unique.length}). Por segurança, o máximo por ação é ${maxDeals}. Filtre ou faça em lotes.` };
+                    return { error: `Muitos deals (${unique.length}). Por seguranÃ§a, o mÃ¡ximo por aÃ§Ã£o Ã© ${maxDeals}. Filtre ou faÃ§a em lotes.` };
                 }
 
                 const targetBoardId = boardId || context.boardId;
                 if (!targetBoardId) {
-                    return { error: 'Nenhum board selecionado. Vá para um board ou informe qual.' };
+                    return { error: 'Nenhum board selecionado. VÃ¡ para um board ou informe qual.' };
                 }
 
                 const boardGuard = await ensureBoardBelongsToOrganization(targetBoardId);
@@ -1138,7 +1140,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 const missingIds = unique.filter((id) => !foundIds.has(id));
 
                 if (missingIds.length > 0 && !allowPartial) {
-                    return { error: `Alguns deals não foram encontrados neste board/organização (${missingIds.length}).` };
+                    return { error: `Alguns deals nÃ£o foram encontrados neste board/organizaÃ§Ã£o (${missingIds.length}).` };
                 }
 
                 const stageRes = await resolveStageIdForBoard({ boardId: targetBoardId, stageId, stageName });
@@ -1146,7 +1148,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
 
                 const idsToMove = (deals || []).map((d: any) => d.id);
                 if (idsToMove.length === 0) {
-                    return { error: 'Nenhum deal válido encontrado para mover (cheque board/organização).' };
+                    return { error: 'Nenhum deal vÃ¡lido encontrado para mover (cheque board/organizaÃ§Ã£o).' };
                 }
 
                 // 2) Atualiza em lote
@@ -1159,14 +1161,14 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
 
                 if (updError) return { error: formatSupabaseFailure(updError) };
 
-                // 3) “Automação simples”: cria 1 tarefa por deal (com guardrail extra)
+                // 3) â€œAutomaÃ§Ã£o simplesâ€: cria 1 tarefa por deal (com guardrail extra)
                 let followUpCreated = 0;
                 if (createFollowUpTask) {
                     const maxTasks = Math.min(idsToMove.length, 20);
                     const due = new Date();
                     due.setDate(due.getDate() + (followUpDueInDays || 2));
 
-                    const title = (followUpTitle || 'Follow-up após mudança de estágio').trim();
+                    const title = (followUpTitle || 'Follow-up apÃ³s mudanÃ§a de estÃ¡gio').trim();
                     const inserts = idsToMove.slice(0, maxTasks).map((id) => ({
                         organization_id: organizationId,
                         title,
@@ -1192,16 +1194,16 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     deals: (deals || []).map((d: any) => ({ id: d.id, title: d.title })),
                     message:
                         `Movi ${idsToMove.length} deal(s) com sucesso.` +
-                        (missingIds.length ? ` (${missingIds.length} ignorado(s) por não pertencerem ao board/organização.)` : '') +
+                        (missingIds.length ? ` (${missingIds.length} ignorado(s) por nÃ£o pertencerem ao board/organizaÃ§Ã£o.)` : '') +
                         (followUpCreated ? ` Criei ${followUpCreated} tarefa(s) de follow-up.` : ''),
                 };
             },
         }),
 
         // =================== ATIVIDADES (P0) ===================
-        listActivities: tool({
-            description: 'Lista atividades (tarefas/ligações/reuniões) filtrando por deal/contato/board e status.',
-            inputSchema: z.object({
+        listActivities: crmTool({
+            description: 'Lista atividades (tarefas/ligaÃ§Ãµes/reuniÃµes) filtrando por deal/contato/board e status.',
+            parameters: z.object({
                 boardId: z.string().optional(),
                 dealId: z.string().optional(),
                 contactId: z.string().optional(),
@@ -1231,7 +1233,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 if (completed !== undefined) q = q.eq('completed', completed);
                 if (fromDate) q = q.gte('date', fromDate);
                 if (toDate) q = q.lte('date', toDate);
-                // PostgREST: filtro em tabela relacionada funciona melhor com join explícito.
+                // PostgREST: filtro em tabela relacionada funciona melhor com join explÃ­cito.
                 if (targetBoardId) {
                     q = supabase
                         .from('activities')
@@ -1268,9 +1270,9 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             },
         }),
 
-        completeActivity: tool({
-            description: 'Marca uma atividade como concluída. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
-            inputSchema: z.object({
+        completeActivity: crmTool({
+            description: 'Marca uma atividade como concluÃ­da. Requer aprovaÃ§Ã£o no card (Aprovar/Negar) â€” nÃ£o peÃ§a confirmaÃ§Ã£o em texto.',
+            parameters: z.object({
                 activityId: z.string(),
             }),
             needsApproval: !bypassApproval,
@@ -1284,14 +1286,14 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .maybeSingle();
 
                 if (error) return { error: formatSupabaseFailure(error) };
-                if (!data) return { error: 'Atividade não encontrada nesta organização.' };
-                return { success: true, message: `Atividade "${data.title}" marcada como concluída.` };
+                if (!data) return { error: 'Atividade nÃ£o encontrada nesta organizaÃ§Ã£o.' };
+                return { success: true, message: `Atividade "${data.title}" marcada como concluÃ­da.` };
             },
         }),
 
-        rescheduleActivity: tool({
-            description: 'Reagenda uma atividade (altera a data). Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
-            inputSchema: z.object({
+        rescheduleActivity: crmTool({
+            description: 'Reagenda uma atividade (altera a data). Requer aprovaÃ§Ã£o no card (Aprovar/Negar) â€” nÃ£o peÃ§a confirmaÃ§Ã£o em texto.',
+            parameters: z.object({
                 activityId: z.string(),
                 newDate: z.string().describe('Nova data/hora (ISO)'),
             }),
@@ -1306,20 +1308,20 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .maybeSingle();
 
                 if (error) return { error: formatSupabaseFailure(error) };
-                if (!data) return { error: 'Atividade não encontrada nesta organização.' };
+                if (!data) return { error: 'Atividade nÃ£o encontrada nesta organizaÃ§Ã£o.' };
                 return { success: true, message: `Atividade "${data.title}" reagendada.`, date: data.date };
             },
         }),
 
-        logActivity: tool({
-            description: 'Registra uma interação (ligação/email/reunião) e já marca como concluída. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
-            inputSchema: z.object({
+        logActivity: crmTool({
+            description: 'Registra uma interaÃ§Ã£o (ligaÃ§Ã£o/email/reuniÃ£o) e jÃ¡ marca como concluÃ­da. Requer aprovaÃ§Ã£o no card (Aprovar/Negar) â€” nÃ£o peÃ§a confirmaÃ§Ã£o em texto.',
+            parameters: z.object({
                 title: z.string().min(1),
                 description: z.string().optional(),
                 dealId: z.string().optional(),
                 contactId: z.string().optional(),
                 type: z.enum(['CALL', 'MEETING', 'EMAIL', 'TASK']).optional().default('CALL'),
-                date: z.string().optional().describe('ISO (padrão: agora)'),
+                date: z.string().optional().describe('ISO (padrÃ£o: agora)'),
             }),
             needsApproval: !bypassApproval,
             execute: async ({ title, description, dealId, contactId, type, date }) => {
@@ -1347,11 +1349,11 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
         }),
 
         // =================== DEAL NOTES (P0) ===================
-        addDealNote: tool({
-            description: 'Adiciona uma nota a um deal. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
-            inputSchema: z.object({
-                dealId: z.string().optional().describe('ID do deal (usa contexto se não fornecido)'),
-                content: z.string().min(1).describe('Conteúdo da nota'),
+        addDealNote: crmTool({
+            description: 'Adiciona uma nota a um deal. Requer aprovaÃ§Ã£o no card (Aprovar/Negar) â€” nÃ£o peÃ§a confirmaÃ§Ã£o em texto.',
+            parameters: z.object({
+                dealId: z.string().optional().describe('ID do deal (usa contexto se nÃ£o fornecido)'),
+                content: z.string().min(1).describe('ConteÃºdo da nota'),
             }),
             needsApproval: !bypassApproval,
             execute: async ({ dealId, content }) => {
@@ -1372,10 +1374,10 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             },
         }),
 
-        listDealNotes: tool({
-            description: 'Lista as últimas notas de um deal.',
-            inputSchema: z.object({
-                dealId: z.string().optional().describe('ID do deal (usa contexto se não fornecido)'),
+        listDealNotes: crmTool({
+            description: 'Lista as Ãºltimas notas de um deal.',
+            parameters: z.object({
+                dealId: z.string().optional().describe('ID do deal (usa contexto se nÃ£o fornecido)'),
                 limit: z.number().int().positive().optional().default(5),
             }),
             execute: async ({ dealId, limit }) => {
@@ -1402,9 +1404,9 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
         }),
 
         // =================== CONTATOS (P1) ===================
-        createContact: tool({
-            description: 'Cria um novo contato. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
-            inputSchema: z.object({
+        createContact: crmTool({
+            description: 'Cria um novo contato. Requer aprovaÃ§Ã£o no card (Aprovar/Negar) â€” nÃ£o peÃ§a confirmaÃ§Ã£o em texto.',
+            parameters: z.object({
                 name: z.string().min(1),
                 email: z.string().email().optional(),
                 phone: z.string().optional(),
@@ -1440,9 +1442,9 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             },
         }),
 
-        updateContact: tool({
-            description: 'Atualiza campos de um contato. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
-            inputSchema: z.object({
+        updateContact: crmTool({
+            description: 'Atualiza campos de um contato. Requer aprovaÃ§Ã£o no card (Aprovar/Negar) â€” nÃ£o peÃ§a confirmaÃ§Ã£o em texto.',
+            parameters: z.object({
                 contactId: z.string(),
                 name: z.string().optional(),
                 email: z.string().email().optional(),
@@ -1475,14 +1477,14 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .select('id, name, email, phone, company_name')
                     .maybeSingle();
                 if (error) return { error: formatSupabaseFailure(error) };
-                if (!data) return { error: 'Contato não encontrado nesta organização.' };
+                if (!data) return { error: 'Contato nÃ£o encontrado nesta organizaÃ§Ã£o.' };
                 return { success: true, contact: data, message: `Contato "${data.name}" atualizado.` };
             },
         }),
 
-        getContactDetails: tool({
+        getContactDetails: crmTool({
             description: 'Mostra detalhes de um contato.',
-            inputSchema: z.object({
+            parameters: z.object({
                 contactId: z.string(),
             }),
             execute: async ({ contactId }) => {
@@ -1493,15 +1495,15 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .eq('id', contactId)
                     .maybeSingle();
                 if (error) return { error: formatSupabaseFailure(error) };
-                if (!data) return { error: 'Contato não encontrado nesta organização.' };
+                if (!data) return { error: 'Contato nÃ£o encontrado nesta organizaÃ§Ã£o.' };
                 return data;
             },
         }),
 
-        linkDealToContact: tool({
-            description: 'Associa um deal a um contato (define deal.contact_id). Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
-            inputSchema: z.object({
-                dealId: z.string().optional().describe('ID do deal (usa contexto se não fornecido)'),
+        linkDealToContact: crmTool({
+            description: 'Associa um deal a um contato (define deal.contact_id). Requer aprovaÃ§Ã£o no card (Aprovar/Negar) â€” nÃ£o peÃ§a confirmaÃ§Ã£o em texto.',
+            parameters: z.object({
+                dealId: z.string().optional().describe('ID do deal (usa contexto se nÃ£o fornecido)'),
                 contactId: z.string().describe('ID do contato'),
             }),
             needsApproval: !bypassApproval,
@@ -1519,7 +1521,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .eq('id', contactId)
                     .maybeSingle();
                 if (contactError) return { error: formatSupabaseFailure(contactError) };
-                if (!contact) return { error: 'Contato não encontrado nesta organização.' };
+                if (!contact) return { error: 'Contato nÃ£o encontrado nesta organizaÃ§Ã£o.' };
 
                 const { error } = await supabase
                     .from('deals')
@@ -1532,10 +1534,10 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             },
         }),
 
-        // =================== ESTÁGIOS (P2) ===================
-        listStages: tool({
-            description: 'Lista estágios de um board (colunas).',
-            inputSchema: z.object({
+        // =================== ESTÃGIOS (P2) ===================
+        listStages: crmTool({
+            description: 'Lista estÃ¡gios de um board (colunas).',
+            parameters: z.object({
                 boardId: z.string().optional(),
             }),
             execute: async ({ boardId }) => {
@@ -1556,9 +1558,9 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             },
         }),
 
-        updateStage: tool({
-            description: 'Atualiza um estágio (nome/label/cor/ordem). Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
-            inputSchema: z.object({
+        updateStage: crmTool({
+            description: 'Atualiza um estÃ¡gio (nome/label/cor/ordem). Requer aprovaÃ§Ã£o no card (Aprovar/Negar) â€” nÃ£o peÃ§a confirmaÃ§Ã£o em texto.',
+            parameters: z.object({
                 stageId: z.string(),
                 name: z.string().optional(),
                 label: z.string().optional(),
@@ -1584,14 +1586,14 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .maybeSingle();
 
                 if (error) return { error: formatSupabaseFailure(error) };
-                if (!data) return { error: 'Estágio não encontrado nesta organização.' };
-                return { success: true, stage: data, message: `Estágio atualizado: ${data.name}` };
+                if (!data) return { error: 'EstÃ¡gio nÃ£o encontrado nesta organizaÃ§Ã£o.' };
+                return { success: true, stage: data, message: `EstÃ¡gio atualizado: ${data.name}` };
             },
         }),
 
-        reorderStages: tool({
-            description: 'Reordena os estágios de um board. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
-            inputSchema: z.object({
+        reorderStages: crmTool({
+            description: 'Reordena os estÃ¡gios de um board. Requer aprovaÃ§Ã£o no card (Aprovar/Negar) â€” nÃ£o peÃ§a confirmaÃ§Ã£o em texto.',
+            parameters: z.object({
                 boardId: z.string().optional(),
                 orderedStageIds: z.array(z.string()).min(2),
             }),
@@ -1613,9 +1615,9 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 if (stError) return { error: formatSupabaseFailure(stError) };
                 const found = new Set((stages || []).map((s: any) => s.id));
                 const missing = orderedStageIds.filter((id) => !found.has(id));
-                if (missing.length) return { error: 'Alguns estágios não pertencem a este board/organização.' };
+                if (missing.length) return { error: 'Alguns estÃ¡gios nÃ£o pertencem a este board/organizaÃ§Ã£o.' };
 
-                // atualiza em série (n pequeno). Se crescer, migrar para RPC.
+                // atualiza em sÃ©rie (n pequeno). Se crescer, migrar para RPC.
                 for (let i = 0; i < orderedStageIds.length; i++) {
                     const id = orderedStageIds[i];
                     const { error } = await supabase
@@ -1627,13 +1629,13 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     if (error) return { error: formatSupabaseFailure(error) };
                 }
 
-                return { success: true, message: `Reordenei ${orderedStageIds.length} estágio(s).` };
+                return { success: true, message: `Reordenei ${orderedStageIds.length} estÃ¡gio(s).` };
             },
         }),
     } as Record<string, any>;
 
-    // Debug/diagnóstico (scripts): registra chamadas de tools, independentemente do formato do stream.
-    // IMPORTANTE: desabilitado por padrão.
+    // Debug/diagnÃ³stico (scripts): registra chamadas de tools, independentemente do formato do stream.
+    // IMPORTANTE: desabilitado por padrÃ£o.
     if (String(process.env.AI_TOOL_CALLS_DEBUG || '').toLowerCase() === 'true') {
         const g = globalThis as any;
         if (!Array.isArray(g.__AI_TOOL_CALLS__)) g.__AI_TOOL_CALLS__ = [];

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+﻿import React, { useRef, useState, useEffect } from 'react';
 import { Bell, AlertTriangle, CheckCircle2, Clock } from 'lucide-react';
 import { useSystemNotifications, SystemNotification } from '@/hooks/useSystemNotifications';
 import Link from 'next/link';
@@ -8,9 +8,9 @@ const getTimeAgo = (date: Date) => {
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
     if (diffInSeconds < 60) return 'agora mesmo';
-    if (diffInSeconds < 3600) return `há ${Math.floor(diffInSeconds / 60)} min`;
-    if (diffInSeconds < 86400) return `há ${Math.floor(diffInSeconds / 3600)} h`;
-    return `há ${Math.floor(diffInSeconds / 86400)} dias`;
+    if (diffInSeconds < 3600) return `hÃ¡ ${Math.floor(diffInSeconds / 60)} min`;
+    if (diffInSeconds < 86400) return `hÃ¡ ${Math.floor(diffInSeconds / 3600)} h`;
+    return `hÃ¡ ${Math.floor(diffInSeconds / 86400)} dias`;
 };
 
 /**
@@ -72,7 +72,7 @@ export const NotificationPopover = () => {
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
                 aria-expanded={isOpen}
-                aria-label={`Notificações: ${count} novas`}
+                aria-label={`NotificaÃ§Ãµes: ${count} novas`}
                 className="p-2 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 rounded-full relative transition-colors focus-visible-ring"
             >
                 <Bell size={20} aria-hidden="true" />
@@ -89,10 +89,10 @@ export const NotificationPopover = () => {
                 <div
                     className="absolute right-0 mt-2 w-80 sm:w-96 bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200"
                     role="dialog"
-                    aria-label="Central de Notificações"
+                    aria-label="Central de NotificaÃ§Ãµes"
                 >
                     <div className="p-4 border-b border-slate-100 dark:border-white/5 flex items-center justify-between bg-slate-50/50 dark:bg-white/5">
-                        <h3 className="font-semibold text-slate-900 dark:text-white">Notificações</h3>
+                        <h3 className="font-semibold text-slate-900 dark:text-white">NotificaÃ§Ãµes</h3>
                         <div className="flex items-center gap-2">
                             {count > 0 && (
                                 <button
@@ -117,7 +117,7 @@ export const NotificationPopover = () => {
                                     <CheckCircle2 className="w-6 h-6 text-green-500" />
                                 </div>
                                 <p className="font-medium text-slate-900 dark:text-white">Tudo limpo!</p>
-                                <p className="text-sm">Você não tem notificações.</p>
+                                <p className="text-sm">VocÃª nÃ£o tem notificaÃ§Ãµes.</p>
                             </div>
                         ) : (
                             <ul className="divide-y divide-slate-100 dark:divide-white/5">
