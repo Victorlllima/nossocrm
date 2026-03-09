@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
   try {
     const supabase = createStaticAdminClient();
 
-    // Buscar a primeira organizaÃ§Ã£o
+    // Buscar a primeira organização
     const { data: profiles, error: profileError } = await supabase
       .from('profiles')
       .select('organization_id')
@@ -21,14 +21,14 @@ export async function POST(request: NextRequest) {
 
     if (profileError || !profiles) {
       return NextResponse.json(
-        { error: 'OrganizaÃ§Ã£o nÃ£o encontrada' },
+        { error: 'Organização não encontrada' },
         { status: 404 }
       );
     }
 
     const organizationId = profiles.organization_id;
 
-    // Buscar board padrÃ£o
+    // Buscar board padrão
     const { data: defaultBoard, error: boardError } = await supabase
       .from('boards')
       .select('id, name')
@@ -39,12 +39,12 @@ export async function POST(request: NextRequest) {
     if (boardError || !defaultBoard) {
       console.error('[Google Sheets Sync] Board error:', boardError);
       return NextResponse.json(
-        { error: 'Board padrÃ£o nÃ£o encontrado' },
+        { error: 'Board padrão não encontrado' },
         { status: 404 }
       );
     }
 
-    // Buscar estÃ¡gios do board
+    // Buscar estágios do board
     const { data: stages, error: stagesError } = await supabase
       .from('board_stages')
       .select('id, name, order')
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
 
     if (stagesError || !stages || stages.length === 0) {
       return NextResponse.json(
-        { error: 'Board padrÃ£o nÃ£o tem estÃ¡gios configurados.' },
+        { error: 'Board padrão não tem estágios configurados.' },
         { status: 404 }
       );
     }

@@ -3,9 +3,9 @@
 let cached: string | null = null;
 
 /**
- * FunÃ§Ã£o pÃºblica `getRunId` do projeto.
+ * Função pública `getRunId` do projeto.
  *
- * @param {string} prefix - ParÃ¢metro `prefix`.
+ * @param {string} prefix - Parâmetro `prefix`.
  * @returns {string} Retorna um valor do tipo `string`.
  */
 export function getRunId(prefix = 'vitest'): string {

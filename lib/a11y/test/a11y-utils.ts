@@ -42,53 +42,53 @@ export function expectAriaLabel(element: HTMLElement, label: string): void {
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `expectAriaLabelledBy` do projeto.
+ * Função pública `expectAriaLabelledBy` do projeto.
  *
- * @param {HTMLElement} element - ParÃ¢metro `element`.
+ * @param {HTMLElement} element - Parâmetro `element`.
  * @param {string} id - Identificador do recurso.
- * @returns {void} NÃ£o retorna valor.
+ * @returns {void} Não retorna valor.
  */
 export function expectAriaLabelledBy(element: HTMLElement, id: string): void {
   expect(element).toHaveAttribute('aria-labelledby', id);
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `expectAriaDescribedBy` do projeto.
+ * Função pública `expectAriaDescribedBy` do projeto.
  *
- * @param {HTMLElement} element - ParÃ¢metro `element`.
+ * @param {HTMLElement} element - Parâmetro `element`.
  * @param {string} id - Identificador do recurso.
- * @returns {void} NÃ£o retorna valor.
+ * @returns {void} Não retorna valor.
  */
 export function expectAriaDescribedBy(element: HTMLElement, id: string): void {
   expect(element).toHaveAttribute('aria-describedby', id);
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `expectRole` do projeto.
+ * Função pública `expectRole` do projeto.
  *
- * @param {HTMLElement} element - ParÃ¢metro `element`.
- * @param {string} role - ParÃ¢metro `role`.
- * @returns {void} NÃ£o retorna valor.
+ * @param {HTMLElement} element - Parâmetro `element`.
+ * @param {string} role - Parâmetro `role`.
+ * @returns {void} Não retorna valor.
  */
 export function expectRole(element: HTMLElement, role: string): void {
   expect(element).toHaveAttribute('role', role);
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `expectFocusable` do projeto.
+ * Função pública `expectFocusable` do projeto.
  *
- * @param {HTMLElement} element - ParÃ¢metro `element`.
- * @returns {void} NÃ£o retorna valor.
+ * @param {HTMLElement} element - Parâmetro `element`.
+ * @returns {void} Não retorna valor.
  */
 export function expectFocusable(element: HTMLElement): void {
   expect(element.tabIndex).toBeGreaterThanOrEqual(0);
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `expectNotFocusable` do projeto.
+ * Função pública `expectNotFocusable` do projeto.
  *
- * @param {HTMLElement} element - ParÃ¢metro `element`.
- * @returns {void} NÃ£o retorna valor.
+ * @param {HTMLElement} element - Parâmetro `element`.
+ * @returns {void} Não retorna valor.
  */
 export function expectNotFocusable(element: HTMLElement): void {
   expect(element.tabIndex).toBe(-1);
@@ -119,8 +119,8 @@ export function simulateTab(shift = false): void {
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `simulateEscape` do projeto.
- * @returns {void} NÃ£o retorna valor.
+ * Função pública `simulateEscape` do projeto.
+ * @returns {void} Não retorna valor.
  */
 export function simulateEscape(): void {
   document.activeElement?.dispatchEvent(
@@ -132,8 +132,8 @@ export function simulateEscape(): void {
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `simulateEnter` do projeto.
- * @returns {void} NÃ£o retorna valor.
+ * Função pública `simulateEnter` do projeto.
+ * @returns {void} Não retorna valor.
  */
 export function simulateEnter(): void {
   document.activeElement?.dispatchEvent(
@@ -145,8 +145,8 @@ export function simulateEnter(): void {
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `simulateSpace` do projeto.
- * @returns {void} NÃ£o retorna valor.
+ * Função pública `simulateSpace` do projeto.
+ * @returns {void} Não retorna valor.
  */
 export function simulateSpace(): void {
   document.activeElement?.dispatchEvent(

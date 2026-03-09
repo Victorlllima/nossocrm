@@ -26,9 +26,9 @@
 
 ---
 
-## 🚀 OPÇÕES PARA PRÓXIMA AÇÃO
+## 🚀 OPÇÕES PARA PRÓXIMA AÇÍO
 
-### OPÇÃO A: Resolver Tools Agora (COMPLETO) 🎯
+### OPÇÍO A: Resolver Tools Agora (COMPLETO) 🎯
 **Objetivo:** Tentar fazer route-anthropic.ts funcionar
 
 **O que fazer:**
@@ -55,7 +55,7 @@ curl -X POST http://localhost:3001/api/whatsapp/webhook \
 
 ---
 
-### OPÇÃO B: Prosseguir para FASE 2 Agora ⚡
+### OPÇÍO B: Prosseguir para FASE 2 Agora ⚡
 **Objetivo:** Validar qualidade do sistema sem tools
 
 **O que fazer:**
@@ -80,7 +80,7 @@ curl -X POST http://localhost:3001/api/whatsapp/webhook \
 
 ---
 
-### OPÇÃO C: Integração Evolution (FUTURO) 🔧
+### OPÇÍO C: Integração Evolution (FUTURO) 🔧
 **Objetivo:** Permitir envio real de mensagens para WhatsApp
 
 **O que fazer:**
@@ -95,7 +95,7 @@ curl -X POST http://localhost:3001/api/whatsapp/webhook \
 
 ---
 
-### OPÇÃO D: Buscar Nova Key OpenAI (BACKUP) 🔑
+### OPÇÍO D: Buscar Nova Key OpenAI (BACKUP) 🔑
 **Objetivo:** Ter alternativa de volta para OpenAI se necessário
 
 **O que fazer:**
@@ -111,7 +111,7 @@ curl -X POST http://localhost:3001/api/whatsapp/webhook \
 
 ---
 
-## 🎯 RECOMENDAÇÃO: PRIORIDADE SUGERIDA
+## 🎯 RECOMENDAÇÍO: PRIORIDADE SUGERIDA
 
 ### Red, eu sugiro este plano:
 
@@ -122,7 +122,7 @@ HOJE (10/02)
 ├─ Se resolver → Validar funciona
 └─ Se não resolver → Deixar para depois
 
-AMANHÃ (11/02)
+AMANHà(11/02)
 ├─ [1h] FASE 2: Testar extensivamente sem tools
 ├─ [1h] Documentar limitações
 ├─ [1h] Medir performance
@@ -143,22 +143,22 @@ PRÓXIMA SEMANA
 ## 🔍 ANÁLISE TÉCNICA: QUAL CAMINHO TOMAR?
 
 ### Se PRIORIDADE é Funcionalidade Completa:
-→ Invest 2-3h em resolver tools (OPÇÃO A)
+→ Invest 2-3h em resolver tools (OPÇÍO A)
 → Depois prosseguir com teste/integração
 
 ### Se PRIORIDADE é Validar Sistema Rápido:
-→ Fazer FASE 2 analysis (OPÇÃO B)
+→ Fazer FASE 2 analysis (OPÇÍO B)
 → Tools podem esperar
 
 ### Se PRIORIDADE é Ter Backup OpenAI:
-→ Rápida busca por nova key (OPÇÃO D)
+→ Rápida busca por nova key (OPÇÍO D)
 → Depois resolver tools
 
 ---
 
-## 📋 CHECKLIST: PARA CADA OPÇÃO
+## 📋 CHECKLIST: PARA CADA OPÇÍO
 
-### Se Escolher OPÇÃO A (Tools):
+### Se Escolher OPÇÍO A (Tools):
 - [ ] Pesquisar schema JSON Anthropic esperado
 - [ ] Criar ou encontrar converter Zod → JSON Schema
 - [ ] Atualizar route-anthropic.ts
@@ -166,7 +166,7 @@ PRÓXIMA SEMANA
 - [ ] Se funcionar: Mover para FASE 2
 - [ ] Se não funcionar: Manter notools, deixar para depois
 
-### Se Escolher OPÇÃO B (FASE 2):
+### Se Escolher OPÇÍO B (FASE 2):
 - [ ] Criar suite de testes variados
 - [ ] Testar greeting, busca, escalação, anti-spam
 - [ ] Medir latência (console.time)
@@ -174,14 +174,14 @@ PRÓXIMA SEMANA
 - [ ] Documentar findings
 - [ ] Identificar gaps
 
-### Se Escolher OPÇÃO C (Evolution):
+### Se Escolher OPÇÍO C (Evolution):
 - [ ] Testar Evolution API connectivity
 - [ ] Obter credentials evol...
 - [ ] Implementar sendMessage
 - [ ] Testar com leads reais
 - [ ] Setup monitoring
 
-### Se Escolher OPÇÃO D (OpenAI Backup):
+### Se Escolher OPÇÍO D (OpenAI Backup):
 - [ ] Criar nova key em platform.openai.com
 - [ ] Testar com curl primeiro
 - [ ] Atualizar .env.local OPENAI_API_KEY
@@ -190,9 +190,9 @@ PRÓXIMA SEMANA
 
 ---
 
-## 💡 DICAS PARA CADA OPÇÃO
+## 💡 DICAS PARA CADA OPÇÍO
 
-### Para OPÇÃO A (Tools)
+### Para OPÇÍO A (Tools)
 ```
 Ajuda útil:
 → Anthropic schema requer "type": "object" explícito
@@ -205,7 +205,7 @@ Fallback:
 → Sistema funciona bem sem (teste prova isso)
 ```
 
-### Para OPÇÃO B (FASE 2)
+### Para OPÇÍO B (FASE 2)
 ```
 O que testar:
 → Mensagens curtas ("oi")
@@ -228,7 +228,7 @@ Resultado esperado:
 → Listar problemas encontrados
 ```
 
-### Para OPÇÃO C (Evolution)
+### Para OPÇÍO C (Evolution)
 ```
 Preparação:
 → Ter credenciais Evolution disponíveis
@@ -246,7 +246,7 @@ Testing:
 
 ## 🎬 COMO COMEÇAR
 
-### Script de Quick Start para OPÇÃO A:
+### Script de Quick Start para OPÇÍO A:
 
 ```bash
 # Verificar schema esperado
@@ -259,7 +259,7 @@ curl -H "x-api-key: $ANTHROPIC_API_KEY" \
 # Ver qual erro retorna (ajuda a entender schema)
 ```
 
-### Script de Quick Start para OPÇÃO B:
+### Script de Quick Start para OPÇÍO B:
 
 ```bash
 # Criar arquivo com 10 testes diferentes
@@ -307,9 +307,9 @@ Você já tem:
 
 Agora é questão de:
 ```
-1. Completar tools (OPÇÃO A) OU
-2. Validar sistema (OPÇÃO B) OU
-3. Ir para Evolution (OPÇÃO C)
+1. Completar tools (OPÇÍO A) OU
+2. Validar sistema (OPÇÍO B) OU
+3. Ir para Evolution (OPÇÍO C)
 ```
 
 Todos os caminhos levam ao mesmo lugar: **Sistema completo e funcional** 🚀

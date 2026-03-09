@@ -225,7 +225,7 @@ http://localhost:3000/agents
 
 ---
 
-## ✅ CHECKLIST DE PRODUÇÃO
+## ✅ CHECKLIST DE PRODUÇÍO
 
 - [x] Database schema criado
 - [x] Core modules implementados
@@ -330,7 +330,7 @@ http://localhost:3000/agents
 │  Security     ✅ 100% (tenant iso)    │
 │  Docs         ✅ 100% (completa)      │
 │                                         │
-│  PRONTO PARA PRODUÇÃO: SIM ✅          │
+│  PRONTO PARA PRODUÇÍO: SIM ✅          │
 │                                         │
 └─────────────────────────────────────────┘
 ```

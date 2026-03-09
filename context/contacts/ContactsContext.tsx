@@ -49,7 +49,7 @@ const ContactsContext = createContext<ContactsContextType | undefined>(undefined
 /**
  * Componente React `ContactsProvider`.
  *
- * @param {{ children: ReactNode; }} { children } - ParÃ¢metro `{ children }`.
+ * @param {{ children: ReactNode; }} { children } - Parâmetro `{ children }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const ContactsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -57,7 +57,7 @@ export const ContactsProvider: React.FC<{ children: ReactNode }> = ({ children }
   const queryClient = useQueryClient();
 
   // ============================================
-  // TanStack Query como fonte Ãºnica de verdade
+  // TanStack Query como fonte única de verdade
   // ============================================
   const {
     data: contacts = [],
@@ -90,7 +90,7 @@ export const ContactsProvider: React.FC<{ children: ReactNode }> = ({ children }
   const addContact = useCallback(
     async (contact: Omit<Contact, 'id' | 'createdAt'>): Promise<Contact | null> => {
       if (!profile) {
-        console.error('UsuÃ¡rio nÃ£o autenticado');
+        console.error('Usuário não autenticado');
         return null;
       }
 
@@ -137,7 +137,7 @@ export const ContactsProvider: React.FC<{ children: ReactNode }> = ({ children }
   const addCompany = useCallback(
     async (company: Omit<Company, 'id' | 'createdAt'>): Promise<Company | null> => {
       if (!profile) {
-        console.error('UsuÃ¡rio nÃ£o autenticado');
+        console.error('Usuário não autenticado');
         return null;
       }
 
@@ -251,7 +251,7 @@ export const ContactsProvider: React.FC<{ children: ReactNode }> = ({ children }
 };
 
 /**
- * Hook React `useContacts` que encapsula uma lÃ³gica reutilizÃ¡vel.
+ * Hook React `useContacts` que encapsula uma lógica reutilizável.
  * @returns {ContactsContextType} Retorna um valor do tipo `ContactsContextType`.
  */
 export const useContacts = () => {

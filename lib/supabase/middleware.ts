@@ -2,18 +2,18 @@
 import { NextResponse, type NextRequest } from 'next/server'
 
 /**
- * FunÃ§Ã£o pÃºblica `updateSession` do projeto.
+ * Função pública `updateSession` do projeto.
  *
- * @param {NextRequest} request - Objeto da requisiÃ§Ã£o.
+ * @param {NextRequest} request - Objeto da requisição.
  * @returns {Promise<NextResponse<unknown>>} Retorna um valor do tipo `Promise<NextResponse<unknown>>`.
  */
 export async function updateSession(request: NextRequest) {
-    // NOTE: Apesar do nome do arquivo, esta funÃ§Ã£o Ã© consumida pelo `proxy.ts` (Next 16+).
-    // O Next renomeou a convenÃ§Ã£o de `middleware.ts` -> `proxy.ts`.
+    // NOTE: Apesar do nome do arquivo, esta função é consumida pelo `proxy.ts` (Next 16+).
+    // O Next renomeou a convenção de `middleware.ts` -> `proxy.ts`.
     // Doc: https://nextjs.org/docs/app/api-reference/file-conventions/proxy
     //
-    // Importante: o Proxy NÃƒO deve interferir em `/api/*`.
-    // Route Handlers devem responder com 401/403 quando necessÃ¡rio.
+    // Importante: o Proxy NÍƒO deve interferir em `/api/*`.
+    // Route Handlers devem responder com 401/403 quando necessário.
     // Se redirecionarmos `/api/*` para `/login`, quebramos `fetch`/SDKs.
     if (request.nextUrl.pathname.startsWith('/api')) {
         return NextResponse.next({ request })
@@ -77,10 +77,10 @@ export async function updateSession(request: NextRequest) {
     } = await supabase.auth.getUser()
 
     // ---------------------------------------------------------------------
-    // Setup guard: se a instÃ¢ncia nÃ£o foi inicializada, forÃ§ar /setup
+    // Setup guard: se a instância não foi inicializada, forçar /setup
     // ---------------------------------------------------------------------
-    // ObservaÃ§Ã£o: is_instance_initialized() estÃ¡ com GRANT para anon/authenticated.
-    // Se der erro, falhamos "aberto" (nÃ£o bloqueia navegaÃ§Ã£o) para evitar lockout.
+    // Observação: is_instance_initialized() está com GRANT para anon/authenticated.
+    // Se der erro, falhamos "aberto" (não bloqueia navegação) para evitar lockout.
     const pathname = request.nextUrl.pathname
     const isSetupRoute = pathname === '/setup' || pathname.startsWith('/setup/')
     const isInstallRoute = pathname === '/install' || pathname.startsWith('/install/')

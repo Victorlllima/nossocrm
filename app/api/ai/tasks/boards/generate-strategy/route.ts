@@ -18,7 +18,7 @@ function json(body: unknown, status = 200): Response {
 /**
  * Handler HTTP `POST` deste endpoint (Next.js Route Handler).
  *
- * @param {Request} req - Objeto da requisiÃ§Ã£o.
+ * @param {Request} req - Objeto da requisição.
  * @returns {Promise<Response>} Retorna um valor do tipo `Promise<Response>`.
  */
 export async function POST(req: Request) {
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     const { model, supabase, organizationId } = await requireAITaskContext(req);
     const enabled = await isAIFeatureEnabled(supabase as any, organizationId, 'ai_board_generate_strategy');
     if (!enabled) {
-      return json({ error: { code: 'AI_FEATURE_DISABLED', message: 'FunÃ§Ã£o de IA desativada: Gerar estratÃ©gia do board.' } }, 403);
+      return json({ error: { code: 'AI_FEATURE_DISABLED', message: 'Função de IA desativada: Gerar estratégia do board.' } }, 403);
     }
 
     const body = await req.json().catch(() => null);
@@ -48,10 +48,10 @@ export async function POST(req: Request) {
   } catch (err: unknown) {
     if (err instanceof AITaskHttpError) return err.toResponse();
     if (err instanceof z.ZodError) {
-      return json({ error: { code: 'INVALID_INPUT', message: 'Payload invÃ¡lido.' } }, 400);
+      return json({ error: { code: 'INVALID_INPUT', message: 'Payload inválido.' } }, 400);
     }
 
     console.error('[api/ai/tasks/boards/generate-strategy] Error:', err);
-    return json({ error: { code: 'INTERNAL_ERROR', message: 'Erro ao gerar estratÃ©gia do board.' } }, 500);
+    return json({ error: { code: 'INTERNAL_ERROR', message: 'Erro ao gerar estratégia do board.' } }, 500);
   }
 }

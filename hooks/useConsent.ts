@@ -2,15 +2,15 @@
  * @fileoverview Hook de Gerenciamento de Consentimentos LGPD
  * 
  * Hook React que fornece interface completa para gerenciar consentimentos
- * de usuÃ¡rio conforme requisitos da LGPD (Lei Geral de ProteÃ§Ã£o de Dados).
+ * de usuário conforme requisitos da LGPD (Lei Geral de Proteção de Dados).
  * 
  * @module hooks/useConsent
  * 
  * Funcionalidades:
- * - VerificaÃ§Ã£o de status de consentimento
- * - GestÃ£o de consentimentos obrigatÃ³rios e opcionais
- * - Controle automÃ¡tico de modal de consentimento
- * - RevogaÃ§Ã£o de consentimentos
+ * - Verificação de status de consentimento
+ * - Gestão de consentimentos obrigatórios e opcionais
+ * - Controle automático de modal de consentimento
+ * - Revogação de consentimentos
  * - Cache inteligente com TanStack Query
  * 
  * @example
@@ -49,19 +49,19 @@ import {
 export interface UseConsentReturn {
   /** Mapa de status de consentimento por tipo */
   consents: Record<ConsentType, ConsentRecord> | null;
-  /** Se estÃ¡ carregando dados iniciais */
+  /** Se está carregando dados iniciais */
   isLoading: boolean;
-  /** Erro se houver falha na operaÃ§Ã£o */
+  /** Erro se houver falha na operação */
   error: Error | null;
-  /** Se usuÃ¡rio tem todos os consentimentos obrigatÃ³rios */
+  /** Se usuário tem todos os consentimentos obrigatórios */
   hasRequiredConsents: boolean;
   /** Lista de tipos de consentimento faltantes */
   missingConsents: ConsentType[];
-  /** Concede consentimento para um tipo especÃ­fico */
+  /** Concede consentimento para um tipo específico */
   giveConsent: (type: ConsentType) => Promise<boolean>;
-  /** Concede mÃºltiplos consentimentos de uma vez */
+  /** Concede múltiplos consentimentos de uma vez */
   giveConsents: (types: ConsentType[]) => Promise<boolean>;
-  /** Revoga um consentimento especÃ­fico */
+  /** Revoga um consentimento específico */
   revokeConsent: (type: ConsentType) => Promise<boolean>;
   /** Recarrega status de consentimento do servidor */
   refetch: () => void;
@@ -73,10 +73,10 @@ export interface UseConsentReturn {
  * Hook para gerenciamento de consentimentos LGPD
  * 
  * Fornece interface reativa para verificar, conceder e revogar
- * consentimentos do usuÃ¡rio. Gerencia automaticamente a exibiÃ§Ã£o
- * do modal de consentimento quando necessÃ¡rio.
+ * consentimentos do usuário. Gerencia automaticamente a exibição
+ * do modal de consentimento quando necessário.
  * 
- * @returns {UseConsentReturn} Estado e funÃ§Ãµes de controle de consentimento
+ * @returns {UseConsentReturn} Estado e funções de controle de consentimento
  * 
  * @example
  * ```tsx
@@ -90,7 +90,7 @@ export interface UseConsentReturn {
  *         onChange={(checked) => 
  *           checked ? giveConsent('marketing') : revokeConsent('marketing')
  *         }
- *         label="Aceitar comunicaÃ§Ãµes de marketing"
+ *         label="Aceitar comunicações de marketing"
  *       />
  *     </div>
  *   );

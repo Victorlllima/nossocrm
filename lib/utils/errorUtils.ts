@@ -1,7 +1,7 @@
 ﻿/**
- * FunÃ§Ã£o pÃºblica `getErrorMessage` do projeto.
+ * Função pública `getErrorMessage` do projeto.
  *
- * @param {unknown} error - ParÃ¢metro `error`.
+ * @param {unknown} error - Parâmetro `error`.
  * @returns {string} Retorna um valor do tipo `string`.
  */
 export const getErrorMessage = (error: unknown): string => {
@@ -16,31 +16,31 @@ export const getErrorMessage = (error: unknown): string => {
         message = String((error as { message: unknown }).message);
     }
 
-    // Mapas de traduÃ§Ã£o
+    // Mapas de tradução
     const translations: Record<string, string> = {
         'Invalid login credentials': 'Email ou senha incorretos.',
         'Email not confirmed': 'Por favor, confirme seu email antes de entrar.',
-        'User not found': 'UsuÃ¡rio nÃ£o encontrado.',
-        'Password is known to be weak and easy to guess, please choose a different one.': 'A senha Ã© muito fraca. Por favor, escolha uma senha mais forte (use letras maiÃºsculas, minÃºsculas e nÃºmeros).',
+        'User not found': 'Usuário não encontrado.',
+        'Password is known to be weak and easy to guess, please choose a different one.': 'A senha é muito fraca. Por favor, escolha uma senha mais forte (use letras maiúsculas, minúsculas e números).',
         'New password should be different from the old password.': 'A nova senha deve ser diferente da senha anterior.',
         'Password should be at least 6 characters': 'A senha deve ter pelo menos 6 caracteres.',
-        'Token has expired or is invalid': 'O link expirou ou Ã© invÃ¡lido.',
-        'Auth session missing!': 'SessÃ£o expirada. Por favor, faÃ§a login novamente.',
-        'User already registered': 'Este email jÃ¡ estÃ¡ cadastrado.',
+        'Token has expired or is invalid': 'O link expirou ou é inválido.',
+        'Auth session missing!': 'Sessão expirada. Por favor, faça login novamente.',
+        'User already registered': 'Este email já está cadastrado.',
         'Rate limit exceeded': 'Muitas tentativas. Por favor, aguarde um momento.',
     };
 
-    // VerificaÃ§Ã£o exata
+    // Verificação exata
     if (translations[message]) {
         return translations[message];
     }
 
-    // VerificaÃ§Ãµes parciais (para mensagens dinÃ¢micas ou variaÃ§Ãµes)
-    if (message.includes('weak password')) return 'Sua senha Ã© muito fraca.';
-    if (message.includes('already registered')) return 'Este email jÃ¡ estÃ¡ em uso.';
-    if (message.includes('invalid login')) return 'Credenciais invÃ¡lidas.';
+    // Verificações parciais (para mensagens dinâmicas ou variações)
+    if (message.includes('weak password')) return 'Sua senha é muito fraca.';
+    if (message.includes('already registered')) return 'Este email já está em uso.';
+    if (message.includes('invalid login')) return 'Credenciais inválidas.';
     if (message.includes('unexpected error')) return 'Ocorreu um erro inesperado. Tente novamente.';
 
-    // Retorno original se nÃ£o houver traduÃ§Ã£o (fallback)
+    // Retorno original se não houver tradução (fallback)
     return message;
 };

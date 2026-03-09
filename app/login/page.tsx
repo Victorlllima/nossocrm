@@ -27,7 +27,7 @@ export default function LoginPage() {
 
         try {
             if (!supabase) {
-                throw new Error('Supabase nÃ£o configurado. Configure as variÃ¡veis de ambiente.')
+                throw new Error('Supabase não configurado. Configure as variáveis de ambiente.')
             }
 
             const { error } = await supabase.auth.signInWithPassword({
@@ -153,7 +153,7 @@ export default function LoginPage() {
 
                     {/* Link para cadastro */}
                     <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
-                        NÃ£o tem uma conta?{' '}
+                        Não tem uma conta?{' '}
                         <Link
                             href="/signup"
                             className="font-medium text-primary-600 dark:text-primary-400 hover:text-primary-500 transition-colors"

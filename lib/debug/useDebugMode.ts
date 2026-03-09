@@ -16,7 +16,7 @@ function subscribe(callback: () => void) {
 }
 
 /**
- * Hook React `useDebugMode` que encapsula uma lÃ³gica reutilizÃ¡vel.
+ * Hook React `useDebugMode` que encapsula uma lógica reutilizável.
  * @returns {boolean} Retorna um valor do tipo `boolean`.
  */
 export function useDebugMode(): boolean {

@@ -1,12 +1,12 @@
 ﻿/**
- * @fileoverview ServiÃ§o Supabase para gerenciamento de atividades do CRM.
+ * @fileoverview Serviço Supabase para gerenciamento de atividades do CRM.
  * 
- * Este mÃ³dulo fornece operaÃ§Ãµes CRUD para atividades (tarefas, reuniÃµes, ligaÃ§Ãµes, etc.)
- * com validaÃ§Ã£o de seguranÃ§a defense-in-depth para isolamento multi-tenant.
+ * Este módulo fornece operações CRUD para atividades (tarefas, reuniões, ligações, etc.)
+ * com validação de segurança defense-in-depth para isolamento multi-tenant.
  * 
- * ## SeguranÃ§a Multi-Tenant
+ * ## Segurança Multi-Tenant
  * 
- * AlÃ©m das polÃ­ticas RLS, este serviÃ§o implementa verificaÃ§Ã£o adicional
+ * Além das políticas RLS, este serviço implementa verificação adicional
  * de organization_id antes de update/delete para prevenir ataques cross-tenant.
  * 
  * @module lib/supabase/activities
@@ -27,36 +27,36 @@ import { sortActivitiesSmart } from '@/lib/utils/activitySort';
 // ============================================
 
 /**
- * RepresentaÃ§Ã£o de atividade no banco de dados.
+ * Representação de atividade no banco de dados.
  * 
  * @interface DbActivity
  */
 export interface DbActivity {
-  /** ID Ãºnico da atividade (UUID). */
+  /** ID único da atividade (UUID). */
   id: string;
-  /** ID da organizaÃ§Ã£o/tenant. */
+  /** ID da organização/tenant. */
   organization_id: string;
-  /** TÃ­tulo da atividade. */
+  /** Título da atividade. */
   title: string;
-  /** DescriÃ§Ã£o detalhada. */
+  /** Descrição detalhada. */
   description: string | null;
   /** Tipo (CALL, MEETING, EMAIL, TASK). */
   type: string;
   /** Data/hora agendada. */
   date: string;
-  /** Se a atividade foi concluÃ­da. */
+  /** Se a atividade foi concluída. */
   completed: boolean;
   /** ID do deal associado. */
   deal_id: string | null;
   /** ID do contato associado. */
   contact_id: string | null;
-  /** ID da empresa CRM associada Ã  atividade (opcional). */
+  /** ID da empresa CRM associada Í  atividade (opcional). */
   client_company_id?: string | null;
   /** IDs dos contatos participantes (opcional). */
   participant_contact_ids?: string[] | null;
-  /** Data de criaÃ§Ã£o. */
+  /** Data de criação. */
   created_at: string;
-  /** ID do dono/responsÃ¡vel. */
+  /** ID do dono/responsável. */
   owner_id: string | null;
 }
 
@@ -66,10 +66,10 @@ interface DbActivityWithDeal extends DbActivity {
 }
 
 /**
- * Transforma atividade do formato DB para o formato da aplicaÃ§Ã£o.
+ * Transforma atividade do formato DB para o formato da aplicação.
  * 
  * @param db - Atividade no formato do banco.
- * @returns Atividade no formato da aplicaÃ§Ã£o.
+ * @returns Atividade no formato da aplicação.
  */
 const transformActivity = (db: DbActivityWithDeal): Activity => ({
   id: db.id,
@@ -84,13 +84,13 @@ const transformActivity = (db: DbActivityWithDeal): Activity => ({
   clientCompanyId: (db as any).client_company_id || undefined,
   participantContactIds: (db as any).participant_contact_ids || [],
   dealTitle: db.deals?.title || '',
-  user: { name: 'VocÃª', avatar: '' }, // Will be enriched later
+  user: { name: 'Você', avatar: '' }, // Will be enriched later
 });
 
 /**
- * Transforma atividade do formato da aplicaÃ§Ã£o para o formato DB.
+ * Transforma atividade do formato da aplicação para o formato DB.
  * 
- * @param activity - Atividade parcial no formato da aplicaÃ§Ã£o.
+ * @param activity - Atividade parcial no formato da aplicação.
  * @returns Atividade parcial no formato do banco.
  */
 const transformActivityToDb = (activity: Partial<Activity>): Partial<DbActivity> => {
@@ -118,7 +118,7 @@ export const activitiesService = {
   async getAll(): Promise<{ data: Activity[] | null; error: Error | null }> {
     try {
       const sb = supabase;
-      if (!sb) return { data: null, error: new Error('Supabase nÃ£o configurado') };
+      if (!sb) return { data: null, error: new Error('Supabase não configurado') };
 
       const { data, error } = await sb
         .from('activities')
@@ -126,11 +126,11 @@ export const activitiesService = {
           *,
           deals:deal_id (title)
         `)
-        .order('date', { ascending: false }); // OrdenaÃ§Ã£o bÃ¡sica do banco
+        .order('date', { ascending: false }); // Ordenação básica do banco
 
       if (error) return { data: null, error };
       
-      // Transforma e aplica ordenaÃ§Ã£o inteligente
+      // Transforma e aplica ordenação inteligente
       const activities = (data || []).map(a => transformActivity(a as DbActivityWithDeal));
       return { data: sortActivitiesSmart(activities), error: null };
     } catch (e) {
@@ -147,7 +147,7 @@ export const activitiesService = {
   async create(activity: Omit<Activity, 'id' | 'createdAt'>): Promise<{ data: Activity | null; error: Error | null }> {
     try {
       const sb = supabase;
-      if (!sb) return { data: null, error: new Error('Supabase nÃ£o configurado') };
+      if (!sb) return { data: null, error: new Error('Supabase não configurado') };
 
       const insertData: any = {
         title: activity.title,
@@ -164,7 +164,7 @@ export const activitiesService = {
       const { data, error } = await sb.from('activities').insert(insertData).select().single();
 
       if (error) {
-        // Se a migration ainda nÃ£o foi aplicada, faz retry sem os novos campos.
+        // Se a migration ainda não foi aplicada, faz retry sem os novos campos.
         const msg = (error as any)?.message || '';
         const code = (error as any)?.code || '';
         if (code === '42703' && msg.includes('client_company_id')) {
@@ -197,13 +197,13 @@ export const activitiesService = {
   async update(id: string, updates: Partial<Activity>): Promise<{ error: Error | null }> {
     try {
       const sb = supabase;
-      if (!sb) return { error: new Error('Supabase nÃ£o configurado') };
+      if (!sb) return { error: new Error('Supabase não configurado') };
 
       const dbUpdates = transformActivityToDb(updates);
 
       const { error } = await sb.from('activities').update(dbUpdates as any).eq('id', id);
 
-      // Retry se colunas novas nÃ£o existem ainda
+      // Retry se colunas novas não existem ainda
       if (error) {
         const msg = (error as any)?.message || '';
         const code = (error as any)?.code || '';
@@ -234,7 +234,7 @@ export const activitiesService = {
   async delete(id: string): Promise<{ error: Error | null }> {
     try {
       const sb = supabase;
-      if (!sb) return { error: new Error('Supabase nÃ£o configurado') };
+      if (!sb) return { error: new Error('Supabase não configurado') };
 
       const { error } = await sb
         .from('activities')
@@ -248,15 +248,15 @@ export const activitiesService = {
   },
 
   /**
-   * Alterna o status de conclusÃ£o de uma atividade.
+   * Alterna o status de conclusão de uma atividade.
    * 
    * @param id - ID da atividade.
-   * @returns Promise com novo status de conclusÃ£o ou erro.
+   * @returns Promise com novo status de conclusão ou erro.
    */
   async toggleCompletion(id: string): Promise<{ data: boolean | null; error: Error | null }> {
     try {
       const sb = supabase;
-      if (!sb) return { data: null, error: new Error('Supabase nÃ£o configurado') };
+      if (!sb) return { data: null, error: new Error('Supabase não configurado') };
 
       // First get current state
       const { data: current, error: fetchError } = await sb

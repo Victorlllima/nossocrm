@@ -135,7 +135,7 @@ async function robustGenerateWithFallback(params: {
 }
 
 // ============================================================================
-// VALIDAÇÃO E PARSING
+// VALIDAÇÍO E PARSING
 // ============================================================================
 
 function parseEvolutionWebhook(body: any): EvolutionMessage | null {
@@ -193,7 +193,7 @@ export async function POST(
     console.log(`📨 [${requestId}] Webhook recebido para agente: ${params.agentId}`);
 
     // ───────────────────────────────────────────────────────────
-    // 1. PARSE E VALIDAÇÃO
+    // 1. PARSE E VALIDAÇÍO
     // ───────────────────────────────────────────────────────────
 
     const body = await req.json();

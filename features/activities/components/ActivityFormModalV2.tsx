@@ -23,8 +23,8 @@ interface ActivityFormModalV2Props {
 }
 
 const activityTypeOptions = [
-  { value: 'CALL', label: 'LigaÃ§Ã£o' },
-  { value: 'MEETING', label: 'ReuniÃ£o' },
+  { value: 'CALL', label: 'Ligação' },
+  { value: 'MEETING', label: 'Reunião' },
   { value: 'EMAIL', label: 'Email' },
   { value: 'TASK', label: 'Tarefa' },
 ];
@@ -47,7 +47,7 @@ const getSafeActivityType = (type?: Activity['type']): FormActivityType => {
   onSubmit,
   editingActivity,
   deals,
-} - ParÃ¢metro `{
+} - Parâmetro `{
   isOpen,
   onClose,
   onSubmit,
@@ -118,7 +118,7 @@ export const ActivityFormModalV2: React.FC<ActivityFormModalV2Props> = ({
     >
       <ModalForm onSubmit={handleSubmit(handleFormSubmit)}>
         <InputField
-          label="TÃ­tulo"
+          label="Título"
           placeholder="Ex: Ligar para Cliente"
           error={errors.title}
           registration={register('title')}
@@ -132,7 +132,7 @@ export const ActivityFormModalV2: React.FC<ActivityFormModalV2Props> = ({
             registration={register('type')}
           />
           <SelectField
-            label="NegÃ³cio Relacionado"
+            label="Negócio Relacionado"
             options={dealOptions}
             placeholder="Selecione..."
             error={errors.dealId}
@@ -156,14 +156,14 @@ export const ActivityFormModalV2: React.FC<ActivityFormModalV2Props> = ({
         </div>
 
         <TextareaField
-          label="DescriÃ§Ã£o"
+          label="Descrição"
           placeholder="Detalhes da atividade..."
           error={errors.description}
           registration={register('description')}
         />
 
         <SubmitButton isLoading={isSubmitting}>
-          {editingActivity ? 'Salvar AlteraÃ§Ãµes' : 'Criar Atividade'}
+          {editingActivity ? 'Salvar Alterações' : 'Criar Atividade'}
         </SubmitButton>
       </ModalForm>
     </Modal>

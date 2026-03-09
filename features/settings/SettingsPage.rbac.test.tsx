@@ -44,11 +44,11 @@ vi.mock('./hooks/useSettingsController', () => ({
   }),
 }))
 
-// Evita depender de providers (Toast/Boards/Supabase) ao renderizar a aba IntegraÃ§Ãµes no teste.
+// Evita depender de providers (Toast/Boards/Supabase) ao renderizar a aba Integrações no teste.
 vi.mock('./components/ApiKeysSection', () => ({
   ApiKeysSection: () => (
     <div>
-      <h3>API (IntegraÃ§Ãµes)</h3>
+      <h3>API (Integrações)</h3>
     </div>
   ),
 }))
@@ -79,7 +79,7 @@ describe('SettingsPage RBAC', () => {
     vi.clearAllMocks()
   })
 
-  it('vendedor nÃ£o vÃª seÃ§Ãµes de configuraÃ§Ã£o do sistema', () => {
+  it('vendedor não vê seções de configuração do sistema', () => {
     useAuthMock.mockReturnValue({
       profile: { role: 'vendedor' },
     } as any)
@@ -93,17 +93,17 @@ describe('SettingsPage RBAC', () => {
       screen.queryByRole('heading', { name: /^Campos Personalizados$/i })
     ).not.toBeInTheDocument()
     expect(
-      screen.queryByRole('heading', { name: /^API \(IntegraÃ§Ãµes\)$/i })
+      screen.queryByRole('heading', { name: /^API \(Integrações\)$/i })
     ).not.toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: /^Webhooks$/i })).not.toBeInTheDocument()
 
-    // PreferÃªncias pessoais seguem visÃ­veis
-    expect(screen.getByText(/pÃ¡gina inicial/i)).toBeInTheDocument()
-    // Tabs pessoais seguem visÃ­veis
+    // Preferências pessoais seguem visíveis
+    expect(screen.getByText(/página inicial/i)).toBeInTheDocument()
+    // Tabs pessoais seguem visíveis
     expect(screen.getByRole('button', { name: /central de i\.a/i })).toBeInTheDocument()
   })
 
-  it('admin vÃª seÃ§Ãµes de configuraÃ§Ã£o do sistema', async () => {
+  it('admin vê seções de configuração do sistema', async () => {
     useAuthMock.mockReturnValue({
       profile: { role: 'admin' },
     } as any)
@@ -116,12 +116,12 @@ describe('SettingsPage RBAC', () => {
     expect(
       screen.getByRole('heading', { name: /^Campos Personalizados$/i })
     ).toBeInTheDocument()
-    // Admin tambÃ©m vÃª as abas extras
-    const integrationsTab = screen.getByRole('button', { name: /integraÃ§Ãµes/i })
+    // Admin também vê as abas extras
+    const integrationsTab = screen.getByRole('button', { name: /integrações/i })
     expect(integrationsTab).toBeInTheDocument()
     fireEvent.click(integrationsTab)
 
-    // Sub-tabs dentro de IntegraÃ§Ãµes
+    // Sub-tabs dentro de Integrações
     const apiSubTab = await screen.findByRole('button', { name: /^API$/i })
     const webhooksSubTab = await screen.findByRole('button', { name: /^Webhooks$/i })
     const mcpSubTab = await screen.findByRole('button', { name: /^MCP$/i })
@@ -129,8 +129,8 @@ describe('SettingsPage RBAC', () => {
     expect(webhooksSubTab).toBeInTheDocument()
     expect(mcpSubTab).toBeInTheDocument()
 
-    // Default Ã© API
-    expect(await screen.findByRole('heading', { name: /^API \(IntegraÃ§Ãµes\)$/i })).toBeInTheDocument()
+    // Default é API
+    expect(await screen.findByRole('heading', { name: /^API \(Integrações\)$/i })).toBeInTheDocument()
 
     fireEvent.click(webhooksSubTab)
     expect(await screen.findByRole('heading', { name: /^Webhooks$/i })).toBeInTheDocument()

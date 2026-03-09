@@ -28,7 +28,7 @@ EVOLUTION_API_KEY=C24AA838FAD1-4A36-A447-F1C8FBEEF050
 EVOLUTION_API_URL=https://evolution.app.info.pl/message/sendText/Max_vendedor
 ```
 
-**IMPORTANTE:** O `GOOGLE_SHEETS_SPREADSHEET_ID` atual é o ambiente de **HOMOLOGAÇÃO (HML)**. Para produção, substitua pelo ID da planilha real.
+**IMPORTANTE:** O `GOOGLE_SHEETS_SPREADSHEET_ID` atual é o ambiente de **HOMOLOGAÇÍO (HML)**. Para produção, substitua pelo ID da planilha real.
 
 ### 2. Credenciais do Google Sheets
 
@@ -245,7 +245,7 @@ UPDATE boards SET is_default = true WHERE id = '<board-id>';
 
 ## 📝 Notas Importantes
 
-1. **Ambiente HML:** A planilha configurada é de HOMOLOGAÇÃO. Atualize para produção quando necessário.
+1. **Ambiente HML:** A planilha configurada é de HOMOLOGAÇÍO. Atualize para produção quando necessário.
 2. **Telefones:** Os números devem estar no formato E164 para o WhatsApp funcionar corretamente.
 3. **Duplicatas:** A detecção é baseada apenas no campo `id` do Google Sheets. Se dois leads tiverem o mesmo ID, o segundo será ignorado.
 4. **Performance:** Para grandes volumes de dados (>1000 leads), considere implementar paginação ou processamento em batch.

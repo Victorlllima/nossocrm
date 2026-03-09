@@ -10,7 +10,7 @@ function json<T>(body: T, status = 200): Response {
 /**
  * Handler HTTP `GET` deste endpoint (Next.js Route Handler).
  *
- * @param {Request} req - Objeto da requisiÃ§Ã£o.
+ * @param {Request} req - Objeto da requisição.
  * @returns {Promise<Response>} Retorna um valor do tipo `Promise<Response>`.
  */
 export async function GET(req: Request) {
@@ -46,14 +46,14 @@ export async function GET(req: Request) {
     
     if (usedInvite) {
       if (usedInvite.used_at) {
-        return json({ valid: false, error: 'Este convite jÃ¡ foi utilizado' }, 400);
+        return json({ valid: false, error: 'Este convite já foi utilizado' }, 400);
       }
       if (usedInvite.expires_at && new Date(usedInvite.expires_at) < new Date()) {
         return json({ valid: false, error: 'Este convite expirou' }, 400);
       }
     }
     
-    return json({ valid: false, error: 'Convite nÃ£o encontrado' }, 404);
+    return json({ valid: false, error: 'Convite não encontrado' }, 404);
   }
 
   // Check expiration with proper date comparison

@@ -84,7 +84,7 @@ function guessWonLostStageIds(stages: BoardStage[], opts?: { wonLabel?: string; 
 
   const heuristicWon =
     exactWon
-    ?? stages.find(s => /\b(ganho|won|fechado ganho|conclu[iÃ­]do)\b/i.test(s.label))?.id;
+    ?? stages.find(s => /\b(ganho|won|fechado ganho|conclu[ií]do)\b/i.test(s.label))?.id;
   const heuristicLost =
     exactLost
     ?? stages.find(s => /\b(perdido|lost|churn|cancelad[oa])\b/i.test(s.label))?.id;
@@ -102,7 +102,7 @@ function guessWonLostStageIds(stages: BoardStage[], opts?: { wonLabel?: string; 
   onCreateBoardAsync,
   onUpdateBoardAsync,
   onOpenCustomModal,
-} - ParÃ¢metro `{
+} - Parâmetro `{
   isOpen,
   onClose,
   onCreate,
@@ -199,8 +199,8 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
     return {
       slug: 'renewals',
       // UX: keep the journey list visually consistent (all boards are numbered).
-      // This board is inserted after "5. Upsell (ExpansÃ£o)" when the optional flag is enabled.
-      name: '6. RenovaÃ§Ãµes (Assinatura)',
+      // This board is inserted after "5. Upsell (Expansão)" when the optional flag is enabled.
+      name: '6. Renovações (Assinatura)',
       columns: [
         { name: '180+ dias', color: 'bg-blue-500', linkedLifecycleStage: 'CUSTOMER' },
         { name: '120 dias', color: 'bg-purple-500', linkedLifecycleStage: 'CUSTOMER' },
@@ -213,18 +213,18 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
       strategy: {
         agentPersona: {
           name: 'CS Renewals',
-          role: 'RenovaÃ§Ãµes',
+          role: 'Renovações',
           behavior:
-            'Trate renovaÃ§Ãµes com rigor comercial. Antecipe risco, mostre valor, alinhe stakeholders e remova fricÃ§Ã£o do pagamento.',
+            'Trate renovações com rigor comercial. Antecipe risco, mostre valor, alinhe stakeholders e remova fricção do pagamento.',
         },
         goal: {
-          description: 'Aumentar taxa de renovaÃ§Ã£o e previsibilidade.',
+          description: 'Aumentar taxa de renovação e previsibilidade.',
           kpi: 'Renewal Rate',
           targetValue: '90',
           type: 'percentage',
         },
         entryTrigger:
-          'Assinantes com data de renovaÃ§Ã£o aproximando. (Pode ser criado manualmente ou via automaÃ§Ã£o futura.)',
+          'Assinantes com data de renovação aproximando. (Pode ser criado manualmente ou via automação futura.)',
       },
     };
   };
@@ -250,7 +250,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
   const handleTemplateSelect = (templateType: BoardTemplateType) => {
     const template = BOARD_TEMPLATES[templateType];
     // Safety: never create an "empty template" board from this flow.
-    // Use "ComeÃ§ar do zero" for custom boards.
+    // Use "Começar do zero" for custom boards.
     if (!Array.isArray((template as any)?.stages) || (template as any).stages.length === 0) {
       onClose();
       onOpenCustomModal();
@@ -354,7 +354,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
 
         const payload: Omit<Board, 'id' | 'createdAt'> = {
           name: boardDef.name,
-          description: `Parte da jornada: ${journey.boards.length > 1 ? 'Sim' : 'NÃ£o'}`,
+          description: `Parte da jornada: ${journey.boards.length > 1 ? 'Sim' : 'Não'}`,
           // Community journeys may not declare board-level linkage. We infer it from the first column that has linkage.
           linkedLifecycleStage: inferredBoardLifecycleStage,
           template: 'CUSTOM',
@@ -403,7 +403,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
 
     const wonLostByJourneyAndSlug: Record<string, Record<string, { wonLabel?: string; lostLabel?: string; wonArchive?: boolean }>> = {
       INFOPRODUCER: {
-        sales: { wonLabel: 'Matriculado (Ganho)', lostLabel: 'NÃ£o comprou (Perdido)' },
+        sales: { wonLabel: 'Matriculado (Ganho)', lostLabel: 'Não comprou (Perdido)' },
         onboarding: { wonLabel: 'Primeiro Resultado (Ganho)' },
         cs: { wonArchive: true, lostLabel: 'Churn' },
         expansion: { wonLabel: 'Upsell Fechado (Ganho)', lostLabel: 'Perdido' },
@@ -463,7 +463,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
       // Pass index as order - this will be added to the current max order in the service
       const payload: Omit<Board, 'id' | 'createdAt'> = {
         name: boardDef.name,
-        description: `Parte da jornada: ${journey.boards.length > 1 ? 'Sim' : 'NÃ£o'}`,
+        description: `Parte da jornada: ${journey.boards.length > 1 ? 'Sim' : 'Não'}`,
         linkedLifecycleStage: boardLifecycleBySlug[boardDef.slug],
         template: 'CUSTOM',
         stages: boardStages,
@@ -534,7 +534,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
 
       // Placeholder Strategy (Will be generated in Phase 2)
       const placeholderStrategy = {
-        goal: { description: 'SerÃ¡ definida na criaÃ§Ã£o', kpi: '...', targetValue: '...' },
+        goal: { description: 'Será definida na criação', kpi: '...', targetValue: '...' },
         agentPersona: { name: '...', role: '...', behavior: '...' },
         entryTrigger: '...',
       };
@@ -560,7 +560,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
 
       if (finalBoard.confidence < 0.6) {
         setError(
-          'NÃ£o consegui entender bem seu negÃ³cio. Tente descrever de forma diferente ou escolha um template.'
+          'Não consegui entender bem seu negócio. Tente descrever de forma diferente ou escolha um template.'
         );
         setIsGenerating(false);
         setIsProcessingModalOpen(false);
@@ -617,7 +617,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
           role: 'ai',
           content:
             response.message +
-            (!hasChanges && response.board ? '\n\n*(O board nÃ£o sofreu alteraÃ§Ãµes visuais)*' : ''),
+            (!hasChanges && response.board ? '\n\n*(O board não sofreu alterações visuais)*' : ''),
           proposalData,
         },
       ]);
@@ -640,7 +640,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
     setPreviewBoard(null); // Clear preview since it's now the actual board
     setChatMessages(prev => [
       ...prev,
-      { role: 'ai', content: 'âœ… AlteraÃ§Ãµes aplicadas com sucesso!' },
+      { role: 'ai', content: 'âœ… Alterações aplicadas com sucesso!' },
     ]);
   };
 
@@ -702,7 +702,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
 
     if (stagesToMap.length === 0) {
       console.error('Board creation failed: No stages defined', boardToCreate);
-      setError('Erro: O board gerado nÃ£o possui estÃ¡gios vÃ¡lidos. Tente gerar novamente.');
+      setError('Erro: O board gerado não possui estágios válidos. Tente gerar novamente.');
       return;
     }
 
@@ -772,7 +772,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
       {
         role: 'ai',
         content:
-          'O que vocÃª gostaria de ajustar neste board? Posso adicionar etapas, mudar nomes ou sugerir novas automaÃ§Ãµes.',
+          'O que você gostaria de ajustar neste board? Posso adicionar etapas, mudar nomes ou sugerir novas automações.',
       },
     ]);
   };
@@ -957,7 +957,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                     onKeyDown={e => {
                       if (e.key === 'Enter' && !isRefining) handleRefineBoard();
                     }}
-                    placeholder="Ex: Adicione uma etapa de 'NegociaÃ§Ã£o'..."
+                    placeholder="Ex: Adicione uma etapa de 'Negociação'..."
                     className="flex-1 px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     disabled={isRefining}
                   />
@@ -982,7 +982,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                 {selectMode === 'home' ? (
                   <div className="mx-auto w-full">
                     <h3 className="text-base font-bold text-slate-900 dark:text-white text-center">
-                      Como vocÃª quer comeÃ§ar?
+                      Como você quer começar?
                     </h3>
                     <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 text-center">
                       Escolha um caminho. O resto aparece depois.
@@ -1004,7 +1004,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                             Criar com IA
                           </span>
                           <span className="text-[11px] text-slate-500 dark:text-slate-400">
-                            Em 1 frase, eu monto o board pra vocÃª.
+                            Em 1 frase, eu monto o board pra você.
                           </span>
                         </div>
                       </div>
@@ -1052,7 +1052,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                               Usar template individual
                             </div>
                             <div className="text-[11px] text-slate-500 dark:text-slate-400">
-                              Um board pronto (PrÃ©-venda, Vendas, CSâ€¦).
+                              Um board pronto (Pré-venda, Vendas, CSâ€¦).
                             </div>
                           </div>
                         </div>
@@ -1072,7 +1072,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                             <Plus className="w-4 h-4 text-slate-700 dark:text-slate-200" />
                           </div>
                           <div className="min-w-0">
-                            <div className="font-semibold text-slate-900 dark:text-white">ComeÃ§ar do zero</div>
+                            <div className="font-semibold text-slate-900 dark:text-white">Começar do zero</div>
                             <div className="text-[11px] text-slate-500 dark:text-slate-400">
                               Um board em branco.
                             </div>
@@ -1192,7 +1192,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                         </h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           {(Object.keys(BOARD_TEMPLATES) as BoardTemplateType[])
-                            // UX: "Personalizado" (CUSTOM) has zero stages and duplicates "ComeÃ§ar do zero".
+                            // UX: "Personalizado" (CUSTOM) has zero stages and duplicates "Começar do zero".
                             // Keeping it here causes creation of an empty board that looks like a bug.
                             .filter((key) => key !== 'CUSTOM')
                             .map(key => {
@@ -1341,10 +1341,10 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                           />
                           <div className="flex-1">
                             <label htmlFor="include-renewals" className="font-semibold text-slate-900 dark:text-white">
-                              Incluir RenovaÃ§Ãµes (Assinatura)
+                              Incluir Renovações (Assinatura)
                             </label>
                             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                              Adiciona um board opcional para controlar renovaÃ§Ãµes com antecedÃªncia (180/120/90/60/30 dias).
+                              Adiciona um board opcional para controlar renovações com antecedência (180/120/90/60/30 dias).
                             </p>
                           </div>
                         </div>
@@ -1371,7 +1371,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                               <div className="flex gap-2">
                                 {index === 0 && (
                                   <span className="px-2.5 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[10px] font-bold uppercase tracking-wide">
-                                    InÃ­cio
+                                    Início
                                   </span>
                                 )}
                                 {index ===
@@ -1418,7 +1418,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                   <div className="flex items-center gap-2 mb-4">
                     <Sparkles size={20} className="text-primary-600 dark:text-primary-400" />
                     <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-                      Descreva seu negÃ³cio em 1 frase:
+                      Descreva seu negócio em 1 frase:
                     </h3>
                   </div>
 
@@ -1452,7 +1452,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                   )}
 
                   <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
-                    ðŸ’¡ A IA vai criar um board personalizado para vocÃª!
+                    ðŸ’¡ A IA vai criar um board personalizado para você!
                   </p>
                 </div>
               </div>
@@ -1472,7 +1472,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                 {previewBoard && (
                   <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-500/20 p-3 rounded-lg mb-4 flex items-center gap-2 text-blue-700 dark:text-blue-300">
                     <span className="text-lg">ðŸ‘ï¸</span>
-                    <span className="text-sm font-medium">Visualizando SugestÃ£o (NÃ£o salvo)</span>
+                    <span className="text-sm font-medium">Visualizando Sugestão (Não salvo)</span>
                   </div>
                 )}
 
@@ -1515,7 +1515,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                     displayBoard.automationSuggestions.length > 0 && (
                       <div className="mt-4 pt-4 border-t border-slate-200 dark:border-white/10">
                         <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                          ðŸ’¡ AutomaÃ§Ãµes sugeridas:
+                          ðŸ’¡ Automações sugeridas:
                         </p>
                         <ul className="text-sm text-slate-600 dark:text-slate-400 space-y-1">
                           {displayBoard.automationSuggestions.map((suggestion, idx) => (
@@ -1596,7 +1596,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                   }}
                   className="px-4 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg transition-colors"
                 >
-                  NÃ£o Ã© isso
+                  Não é isso
                 </button>
               )}
 

@@ -1,6 +1,6 @@
 # Post-Mortem: Tentativa de Migração do Agente de IA (Whatsapp)
 **Data:** 10/02/2026
-**Status:** FALHA NA MIGRAÇÃO -> ROLLBACK EXECUTADO
+**Status:** FALHA NA MIGRAÇÍO -> ROLLBACK EXECUTADO
 **Branch de Backup:** `backup/failed-ai-migration`
 
 ## O Que Aconteceu?

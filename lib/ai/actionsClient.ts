@@ -5,10 +5,10 @@ import type { Deal, DealView, LifecycleStage } from '@/types';
 import type { ParsedAction } from '@/types/aiActions';
 
 /**
- * Cliente de alto nÃ­vel para as actions de IA.
+ * Cliente de alto nível para as actions de IA.
  *
- * ObservaÃ§Ã£o: a configuraÃ§Ã£o (API key/modelo) Ã© tratada server-side em `/api/ai/actions`.
- * O parÃ¢metro `config` (legado) Ã© aceito apenas para compatibilidade de assinatura.
+ * Observação: a configuração (API key/modelo) é tratada server-side em `/api/ai/actions`.
+ * O parâmetro `config` (legado) é aceito apenas para compatibilidade de assinatura.
  */
 export interface AIConfigLegacy {
   provider: 'google' | 'openai' | 'anthropic';
@@ -30,11 +30,11 @@ export type AnalyzeLeadResult = {
 };
 
 /**
- * FunÃ§Ã£o pÃºblica `analyzeLead` do projeto.
+ * Função pública `analyzeLead` do projeto.
  *
- * @param {Deal | DealView} deal - ParÃ¢metro `deal`.
- * @param {AIConfigLegacy | undefined} _config - ParÃ¢metro `_config`.
- * @param {string | undefined} stageLabel - ParÃ¢metro `stageLabel`.
+ * @param {Deal | DealView} deal - Parâmetro `deal`.
+ * @param {AIConfigLegacy | undefined} _config - Parâmetro `_config`.
+ * @param {string | undefined} stageLabel - Parâmetro `stageLabel`.
  * @returns {Promise<AnalyzeLeadResult>} Retorna um valor do tipo `Promise<AnalyzeLeadResult>`.
  */
 export async function analyzeLead(
@@ -66,42 +66,42 @@ export async function analyzeLead(
     if (isConsentError(error)) {
       return {
         action: 'Configurar consentimento',
-        reason: 'Consentimento necessÃ¡rio para usar IA',
+        reason: 'Consentimento necessário para usar IA',
         actionType: 'TASK',
         urgency: 'medium',
         probabilityScore: fallbackScore,
-        suggestion: 'Consentimento necessÃ¡rio para usar IA. VÃ¡ em ConfiguraÃ§Ãµes â†’ InteligÃªncia Artificial.',
+        suggestion: 'Consentimento necessário para usar IA. Vá em Configurações â†’ Inteligência Artificial.',
       };
     }
 
     if (isRateLimitError(error)) {
       return {
         action: 'Tentar novamente',
-        reason: 'Limite de requisiÃ§Ãµes atingido',
+        reason: 'Limite de requisições atingido',
         actionType: 'TASK',
         urgency: 'low',
         probabilityScore: fallbackScore,
-        suggestion: 'Limite de requisiÃ§Ãµes atingido. Tente novamente em alguns minutos.',
+        suggestion: 'Limite de requisições atingido. Tente novamente em alguns minutos.',
       };
     }
 
     return {
       action: 'Revisar manualmente',
-      reason: 'NÃ£o foi possÃ­vel obter anÃ¡lise da IA',
+      reason: 'Não foi possível obter análise da IA',
       actionType: 'TASK',
       urgency: 'low',
       probabilityScore: fallbackScore,
-      suggestion: 'NÃ£o foi possÃ­vel obter anÃ¡lise da IA.',
+      suggestion: 'Não foi possível obter análise da IA.',
     };
   }
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `generateEmailDraft` do projeto.
+ * Função pública `generateEmailDraft` do projeto.
  *
- * @param {Deal | DealView} deal - ParÃ¢metro `deal`.
- * @param {AIConfigLegacy | undefined} _config - ParÃ¢metro `_config`.
- * @param {string | undefined} stageLabel - ParÃ¢metro `stageLabel`.
+ * @param {Deal | DealView} deal - Parâmetro `deal`.
+ * @param {AIConfigLegacy | undefined} _config - Parâmetro `_config`.
+ * @param {string | undefined} stageLabel - Parâmetro `stageLabel`.
  * @returns {Promise<string>} Retorna um valor do tipo `Promise<string>`.
  */
 export async function generateEmailDraft(
@@ -122,18 +122,18 @@ export async function generateEmailDraft(
     });
   } catch (error) {
     console.error('Error generating email:', error);
-    if (isConsentError(error)) return 'Consentimento necessÃ¡rio para usar IA.';
-    if (isRateLimitError(error)) return 'Limite de requisiÃ§Ãµes atingido.';
+    if (isConsentError(error)) return 'Consentimento necessário para usar IA.';
+    if (isRateLimitError(error)) return 'Limite de requisições atingido.';
     return 'Erro ao gerar e-mail.';
   }
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `generateObjectionResponse` do projeto.
+ * Função pública `generateObjectionResponse` do projeto.
  *
- * @param {Deal | DealView} deal - ParÃ¢metro `deal`.
- * @param {string} objection - ParÃ¢metro `objection`.
- * @param {AIConfigLegacy | undefined} _config - ParÃ¢metro `_config`.
+ * @param {Deal | DealView} deal - Parâmetro `deal`.
+ * @param {string} objection - Parâmetro `objection`.
+ * @param {AIConfigLegacy | undefined} _config - Parâmetro `_config`.
  * @returns {Promise<string[]>} Retorna um valor do tipo `Promise<string[]>`.
  */
 export async function generateObjectionResponse(
@@ -148,9 +148,9 @@ export async function generateObjectionResponse(
     });
   } catch (error) {
     console.error('Error generating objections:', error);
-    if (isConsentError(error)) return ['Consentimento necessÃ¡rio para usar IA.'];
-    if (isRateLimitError(error)) return ['Limite de requisiÃ§Ãµes atingido.'];
-    return ['NÃ£o foi possÃ­vel gerar respostas.'];
+    if (isConsentError(error)) return ['Consentimento necessário para usar IA.'];
+    if (isRateLimitError(error)) return ['Limite de requisições atingido.'];
+    return ['Não foi possível gerar respostas.'];
   }
 }
 
@@ -183,11 +183,11 @@ export interface GeneratedBoard {
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `generateBoardStructure` do projeto.
+ * Função pública `generateBoardStructure` do projeto.
  *
- * @param {string} description - ParÃ¢metro `description`.
- * @param {LifecycleStage[]} lifecycleStages - ParÃ¢metro `lifecycleStages`.
- * @param {AIConfigLegacy | undefined} _config - ParÃ¢metro `_config`.
+ * @param {string} description - Parâmetro `description`.
+ * @param {LifecycleStage[]} lifecycleStages - Parâmetro `lifecycleStages`.
+ * @param {AIConfigLegacy | undefined} _config - Parâmetro `_config`.
  * @returns {Promise<{ boardName: string; description: string; stages: { name: string; description: string; color: string; linkedLifecycleStage: string; estimatedDuration?: string | undefined; }[]; automationSuggestions: string[]; }>} Retorna um valor do tipo `Promise<{ boardName: string; description: string; stages: { name: string; description: string; color: string; linkedLifecycleStage: string; estimatedDuration?: string | undefined; }[]; automationSuggestions: string[]; }>`.
  */
 export async function generateBoardStructure(
@@ -207,10 +207,10 @@ export async function generateBoardStructure(
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `generateBoardStrategy` do projeto.
+ * Função pública `generateBoardStrategy` do projeto.
  *
- * @param {{ boardName: string; description: string; stages: { name: string; description: string; color: string; linkedLifecycleStage: string; estimatedDuration?: string | undefined; }[]; automationSuggestions: string[]; }} boardData - ParÃ¢metro `boardData`.
- * @param {AIConfigLegacy | undefined} _config - ParÃ¢metro `_config`.
+ * @param {{ boardName: string; description: string; stages: { name: string; description: string; color: string; linkedLifecycleStage: string; estimatedDuration?: string | undefined; }[]; automationSuggestions: string[]; }} boardData - Parâmetro `boardData`.
+ * @param {AIConfigLegacy | undefined} _config - Parâmetro `_config`.
  * @returns {Promise<Pick<GeneratedBoard, "goal" | "agentPersona" | "entryTrigger">>} Retorna um valor do tipo `Promise<Pick<GeneratedBoard, "goal" | "agentPersona" | "entryTrigger">>`.
  */
 export async function generateBoardStrategy(
@@ -235,12 +235,12 @@ export async function generateBoardStrategy(
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `refineBoardWithAI` do projeto.
+ * Função pública `refineBoardWithAI` do projeto.
  *
- * @param {GeneratedBoard} currentBoard - ParÃ¢metro `currentBoard`.
- * @param {string} userInstruction - ParÃ¢metro `userInstruction`.
- * @param {AIConfigLegacy | undefined} _config - ParÃ¢metro `_config`.
- * @param {{ role: "user" | "ai"; content: string; }[] | undefined} chatHistory - ParÃ¢metro `chatHistory`.
+ * @param {GeneratedBoard} currentBoard - Parâmetro `currentBoard`.
+ * @param {string} userInstruction - Parâmetro `userInstruction`.
+ * @param {AIConfigLegacy | undefined} _config - Parâmetro `_config`.
+ * @param {{ role: "user" | "ai"; content: string; }[] | undefined} chatHistory - Parâmetro `chatHistory`.
  * @returns {Promise<{ message: string; board: GeneratedBoard | null; }>} Retorna um valor do tipo `Promise<{ message: string; board: GeneratedBoard | null; }>`.
  */
 export async function refineBoardWithAI(
@@ -255,7 +255,7 @@ export async function refineBoardWithAI(
     chatHistory,
   });
 
-  // SAFETY MERGE: se IA nÃ£o retornar campos de estratÃ©gia, preserva do board atual.
+  // SAFETY MERGE: se IA não retornar campos de estratégia, preserva do board atual.
   if (result.board) {
     result.board = {
       ...currentBoard,
@@ -270,9 +270,9 @@ export async function refineBoardWithAI(
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `parseNaturalLanguageAction` do projeto.
+ * Função pública `parseNaturalLanguageAction` do projeto.
  *
- * @param {string} text - ParÃ¢metro `text`.
+ * @param {string} text - Parâmetro `text`.
  * @returns {Promise<ParsedAction>} Retorna um valor do tipo `Promise<ParsedAction>`.
  */
 export async function parseNaturalLanguageAction(text: string): Promise<ParsedAction> {
@@ -298,10 +298,10 @@ export type RewriteMessageDraftResult = {
 };
 
 /**
- * FunÃ§Ã£o pÃºblica `rewriteMessageDraft` do projeto.
+ * Função pública `rewriteMessageDraft` do projeto.
  *
- * @param {RewriteMessageDraftInput} input - ParÃ¢metro `input`.
- * @param {AIConfigLegacy | undefined} _config - ParÃ¢metro `_config`.
+ * @param {RewriteMessageDraftInput} input - Parâmetro `input`.
+ * @param {AIConfigLegacy | undefined} _config - Parâmetro `_config`.
  * @returns {Promise<RewriteMessageDraftResult>} Retorna um valor do tipo `Promise<RewriteMessageDraftResult>`.
  */
 export async function rewriteMessageDraft(

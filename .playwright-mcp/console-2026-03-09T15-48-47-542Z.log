@@ -1,0 +1,40 @@
+[     359ms] [WARNING] Image with src "/logo_maxlima_sembg.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[     447ms] [WARNING] [Realtime] Channel closed for realtime-sync-deals-board_stages @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[     455ms] [WARNING] Image with src "/logo_maxlima_sembg.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[    2389ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[    2389ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[    2390ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[    2470ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[    2470ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[    2488ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[    4424ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[    4425ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[    4439ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[    4476ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[    4493ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[    4521ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[    6470ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[    6470ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[    6486ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[    6505ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[    6521ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[    6552ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[    8491ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[   11574ms] [WARNING] Image with src "/logo_maxlima_sembg.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   11656ms] [WARNING] [Realtime] Channel closed for realtime-sync-deals-board_stages @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   11673ms] [WARNING] Image with src "/logo_maxlima_sembg.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[   13604ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[   13620ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[   13621ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[   13677ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[   13677ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[   13693ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[   15723ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[   15723ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[   15723ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[   15723ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[   15723ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[   15723ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0
+[   17685ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017:0

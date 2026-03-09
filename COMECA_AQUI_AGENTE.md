@@ -1,4 +1,4 @@
-# 🚀 COMEÇA AQUI - PLANO DE VALIDAÇÃO COMPLETO
+# 🚀 COMEÇA AQUI - PLANO DE VALIDAÇÍO COMPLETO
 
 **Red, este é seu mapa de navegação para os próximos 3 dias.**
 
@@ -99,7 +99,7 @@ curl -X POST http://localhost:3000/api/whatsapp/webhook \
 
 ---
 
-## 🔌 FASE 3: INTEGRAÇÃO EVOLUTION (3-4 HORAS)
+## 🔌 FASE 3: INTEGRAÇÍO EVOLUTION (3-4 HORAS)
 
 ### Para Começar Depois de Amanhã (ou Dia 3)
 
@@ -117,7 +117,7 @@ curl -X POST http://localhost:3000/api/whatsapp/webhook \
 
 ---
 
-## 📂 ESTRUTURA DE DOCUMENTAÇÃO
+## 📂 ESTRUTURA DE DOCUMENTAÇÍO
 
 ```
 docs/tech/
@@ -145,13 +145,13 @@ DIA 1 (HOJE)
   15:00 - Documentação completa ✅
   16:00 - Você começa Fase 1 👈
 
-DIA 2 (AMANHÃ)
+DIA 2 (AMANHÍ)
   09:00 - Fase 1: Testes (30 min)
   10:00 - Fase 2: Análise (2-3h)
   14:00 - Listar gaps e riscos
   15:00 - Preparar para Fase 3
 
-DIA 3 (APÓS AMANHÃ)
+DIA 3 (APÓS AMANHÍ)
   09:00 - Fase 3: Integração (3-4h)
   13:00 - Testes de integração
   14:00 - Deploy staging

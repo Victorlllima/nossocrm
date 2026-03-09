@@ -83,7 +83,7 @@ interface KanbanBoardProps {
   handleQuickAddActivity,
   setLastMouseDownDealId,
   onMoveDealToStage,
-} - ParÃ¢metro `{
+} - Parâmetro `{
   stages,
   filteredDeals,
   draggingId,
@@ -124,9 +124,9 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
   } | null>(null);
 
   /**
-   * Performance: o Kanban renderiza listas grandes. Evitamos padrÃµes O(S*N) no render:
+   * Performance: o Kanban renderiza listas grandes. Evitamos padrões O(S*N) no render:
    * - Antes: para cada stage, fazia `filteredDeals.filter(...)` + `reduce(...)`.
-   * - Agora: agrupamos 1 vez (O(N)) e sÃ³ lemos por stage (O(S)).
+   * - Agora: agrupamos 1 vez (O(N)) e só lemos por stage (O(S)).
    */
   const dealsByStageId = useMemo(() => {
     const map = new Map<string, DealView[]>();
@@ -141,7 +141,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
     return { map, totals };
   }, [filteredDeals]);
 
-  // Performance: evita `find` por stage (O(S*L)). Map Ã© O(1) por lookup.
+  // Performance: evita `find` por stage (O(S*L)). Map é O(1) por lookup.
   const lifecycleStageNameById = useMemo(() => {
     const map = new Map<string, string>();
     for (const ls of lifecycleStages ?? []) {
@@ -259,7 +259,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
               >
                 {stageDeals.length === 0 && !draggingId && (
                   <div className="h-full flex items-center justify-center text-slate-400 dark:text-slate-600 text-sm py-8">
-                    Sem negÃ³cios
+                    Sem negócios
                   </div>
                 )}
                 {isOver && stageDeals.length === 0 && (

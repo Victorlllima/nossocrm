@@ -16,16 +16,16 @@ export function formatPriorityPtBr(priority: string | null | undefined): string 
       return 'Alta';
     case 'medium':
     case 'media':
-    case 'mÃ©dia':
-      return 'MÃ©dia';
+    case 'média':
+      return 'Média';
     case 'low':
     case 'baixa':
     case 'baixo':
       return 'Baixa';
     case 'critical':
     case 'critica':
-    case 'crÃ­tica':
-      return 'CrÃ­tica';
+    case 'crítica':
+      return 'Crítica';
     default:
       // Best-effort: show original string (keeps debuggability for unexpected values).
       return String(priority ?? '');
@@ -33,9 +33,9 @@ export function formatPriorityPtBr(priority: string | null | undefined): string 
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `priorityAriaLabelPtBr` do projeto.
+ * Função pública `priorityAriaLabelPtBr` do projeto.
  *
- * @param {string | null | undefined} priority - ParÃ¢metro `priority`.
+ * @param {string | null | undefined} priority - Parâmetro `priority`.
  * @returns {string} Retorna um valor do tipo `string`.
  */
 export function priorityAriaLabelPtBr(priority: string | null | undefined): string {

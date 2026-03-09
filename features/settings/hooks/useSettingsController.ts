@@ -6,7 +6,7 @@ import { usePersistedState } from '@/hooks/usePersistedState';
 // TODO: Migrate customFieldDefinitions and tags to Supabase
 // For now, using local state as placeholder
 /**
- * Hook React `useSettingsController` que encapsula uma lÃ³gica reutilizÃ¡vel.
+ * Hook React `useSettingsController` que encapsula uma lógica reutilizável.
  * @returns {{ defaultRoute: string; setDefaultRoute: Dispatch<SetStateAction<string>>; customFieldDefinitions: CustomFieldDefinition[]; newFieldLabel: string; ... 14 more ...; removeTag: (tag: string) => void; }} Retorna um valor do tipo `{ defaultRoute: string; setDefaultRoute: Dispatch<SetStateAction<string>>; customFieldDefinitions: CustomFieldDefinition[]; newFieldLabel: string; ... 14 more ...; removeTag: (tag: string) => void; }`.
  */
 export const useSettingsController = () => {

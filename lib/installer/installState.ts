@@ -1,5 +1,5 @@
 ﻿/**
- * Sistema de estado persistente para instalaÃ§Ã£o resumÃ­vel.
+ * Sistema de estado persistente para instalação resumível.
  * Salva progresso em localStorage para permitir retomar em caso de falha.
  */
 
@@ -35,14 +35,14 @@ const STATE_VERSION = 1;
 const MAX_RETRY_COUNT = 3;
 
 /**
- * Gera um ID de sessÃ£o Ãºnico
+ * Gera um ID de sessão único
  */
 function generateSessionId(): string {
   return `install_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 }
 
 /**
- * Carrega o estado da instalaÃ§Ã£o do localStorage
+ * Carrega o estado da instalação do localStorage
  */
 export function loadInstallState(): InstallState | null {
   if (typeof window === 'undefined') return null;
@@ -53,14 +53,14 @@ export function loadInstallState(): InstallState | null {
     
     const state = JSON.parse(raw) as InstallState;
     
-    // Verifica versÃ£o do estado
+    // Verifica versão do estado
     if (state.version !== STATE_VERSION) {
       console.log('[installState] State version mismatch, clearing');
       clearInstallState();
       return null;
     }
     
-    // Verifica se o estado Ã© muito antigo (mais de 1 hora)
+    // Verifica se o estado é muito antigo (mais de 1 hora)
     const ageMs = Date.now() - state.lastUpdatedAt;
     if (ageMs > 60 * 60 * 1000) {
       console.log('[installState] State too old, clearing');
@@ -76,7 +76,7 @@ export function loadInstallState(): InstallState | null {
 }
 
 /**
- * Salva o estado da instalaÃ§Ã£o no localStorage
+ * Salva o estado da instalação no localStorage
  */
 export function saveInstallState(state: InstallState): void {
   if (typeof window === 'undefined') return;
@@ -90,7 +90,7 @@ export function saveInstallState(state: InstallState): void {
 }
 
 /**
- * Limpa o estado da instalaÃ§Ã£o
+ * Limpa o estado da instalação
  */
 export function clearInstallState(): void {
   if (typeof window === 'undefined') return;
@@ -98,18 +98,18 @@ export function clearInstallState(): void {
 }
 
 /**
- * Cria um novo estado de instalaÃ§Ã£o
+ * Cria um novo estado de instalação
  */
 export function createInstallState(config: InstallState['config']): InstallState {
   const defaultSteps: InstallStep[] = [
-    { id: 'health_check', name: 'AnÃ¡lise do destino', status: 'pending' },
-    { id: 'resolve_keys', name: 'CalibraÃ§Ã£o de coordenadas', status: 'pending' },
-    { id: 'setup_envs', name: 'ConfiguraÃ§Ã£o de ambiente', status: 'pending' },
+    { id: 'health_check', name: 'Análise do destino', status: 'pending' },
+    { id: 'resolve_keys', name: 'Calibração de coordenadas', status: 'pending' },
+    { id: 'setup_envs', name: 'Configuração de ambiente', status: 'pending' },
     { id: 'wait_project', name: 'Aguardando sinal', status: 'pending' },
-    { id: 'migrations', name: 'ConstruÃ§Ã£o da estaÃ§Ã£o', status: 'pending' },
-    { id: 'edge_functions', name: 'AtivaÃ§Ã£o de comunicadores', status: 'pending' },
+    { id: 'migrations', name: 'Construção da estação', status: 'pending' },
+    { id: 'edge_functions', name: 'Ativação de comunicadores', status: 'pending' },
     { id: 'bootstrap', name: 'Primeiro contato', status: 'pending' },
-    { id: 'redeploy', name: 'PreparaÃ§Ã£o do pouso', status: 'pending' },
+    { id: 'redeploy', name: 'Preparação do pouso', status: 'pending' },
   ];
 
   return {
@@ -178,21 +178,21 @@ export function canRetryStep(state: InstallState, stepId: string): boolean {
 }
 
 /**
- * ObtÃ©m o prÃ³ximo passo pendente
+ * Obtém o próximo passo pendente
  */
 export function getNextPendingStep(state: InstallState): InstallStep | null {
   return state.steps.find(s => s.status === 'pending') || null;
 }
 
 /**
- * ObtÃ©m o Ãºltimo passo que falhou (para retry)
+ * Obtém o último passo que falhou (para retry)
  */
 export function getLastFailedStep(state: InstallState): InstallStep | null {
   return state.steps.find(s => s.status === 'failed') || null;
 }
 
 /**
- * Verifica se a instalaÃ§Ã£o pode ser resumida
+ * Verifica se a instalação pode ser resumida
  */
 export function canResumeInstallation(state: InstallState | null): boolean {
   if (!state) return false;
@@ -208,7 +208,7 @@ export function canResumeInstallation(state: InstallState | null): boolean {
 }
 
 /**
- * ObtÃ©m um resumo do progresso
+ * Obtém um resumo do progresso
  */
 export function getProgressSummary(state: InstallState): {
   completed: number;
@@ -233,7 +233,7 @@ export function getProgressSummary(state: InstallState): {
 }
 
 /**
- * Marca a instalaÃ§Ã£o como completa
+ * Marca a instalação como completa
  */
 export function markInstallationComplete(state: InstallState): InstallState {
   const newState = {
@@ -246,7 +246,7 @@ export function markInstallationComplete(state: InstallState): InstallState {
 }
 
 /**
- * ObtÃ©m os passos completados para possÃ­vel rollback
+ * Obtém os passos completados para possível rollback
  */
 export function getCompletedStepsForRollback(state: InstallState): InstallStep[] {
   return state.steps.filter(s => s.status === 'completed').reverse();

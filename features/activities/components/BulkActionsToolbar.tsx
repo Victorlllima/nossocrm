@@ -16,7 +16,7 @@ interface BulkActionsToolbarProps {
     onCompleteAll,
     onSnoozeAll,
     onClearSelection
-} - ParÃ¢metro `{
+} - Parâmetro `{
     selectedCount,
     onCompleteAll,
     onSnoozeAll,
@@ -64,7 +64,7 @@ export const BulkActionsToolbar: React.FC<BulkActionsToolbarProps> = ({
                     <button
                         onClick={onClearSelection}
                         className="p-2 text-slate-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
-                        title="Limpar seleÃ§Ã£o"
+                        title="Limpar seleção"
                     >
                         <X size={20} />
                     </button>

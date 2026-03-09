@@ -16,7 +16,7 @@ interface ContactsTabsProps {
     setViewMode,
     contactsCount,
     companiesCount
-} - ParÃ¢metro `{
+} - Parâmetro `{
     viewMode,
     setViewMode,
     contactsCount,

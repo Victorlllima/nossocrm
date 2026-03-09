@@ -14,7 +14,7 @@ import { DebugFillButton } from '@/components/debug/DebugFillButton';
 export const InboxPage: React.FC = () => {
   const router = useRouter();
 
-  // Controla â€œintenÃ§Ã£oâ€ ao abrir a Lista (ex.: abrir jÃ¡ com sugestÃµes expandidas)
+  // Controla â€œintençãoâ€ ao abrir a Lista (ex.: abrir já com sugestões expandidas)
   const [listPreset, setListPreset] = useState<'default' | 'suggestions-expanded'>('default');
 
   const {
@@ -28,7 +28,7 @@ export const InboxPage: React.FC = () => {
     todayTasks,
     upcomingActivities,
 
-    // SugestÃµes IA
+    // Sugestões IA
     aiSuggestions,
 
     // Focus Mode
@@ -47,7 +47,7 @@ export const InboxPage: React.FC = () => {
     handleSnoozeActivity,
     handleDiscardActivity,
 
-    // Handlers SugestÃµes
+    // Handlers Sugestões
     handleAcceptSuggestion,
     handleDismissSuggestion,
     handleSnoozeSuggestion,

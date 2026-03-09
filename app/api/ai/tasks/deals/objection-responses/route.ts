@@ -18,7 +18,7 @@ function json(body: unknown, status = 200): Response {
 /**
  * Handler HTTP `POST` deste endpoint (Next.js Route Handler).
  *
- * @param {Request} req - Objeto da requisiÃ§Ã£o.
+ * @param {Request} req - Objeto da requisição.
  * @returns {Promise<Response>} Retorna um valor do tipo `Promise<Response>`.
  */
 export async function POST(req: Request) {
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     const { model, supabase, organizationId } = await requireAITaskContext(req);
     const enabled = await isAIFeatureEnabled(supabase as any, organizationId, 'ai_objection_responses');
     if (!enabled) {
-      return json({ error: { code: 'AI_FEATURE_DISABLED', message: 'FunÃ§Ã£o de IA desativada: ObjeÃ§Ãµes.' } }, 403);
+      return json({ error: { code: 'AI_FEATURE_DISABLED', message: 'Função de IA desativada: Objeções.' } }, 403);
     }
 
     const body = await req.json().catch(() => null);
@@ -49,10 +49,10 @@ export async function POST(req: Request) {
   } catch (err: unknown) {
     if (err instanceof AITaskHttpError) return err.toResponse();
     if (err instanceof z.ZodError) {
-      return json({ error: { code: 'INVALID_INPUT', message: 'Payload invÃ¡lido.' } }, 400);
+      return json({ error: { code: 'INVALID_INPUT', message: 'Payload inválido.' } }, 400);
     }
 
     console.error('[api/ai/tasks/deals/objection-responses] Error:', err);
-    return json({ error: { code: 'INTERNAL_ERROR', message: 'Erro ao gerar respostas de objeÃ§Ã£o.' } }, 500);
+    return json({ error: { code: 'INTERNAL_ERROR', message: 'Erro ao gerar respostas de objeção.' } }, 500);
   }
 }

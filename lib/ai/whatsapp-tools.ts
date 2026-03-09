@@ -13,7 +13,7 @@ import { hybridSearchProperties } from './whatsapp-vector-search';
  * Searches properties in the Supabase database
  */
 export const consultarBaseImoveis = tool({
-    description: 'Busca informaÃ§Ãµes detalhadas sobre imÃ³veis (caracterÃ­sticas, preÃ§o, localizaÃ§Ã£o, comodidades). Use quando o lead perguntar sobre imÃ³veis especÃ­ficos ou caracterÃ­sticas.',
+    description: 'Busca informações detalhadas sobre imóveis (características, preço, localização, comodidades). Use quando o lead perguntar sobre imóveis específicos ou características.',
     parameters: z.object({
         query: z.string().min(2).describe('Termo de busca: pode ser ID do imóvel, bairro, tipo, ou características em linguagem natural.'),
     }),
@@ -33,16 +33,16 @@ export const consultarBaseImoveis = tool({
                 .maybeSingle();
 
             if (error || !data) {
-                return 'ImÃ³vel nÃ£o encontrado com este ID.';
+                return 'Imóvel não encontrado com este ID.';
             }
 
-            return `ImÃ³vel encontrado:
-- TÃ­tulo: ${data.titulo}
+            return `Imóvel encontrado:
+- Título: ${data.titulo}
 - Tipo: ${data.tipo}
-- LocalizaÃ§Ã£o: ${data.localizacao}
-- PreÃ§o: R$ ${data.preco?.toLocaleString('pt-BR')}
+- Localização: ${data.localizacao}
+- Preço: R$ ${data.preco?.toLocaleString('pt-BR')}
 - Quartos: ${data.quartos || 'N/A'}
-- Ãrea: ${data.area_total}mÂ²
+- Írea: ${data.area_total}mÂ²
 - Link: ${data.link}`;
         }
 
@@ -50,19 +50,19 @@ export const consultarBaseImoveis = tool({
         const results = await hybridSearchProperties(query, 5);
 
         if (results.length === 0) {
-            return 'Nenhum imÃ³vel encontrado com esses critÃ©rios. Sugira ao lead entrar em contato com o Max para buscar opÃ§Ãµes na rede RE/MAX.';
+            return 'Nenhum imóvel encontrado com esses critérios. Sugira ao lead entrar em contato com o Max para buscar opções na rede RE/MAX.';
         }
 
         // Format results for AI
         return results.map((property, index) => `
 ${index + 1}. ${property.titulo || property.tipo}
    - Tipo: ${property.tipo}
-   - LocalizaÃ§Ã£o: ${property.localizacao}
-   - PreÃ§o: R$ ${property.preco?.toLocaleString('pt-BR')}
+   - Localização: ${property.localizacao}
+   - Preço: R$ ${property.preco?.toLocaleString('pt-BR')}
    - Quartos: ${property.quartos || 'N/A'}
-   - Ãrea: ${property.area_total}mÂ²
+   - Írea: ${property.area_total}mÂ²
    - Link: ${property.link}
-   - RelevÃ¢ncia: ${(property.similarity * 100).toFixed(0)}%
+   - Relevância: ${(property.similarity * 100).toFixed(0)}%
       `).join('\n---\n');
     }
 });
@@ -72,13 +72,13 @@ ${index + 1}. ${property.titulo || property.tipo}
  * Notifies human agent to take over the conversation
  */
 export const acionarHumano = tool({
-    description: 'Notifica humano para assumir o atendimento. Use quando o lead pedir explicitamente para falar com humano ou quando vocÃª nÃ£o conseguir resolver a solicitaÃ§Ã£o.',
+    description: 'Notifica humano para assumir o atendimento. Use quando o lead pedir explicitamente para falar com humano ou quando você não conseguir resolver a solicitação.',
     parameters: z.object({
         motivo: z.string().describe('Motivo do transbordo para humano'),
     }),
     execute: async ({ motivo }) => {
-        // SimulaÃ§Ã£o de transbordo (TODO: IntegraÃ§Ã£o real Evolution API)
-        return `Transbordo solicitado. Motivo: ${motivo}. O Max serÃ¡ notificado.`;
+        // Simulação de transbordo (TODO: Integração real Evolution API)
+        return `Transbordo solicitado. Motivo: ${motivo}. O Max será notificado.`;
     }
 });
 

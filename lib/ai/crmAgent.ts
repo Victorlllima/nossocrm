@@ -181,7 +181,7 @@ REGRAS:
 - Sempre explique os resultados das ferramentas
 - Se der erro, informe de forma amigável
 - Use o boardId do contexto automaticamente quando disponível
-- APRESENTAÇÃO: NÃO mostre IDs/UUIDs; NÃO cite nomes de ferramentas.`;
+- APRESENTAÇÍO: NÍO mostre IDs/UUIDs; NÍO cite nomes de ferramentas.`;
 
 export async function createCRMAgent(
     context: CRMCallOptions,

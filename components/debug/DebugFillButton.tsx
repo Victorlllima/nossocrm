@@ -1,7 +1,7 @@
 ﻿/**
- * DebugFillButton - BotÃ£o para preencher formulÃ¡rio com dados fake
+ * DebugFillButton - Botão para preencher formulário com dados fake
  * 
- * SÃ³ aparece quando DEBUG_MODE estÃ¡ ativado
+ * Só aparece quando DEBUG_MODE está ativado
  */
 
 import React from 'react';
@@ -25,7 +25,7 @@ interface DebugFillButtonProps {
   label = 'Fake',
   variant = 'primary',
   className = '',
-} - ParÃ¢metro `{
+} - Parâmetro `{
   onClick,
   label = 'Fake',
   variant = 'primary',

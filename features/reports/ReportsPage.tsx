@@ -64,19 +64,19 @@ const ReportsPage: React.FC = () => {
   const goalKpi = boardGoal?.kpi || 'Receita';
   const hasGoal = goalTarget > 0;
 
-  // Calcular valor atual baseado no tipo de meta (PADRÃƒO HUBSPOT/SALESFORCE)
-  // Usa dados DO PERÃODO selecionado, nÃ£o o total histÃ³rico
+  // Calcular valor atual baseado no tipo de meta (PADRÍƒO HUBSPOT/SALESFORCE)
+  // Usa dados DO PERÍODO selecionado, não o total histórico
   const currentValue = React.useMemo(() => {
     switch (goalType) {
       case 'currency':
-        // Receita GANHA no perÃ­odo
+        // Receita GANHA no período
         return wonRevenue;
       case 'percentage':
-        // Taxa de conversÃ£o do perÃ­odo
+        // Taxa de conversão do período
         return actualWinRate;
       case 'number':
       default:
-        // Quantidade de deals GANHOS no perÃ­odo
+        // Quantidade de deals GANHOS no período
         return wonDeals.length;
     }
   }, [goalType, wonRevenue, actualWinRate, wonDeals.length]);
@@ -138,7 +138,7 @@ const ReportsPage: React.FC = () => {
 
   const generatedBy = useMemo(() => {
     if (profile?.first_name && profile?.last_name) return `${profile.first_name} ${profile.last_name}`;
-    return profile?.first_name || profile?.email || 'UsuÃ¡rio';
+    return profile?.first_name || profile?.email || 'Usuário';
   }, [profile?.email, profile?.first_name, profile?.last_name]);
 
   const handleExportPDF = useCallback(() => {
@@ -177,10 +177,10 @@ const ReportsPage: React.FC = () => {
       <div className="flex justify-between items-center shrink-0">
         <div>
           <h1 className="text-3xl font-bold text-slate-900 dark:text-white font-display tracking-tight">
-            RelatÃ³rios de Performance
+            Relatórios de Performance
           </h1>
           <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
-            AnÃ¡lise detalhada de vendas e tendÃªncias.
+            Análise detalhada de vendas e tendências.
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -253,7 +253,7 @@ const ReportsPage: React.FC = () => {
           <p className="text-xs text-slate-500 mt-2">
             {isOnTrack
               ? `ðŸŽ¯ No ritmo! Faltam ${formatGoalValue(Math.abs(forecastGap))} para bater a meta.`
-              : `âš ï¸ AtenÃ§Ã£o! VocÃª estÃ¡ abaixo de 75% da meta. Faltam ${formatGoalValue(Math.abs(forecastGap))}.`
+              : `âš ï¸ Atenção! Você está abaixo de 75% da meta. Faltam ${formatGoalValue(Math.abs(forecastGap))}.`
             }
           </p>
         </div>
@@ -262,7 +262,7 @@ const ReportsPage: React.FC = () => {
           <div className="flex items-center gap-3">
             <Settings className="text-amber-500" size={20} />
             <div className="flex-1">
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white">Meta nÃ£o configurada</h3>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white">Meta não configurada</h3>
               <p className="text-xs text-slate-500">Defina uma meta no board para acompanhar o forecast.</p>
             </div>
             <button
@@ -305,17 +305,17 @@ const ReportsPage: React.FC = () => {
           </p>
         </div>
 
-        {/* Ciclo MÃ©dio */}
+        {/* Ciclo Médio */}
         <div className="glass p-4 rounded-xl border border-slate-200 dark:border-white/5 shadow-sm">
           <div className="flex items-center gap-2 mb-2">
             <div className="p-2 rounded-lg bg-purple-500/10">
               <Clock className="text-purple-500" size={18} />
             </div>
-            <span className="text-xs text-slate-500">Ciclo MÃ©dio</span>
+            <span className="text-xs text-slate-500">Ciclo Médio</span>
           </div>
           <p className="text-2xl font-bold text-slate-900 dark:text-white">{avgSalesCycle} dias</p>
           <p className="text-xs text-slate-500">
-            RÃ¡pido: {fastestDeal}d | Lento: {slowestDeal}d
+            Rápido: {fastestDeal}d | Lento: {slowestDeal}d
           </p>
         </div>
 
@@ -344,10 +344,10 @@ const ReportsPage: React.FC = () => {
         <div className="lg:col-span-2 glass p-5 rounded-xl border border-slate-200 dark:border-white/5 shadow-sm flex flex-col h-full">
           <div className="flex justify-between items-center mb-2 shrink-0">
             <h2 className="text-lg font-bold text-slate-900 dark:text-white font-display">
-              TendÃªncia de Receita
+              Tendência de Receita
             </h2>
             <span className="text-xs text-slate-500 bg-slate-100 dark:bg-white/5 px-2 py-1 rounded">
-              Ãšltimos 6 Meses
+              Íšltimos 6 Meses
             </span>
           </div>
           <div className="flex-1 min-h-0 relative">
@@ -401,7 +401,7 @@ const ReportsPage: React.FC = () => {
             ) : (
               <div className="flex flex-col items-center justify-center h-full text-slate-500 py-6">
                 <Users size={32} className="mb-2 opacity-50" />
-                <p className="text-sm">Nenhum deal fechado no perÃ­odo.</p>
+                <p className="text-sm">Nenhum deal fechado no período.</p>
               </div>
             )}
           </div>

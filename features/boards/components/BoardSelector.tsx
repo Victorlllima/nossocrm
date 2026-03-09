@@ -21,7 +21,7 @@ interface BoardSelectorProps {
   onCreateBoard,
   onEditBoard,
   onDeleteBoard,
-} - ParÃ¢metro `{
+} - Parâmetro `{
   boards,
   activeBoard,
   onSelectBoard,
@@ -109,7 +109,7 @@ export const BoardSelector: React.FC<BoardSelectorProps> = ({
                         <Settings size={14} />
                       </button>
                     )}
-                    {/* Pode deletar se nÃ£o for o Ãºnico board */}
+                    {/* Pode deletar se não for o único board */}
                     {onDeleteBoard && boards.length > 1 && (
                       <button
                         type="button"

@@ -21,7 +21,7 @@ interface AIAssistantProps {
   dealId?: string;
   contactId?: string;
   cockpitSnapshot?: unknown;
-  /** ForÃ§a o chat a usar apenas props (sem AIContext) quando necessÃ¡rio. */
+  /** Força o chat a usar apenas props (sem AIContext) quando necessário. */
   contextMode?: 'auto' | 'props-only';
 }
 
@@ -37,7 +37,7 @@ interface AIAssistantProps {
   contactId,
   cockpitSnapshot,
   contextMode,
-} - ParÃ¢metro `{
+} - Parâmetro `{
   isOpen,
   onClose,
   variant = 'overlay',

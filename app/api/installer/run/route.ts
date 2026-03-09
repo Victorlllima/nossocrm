@@ -66,7 +66,7 @@ function updateStep(steps: Step[], id: string, status: StepStatus, message?: str
 /**
  * Handler HTTP `POST` deste endpoint (Next.js Route Handler).
  *
- * @param {Request} req - Objeto da requisiÃ§Ã£o.
+ * @param {Request} req - Objeto da requisição.
  * @returns {Promise<Response>} Retorna um valor do tipo `Promise<Response>`.
  */
 export async function POST(req: Request) {
@@ -122,7 +122,7 @@ export async function POST(req: Request) {
     const needsKeys = !resolvedAnonKey || !resolvedServiceRoleKey;
     const needsDb = !resolvedDbUrl;
 
-    // â€œ100% mÃ¡gicoâ€: se nÃ£o existir nenhuma Edge Function no repo, nÃ£o exigir PAT sÃ³ por deploy.
+    // â€œ100% mágicoâ€: se não existir nenhuma Edge Function no repo, não exigir PAT só por deploy.
     const localEdgeFunctionSlugs = supabase.deployEdgeFunctions
       ? await listEdgeFunctionSlugs()
       : [];

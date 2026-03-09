@@ -104,7 +104,7 @@ export const useDealsView = (filters?: DealsFilters) => {
           companyName: company?.name || 'Sem empresa',
           contactName: contact?.name || 'Sem contato',
           contactEmail: contact?.email || '',
-          stageLabel: stageMap.get(deal.status) || 'EstÃ¡gio nÃ£o identificado',
+          stageLabel: stageMap.get(deal.status) || 'Estágio não identificado',
         };
       });
 
@@ -156,12 +156,12 @@ export const useDeal = (id: string | undefined) => {
  * 
  * IMPORTANTE: Este hook usa a MESMA query key que useDealsView para garantir
  * que todos os componentes compartilhem o mesmo cache (Single Source of Truth).
- * A filtragem por boardId Ã© feita via `select` no cliente.
+ * A filtragem por boardId é feita via `select` no cliente.
  */
 export const useDealsByBoard = (boardId: string) => {
   const { user, loading: authLoading } = useAuth();
   return useQuery<DealView[], Error, DealView[]>({
-    // CRÃTICO: Usar a mesma query key que useDealsView para compartilhar cache
+    // CRÍTICO: Usar a mesma query key que useDealsView para compartilhar cache
     queryKey: [...queryKeys.deals.lists(), 'view'],
     queryFn: async () => {
       // Fetch all data in parallel (including all stages)
@@ -193,12 +193,12 @@ export const useDealsByBoard = (boardId: string) => {
           companyName: company?.name || 'Sem empresa',
           contactName: contact?.name || 'Sem contato',
           contactEmail: contact?.email || '',
-          stageLabel: stageMap.get(deal.status) || 'EstÃ¡gio nÃ£o identificado',
+          stageLabel: stageMap.get(deal.status) || 'Estágio não identificado',
         };
       });
       return enrichedDeals;
     },
-    // Filtrar por boardId no cliente (compartilha cache mas retorna sÃ³ os deals do board)
+    // Filtrar por boardId no cliente (compartilha cache mas retorna só os deals do board)
     select: (data) => {
       if (!boardId || boardId.startsWith('temp-')) return [];
       return data.filter(d => d.boardId === boardId);
@@ -241,7 +241,7 @@ export const useCreateDeal = () => {
       }
       // #endregion
 
-      // Passa null ao invÃ©s de '' - o trigger vai preencher automaticamente
+      // Passa null ao invés de '' - o trigger vai preencher automaticamente
       const { data, error } = await dealsService.create(fullDeal);
 
       if (error) throw error;
@@ -259,7 +259,7 @@ export const useCreateDeal = () => {
     onMutate: async newDeal => {
       await queryClient.cancelQueries({ queryKey: queryKeys.deals.all });
 
-      // Usa DEALS_VIEW_KEY - a Ãºnica fonte de verdade
+      // Usa DEALS_VIEW_KEY - a única fonte de verdade
       const previousDeals = queryClient.getQueryData<DealView[]>(DEALS_VIEW_KEY);
 
       // Optimistic update with temp ID - cria DealView parcial
@@ -271,7 +271,7 @@ export const useCreateDeal = () => {
         updatedAt: new Date().toISOString(),
         isWon: newDeal.isWon ?? false,
         isLost: newDeal.isLost ?? false,
-        // Campos enriquecidos ficam vazios atÃ© Realtime atualizar
+        // Campos enriquecidos ficam vazios até Realtime atualizar
         companyName: '',
         contactName: '',
         contactEmail: '',
@@ -304,7 +304,7 @@ export const useCreateDeal = () => {
       }
       // #endregion
       
-      // Usa DEALS_VIEW_KEY - a Ãºnica fonte de verdade
+      // Usa DEALS_VIEW_KEY - a única fonte de verdade
       // Converte Deal para DealView parcial (Realtime vai enriquecer depois)
       const dealAsView: DealView = {
         ...data,
@@ -328,7 +328,7 @@ export const useCreateDeal = () => {
             fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useDealsQuery.ts:290',message:'Deal already exists in cache',data:{dealId:data.id?.slice(0,8)},timestamp:Date.now(),sessionId:'debug-session',runId:'create-deal',hypothesisId:'CD5'})}).catch(()=>{});
           }
           // #endregion
-          return old; // NÃ£o sobrescreve - Realtime jÃ¡ tem dados enriquecidos
+          return old; // Não sobrescreve - Realtime já tem dados enriquecidos
         }
         
         if (tempId) {
@@ -354,7 +354,7 @@ export const useCreateDeal = () => {
       }
     },
     onSettled: () => {
-      // NÃƒO fazer invalidateQueries para deals - Realtime gerencia a sincronizaÃ§Ã£o
+      // NÍƒO fazer invalidateQueries para deals - Realtime gerencia a sincronização
       // Isso evita race conditions onde o refetch sobrescreve o cache otimista
       // Apenas atualiza stats do dashboard
       queryClient.invalidateQueries({ queryKey: queryKeys.dashboard.stats });
@@ -364,7 +364,7 @@ export const useCreateDeal = () => {
 
 /**
  * Hook to update a deal
- * Usa DEALS_VIEW_KEY como Ãºnica fonte de verdade
+ * Usa DEALS_VIEW_KEY como única fonte de verdade
  */
 export const useUpdateDeal = () => {
   const queryClient = useQueryClient();
@@ -378,7 +378,7 @@ export const useUpdateDeal = () => {
     onMutate: async ({ id, updates }) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.deals.all });
 
-      // Usa DEALS_VIEW_KEY - a Ãºnica fonte de verdade
+      // Usa DEALS_VIEW_KEY - a única fonte de verdade
       const previousDeals = queryClient.getQueryData<DealView[]>(DEALS_VIEW_KEY);
 
       queryClient.setQueryData<DealView[]>(DEALS_VIEW_KEY, (old = []) =>
@@ -400,8 +400,8 @@ export const useUpdateDeal = () => {
       }
     },
     onSettled: (_data, _error, { id }) => {
-      // NÃƒO fazer invalidateQueries para deals - Realtime gerencia a sincronizaÃ§Ã£o
-      // Apenas invalidar o detalhe especÃ­fico se necessÃ¡rio
+      // NÍƒO fazer invalidateQueries para deals - Realtime gerencia a sincronização
+      // Apenas invalidar o detalhe específico se necessário
       queryClient.invalidateQueries({ queryKey: queryKeys.deals.detail(id) });
     },
   });
@@ -410,7 +410,7 @@ export const useUpdateDeal = () => {
 /**
  * Hook to update deal status (for drag & drop in Kanban)
  * @deprecated Use useMoveDeal instead - this hook is not used anywhere
- * Usa DEALS_VIEW_KEY como Ãºnica fonte de verdade
+ * Usa DEALS_VIEW_KEY como única fonte de verdade
  */
 export const useUpdateDealStatus = () => {
   const queryClient = useQueryClient();
@@ -454,7 +454,7 @@ export const useUpdateDealStatus = () => {
     onMutate: async ({ id, status, lossReason, isWon, isLost }) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.deals.all });
 
-      // Usa DEALS_VIEW_KEY - Ãºnica fonte de verdade
+      // Usa DEALS_VIEW_KEY - única fonte de verdade
       const previousDeals = queryClient.getQueryData<DealView[]>(DEALS_VIEW_KEY);
 
       queryClient.setQueryData<DealView[]>(DEALS_VIEW_KEY, (old = []) =>
@@ -480,7 +480,7 @@ export const useUpdateDealStatus = () => {
       }
     },
     onSettled: () => {
-      // NÃƒO fazer invalidateQueries - Realtime gerencia a sincronizaÃ§Ã£o
+      // NÍƒO fazer invalidateQueries - Realtime gerencia a sincronização
       queryClient.invalidateQueries({ queryKey: queryKeys.dashboard.stats });
     },
   });
@@ -488,7 +488,7 @@ export const useUpdateDealStatus = () => {
 
 /**
  * Hook to delete a deal
- * Usa DEALS_VIEW_KEY como Ãºnica fonte de verdade
+ * Usa DEALS_VIEW_KEY como única fonte de verdade
  */
 export const useDeleteDeal = () => {
   const queryClient = useQueryClient();
@@ -502,7 +502,7 @@ export const useDeleteDeal = () => {
     onMutate: async id => {
       await queryClient.cancelQueries({ queryKey: queryKeys.deals.all });
 
-      // Usa DEALS_VIEW_KEY - a Ãºnica fonte de verdade
+      // Usa DEALS_VIEW_KEY - a única fonte de verdade
       const previousDeals = queryClient.getQueryData<DealView[]>(DEALS_VIEW_KEY);
 
       queryClient.setQueryData<DealView[]>(DEALS_VIEW_KEY, (old = []) =>
@@ -517,7 +517,7 @@ export const useDeleteDeal = () => {
       }
     },
     onSettled: () => {
-      // NÃƒO fazer invalidateQueries para deals - Realtime gerencia a sincronizaÃ§Ã£o
+      // NÍƒO fazer invalidateQueries para deals - Realtime gerencia a sincronização
       // Apenas atualiza stats do dashboard
       queryClient.invalidateQueries({ queryKey: queryKeys.dashboard.stats });
     },

@@ -46,22 +46,22 @@ export async function prepararContextoLead(leadPhone: string): Promise<LeadConte
     if (leadData.imovel_interesse_id) {
         contextoLead = `
 # CONTEXTO IMPORTANTE DO LEAD
-Este lead demonstrou interesse no imÃ³vel **"${leadData.imovel_interesse_nome || 'ID: ' + leadData.imovel_interesse_id}"** atravÃ©s da campanha "${leadData.campanha_origem || 'Meta Ads'}".
+Este lead demonstrou interesse no imóvel **"${leadData.imovel_interesse_nome || 'ID: ' + leadData.imovel_interesse_id}"** através da campanha "${leadData.campanha_origem || 'Meta Ads'}".
 
-**REGRA CRÃTICA:** Quando o lead perguntar sobre "o imÃ³vel", "o apartamento", "a casa", "esse imÃ³vel", "preÃ§o", "fotos", "caracterÃ­sticas" SEM especificar qual, vocÃª DEVE:
+**REGRA CRÍTICA:** Quando o lead perguntar sobre "o imóvel", "o apartamento", "a casa", "esse imóvel", "preço", "fotos", "características" SEM especificar qual, você DEVE:
 1. Usar a tool Consultar_Base_Imoveis com o termo: "ID: ${leadData.imovel_interesse_id}"
-2. Mencionar o nome do imÃ³vel nas respostas: "${leadData.imovel_interesse_nome}"
-3. NUNCA perguntar "De qual imÃ³vel vocÃª estÃ¡ falando?"
+2. Mencionar o nome do imóvel nas respostas: "${leadData.imovel_interesse_nome}"
+3. NUNCA perguntar "De qual imóvel você está falando?"
 
 Exemplo:
-- Lead: "Qual o preÃ§o?"
-- VocÃª: "O ${leadData.imovel_interesse_nome} estÃ¡ no valor de [buscar na tool]"
+- Lead: "Qual o preço?"
+- Você: "O ${leadData.imovel_interesse_nome} está no valor de [buscar na tool]"
 `;
     } else if (leadData.bairros_interesse) {
         contextoLead = `
 # CONTEXTO DO LEAD
 Lead interessado em: ${leadData.bairros_interesse}
-Tipo de interesse: ${leadData.tipo_interesse || 'NÃ£o especificado'}
+Tipo de interesse: ${leadData.tipo_interesse || 'Não especificado'}
 `;
     }
 

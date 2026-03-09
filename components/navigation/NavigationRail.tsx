@@ -20,7 +20,7 @@ export function NavigationRail({ onOpenMore }: NavigationRailProps) {
 
   return (
     <nav
-      aria-label="NavegaÃ§Ã£o principal (tablet)"
+      aria-label="Navegação principal (tablet)"
       className={cn(
         'flex',
         'flex-col justify-between',

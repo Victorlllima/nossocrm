@@ -1,6 +1,6 @@
 # 🦈 ANÁLISE COMPLETA: AGENTE CONVERSACIONAL PARA WHATSAPP
 **Data:** 10/02/2026
-**Status:** RECONSTRUÇÃO EM DEV - BUILD PASSANDO
+**Status:** RECONSTRUÇÍO EM DEV - BUILD PASSANDO
 **Objetivo:** Replicar workflow N8n em Vercel AI SDK v3
 
 ---
@@ -102,7 +102,7 @@ Webhook (Evolution API)
 
 ---
 
-## 🧠 O AGENTE IA (AI Agent1) - CORAÇÃO DO SISTEMA
+## 🧠 O AGENTE IA (AI Agent1) - CORAÇÍO DO SISTEMA
 
 ### Prompt do Sistema
 

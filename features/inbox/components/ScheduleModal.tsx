@@ -24,8 +24,8 @@ export interface ScheduleData {
 }
 
 const typeConfig = {
-    CALL: { label: 'LigaÃ§Ã£o', icon: Phone, color: 'blue' },
-    MEETING: { label: 'ReuniÃ£o', icon: Calendar, color: 'purple' },
+    CALL: { label: 'Ligação', icon: Phone, color: 'blue' },
+    MEETING: { label: 'Reunião', icon: Calendar, color: 'purple' },
     TASK: { label: 'Tarefa', icon: Clock, color: 'orange' },
 };
 
@@ -42,7 +42,7 @@ const typeConfig = {
     initialDescription,
     initialDate,
     initialTime,
-} - ParÃ¢metro `{
+} - Parâmetro `{
     isOpen,
     onClose,
     onSave,
@@ -102,7 +102,7 @@ export function ScheduleModal({
     useEffect(() => {
         if (!isOpen) return;
         if (titleTouched) return;
-        // Se abriu com um tÃ­tulo sugerido (ex.: IA) e ainda estÃ¡ no tipo inicial, nÃ£o sobrescrever.
+        // Se abriu com um título sugerido (ex.: IA) e ainda está no tipo inicial, não sobrescrever.
         if (typeof initialTitle === 'string' && initialTitle.trim() && type === initialType) return;
 
         setTitle(typeConfig[type].label + ' com ' + contactName);
@@ -188,7 +188,7 @@ export function ScheduleModal({
 
                     {/* Title */}
                     <div>
-                        <label className="block text-xs font-medium text-slate-400 mb-2">TÃ­tulo</label>
+                        <label className="block text-xs font-medium text-slate-400 mb-2">Título</label>
                         <input
                             type="text"
                             value={title}
@@ -197,7 +197,7 @@ export function ScheduleModal({
                                 setTitle(e.target.value);
                             }}
                             className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-primary-500"
-                            placeholder="Ex: Ligar para JoÃ£o"
+                            placeholder="Ex: Ligar para João"
                         />
                     </div>
 
@@ -214,7 +214,7 @@ export function ScheduleModal({
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-slate-400 mb-2">HorÃ¡rio</label>
+                            <label className="block text-xs font-medium text-slate-400 mb-2">Horário</label>
                             <input
                                 type="time"
                                 value={time}
@@ -226,7 +226,7 @@ export function ScheduleModal({
 
                     {/* Quick time buttons */}
                     <div className="flex gap-2 flex-wrap">
-                        {['Hoje', 'AmanhÃ£', 'PrÃ³x. semana'].map((label, idx) => {
+                        {['Hoje', 'Amanhã', 'Próx. semana'].map((label, idx) => {
                             const d = new Date();
                             if (idx === 1) d.setDate(d.getDate() + 1);
                             if (idx === 2) d.setDate(d.getDate() + 7);
@@ -248,7 +248,7 @@ export function ScheduleModal({
 
                     {/* Description */}
                     <div>
-                        <label className="block text-xs font-medium text-slate-400 mb-2">DescriÃ§Ã£o (opcional)</label>
+                        <label className="block text-xs font-medium text-slate-400 mb-2">Descrição (opcional)</label>
                         <textarea
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}

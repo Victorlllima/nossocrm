@@ -13,7 +13,7 @@ interface AIProcessingModalProps {
 /**
  * Componente React `AIProcessingModal`.
  *
- * @param {AIProcessingModalProps} { isOpen, currentStep, phase = 'structure' } - ParÃ¢metro `{ isOpen, currentStep, phase = 'structure' }`.
+ * @param {AIProcessingModalProps} { isOpen, currentStep, phase = 'structure' } - Parâmetro `{ isOpen, currentStep, phase = 'structure' }`.
  * @returns {Element | null} Retorna um valor do tipo `Element | null`.
  */
 export const AIProcessingModal: React.FC<AIProcessingModalProps> = ({ isOpen, currentStep, phase = 'structure' }) => {
@@ -23,7 +23,7 @@ export const AIProcessingModal: React.FC<AIProcessingModalProps> = ({ isOpen, cu
     const structureSteps = [
         {
             id: 'analyzing',
-            label: 'Analisando seu negÃ³cio...',
+            label: 'Analisando seu negócio...',
             icon: BrainCircuit,
             description: 'Entendendo o contexto e necessidades.'
         },
@@ -31,13 +31,13 @@ export const AIProcessingModal: React.FC<AIProcessingModalProps> = ({ isOpen, cu
             id: 'structure',
             label: 'Desenhando Processo',
             icon: LayoutTemplate,
-            description: 'Criando fases do funil e automaÃ§Ãµes.'
+            description: 'Criando fases do funil e automações.'
         },
         {
             id: 'finalizing',
             label: 'Preparando Preview...',
             icon: Eye,
-            description: 'Gerando visualizaÃ§Ã£o interativa.'
+            description: 'Gerando visualização interativa.'
         }
     ];
 
@@ -50,13 +50,13 @@ export const AIProcessingModal: React.FC<AIProcessingModalProps> = ({ isOpen, cu
         },
         {
             id: 'strategy',
-            label: 'Definindo EstratÃ©gia',
+            label: 'Definindo Estratégia',
             icon: Target,
             description: 'Configurando metas e persona do agente.'
         },
         {
             id: 'finalizing',
-            label: 'Finalizando CriaÃ§Ã£o...',
+            label: 'Finalizando Criação...',
             icon: Sparkles,
             description: 'Montando seu board personalizado.'
         }
@@ -86,10 +86,10 @@ export const AIProcessingModal: React.FC<AIProcessingModalProps> = ({ isOpen, cu
                         <Sparkles className="text-primary-600 dark:text-primary-400 animate-pulse drop-shadow-sm" size={32} />
                     </div>
                     <h3 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
-                        {phase === 'structure' ? 'Criando seu CRM' : 'Definindo EstratÃ©gia'}
+                        {phase === 'structure' ? 'Criando seu CRM' : 'Definindo Estratégia'}
                     </h3>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 font-medium">
-                        {phase === 'structure' ? 'A IA estÃ¡ desenhando seu processo...' : 'A IA estÃ¡ alinhando metas e agentes...'}
+                        {phase === 'structure' ? 'A IA está desenhando seu processo...' : 'A IA está alinhando metas e agentes...'}
                     </p>
                 </div>
 

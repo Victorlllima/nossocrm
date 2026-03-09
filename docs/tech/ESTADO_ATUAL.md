@@ -5,8 +5,8 @@
 ```
 ✅ BUILD PASSANDO
 ✅ CÓDIGO PRONTO PARA TESTES
-❌ NÃO VALIDADO EM RUNTIME
-❌ NÃO EM PRODUÇÃO
+❌ NÍO VALIDADO EM RUNTIME
+❌ NÍO EM PRODUÇÍO
 
 Próximo passo: Testar tool invocation com webhook simulado
 Tempo para produção: 2-3 dias (se testes passarem)
@@ -25,26 +25,26 @@ Tempo para produção: 2-3 dias (se testes passarem)
 - [x] Buffer anti-spam
 - [x] Vector search
 
-### Fase 2: ✅ IMPLEMENTAÇÃO (COMPLETA)
+### Fase 2: ✅ IMPLEMENTAÇÍO (COMPLETA)
 - [x] Código escrito
 - [x] Build passando
 - [x] TypeScript strict (sem `as any` em tools)
 - [x] Integração com Supabase
 - [x] Integração com OpenAI
 
-### Fase 3: ⏳ VALIDAÇÃO (COMEÇANDO AGORA)
+### Fase 3: ⏳ VALIDAÇÍO (COMEÇANDO AGORA)
 - [ ] Tool invocation loop
 - [ ] Histórico entre mensagens
 - [ ] Transbordo inteligente
 - [ ] Anti-spam funciona
 - [ ] Multimodal funciona
 
-### Fase 4: ⏳ INTEGRAÇÃO (PRÓX. SEMANA)
+### Fase 4: ⏳ INTEGRAÇÍO (PRÓX. SEMANA)
 - [ ] Evolution API real
 - [ ] Envio de mensagens real
 - [ ] Monitoring/Logs
 
-### Fase 5: 🚀 PRODUÇÃO (SEMANA QUE VEM)
+### Fase 5: 🚀 PRODUÇÍO (SEMANA QUE VEM)
 - [ ] Deploy Vercel staging
 - [ ] Testes E2E
 - [ ] Deploy produção
@@ -99,7 +99,7 @@ Tempo para produção: 2-3 dias (se testes passarem)
 
 ## 🎯 PRÓXIMOS 3 DIAS
 
-### HOJE/AMANHÃ: Validação P1
+### HOJE/AMANHÍ: Validação P1
 
 ```
 09:00 - Setup Postman
@@ -206,7 +206,7 @@ Para considerar "Pronto para Produção":
 
 ---
 
-## 🚀 PRÓXIMA AÇÃO (RED)
+## 🚀 PRÓXIMA AÇÍO (RED)
 
 ### 1. Revisar `RESUMO_EXECUTIVO_AGENTE.md` (30 min)
 - Entender status atual
@@ -229,7 +229,7 @@ Para considerar "Pronto para Produção":
 
 ---
 
-## 📞 ESCALAÇÃO
+## 📞 ESCALAÇÍO
 
 Se algo quebrar:
 - **Build quebra** → Verificar `lib/ai/**`

@@ -132,7 +132,7 @@ const SuggestionMiniRow: React.FC<{
   onOpenToday,
   onOpenCriticalSuggestions,
   onOpenPending,
-} - ParÃ¢metro `{
+} - Parâmetro `{
   overdueActivities,
   todayMeetings,
   todayTasks,
@@ -187,9 +187,9 @@ export const InboxOverviewView: React.FC<InboxOverviewViewProps> = ({
       {/* Top CTA */}
       <div className="flex items-start justify-between gap-3">
         <div>
-          <h2 className="text-lg font-bold text-slate-900 dark:text-white">VisÃ£o Geral</h2>
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white">Visão Geral</h2>
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            DiagnÃ³stico rÃ¡pido do dia (sem virar outra lista de atividades).
+            Diagnóstico rápido do dia (sem virar outra lista de atividades).
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -204,10 +204,10 @@ export const InboxOverviewView: React.FC<InboxOverviewViewProps> = ({
             onClick={onStartFocus}
             disabled={!canStartFocus}
             className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700 transition-colors disabled:opacity-50"
-            title={canStartFocus ? 'ComeÃ§ar a executar' : 'Nada pendente'}
+            title={canStartFocus ? 'Começar a executar' : 'Nada pendente'}
           >
             <Target size={16} aria-hidden="true" />
-            ComeÃ§ar foco
+            Começar foco
           </button>
         </div>
       </div>
@@ -218,28 +218,28 @@ export const InboxOverviewView: React.FC<InboxOverviewViewProps> = ({
           label="Atrasados"
           value={overdueActivities.length}
           tone={overdueActivities.length > 0 ? 'danger' : 'success'}
-          hint={overdueActivities.length > 0 ? 'Prioridade mÃ¡xima' : 'Tudo em dia'}
+          hint={overdueActivities.length > 0 ? 'Prioridade máxima' : 'Tudo em dia'}
           onClick={onOpenOverdue}
         />
         <StatCard
           label="Hoje"
           value={todayTotal}
           tone={todayTotal > 0 ? 'warning' : 'success'}
-          hint={todayTotal > 0 ? `${todayMeetings.length} reuniÃµes â€¢ ${todayTasks.length} tarefas` : 'Sem tarefas para hoje'}
+          hint={todayTotal > 0 ? `${todayMeetings.length} reuniões â€¢ ${todayTasks.length} tarefas` : 'Sem tarefas para hoje'}
           onClick={onOpenToday}
         />
         <StatCard
-          label="SugestÃµes crÃ­ticas"
+          label="Sugestões críticas"
           value={highPrioritySuggestions.length}
           tone={highPrioritySuggestions.length > 0 ? 'warning' : 'neutral'}
-          hint={highPrioritySuggestions.length > 0 ? 'Risco/Oportunidade agora' : 'Sem urgÃªncias'}
+          hint={highPrioritySuggestions.length > 0 ? 'Risco/Oportunidade agora' : 'Sem urgências'}
           onClick={onOpenCriticalSuggestions}
         />
         <StatCard
-          label="PendÃªncias"
+          label="Pendências"
           value={totalPending}
           tone={totalPending > 0 ? 'neutral' : 'success'}
-          hint={upcomingActivities.length > 0 ? `${upcomingActivities.length} prÃ³ximos` : 'Backlog leve'}
+          hint={upcomingActivities.length > 0 ? `${upcomingActivities.length} próximos` : 'Backlog leve'}
           onClick={onOpenPending}
         />
       </div>

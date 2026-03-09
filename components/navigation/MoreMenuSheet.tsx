@@ -11,7 +11,7 @@ export interface MoreMenuSheetProps {
 
 export function MoreMenuSheet({ isOpen, onClose }: MoreMenuSheetProps) {
   return (
-    <ActionSheet isOpen={isOpen} onClose={onClose} title="Mais" description="Acesse outras Ã¡reas do CRM">
+    <ActionSheet isOpen={isOpen} onClose={onClose} title="Mais" description="Acesse outras áreas do CRM">
       <div className="space-y-2">
         {SECONDARY_NAV.map((item) => {
           const Icon = item.icon;
