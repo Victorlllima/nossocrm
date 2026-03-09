@@ -77,7 +77,8 @@ async function robustGenerateWithFallback(params: {
             console.log(`🤖 [${requestId}] Chamando ${name}...`);
             const result = await retryWithBackoff(
                 () => generateText({
-                    model,
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    model: model as any,
                     temperature: 0.3,
                     system,
                     messages,
