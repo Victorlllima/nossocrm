@@ -9,10 +9,10 @@ describe('csv utils', () => {
   });
 
   it('parses quoted fields and escaped quotes', () => {
-    const input = 'name,email\n"JoÃ£o ""Test""",joao@x.com\n';
+    const input = 'name,email\n"João ""Test""",joao@x.com\n';
     const { headers, rows } = parseCsv(input, ',');
     expect(headers).toEqual(['name', 'email']);
-    expect(rows).toEqual([['JoÃ£o "Test"', 'joao@x.com']]);
+    expect(rows).toEqual([['João "Test"', 'joao@x.com']]);
   });
 
   it('stringifies and roundtrips basic CSV', () => {

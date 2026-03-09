@@ -16,7 +16,7 @@ import Layout from '@/components/Layout'
  *
  * @param {{ children: ReactNode; }} {
     children,
-} - ParÃ¢metro `{
+} - Parâmetro `{
     children,
 }`.
  * @returns {Element} Retorna um valor do tipo `Element`.

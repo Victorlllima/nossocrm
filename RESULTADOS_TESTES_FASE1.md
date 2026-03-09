@@ -25,7 +25,7 @@ Versão: Mock (não usa OpenAI)
 
 ## 🧪 DETALHES DE CADA TESTE
 
-### ✅ TESTE 1: SAUDAÇÃO BÁSICA
+### ✅ TESTE 1: SAUDAÇÍO BÁSICA
 
 **Request:**
 ```json
@@ -193,7 +193,7 @@ Razão: Buffer de 15s ativo
 | Response format | ✅ | Respostas legíveis |
 | Error handling | ✅ | Nenhum crash observado |
 
-### O Que NÃO Foi Testado (Requer OpenAI)
+### O Que NÍO Foi Testado (Requer OpenAI)
 
 | Componente | Status | Motivo |
 |-----------|--------|--------|

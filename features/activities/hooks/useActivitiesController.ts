@@ -14,7 +14,7 @@ import { useContacts, useCompanies } from '@/lib/query/hooks/useContactsQuery';
 import { useRealtimeSync } from '@/lib/realtime/useRealtimeSync';
 
 /**
- * Hook React `useActivitiesController` que encapsula uma lÃ³gica reutilizÃ¡vel.
+ * Hook React `useActivitiesController` que encapsula uma lógica reutilizável.
  * @returns {{ viewMode: "list" | "calendar"; setViewMode: Dispatch<SetStateAction<"list" | "calendar">>; searchTerm: string; setSearchTerm: Dispatch<SetStateAction<string>>; ... 18 more ...; handleSubmit: (e: FormEvent<...>) => void; }} Retorna um valor do tipo `{ viewMode: "list" | "calendar"; setViewMode: Dispatch<SetStateAction<"list" | "calendar">>; searchTerm: string; setSearchTerm: Dispatch<SetStateAction<string>>; ... 18 more ...; handleSubmit: (e: FormEvent<...>) => void; }`.
  */
 export const useActivitiesController = () => {
@@ -55,7 +55,7 @@ export const useActivitiesController = () => {
       return;
     }
 
-    // Qualquer outro valor (inclui vazio) cai no padrÃ£o.
+    // Qualquer outro valor (inclui vazio) cai no padrão.
     setDateFilter('ALL');
   }, [searchParams]);
 
@@ -142,7 +142,7 @@ export const useActivitiesController = () => {
     if (window.confirm('Tem certeza que deseja excluir esta atividade?')) {
       deleteActivityMutation.mutate(id, {
         onSuccess: () => {
-          showToast('Atividade excluÃ­da com sucesso', 'success');
+          showToast('Atividade excluída com sucesso', 'success');
         },
       });
     }
@@ -160,7 +160,7 @@ export const useActivitiesController = () => {
         },
         {
           onSuccess: () => {
-            showToast(activity.completed ? 'Atividade reaberta' : 'Atividade concluÃ­da', 'success');
+            showToast(activity.completed ? 'Atividade reaberta' : 'Atividade concluída', 'success');
           },
         }
       );

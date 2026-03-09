@@ -1,6 +1,6 @@
 ﻿/**
  * Decision Queue Service
- * Gerencia a fila de decisÃµes pendentes
+ * Gerencia a fila de decisões pendentes
  */
 
 import { 
@@ -231,11 +231,11 @@ export const decisionQueueService = {
     const decision = this.getDecisionById(id);
     
     if (!decision) {
-      return { success: false, error: 'DecisÃ£o nÃ£o encontrada' };
+      return { success: false, error: 'Decisão não encontrada' };
     }
 
     if (decision.status !== 'pending') {
-      return { success: false, error: 'DecisÃ£o jÃ¡ foi processada' };
+      return { success: false, error: 'Decisão já foi processada' };
     }
 
     // Merge modifications into payload

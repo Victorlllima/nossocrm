@@ -39,7 +39,7 @@ const AI_PROVIDERS = [
     },
 ] as const;
 
-// FunÃ§Ã£o para validar API key fazendo uma chamada real Ã  API
+// Função para validar API key fazendo uma chamada real Í  API
 async function validateApiKey(provider: string, apiKey: string, model: string): Promise<{ valid: boolean; error?: string }> {
     if (!apiKey || apiKey.trim().length < 10) {
         return { valid: false, error: 'Chave muito curta' };
@@ -47,7 +47,7 @@ async function validateApiKey(provider: string, apiKey: string, model: string): 
 
     try {
         if (provider === 'google') {
-            // Gemini API validation - usa endpoint generateContent com texto mÃ­nimo
+            // Gemini API validation - usa endpoint generateContent com texto mínimo
             const response = await fetch(
                 `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
                 {
@@ -66,13 +66,13 @@ async function validateApiKey(provider: string, apiKey: string, model: string): 
 
             const error = await response.json();
             if (response.status === 400 && error?.error?.message?.includes('API key not valid')) {
-                return { valid: false, error: 'Chave de API invÃ¡lida' };
+                return { valid: false, error: 'Chave de API inválida' };
             }
             if (response.status === 403) {
-                return { valid: false, error: 'Chave sem permissÃ£o para este modelo' };
+                return { valid: false, error: 'Chave sem permissão para este modelo' };
             }
             if (response.status === 429) {
-                // Rate limit = key Ã© vÃ¡lida, sÃ³ estÃ¡ no limite
+                // Rate limit = key é válida, só está no limite
                 return { valid: true };
             }
             return { valid: false, error: error?.error?.message || 'Erro desconhecido' };
@@ -87,13 +87,13 @@ async function validateApiKey(provider: string, apiKey: string, model: string): 
                 return { valid: true };
             }
             if (response.status === 401) {
-                return { valid: false, error: 'Chave de API invÃ¡lida' };
+                return { valid: false, error: 'Chave de API inválida' };
             }
             return { valid: false, error: 'Erro ao validar chave' };
 
         } else if (provider === 'anthropic') {
-            // Anthropic validation - nÃ£o tem endpoint de validaÃ§Ã£o simples
-            // Fazemos uma chamada mÃ­nima
+            // Anthropic validation - não tem endpoint de validação simples
+            // Fazemos uma chamada mínima
             const response = await fetch('https://api.anthropic.com/v1/messages', {
                 method: 'POST',
                 headers: {
@@ -112,18 +112,18 @@ async function validateApiKey(provider: string, apiKey: string, model: string): 
                 return { valid: true };
             }
             if (response.status === 401) {
-                return { valid: false, error: 'Chave de API invÃ¡lida' };
+                return { valid: false, error: 'Chave de API inválida' };
             }
             if (response.status === 429) {
-                return { valid: true }; // Rate limit = key vÃ¡lida
+                return { valid: true }; // Rate limit = key válida
             }
             return { valid: false, error: 'Erro ao validar chave' };
         }
 
-        return { valid: false, error: 'Provedor nÃ£o suportado' };
+        return { valid: false, error: 'Provedor não suportado' };
     } catch (error) {
         console.error('API Key validation error:', error);
-        return { valid: false, error: 'Erro de conexÃ£o. Verifique sua internet.' };
+        return { valid: false, error: 'Erro de conexão. Verifique sua internet.' };
     }
 }
 
@@ -147,28 +147,28 @@ export const AIConfigSection: React.FC = () => {
 
     const { showToast } = useToast();
 
-    // Estado local para o input da key (nÃ£o salva atÃ© validar)
+    // Estado local para o input da key (não salva até validar)
     const [localApiKey, setLocalApiKey] = useState(aiApiKey);
     const [isValidating, setIsValidating] = useState(false);
     const [validationStatus, setValidationStatus] = useState<'idle' | 'valid' | 'invalid'>(
         aiApiKey ? 'valid' : 'idle'
     );
     const [validationError, setValidationError] = useState<string | null>(null);
-    // UX: mostrar LGPD expandido apenas quando ainda NÃƒO hÃ¡ key salva (primeira configuraÃ§Ã£o).
-    // Depois que a key existe, manter colapsado por padrÃ£o para nÃ£o â€œinflarâ€ a tela.
+    // UX: mostrar LGPD expandido apenas quando ainda NÍƒO há key salva (primeira configuração).
+    // Depois que a key existe, manter colapsado por padrão para não â€œinflarâ€ a tela.
     const [lgpdExpanded, setLgpdExpanded] = useState(!aiApiKey);
 
     // Sync local state when context changes (ex: carregamento inicial)
     useEffect(() => {
         setLocalApiKey(aiApiKey);
         if (aiApiKey) {
-            setValidationStatus('valid'); // Assume vÃ¡lida se jÃ¡ estava salva
+            setValidationStatus('valid'); // Assume válida se já estava salva
         }
-        // Se jÃ¡ existe key salva, manter LGPD colapsado por padrÃ£o.
+        // Se já existe key salva, manter LGPD colapsado por padrão.
         setLgpdExpanded(!aiApiKey);
     }, [aiApiKey]);
 
-    // Reset validation apenas quando usuÃ¡rio EDITA a key (nÃ£o no carregamento)
+    // Reset validation apenas quando usuário EDITA a key (não no carregamento)
     const handleKeyChange = (newKey: string) => {
         setLocalApiKey(newKey);
         if (newKey !== aiApiKey) {
@@ -200,7 +200,7 @@ export const AIConfigSection: React.FC = () => {
             setValidationStatus('valid');
             try {
                 await setAiApiKey(localApiKey);
-                // UX: apÃ³s salvar uma key vÃ¡lida, colapsar LGPD automaticamente.
+                // UX: após salvar uma key válida, colapsar LGPD automaticamente.
                 setLgpdExpanded(false);
                 showToast('Chave de API validada e salva!', 'success');
             } catch (err) {
@@ -208,8 +208,8 @@ export const AIConfigSection: React.FC = () => {
             }
         } else {
             setValidationStatus('invalid');
-            setValidationError(result.error || 'Chave invÃ¡lida');
-            showToast(result.error || 'Chave de API invÃ¡lida', 'error');
+            setValidationError(result.error || 'Chave inválida');
+            showToast(result.error || 'Chave de API inválida', 'error');
         }
     };
 
@@ -227,12 +227,12 @@ export const AIConfigSection: React.FC = () => {
 
     const hasUnsavedChanges = localApiKey !== aiApiKey;
 
-    // PreÃ§os exibidos: input / output (por 1M tokens), apenas como referÃªncia na UI.
+    // Preços exibidos: input / output (por 1M tokens), apenas como referência na UI.
     // Fontes oficiais (podem mudar):
     // - OpenAI: https://platform.openai.com/docs/pricing
     // - Google Gemini API: https://ai.google.dev/gemini-api/docs/pricing
     // - Anthropic (model comparison / pricing): https://platform.claude.com/docs/en/about-claude/models
-    // ObservaÃ§Ã£o: alguns provedores tÃªm preÃ§o em faixas (ex.: Gemini por tamanho de contexto) e/ou â€œcached inputâ€ (OpenAI).
+    // Observação: alguns provedores têm preço em faixas (ex.: Gemini por tamanho de contexto) e/ou â€œcached inputâ€ (OpenAI).
     const currentProvider = AI_PROVIDERS.find(p => p.id === aiProvider);
     const isCatalogModel = !!currentProvider?.models.some(m => m.id === aiModel);
 
@@ -290,8 +290,8 @@ export const AIConfigSection: React.FC = () => {
                     <Bot size={24} />
                 </div>
                 <div>
-                    <h2 className="text-lg font-bold text-slate-900 dark:text-white font-display">InteligÃªncia Artificial</h2>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">Configure qual cÃ©rebro vai alimentar seu CRM.</p>
+                    <h2 className="text-lg font-bold text-slate-900 dark:text-white font-display">Inteligência Artificial</h2>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">Configure qual cérebro vai alimentar seu CRM.</p>
                 </div>
             </div>
 
@@ -301,7 +301,7 @@ export const AIConfigSection: React.FC = () => {
                 {!isAdmin && (
                     <div className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-white/10 rounded-lg p-3">
                         <div className="text-sm text-slate-700 dark:text-slate-200">
-                            <span className="font-semibold">Status:</span> Configurado pela organizaÃ§Ã£o
+                            <span className="font-semibold">Status:</span> Configurado pela organização
                         </div>
                         <div className="text-sm text-slate-700 dark:text-slate-200 mt-1">
                             <span className="font-semibold">Provedor:</span> {aiProvider}
@@ -310,7 +310,7 @@ export const AIConfigSection: React.FC = () => {
                             <span className="font-semibold">Modelo:</span> {aiModel}
                         </div>
                         <div className="text-sm text-slate-700 dark:text-slate-200 mt-1">
-                            <span className="font-semibold">Chave:</span> {aiKeyConfigured ? 'configurada' : 'nÃ£o configurada'}
+                            <span className="font-semibold">Chave:</span> {aiKeyConfigured ? 'configurada' : 'não configurada'}
                         </div>
                     </div>
                 )}
@@ -396,7 +396,7 @@ export const AIConfigSection: React.FC = () => {
                                     className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all"
                                 />
                                 <p className="text-xs text-slate-500 mt-1">
-                                    Consulte a documentaÃ§Ã£o do provedor para obter o ID correto.
+                                    Consulte a documentação do provedor para obter o ID correto.
                                 </p>
 
                                 <div className="mt-2 flex items-center gap-2">
@@ -458,7 +458,7 @@ export const AIConfigSection: React.FC = () => {
                                     <span className="text-lg">ðŸ§ </span> Modo Pensamento (Thinking)
                                 </h3>
                                 <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                                    Permite que o modelo "pense" antes de responder, melhorando o raciocÃ­nio.
+                                    Permite que o modelo "pense" antes de responder, melhorando o raciocínio.
                                 </p>
                             </div>
                             <label className="relative inline-flex items-center cursor-pointer">
@@ -510,7 +510,7 @@ export const AIConfigSection: React.FC = () => {
                                     <span className="text-lg">ðŸŒ</span> {aiProvider === 'google' ? 'Google Search Grounding' : 'Web Search'}
                                 </h3>
                                 <p className="text-sm text-green-700 dark:text-green-300 mt-1">
-                                    Conecta o modelo Ã  internet para buscar informaÃ§Ãµes atualizadas.
+                                    Conecta o modelo Í  internet para buscar informações atualizadas.
                                 </p>
                             </div>
                             <label className="relative inline-flex items-center cursor-pointer">
@@ -595,11 +595,11 @@ export const AIConfigSection: React.FC = () => {
                         </p>
                     )}
                     <p className="text-xs text-slate-500 dark:text-slate-400">
-                        ðŸ”’ Sua chave Ã© validada antes de salvar e armazenada no banco de dados da organizaÃ§Ã£o.
-                        Trate como segredo e use uma chave com o menor escopo possÃ­vel.
+                        ðŸ”’ Sua chave é validada antes de salvar e armazenada no banco de dados da organização.
+                        Trate como segredo e use uma chave com o menor escopo possível.
                     </p>
 
-                    {/* SeÃ§Ã£o LGPD ColapsÃ¡vel - Expandida por padrÃ£o */}
+                    {/* Seção LGPD Colapsável - Expandida por padrão */}
                     <div className="mt-4 border border-amber-200 dark:border-amber-500/30 rounded-lg overflow-hidden">
                         <button
                             type="button"
@@ -623,28 +623,28 @@ export const AIConfigSection: React.FC = () => {
                             <div className="p-3 bg-amber-50/50 dark:bg-amber-900/10 space-y-3 animate-in slide-in-from-top-2 duration-200">
                                 <div className="space-y-2 text-sm text-amber-900 dark:text-amber-100">
                                     <p className="font-medium">
-                                        Ao salvar sua chave de API, vocÃª autoriza:
+                                        Ao salvar sua chave de API, você autoriza:
                                     </p>
                                     <ul className="list-disc list-inside space-y-1 text-amber-800 dark:text-amber-200 ml-2">
-                                        <li>O processamento dos seus <strong>negÃ³cios</strong> (deals) pela IA</li>
+                                        <li>O processamento dos seus <strong>negócios</strong> (deals) pela IA</li>
                                         <li>O processamento dos seus <strong>contatos</strong> pela IA</li>
                                         <li>O processamento das suas <strong>atividades</strong> pela IA</li>
-                                        <li>GeraÃ§Ã£o de sugestÃµes e textos pelo provedor configurado</li>
+                                        <li>Geração de sugestões e textos pelo provedor configurado</li>
                                     </ul>
                                 </div>
 
                                 <div className="pt-2 border-t border-amber-200 dark:border-amber-500/20">
                                     <p className="text-xs text-amber-700 dark:text-amber-300 leading-relaxed">
                                         <strong>Base legal:</strong> Consentimento do titular (Art. 7Âº, I e Art. 11, I da LGPD).
-                                        Seus dados sÃ£o enviados diretamente ao provedor de IA que vocÃª escolheu ({AI_PROVIDERS.find(p => p.id === aiProvider)?.name}).
-                                        NÃ³s nÃ£o armazenamos ou intermediamos essas comunicaÃ§Ãµes.
+                                        Seus dados são enviados diretamente ao provedor de IA que você escolheu ({AI_PROVIDERS.find(p => p.id === aiProvider)?.name}).
+                                        Nós não armazenamos ou intermediamos essas comunicações.
                                     </p>
                                 </div>
 
                                 <div className="pt-2 border-t border-amber-200 dark:border-amber-500/20">
                                     <p className="text-xs text-amber-700 dark:text-amber-300">
-                                        <strong>Como revogar:</strong> Remova sua chave de API a qualquer momento clicando no botÃ£o ðŸ—‘ï¸ ao lado do campo.
-                                        O consentimento serÃ¡ automaticamente revogado.
+                                        <strong>Como revogar:</strong> Remova sua chave de API a qualquer momento clicando no botão ðŸ—‘ï¸ ao lado do campo.
+                                        O consentimento será automaticamente revogado.
                                     </p>
                                 </div>
                             </div>
@@ -652,7 +652,7 @@ export const AIConfigSection: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Status Banner - use localApiKey para refletir estado atual apÃ³s salvar */}
+                {/* Status Banner - use localApiKey para refletir estado atual após salvar */}
                 <div className={`rounded-lg p-3 flex items-start gap-3 ${validationStatus === 'valid' && localApiKey
                         ? 'bg-green-50 dark:bg-green-900/10 text-green-800 dark:text-green-200'
                         : validationStatus === 'invalid'
@@ -669,15 +669,15 @@ export const AIConfigSection: React.FC = () => {
                             {validationStatus === 'valid' && localApiKey
                                 ? 'Pronto para uso'
                                 : validationStatus === 'invalid'
-                                    ? 'Chave InvÃ¡lida'
-                                    : 'ConfiguraÃ§Ã£o Pendente'}
+                                    ? 'Chave Inválida'
+                                    : 'Configuração Pendente'}
                         </p>
                         <p className="opacity-90 mt-1">
                             {validationStatus === 'valid' && localApiKey
-                                ? `O sistema estÃ¡ configurado para usar o ${AI_PROVIDERS.find(p => p.id === aiProvider)?.name} (${aiModel}).`
+                                ? `O sistema está configurado para usar o ${AI_PROVIDERS.find(p => p.id === aiProvider)?.name} (${aiModel}).`
                                 : validationStatus === 'invalid'
                                     ? 'Verifique sua chave de API e tente novamente.'
-                                    : 'Insira uma chave de API vÃ¡lida e clique em Salvar para usar o assistente.'}
+                                    : 'Insira uma chave de API válida e clique em Salvar para usar o assistente.'}
                         </p>
                     </div>
                 </div>

@@ -13,7 +13,7 @@ export function BottomNav({ onOpenMore }: BottomNavProps) {
 
   return (
     <nav
-      aria-label="NavegaÃ§Ã£o principal (mobile)"
+      aria-label="Navegação principal (mobile)"
       className={cn(
         'fixed inset-x-0 bottom-0 z-50 md:hidden',
         'border-t border-slate-200 dark:border-white/10',

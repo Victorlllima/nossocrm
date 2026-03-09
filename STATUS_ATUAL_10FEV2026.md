@@ -36,7 +36,7 @@
 ✅ Documentar process
 ```
 
-### Fase 2: Análise Profunda ⏳ NÃO INICIADO
+### Fase 2: Análise Profunda ⏳ NÍO INICIADO
 ```
 [░░░░░░░░░░░░░░░░░░░░] 0%
 ⏳ Revisar qualidade das respostas
@@ -46,7 +46,7 @@
 ⏳ Planejar melhorias
 ```
 
-### Fase 3: Integração Evolution ⏳ NÃO INICIADO
+### Fase 3: Integração Evolution ⏳ NÍO INICIADO
 ```
 [░░░░░░░░░░░░░░░░░░░░] 0%
 ⏳ Conectar Evolution API
@@ -166,7 +166,7 @@ Postgres latency: <100ms (local)
 
 ### Protegido ✅
 ```
-✅ .env.local: NÃO commitado em git
+✅ .env.local: NÍO commitado em git
 ✅ ANTHROPIC_API_KEY: Privado em .env.local
 ✅ OPENAI_API_KEY: Desabilitada (comentada)
 ✅ Supabase keys: Válidas
@@ -197,15 +197,15 @@ Workaround: Usando Anthropic claude-opus-4-1
 ```
 Erro: "tools.0.custom.input_schema.type: Field required"
 Causa: Anthropic requer JSON Schema diferente de OpenAI
-Status: NÃO BLOQUEADOR (sistema funciona sem tools)
+Status: NÍO BLOQUEADOR (sistema funciona sem tools)
 Workaround: route-anthropic-notools.ts ativa, tools desabilitadas
 Fix: Corrigir converter Zod → JSON Schema (1-2h)
 ```
 
 ### Problema 3: Evolution Integration ❌
 ```
-Status: NÃO INTEGRADO
-Bloqueador: NÃO (webhook funciona via curl)
+Status: NÍO INTEGRADO
+Bloqueador: NÍO (webhook funciona via curl)
 Next step: Implementar formatAndSendResponse
 Timeline: FASE 3
 ```
@@ -222,7 +222,7 @@ Timeline: FASE 3
 - Context é mantido entre mensagens
 - Suportar múltiplos leads simultaneamente
 
-❌ **Você NÃO pode:**
+❌ **Você NÍO pode:**
 - Fazer buscas automáticas de imóveis (tool)
 - Escalar manualmente para humano via tool
 - Enviar respostas diretamente para WhatsApp (Evolution)
@@ -279,7 +279,7 @@ Status: Quota esgotada, sem crédito
 
 ---
 
-## 🎬 PRÓXIMO ENCONTRO - RECOMENDAÇÃO
+## 🎬 PRÓXIMO ENCONTRO - RECOMENDAÇÍO
 
 **Red, você tem 4 opções para próxima ação:**
 
@@ -313,7 +313,7 @@ Status: Quota esgotada, sem crédito
 
 ---
 
-## ✅ CHECKLIST: ANTES DE PRÓXIMA SESSÃO
+## ✅ CHECKLIST: ANTES DE PRÓXIMA SESSÍO
 
 - [x] OpenAI issue diagnosticado
 - [x] Anthropic integrada e testada
@@ -346,7 +346,7 @@ Docs: GUIA_VERSOES_WEBHOOK.md
 
 ---
 
-## 🎯 CONCLUSÃO
+## 🎯 CONCLUSÍO
 
 **Red, você tem um sistema funcional e pronto!** 🚀
 

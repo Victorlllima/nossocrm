@@ -1,6 +1,6 @@
 ﻿/**
  * Overdue Activities Analyzer
- * Detecta atividades atrasadas que precisam de aÃ§Ã£o
+ * Detecta atividades atrasadas que precisam de ação
  */
 
 import { Activity, DealView } from '@/types';
@@ -12,7 +12,7 @@ const PT_BR_DATE_FORMATTER = new Intl.DateTimeFormat('pt-BR');
 export const overdueActivitiesConfig: AnalyzerConfig = {
   id: 'overdue_activities',
   name: 'Atividades Atrasadas',
-  description: 'Detecta atividades nÃ£o concluÃ­das que jÃ¡ passaram da data',
+  description: 'Detecta atividades não concluídas que já passaram da data',
   enabled: true,
   params: {
     criticalDaysOverdue: 3,
@@ -25,22 +25,22 @@ export const overdueActivitiesConfig: AnalyzerConfig = {
 function generateReasoning(activity: Activity, daysOverdue: number, deal?: DealView): string {
   const parts: string[] = [];
   
-  const typeLabel = activity.type === 'CALL' ? 'LigaÃ§Ã£o' :
-                   activity.type === 'MEETING' ? 'ReuniÃ£o' :
+  const typeLabel = activity.type === 'CALL' ? 'Ligação' :
+                   activity.type === 'MEETING' ? 'Reunião' :
                    activity.type === 'EMAIL' ? 'Email' : 'Tarefa';
   
-  parts.push(`${typeLabel} "${activity.title}" estÃ¡ ${daysOverdue} ${daysOverdue === 1 ? 'dia' : 'dias'} atrasada.`);
+  parts.push(`${typeLabel} "${activity.title}" está ${daysOverdue} ${daysOverdue === 1 ? 'dia' : 'dias'} atrasada.`);
   
   if (deal) {
-    parts.push(`Esta atividade estÃ¡ vinculada ao deal "${deal.title}" (R$ ${deal.value.toLocaleString('pt-BR')}).`);
+    parts.push(`Esta atividade está vinculada ao deal "${deal.title}" (R$ ${deal.value.toLocaleString('pt-BR')}).`);
     
     if (deal.probability >= 60) {
-      parts.push('O deal estÃ¡ em estÃ¡gio avanÃ§ado, entÃ£o este atraso pode impactar o fechamento.');
+      parts.push('O deal está em estágio avançado, então este atraso pode impactar o fechamento.');
     }
   }
   
   if (daysOverdue > 3) {
-    parts.push('Recomendo reagendar para uma data prÃ³xima ou concluir imediatamente.');
+    parts.push('Recomendo reagendar para uma data próxima ou concluir imediatamente.');
   }
   
   return parts.join(' ');
@@ -107,7 +107,7 @@ function generateSuggestedActions(activity: Activity, deal?: DealView): {
       payload: {
         channel: 'whatsapp',
         recipient: deal?.contactName,
-        messageTemplate: `OlÃ¡! NÃ£o consegui falar com vocÃª ${activity.type === 'CALL' ? 'por telefone' : 'na reuniÃ£o'} no dia ${PT_BR_DATE_FORMATTER.format(new Date(activity.date))}. Podemos remarcar?`,
+        messageTemplate: `Olá! Não consegui falar com você ${activity.type === 'CALL' ? 'por telefone' : 'na reunião'} no dia ${PT_BR_DATE_FORMATTER.format(new Date(activity.date))}. Podemos remarcar?`,
         dealId: activity.dealId,
         contactId: deal?.contactId,
       },
@@ -120,11 +120,11 @@ function generateSuggestedActions(activity: Activity, deal?: DealView): {
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `analyzeOverdueActivities` do projeto.
+ * Função pública `analyzeOverdueActivities` do projeto.
  *
- * @param {Activity[]} activities - ParÃ¢metro `activities`.
- * @param {DealView[]} deals - ParÃ¢metro `deals`.
- * @param {AnalyzerConfig} config - ParÃ¢metro `config`.
+ * @param {Activity[]} activities - Parâmetro `activities`.
+ * @param {DealView[]} deals - Parâmetro `deals`.
+ * @param {AnalyzerConfig} config - Parâmetro `config`.
  * @returns {AnalyzerResult} Retorna um valor do tipo `AnalyzerResult`.
  */
 export function analyzeOverdueActivities(
@@ -172,8 +172,8 @@ export function analyzeOverdueActivities(
 
     const { primary, alternatives } = generateSuggestedActions(activity, deal);
 
-    const typeLabel = activity.type === 'CALL' ? 'ðŸ“ž LigaÃ§Ã£o' :
-                     activity.type === 'MEETING' ? 'ðŸ“… ReuniÃ£o' :
+    const typeLabel = activity.type === 'CALL' ? 'ðŸ“ž Ligação' :
+                     activity.type === 'MEETING' ? 'ðŸ“… Reunião' :
                      activity.type === 'EMAIL' ? 'ðŸ“§ Email' : 'âœ… Tarefa';
 
     decisions.push({

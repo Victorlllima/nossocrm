@@ -31,7 +31,7 @@ interface InboxSectionProps {
   onDiscard,
   onSelect,
   filterParam
-} - ParÃ¢metro `{
+} - Parâmetro `{
   title,
   activities,
   color,

@@ -24,9 +24,9 @@ export interface ScriptFormData {
 
 const CATEGORIES: { value: ScriptCategory; label: string; color: string }[] = [
     { value: 'followup', label: 'Follow-up', color: 'blue' },
-    { value: 'objection', label: 'ObjeÃ§Ãµes', color: 'orange' },
+    { value: 'objection', label: 'Objeções', color: 'orange' },
     { value: 'closing', label: 'Fechamento', color: 'green' },
-    { value: 'intro', label: 'ApresentaÃ§Ã£o', color: 'purple' },
+    { value: 'intro', label: 'Apresentação', color: 'purple' },
     { value: 'rescue', label: 'Resgate', color: 'yellow' },
     { value: 'other', label: 'Outros', color: 'slate' },
 ];
@@ -48,7 +48,7 @@ const ICONS = [
     onSave,
     initialData,
     previewVariables = { nome: 'Cliente', empresa: 'Empresa' }
-} - ParÃ¢metro `{
+} - Parâmetro `{
     isOpen,
     onClose,
     onSave,
@@ -136,7 +136,7 @@ export function ScriptEditorModal({
                     {/* Title */}
                     <div>
                         <label className="block text-xs font-medium text-slate-400 mb-2">
-                            TÃ­tulo do Script
+                            Título do Script
                         </label>
                         <input
                             type="text"
@@ -170,7 +170,7 @@ export function ScriptEditorModal({
                         {/* Icon */}
                         <div>
                             <label className="block text-xs font-medium text-slate-400 mb-2">
-                                Ãcone
+                                Ícone
                             </label>
                             <div className="flex gap-2">
                                 {ICONS.map((iconOption) => {
@@ -215,7 +215,7 @@ export function ScriptEditorModal({
                             <textarea
                                 value={formData.template}
                                 onChange={(e) => setFormData({ ...formData, template: e.target.value })}
-                                placeholder="OlÃ¡ {nome}! ðŸ‘‹&#10;&#10;Escreva sua mensagem aqui...&#10;&#10;Use {nome} e {empresa} como variÃ¡veis."
+                                placeholder="Olá {nome}! ðŸ‘‹&#10;&#10;Escreva sua mensagem aqui...&#10;&#10;Use {nome} e {empresa} como variáveis."
                                 rows={8}
                                 className="w-full px-4 py-3 bg-slate-800/50 border border-white/10 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-transparent resize-none font-mono text-sm"
                             />
@@ -228,7 +228,7 @@ export function ScriptEditorModal({
                         )}
 
                         <p className="text-[10px] text-slate-600 mt-2">
-                            ðŸ’¡ VariÃ¡veis disponÃ­veis: {'{nome}'}, {'{empresa}'}, {'{valor}'}, {'{produto}'}
+                            ðŸ’¡ Variáveis disponíveis: {'{nome}'}, {'{empresa}'}, {'{valor}'}, {'{produto}'}
                         </p>
                     </div>
                 </div>

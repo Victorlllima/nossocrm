@@ -15,7 +15,7 @@ describe('CallModal (modo sem WebRTC)', () => {
     vi.restoreAllMocks();
   });
 
-  it('deve mostrar botÃµes "Copiar nÃºmero" e "Abrir no discador" quando hÃ¡ telefone', () => {
+  it('deve mostrar botões "Copiar número" e "Abrir no discador" quando há telefone', () => {
     render(
       <CallModal
         isOpen={true}
@@ -26,12 +26,12 @@ describe('CallModal (modo sem WebRTC)', () => {
       />
     );
 
-    // HÃ¡ botÃµes duplicados no header (Ã­cones) e no footer (texto). Validamos pelo texto visÃ­vel.
-    expect(screen.getByText(/copiar nÃºmero/i)).toBeInTheDocument();
+    // Há botões duplicados no header (ícones) e no footer (texto). Validamos pelo texto visível.
+    expect(screen.getByText(/copiar número/i)).toBeInTheDocument();
     expect(screen.getByText(/abrir no discador/i)).toBeInTheDocument();
   });
 
-  it('nÃ£o deve iniciar o timer antes de abrir o discador', () => {
+  it('não deve iniciar o timer antes de abrir o discador', () => {
     render(
       <CallModal
         isOpen={true}
@@ -69,7 +69,7 @@ describe('CallModal (modo sem WebRTC)', () => {
     });
     expect(openSpy).toHaveBeenCalledWith('tel:+5511999990000', '_self');
 
-    // ApÃ³s 1 segundo, deve marcar 00:01
+    // Após 1 segundo, deve marcar 00:01
     act(() => {
       vi.advanceTimersByTime(1100);
     });

@@ -18,7 +18,7 @@ interface FunnelChartProps {
 /**
  * Componente React `FunnelChart`.
  *
- * @param {FunnelChartProps} { data } - ParÃ¢metro `{ data }`.
+ * @param {FunnelChartProps} { data } - Parâmetro `{ data }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const FunnelChart: React.FC<FunnelChartProps> = ({ data }) => {
@@ -50,7 +50,7 @@ export const FunnelChart: React.FC<FunnelChartProps> = ({ data }) => {
         />
         <Tooltip
           cursor={{ fill: 'rgba(255,255,255,0.05)' }}
-          formatter={(value: number) => [`${value} negÃ³cios`, 'Quantidade']}
+          formatter={(value: number) => [`${value} negócios`, 'Quantidade']}
           contentStyle={{
             backgroundColor: 'var(--chart-tooltip-bg)',
             border: '1px solid var(--chart-tooltip-border)',

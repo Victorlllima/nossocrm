@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
 export const metadata: Metadata = {
   title: 'Max Lima',
-  description: 'CRM Inteligente para GestÃ£o de Vendas',
+  description: 'CRM Inteligente para Gestão de Vendas',
 }
 
 /**
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
  *
  * @param {{ children: ReactNode; }} {
   children,
-} - ParÃ¢metro `{
+} - Parâmetro `{
   children,
 }`.
  * @returns {Element} Retorna um valor do tipo `Element`.

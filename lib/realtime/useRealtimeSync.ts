@@ -264,9 +264,9 @@ export function useRealtimeSync(
                 delete normalizedDeal.loss_reason;
               }
 
-              // CRÃTICO: Atualizar APENAS DEALS_VIEW_KEY (Ãºnica fonte de verdade)
+              // CRÍTICO: Atualizar APENAS DEALS_VIEW_KEY (única fonte de verdade)
               // O Kanban (useDealsByBoard) agora usa essa mesma query com filtragem client-side
-              // NÃƒO usar setQueriesData com prefix matcher - isso atualiza queries erradas!
+              // NÍƒO usar setQueriesData com prefix matcher - isso atualiza queries erradas!
               queryClient.setQueryData<DealView[]>(
                 DEALS_VIEW_KEY,
                 (old) => {
@@ -378,7 +378,7 @@ export function useRealtimeSync(
               }
               // #endregion
 
-              // Apply update directly to DEALS_VIEW_KEY (Ãºnica fonte de verdade)
+              // Apply update directly to DEALS_VIEW_KEY (única fonte de verdade)
               // This avoids race condition where invalidation refetches stale data
               // IMPORTANT: Only apply if the incoming status is different from current cache status
               // This prevents Realtime from reverting optimistic updates with stale data

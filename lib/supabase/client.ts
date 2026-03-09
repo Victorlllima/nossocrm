@@ -15,7 +15,7 @@ const isConfigured = supabaseUrl &&
 let _supabase: SupabaseClient | null = null
 
 /**
- * FunÃ§Ã£o pÃºblica `createClient` do projeto.
+ * Função pública `createClient` do projeto.
  * @returns {SupabaseClient<any, "public", "public", any, any> | null} Retorna um valor do tipo `SupabaseClient<any, "public", "public", any, any> | null`.
  */
 export function createClient(): SupabaseClient | null {
@@ -33,6 +33,6 @@ export function createClient(): SupabaseClient | null {
 // Alias for backward compatibility
 // Importante: em ambientes devidamente configurados, `createClient()` nunca deve retornar null.
 // Mantemos o retorno `SupabaseClient | null` em `createClient` para permitir uma mensagem
-// amigÃ¡vel em dev quando o `.env` nÃ£o estÃ¡ preenchido, mas exportamos o singleton como
-// nÃ£o-nulo para simplificar o restante do cÃ³digo (e evitar checks repetitivos).
+// amigável em dev quando o `.env` não está preenchido, mas exportamos o singleton como
+// não-nulo para simplificar o restante do código (e evitar checks repetitivos).
 export const supabase: SupabaseClient = createClient() as SupabaseClient

@@ -18,22 +18,22 @@ export default function InstallEntryPage() {
   useEffect(() => {
     let cancelled = false;
     
-    // Verifica se a instÃ¢ncia jÃ¡ estÃ¡ inicializada (bloqueia acesso apÃ³s instalaÃ§Ã£o)
+    // Verifica se a instância já está inicializada (bloqueia acesso após instalação)
     (async () => {
       try {
         const res = await fetch('/api/installer/check-initialized', { cache: 'no-store' });
         const data = await res.json();
         if (!cancelled && data?.initialized === true) {
-          // InstÃ¢ncia jÃ¡ inicializada: redireciona para dashboard
+          // Instância já inicializada: redireciona para dashboard
           router.replace('/dashboard');
           return;
         }
       } catch (err) {
-        // Fail-safe: em caso de erro, nÃ£o bloqueia o acesso ao wizard
+        // Fail-safe: em caso de erro, não bloqueia o acesso ao wizard
         console.warn('[install] Error checking initialization:', err);
       }
       
-      // Se nÃ£o estÃ¡ inicializada, continua com o fluxo normal
+      // Se não está inicializada, continua com o fluxo normal
       if (!cancelled) {
         const token = localStorage.getItem(STORAGE_TOKEN);
         const project = localStorage.getItem(STORAGE_PROJECT);

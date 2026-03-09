@@ -77,12 +77,12 @@ vi.mock('@/context/CRMContext', () => ({
 
     const deal = {
       id: 'deal-1',
-      title: 'Pequeno ChapÃ©u',
+      title: 'Pequeno Chapéu',
       value: 1000,
       status: 'stage-1',
       boardId: 'board-1',
       contactId: 'contact-1',
-      companyName: 'Moreira ComÃ©rcio',
+      companyName: 'Moreira Comércio',
       contactName: 'Fulano',
       contactEmail: 'fulano@example.com',
       createdAt: new Date().toISOString(),
@@ -126,7 +126,7 @@ describe('DealDetailModal', () => {
     expect(document.body.textContent).not.toContain('Application error');
 
     rerender(<DealDetailModal dealId="deal-1" isOpen={true} onClose={() => {}} />);
-    expect(document.body.textContent).toContain('Pequeno ChapÃ©u');
+    expect(document.body.textContent).toContain('Pequeno Chapéu');
 
     rerender(<DealDetailModal dealId="deal-1" isOpen={false} onClose={() => {}} />);
     expect(document.body.textContent).not.toContain('Application error');

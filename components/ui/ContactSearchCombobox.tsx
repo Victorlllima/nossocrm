@@ -35,7 +35,7 @@ export const ContactSearchCombobox: React.FC<ContactSearchComboboxProps> = ({
   const { data: contacts = [] } = useContacts();
   const { data: companies = [] } = useCompanies();
 
-  // Criar mapa de empresas para lookup rÃ¡pido
+  // Criar mapa de empresas para lookup rápido
   const companyMap = useMemo(() => {
     return new Map(companies.map(c => [c.id, c]));
   }, [companies]);
@@ -130,7 +130,7 @@ export const ContactSearchCombobox: React.FC<ContactSearchComboboxProps> = ({
     }
   };
 
-  // Se jÃ¡ tem contato selecionado, nÃ£o renderiza o combobox
+  // Se já tem contato selecionado, não renderiza o combobox
   if (selectedContact) {
     return null;
   }
@@ -205,7 +205,7 @@ export const ContactSearchCombobox: React.FC<ContactSearchComboboxProps> = ({
             </div>
           )}
           
-          {/* OpÃ§Ã£o de criar novo */}
+          {/* Opção de criar novo */}
           <button
             type="button"
             onClick={handleCreateNew}

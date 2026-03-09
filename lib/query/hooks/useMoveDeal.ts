@@ -44,7 +44,7 @@ interface MoveDealContext {
 }
 
 /**
- * Hook React `useMoveDeal` que encapsula uma lÃ³gica reutilizÃ¡vel.
+ * Hook React `useMoveDeal` que encapsula uma lógica reutilizável.
  * @returns {UseMutationResult<MoveDealResult, Error, MoveDealParams, MoveDealContext>} Retorna um valor do tipo `UseMutationResult<MoveDealResult, Error, MoveDealParams, MoveDealContext>`.
  */
 export const useMoveDeal = () => {
@@ -165,7 +165,7 @@ export const useMoveDeal = () => {
           dealTitle: deal.title,
           type: 'STATUS_CHANGE',
           title: `Contato promovido para ${lifecycleStageName}`,
-          description: `AutomÃ¡tico via LinkedStage da etapa "${targetStage.label}"`,
+          description: `Automático via LinkedStage da etapa "${targetStage.label}"`,
           date: new Date().toISOString(),
           completed: true,
           user: { name: 'Sistema', avatar: '' },
@@ -190,7 +190,7 @@ export const useMoveDeal = () => {
                 value: deal.value,
                 contactId: deal.contactId,
                 boardId: targetBoard.id,
-                // Status/stage devem refletir o board de destino (nÃ£o o stage do board anterior)
+                // Status/stage devem refletir o board de destino (não o stage do board anterior)
                 status: entryStageId,
                 priority: deal.priority,
                 // Compat: DealView/Deal ainda pode ter companyId legado
@@ -199,7 +199,7 @@ export const useMoveDeal = () => {
                 owner: deal.owner || { name: 'Unknown', avatar: '' },
                 items: deal.items || [],
                 tags: deal.tags || [],
-                // Rastreabilidade (ajuda tambÃ©m a prevenir duplicidade no futuro)
+                // Rastreabilidade (ajuda também a prevenir duplicidade no futuro)
                 customFields: {
                   originDealId: deal.id,
                   originBoardId: board.id,
@@ -217,7 +217,7 @@ export const useMoveDeal = () => {
                   dealTitle: deal.title,
                   type: 'STATUS_CHANGE',
                   title: `Enviado para ${targetBoard.name}`,
-                  description: `AutomaÃ§Ã£o: Ao ganhar neste board, criou carta em "${targetBoard.name}"`,
+                  description: `Automação: Ao ganhar neste board, criou carta em "${targetBoard.name}"`,
                   date: new Date().toISOString(),
                   completed: true,
                   user: { name: 'Sistema', avatar: '' },
@@ -250,7 +250,7 @@ export const useMoveDeal = () => {
       // Cancel any outgoing refetches
       await queryClient.cancelQueries({ queryKey: queryKeys.deals.all });
 
-      // Snapshot previous state - usa DEALS_VIEW_KEY (Ãºnica fonte de verdade)
+      // Snapshot previous state - usa DEALS_VIEW_KEY (única fonte de verdade)
       const previousDeals = queryClient.getQueryData<DealView[]>(DEALS_VIEW_KEY);
 
       // Determine new status
@@ -266,7 +266,7 @@ export const useMoveDeal = () => {
         explicitLost
         || (board.lostStageId ? targetStageId === board.lostStageId : targetStage?.linkedLifecycleStage === 'OTHER');
 
-      // Optimistically update APENAS DEALS_VIEW_KEY (Ãºnica fonte de verdade)
+      // Optimistically update APENAS DEALS_VIEW_KEY (única fonte de verdade)
       queryClient.setQueryData<DealView[]>(DEALS_VIEW_KEY, (old) => {
         if (!old) return old;
         
@@ -311,7 +311,7 @@ export const useMoveDeal = () => {
         });
       });
 
-      // TambÃ©m atualizar o detail cache se existir
+      // Também atualizar o detail cache se existir
       queryClient.setQueryData<Deal>(queryKeys.deals.detail(dealId), (old) => {
         if (!old) return old;
         return {
@@ -356,10 +356,10 @@ export const useMoveDeal = () => {
 };
 
 /**
- * Hook React `useMoveDealSimple` que encapsula uma lÃ³gica reutilizÃ¡vel.
+ * Hook React `useMoveDealSimple` que encapsula uma lógica reutilizável.
  *
- * @param {Board | null} board - ParÃ¢metro `board`.
- * @param {{ id: string; name: string; }[] | undefined} lifecycleStages - ParÃ¢metro `lifecycleStages`.
+ * @param {Board | null} board - Parâmetro `board`.
+ * @param {{ id: string; name: string; }[] | undefined} lifecycleStages - Parâmetro `lifecycleStages`.
  * @returns {{ moveDeal: (deal: Deal | DealView, targetStageId: string, lossReason?: string | undefined, explicitWin?: boolean | undefined, explicitLost?: boolean | undefined) => Promise<...>; isMoving: boolean; error: Error | null; }} Retorna um valor do tipo `{ moveDeal: (deal: Deal | DealView, targetStageId: string, lossReason?: string | undefined, explicitWin?: boolean | undefined, explicitLost?: boolean | undefined) => Promise<...>; isMoving: boolean; error: Error | null; }`.
  */
 export const useMoveDealSimple = (

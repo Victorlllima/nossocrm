@@ -278,7 +278,7 @@ O painel será criado com:
 
 ```
 ┌─────────────────────────────────────────┐
-│ AGENTS PLATFORM - PRONTO PARA PRODUÇÃO  │
+│ AGENTS PLATFORM - PRONTO PARA PRODUÇÍO  │
 ├─────────────────────────────────────────┤
 │ Foundation (Phase 1)  ✅ 100%           │
 │ Webhooks (Phase 2)    ✅ 100%           │

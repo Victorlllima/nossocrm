@@ -2,9 +2,9 @@
 import { NextResponse } from 'next/server'
 
 /**
- * FunÃ§Ã£o pÃºblica `GET` do projeto.
+ * Função pública `GET` do projeto.
  *
- * @param {Request} request - Objeto da requisiÃ§Ã£o.
+ * @param {Request} request - Objeto da requisição.
  * @returns {Promise<NextResponse<unknown>>} Retorna um valor do tipo `Promise<NextResponse<unknown>>`.
  */
 export async function GET(request: Request) {

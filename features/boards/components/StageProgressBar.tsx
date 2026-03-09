@@ -23,7 +23,7 @@ interface StageProgressBarProps {
     onStageClick,
     variant = 'segmented',
     className,
-} - ParÃ¢metro `{
+} - Parâmetro `{
     stages,
     currentStatus,
     onStageClick,

@@ -15,7 +15,7 @@ export const InboxZeroState: React.FC = () => {
         Inbox Zero! ðŸŽ‰
       </h2>
       <p className="text-slate-500 dark:text-slate-400 text-center max-w-md">
-        VocÃª zerou tudo. Aproveite o momento ou planeje o futuro.
+        Você zerou tudo. Aproveite o momento ou planeje o futuro.
       </p>
     </div>
   );

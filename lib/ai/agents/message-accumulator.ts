@@ -7,7 +7,7 @@
  * Não usa Redis - mantém em RAM com cleanup automático
  */
 
-interface AccumulatorEntry {
+export interface AccumulatorEntry {
   agentId: string;
   phone: string;
   messages: Array<{

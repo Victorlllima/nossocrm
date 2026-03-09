@@ -76,7 +76,7 @@ interface FocusContextPanelProps {
     onClose,
     className,
     isExpanded
-} - ParÃ¢metro `{
+} - Parâmetro `{
     deal,
     contact,
     board,
@@ -260,35 +260,35 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
         const dealCtx = dealTitle ? ` sobre ${dealTitle}` : '';
         const reasonSentence = r ? `\n\nPensei nisso porque ${r.charAt(0).toLowerCase()}${r.slice(1)}.` : '';
 
-        // Quando a â€œaÃ§Ã£oâ€ Ã© algo como â€œAgendar reuniÃ£oâ€, a intenÃ§Ã£o real no WhatsApp Ã© pedir disponibilidade.
+        // Quando a â€œaçãoâ€ é algo como â€œAgendar reuniãoâ€, a intenção real no WhatsApp é pedir disponibilidade.
         if (actionType === 'MEETING') {
             return (
                 `${greeting}` +
-                `\n\nQueria marcar um papo rÃ¡pido (15 min)${dealCtx} pra alinharmos os prÃ³ximos passos.` +
+                `\n\nQueria marcar um papo rápido (15 min)${dealCtx} pra alinharmos os próximos passos.` +
                 `${reasonSentence}` +
-                `\n\nVocÃª consegue ${formatSlot(a)} ou ${formatSlot(b)}? Se preferir, me diga um horÃ¡rio bom pra vocÃª.`
+                `\n\nVocê consegue ${formatSlot(a)} ou ${formatSlot(b)}? Se preferir, me diga um horário bom pra você.`
             );
         }
 
         if (actionType === 'CALL') {
             return (
                 `${greeting}` +
-                `\n\nPodemos fazer uma ligaÃ§Ã£o rapidinha${dealCtx}?` +
+                `\n\nPodemos fazer uma ligação rapidinha${dealCtx}?` +
                 `${reasonSentence}` +
-                `\n\nVocÃª prefere ${formatSlot(a)} ou ${formatSlot(b)}?`
+                `\n\nVocê prefere ${formatSlot(a)} ou ${formatSlot(b)}?`
             );
         }
 
         if (actionType === 'TASK') {
             return (
                 `${greeting}` +
-                `\n\nSÃ³ pra alinharmos${dealCtx}: ${action.trim()}.` +
+                `\n\nSó pra alinharmos${dealCtx}: ${action.trim()}.` +
                 `${reasonSentence}` +
                 `\n\nPode me confirmar quando conseguir?`
             );
         }
 
-        // Default (inclui quando a prÃ³pria sugestÃ£o jÃ¡ Ã© WHATSAPP/EMAIL, ou nÃ£o veio estruturada)
+        // Default (inclui quando a própria sugestão já é WHATSAPP/EMAIL, ou não veio estruturada)
         const cleanAction = action?.trim();
         const actionLine = cleanAction ? `\n\n${cleanAction}${dealTitle ? ` (${dealTitle})` : ''}.` : '';
         return `${greeting}${actionLine}${reasonSentence}`;
@@ -300,7 +300,7 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
         reason?: string
     ) => {
         const firstName = contact?.name?.split(' ')[0] || '';
-        const greeting = firstName ? `OlÃ¡ ${firstName},` : 'OlÃ¡,';
+        const greeting = firstName ? `Olá ${firstName},` : 'Olá,';
         const r = normalizeReason(reason);
         const dealTitle = deal?.title?.trim();
         const { a, b } = proposeTwoSlots();
@@ -310,10 +310,10 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
         if (actionType === 'MEETING') {
             return (
                 `${greeting}` +
-                `\n\nQueria marcar uma conversa rÃ¡pida (15 min) para alinharmos prÃ³ximos passos.` +
+                `\n\nQueria marcar uma conversa rápida (15 min) para alinharmos próximos passos.` +
                 `${dealSentence}` +
                 `${reasonSentence}` +
-                `\n\nVocÃª teria disponibilidade em ${formatSlot(a)} ou ${formatSlot(b)}?` +
+                `\n\nVocê teria disponibilidade em ${formatSlot(a)} ou ${formatSlot(b)}?` +
                 `\n\nAbs,`
             );
         }
@@ -324,7 +324,7 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
                 `\n\nPodemos falar rapidamente por telefone?` +
                 `${dealSentence}` +
                 `${reasonSentence}` +
-                `\n\nSugestÃµes de horÃ¡rio: ${formatSlot(a)} ou ${formatSlot(b)}.` +
+                `\n\nSugestões de horário: ${formatSlot(a)} ou ${formatSlot(b)}.` +
                 `\n\nAbs,`
             );
         }
@@ -365,7 +365,7 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
         if (!contact?.phone) return;
 
         // Set suggested title and open call log modal
-        setCallSuggestedTitle(suggestedTitle || 'LigaÃ§Ã£o');
+        setCallSuggestedTitle(suggestedTitle || 'Ligação');
         setIsCallModalOpen(true);
     };
 
@@ -373,7 +373,7 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
     const handleCallLogSave = (data: CallLogData) => {
         const outcomeLabels = {
             connected: 'Atendeu',
-            no_answer: 'NÃ£o atendeu',
+            no_answer: 'Não atendeu',
             voicemail: 'Caixa postal',
             busy: 'Ocupado'
         };
@@ -383,7 +383,7 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
             dealTitle: deal.title,
             type: 'CALL',
             title: data.title,
-            description: `${outcomeLabels[data.outcome]} - DuraÃ§Ã£o: ${Math.floor(data.duration / 60)}min ${data.duration % 60}s${data.notes ? '\n\n' + data.notes : ''}`,
+            description: `${outcomeLabels[data.outcome]} - Duração: ${Math.floor(data.duration / 60)}min ${data.duration % 60}s${data.notes ? '\n\n' + data.notes : ''}`,
             date: new Date().toISOString(),
             completed: true,
             user: { name: 'Eu', avatar: '' }
@@ -443,7 +443,7 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
         }
 
         return {
-            action: 'Agendar reuniÃ£o',
+            action: 'Agendar reunião',
             reason: 'Manter momentum do deal',
             urgency: 'low' as const,
             actionType: 'MEETING' as const,
@@ -453,7 +453,7 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
     }, [aiAnalysis, activities]);
 
     // Snapshot completo do cockpit para a IA (equivalente ao â€œboard envia tudo do boardâ€)
-    // Importante: esse snapshot Ã© enviado via props-only para evitar herdar contexto global do board.
+    // Importante: esse snapshot é enviado via props-only para evitar herdar contexto global do board.
     const cockpitSnapshot = useMemo(() => {
         const stageInfo = currentStage
             ? { id: currentStage.id, label: currentStage.label, color: currentStage.color }
@@ -511,7 +511,7 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
             updatedAt: deal.updatedAt,
             companyId: deal.companyId,
             clientCompanyId: deal.clientCompanyId,
-            // Alguns fluxos ainda expÃµem companyName via DealView/casts
+            // Alguns fluxos ainda expõem companyName via DealView/casts
             companyName: (deal as any)?.companyName,
         };
 
@@ -640,7 +640,7 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
         onAddActivity({
             type: data.type,
             title: data.title,
-            description: data.description || `${data.type === 'CALL' ? 'LigaÃ§Ã£o' : data.type === 'MEETING' ? 'ReuniÃ£o' : 'Tarefa'} com ${contact?.name || 'contato'}`,
+            description: data.description || `${data.type === 'CALL' ? 'Ligação' : data.type === 'MEETING' ? 'Reunião' : 'Tarefa'} com ${contact?.name || 'contato'}`,
             date: dateTime.toISOString(),
             completed: false
         });
@@ -673,8 +673,8 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
         }
 
         // Para MEETING/TASK:
-        // - mode=configure: abrir modal (Ã­cones)
-        // - mode=execute: criar direto (botÃ£o grande)
+        // - mode=configure: abrir modal (ícones)
+        // - mode=execute: criar direto (botão grande)
         if (actionType === 'MEETING' || actionType === 'TASK') {
             const type: ScheduleType = actionType === 'MEETING' ? 'MEETING' : 'TASK';
 
@@ -898,7 +898,7 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
                             <div className="flex items-center justify-between mb-3">
                                 <div className="flex items-center gap-2">
                                     <Zap size={14} className={`${nextBestAction.urgency === 'high' ? 'text-red-400' : nextBestAction.urgency === 'medium' ? 'text-yellow-400' : 'text-primary-400'}`} />
-                                    <span className="text-xs uppercase tracking-wider text-slate-400 font-bold">PrÃ³xima AÃ§Ã£o</span>
+                                    <span className="text-xs uppercase tracking-wider text-slate-400 font-bold">Próxima Ação</span>
                                     {nextBestAction.isAI && (
                                         <span className="text-[10px] bg-primary-500/20 text-primary-400 px-1.5 py-0.5 rounded flex items-center gap-1">
                                             <Sparkles size={9} /> AI
@@ -937,7 +937,7 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
                                         { type: 'WHATSAPP', icon: MessageCircle, label: 'WhatsApp', color: 'text-green-400 hover:bg-green-500/20' },
                                         { type: 'CALL', icon: Phone, label: 'Ligar', color: 'text-yellow-400 hover:bg-yellow-500/20' },
                                         { type: 'EMAIL', icon: Mail, label: 'Email', color: 'text-blue-400 hover:bg-blue-500/20' },
-                                        { type: 'MEETING', icon: Calendar, label: 'ReuniÃ£o', color: 'text-purple-400 hover:bg-purple-500/20' },
+                                        { type: 'MEETING', icon: Calendar, label: 'Reunião', color: 'text-purple-400 hover:bg-purple-500/20' },
                                         { type: 'TASK', icon: Target, label: 'Tarefa', color: 'text-slate-400 hover:bg-slate-500/20' },
                                     ].map(({ type, icon: Icon, label, color }) => (
                                         <button
@@ -1075,12 +1075,12 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
                         {/* Deal Info Card */}
                         <div className="p-4 border-b border-dark-border">
                             <div className="flex items-center justify-between mb-2">
-                                <span className="text-[10px] text-slate-600 uppercase tracking-wider font-semibold">NegÃ³cio</span>
+                                <span className="text-[10px] text-slate-600 uppercase tracking-wider font-semibold">Negócio</span>
                                 <span className={`text-[10px] px-1.5 py-0.5 rounded ${deal.priority === 'high' ? 'bg-red-500/10 text-red-400' :
                                     deal.priority === 'medium' ? 'bg-yellow-500/10 text-yellow-400' :
                                         'bg-slate-500/10 text-slate-400'
                                     }`}>
-                                    {deal.priority === 'high' ? 'ðŸ”¥ Alta' : deal.priority === 'medium' ? 'MÃ©dia' : 'Baixa'}
+                                    {deal.priority === 'high' ? 'ðŸ”¥ Alta' : deal.priority === 'medium' ? 'Média' : 'Baixa'}
                                 </span>
                             </div>
 
@@ -1275,7 +1275,7 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
                                             Nenhuma atividade
                                         </p>
                                         <p className="text-sm text-slate-500 max-w-[200px]">
-                                            Comece adicionando uma nota ou agendando uma aÃ§Ã£o.
+                                            Comece adicionando uma nota ou agendando uma ação.
                                         </p>
                                     </div>
                                 ) : (
@@ -1330,9 +1330,9 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
                                                                                         activity.type === 'TASK' ? 'bg-yellow-500/20 text-yellow-400' :
                                                                                             'bg-slate-700/50 text-slate-400';
                                                                     const typeLabel =
-                                                                        activity.type === 'CALL' ? 'LigaÃ§Ã£o' :
+                                                                        activity.type === 'CALL' ? 'Ligação' :
                                                                             activity.type === 'EMAIL' ? 'Email' :
-                                                                                activity.type === 'MEETING' ? 'ReuniÃ£o' :
+                                                                                activity.type === 'MEETING' ? 'Reunião' :
                                                                                     activity.type === 'NOTE' ? 'Nota' :
                                                                                         activity.type === 'TASK' ? 'Tarefa' :
                                                                                             activity.type;
@@ -1443,13 +1443,13 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
                                         onClick={() => handleQuickAction('CALL')}
                                         className="px-3 py-1.5 hover:bg-blue-500/10 text-slate-500 hover:text-blue-400 text-xs font-medium rounded-md transition-colors flex items-center gap-2 group"
                                     >
-                                        <Phone size={14} className="group-hover:text-blue-400 transition-colors" /> Ag. LigaÃ§Ã£o
+                                        <Phone size={14} className="group-hover:text-blue-400 transition-colors" /> Ag. Ligação
                                     </button>
                                     <button
                                         onClick={() => handleQuickAction('MEETING')}
                                         className="px-3 py-1.5 hover:bg-purple-500/10 text-slate-500 hover:text-purple-400 text-xs font-medium rounded-md transition-colors flex items-center gap-2 group"
                                     >
-                                        <Calendar size={14} className="group-hover:text-purple-400 transition-colors" /> Ag. ReuniÃ£o
+                                        <Calendar size={14} className="group-hover:text-purple-400 transition-colors" /> Ag. Reunião
                                     </button>
                                     <button
                                         onClick={() => handleQuickAction('TASK')}
@@ -1611,7 +1611,7 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
                                                             const result = await generateSalesScript({
                                                                 deal: { title: deal.title },
                                                                 scriptType: type,
-                                                                context: `EstÃ¡gio: ${currentStage?.label || deal.status}. Contato: ${contact?.name || 'Cliente'}.`,
+                                                                context: `Estágio: ${currentStage?.label || deal.status}. Contato: ${contact?.name || 'Cliente'}.`,
                                                             });
 
                                                             if (result?.script) {
@@ -1624,7 +1624,7 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
                                                     }}
                                                     className="flex-1 text-[9px] px-2 py-1.5 bg-slate-800/60 hover:bg-slate-700 text-slate-400 hover:text-white rounded transition-colors capitalize"
                                                 >
-                                                    {type === 'followup' ? 'Follow-up' : type === 'closing' ? 'Fechamento' : type === 'objection' ? 'ObjeÃ§Ã£o' : 'Resgate'}
+                                                    {type === 'followup' ? 'Follow-up' : type === 'closing' ? 'Fechamento' : type === 'objection' ? 'Objeção' : 'Resgate'}
                                                 </button>
                                             ))}
                                         </div>
@@ -1733,7 +1733,7 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
                                         <p className="text-sm font-medium text-white">
                                             {uploadFile.isPending ? 'Enviando...' : 'Adicionar arquivo'}
                                         </p>
-                                        <p className="text-xs text-slate-500">Clique ou arraste (mÃ¡x 10MB)</p>
+                                        <p className="text-xs text-slate-500">Clique ou arraste (máx 10MB)</p>
                                     </div>
 
                                     <p className="text-xs font-semibold text-slate-500 mb-3 px-1 flex items-center gap-2">

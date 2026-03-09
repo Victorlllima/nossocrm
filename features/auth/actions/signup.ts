@@ -5,22 +5,22 @@ import { headers } from 'next/headers'
 import { z } from 'zod'
 
 /**
- * Schema de validaÃ§Ã£o para cadastro
+ * Schema de validação para cadastro
  */
 const signupSchema = z.object({
     email: z
         .string()
-        .min(1, 'Email Ã© obrigatÃ³rio')
-        .email('Email invÃ¡lido'),
+        .min(1, 'Email é obrigatório')
+        .email('Email inválido'),
     password: z
         .string()
-        .min(6, 'Senha deve ter no mÃ­nimo 6 caracteres')
-        .max(72, 'Senha deve ter no mÃ¡ximo 72 caracteres'),
+        .min(6, 'Senha deve ter no mínimo 6 caracteres')
+        .max(72, 'Senha deve ter no máximo 72 caracteres'),
     confirmPassword: z
         .string()
-        .min(1, 'ConfirmaÃ§Ã£o de senha Ã© obrigatÃ³ria'),
+        .min(1, 'Confirmação de senha é obrigatória'),
 }).refine((data) => data.password === data.confirmPassword, {
-    message: 'As senhas nÃ£o coincidem',
+    message: 'As senhas não coincidem',
     path: ['confirmPassword'],
 })
 
@@ -35,17 +35,17 @@ export type SignupState = {
 }
 
 /**
- * Server Action para cadastro de usuÃ¡rio
+ * Server Action para cadastro de usuário
  * 
- * @param prevState - Estado anterior do formulÃ¡rio
- * @param formData - Dados do formulÃ¡rio
- * @returns Estado atualizado com resultado da operaÃ§Ã£o
+ * @param prevState - Estado anterior do formulário
+ * @param formData - Dados do formulário
+ * @returns Estado atualizado com resultado da operação
  */
 export async function signup(
     prevState: SignupState | null,
     formData: FormData
 ): Promise<SignupState> {
-    // Extrai os dados do formulÃ¡rio
+    // Extrai os dados do formulário
     const rawData = {
         email: formData.get('email') as string,
         password: formData.get('password') as string,
@@ -65,7 +65,7 @@ export async function signup(
 
     const { email, password } = validatedFields.data
 
-    // ObtÃ©m a origem para o redirect do email
+    // Obtém a origem para o redirect do email
     const headersList = await headers()
     const origin = headersList.get('origin') || headersList.get('x-forwarded-host') || 'http://localhost:3000'
     const protocol = headersList.get('x-forwarded-proto') || 'http'
@@ -87,14 +87,14 @@ export async function signup(
             if (error.message.includes('already registered')) {
                 return {
                     success: false,
-                    message: 'Este email jÃ¡ estÃ¡ cadastrado. Tente fazer login.',
+                    message: 'Este email já está cadastrado. Tente fazer login.',
                 }
             }
 
             if (error.message.includes('Password')) {
                 return {
                     success: false,
-                    message: 'Senha nÃ£o atende aos requisitos de seguranÃ§a.',
+                    message: 'Senha não atende aos requisitos de segurança.',
                     errors: { password: [error.message] },
                 }
             }
@@ -105,11 +105,11 @@ export async function signup(
             }
         }
 
-        // Verifica se o email precisa de confirmaÃ§Ã£o
+        // Verifica se o email precisa de confirmação
         if (data?.user?.identities?.length === 0) {
             return {
                 success: false,
-                message: 'Este email jÃ¡ estÃ¡ cadastrado. Tente fazer login.',
+                message: 'Este email já está cadastrado. Tente fazer login.',
             }
         }
 

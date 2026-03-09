@@ -1,9 +1,9 @@
 ﻿import { Deal } from '@/types';
 
 /**
- * FunÃ§Ã£o pÃºblica `isDealRotting` do projeto.
+ * Função pública `isDealRotting` do projeto.
  *
- * @param {Deal} deal - ParÃ¢metro `deal`.
+ * @param {Deal} deal - Parâmetro `deal`.
  * @returns {boolean} Retorna um valor do tipo `boolean`.
  */
 export const isDealRotting = (deal: Deal) => {
@@ -14,9 +14,9 @@ export const isDealRotting = (deal: Deal) => {
 };
 
 /**
- * FunÃ§Ã£o pÃºblica `getActivityStatus` do projeto.
+ * Função pública `getActivityStatus` do projeto.
  *
- * @param {Deal} deal - ParÃ¢metro `deal`.
+ * @param {Deal} deal - Parâmetro `deal`.
  * @returns {"yellow" | "red" | "green" | "gray"} Retorna um valor do tipo `"yellow" | "red" | "green" | "gray"`.
  */
 export const getActivityStatus = (deal: Deal) => {

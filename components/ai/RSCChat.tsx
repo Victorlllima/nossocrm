@@ -4,7 +4,7 @@ import { UIChat } from '@/components/ai/UIChat';
 
 /**
  * Compat layer: o antigo RSCChat (streamUI) foi desativado.
- * Este componente agora renderiza o chat novo (UIChat) para evitar pÃ¡ginas quebradas.
+ * Este componente agora renderiza o chat novo (UIChat) para evitar páginas quebradas.
  */
 export function RSCChat() {
     return <UIChat />;

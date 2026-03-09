@@ -10,12 +10,12 @@ export const OFFICIAL_JOURNEYS: Record<
     schemaVersion: '1.0',
     name: 'Infoprodutor (Completo)',
     description:
-      'Playbook alinhado ao mercado para infoprodutos: CaptaÃ§Ã£o, Vendas, Onboarding do aluno, CS (SaÃºde) e Upsell (ExpansÃ£o).',
+      'Playbook alinhado ao mercado para infoprodutos: Captação, Vendas, Onboarding do aluno, CS (Saúde) e Upsell (Expansão).',
     icon: 'ðŸŽ“',
     boards: [
       {
         slug: 'sdr',
-        name: '1. CaptaÃ§Ã£o / Leads',
+        name: '1. Captação / Leads',
         columns: [
           { name: 'Novos Leads', color: 'bg-blue-500', linkedLifecycleStage: 'LEAD' },
           { name: 'Contatado', color: 'bg-yellow-500', linkedLifecycleStage: 'LEAD' },
@@ -25,9 +25,9 @@ export const OFFICIAL_JOURNEYS: Record<
         strategy: {
           agentPersona: {
             name: 'Closer de DM',
-            role: 'CaptaÃ§Ã£o e QualificaÃ§Ã£o',
+            role: 'Captação e Qualificação',
             behavior:
-              'Seja rÃ¡pido e prÃ¡tico. Identifique intenÃ§Ã£o, timing e fit. Direcione para a oferta certa e elimine fricÃ§Ã£o para avanÃ§ar.',
+              'Seja rápido e prático. Identifique intenção, timing e fit. Direcione para a oferta certa e elimine fricção para avançar.',
           },
           goal: {
             description: 'Aumentar MQLs qualificados a partir de leads.',
@@ -35,7 +35,7 @@ export const OFFICIAL_JOURNEYS: Record<
             targetValue: '100',
             type: 'number',
           },
-          entryTrigger: 'Leads vindos de ads, orgÃ¢nico, direct, WhatsApp ou pÃ¡gina de captura.',
+          entryTrigger: 'Leads vindos de ads, orgânico, direct, WhatsApp ou página de captura.',
         },
       },
       {
@@ -44,29 +44,29 @@ export const OFFICIAL_JOURNEYS: Record<
         columns: [
           { name: 'Descoberta', color: 'bg-blue-500', linkedLifecycleStage: 'MQL' },
           { name: 'Proposta', color: 'bg-purple-500', linkedLifecycleStage: 'PROSPECT' },
-          { name: 'NegociaÃ§Ã£o', color: 'bg-orange-500', linkedLifecycleStage: 'PROSPECT' },
+          { name: 'Negociação', color: 'bg-orange-500', linkedLifecycleStage: 'PROSPECT' },
           { name: 'Matriculado (Ganho)', color: 'bg-green-500', linkedLifecycleStage: 'CUSTOMER' },
-          { name: 'NÃ£o comprou (Perdido)', color: 'bg-red-500', linkedLifecycleStage: 'OTHER' },
+          { name: 'Não comprou (Perdido)', color: 'bg-red-500', linkedLifecycleStage: 'OTHER' },
         ],
         strategy: {
           agentPersona: {
             name: 'Closer',
             role: 'Fechamento',
             behavior:
-              'Venda consultiva e objetiva. Foque em clareza da transformaÃ§Ã£o, prova, urgÃªncia e remoÃ§Ã£o de objeÃ§Ãµes. Sem enrolaÃ§Ã£o.',
+              'Venda consultiva e objetiva. Foque em clareza da transformação, prova, urgência e remoção de objeções. Sem enrolação.',
           },
           goal: {
-            description: 'Maximizar conversÃ£o de MQL â†’ Matriculado.',
-            kpi: 'ConversÃ£o',
+            description: 'Maximizar conversão de MQL â†’ Matriculado.',
+            kpi: 'Conversão',
             targetValue: '25',
             type: 'percentage',
           },
-          entryTrigger: 'Leads qualificados que demonstraram intenÃ§Ã£o de compra.',
+          entryTrigger: 'Leads qualificados que demonstraram intenção de compra.',
         },
       },
       {
         slug: 'onboarding',
-        name: '3. Onboarding do Aluno (AtivaÃ§Ã£o)',
+        name: '3. Onboarding do Aluno (Ativação)',
         columns: [
           { name: 'Boas-vindas', color: 'bg-blue-500', linkedLifecycleStage: 'CUSTOMER' },
           { name: 'Setup (Acessos)', color: 'bg-purple-500', linkedLifecycleStage: 'CUSTOMER' },
@@ -76,13 +76,13 @@ export const OFFICIAL_JOURNEYS: Record<
         strategy: {
           agentPersona: {
             name: 'CS Educacional',
-            role: 'AtivaÃ§Ã£o e RetenÃ§Ã£o Inicial',
+            role: 'Ativação e Retenção Inicial',
             behavior:
-              'Seja didÃ¡tico e acolhedor. Garanta que o aluno complete o setup e tenha o primeiro resultado rÃ¡pido. Reduza abandono e reembolso.',
+              'Seja didático e acolhedor. Garanta que o aluno complete o setup e tenha o primeiro resultado rápido. Reduza abandono e reembolso.',
           },
           goal: {
-            description: 'Garantir ativaÃ§Ã£o rÃ¡pida (primeiro resultado) e reduzir abandono.',
-            kpi: 'AtivaÃ§Ã£o',
+            description: 'Garantir ativação rápida (primeiro resultado) e reduzir abandono.',
+            kpi: 'Ativação',
             targetValue: '70',
             type: 'percentage',
           },
@@ -91,7 +91,7 @@ export const OFFICIAL_JOURNEYS: Record<
       },
       {
         slug: 'cs',
-        name: '4. CS (SaÃºde do Aluno)',
+        name: '4. CS (Saúde do Aluno)',
         columns: BOARD_TEMPLATES.CS.stages.map(s => ({
           name: s.label,
           color: s.color,
@@ -105,29 +105,29 @@ export const OFFICIAL_JOURNEYS: Record<
       },
       {
         slug: 'expansion',
-        name: '5. Upsell (ExpansÃ£o)',
+        name: '5. Upsell (Expansão)',
         columns: [
           { name: 'Identificado', color: 'bg-blue-500', linkedLifecycleStage: 'CUSTOMER' },
           { name: 'Qualificando', color: 'bg-yellow-500', linkedLifecycleStage: 'CUSTOMER' },
           { name: 'Proposta', color: 'bg-purple-500', linkedLifecycleStage: 'CUSTOMER' },
-          { name: 'NegociaÃ§Ã£o', color: 'bg-orange-500', linkedLifecycleStage: 'CUSTOMER' },
+          { name: 'Negociação', color: 'bg-orange-500', linkedLifecycleStage: 'CUSTOMER' },
           { name: 'Upsell Fechado (Ganho)', color: 'bg-green-500', linkedLifecycleStage: 'CUSTOMER' },
           { name: 'Perdido', color: 'bg-red-500', linkedLifecycleStage: 'OTHER' },
         ],
         strategy: {
           agentPersona: {
             name: 'Closer de Upsell',
-            role: 'ExpansÃ£o / Upgrade',
+            role: 'Expansão / Upgrade',
             behavior:
-              'OfereÃ§a o prÃ³ximo passo certo (mentoria, high ticket, upgrade). Baseie-se em sinais de engajamento e resultados obtidos.',
+              'Ofereça o próximo passo certo (mentoria, high ticket, upgrade). Baseie-se em sinais de engajamento e resultados obtidos.',
           },
           goal: {
-            description: 'Gerar receita de expansÃ£o (LTV).',
+            description: 'Gerar receita de expansão (LTV).',
             kpi: 'Expansion MRR',
             targetValue: '15000',
             type: 'currency',
           },
-          entryTrigger: 'Alunos saudÃ¡veis com sinais de evoluÃ§Ã£o e pedido de â€œprÃ³ximo passoâ€.',
+          entryTrigger: 'Alunos saudáveis com sinais de evolução e pedido de â€œpróximo passoâ€.',
         },
       },
     ],
@@ -135,14 +135,14 @@ export const OFFICIAL_JOURNEYS: Record<
   B2B_MACHINE: {
     id: 'B2B_MACHINE',
     schemaVersion: '1.0',
-    name: 'MÃ¡quina de Vendas B2B (Completa)',
+    name: 'Máquina de Vendas B2B (Completa)',
     description:
-      'O setup ideal para empresas SaaS. Inclui PrÃ©-vendas (SDR), Vendas (Closer), Onboarding, CS (SaÃºde) e ExpansÃ£o (Upsell).',
+      'O setup ideal para empresas SaaS. Inclui Pré-vendas (SDR), Vendas (Closer), Onboarding, CS (Saúde) e Expansão (Upsell).',
     icon: 'ðŸ­',
     boards: [
       {
         slug: 'sdr',
-        name: '1. PrÃ©-vendas (SDR)',
+        name: '1. Pré-vendas (SDR)',
         columns: BOARD_TEMPLATES.PRE_SALES.stages.map(s => ({
           name: s.label,
           color: s.color,
@@ -184,7 +184,7 @@ export const OFFICIAL_JOURNEYS: Record<
       },
       {
         slug: 'cs',
-        name: '4. CS (SaÃºde da Conta)',
+        name: '4. CS (Saúde da Conta)',
         columns: BOARD_TEMPLATES.CS.stages.map(s => ({
           name: s.label,
           color: s.color,
@@ -198,29 +198,29 @@ export const OFFICIAL_JOURNEYS: Record<
       },
       {
         slug: 'expansion',
-        name: '5. ExpansÃ£o (Upsell)',
+        name: '5. Expansão (Upsell)',
         columns: [
           { name: 'Identificado', color: 'bg-blue-500', linkedLifecycleStage: 'CUSTOMER' },
           { name: 'Qualificando', color: 'bg-yellow-500', linkedLifecycleStage: 'CUSTOMER' },
           { name: 'Proposta', color: 'bg-purple-500', linkedLifecycleStage: 'CUSTOMER' },
-          { name: 'NegociaÃ§Ã£o', color: 'bg-orange-500', linkedLifecycleStage: 'CUSTOMER' },
+          { name: 'Negociação', color: 'bg-orange-500', linkedLifecycleStage: 'CUSTOMER' },
           { name: 'Upsell Fechado', color: 'bg-green-500', linkedLifecycleStage: 'CUSTOMER' },
           { name: 'Perdido', color: 'bg-red-500', linkedLifecycleStage: 'OTHER' },
         ],
         strategy: {
           agentPersona: {
             name: 'Expansion AM',
-            role: 'ExpansÃ£o / Upsell',
+            role: 'Expansão / Upsell',
             behavior:
-              'Trate expansÃ£o como venda consultiva para clientes ativos. Valide uso/valor, descubra novas dores e construa business case. Seja objetivo e pragmÃ¡tico.',
+              'Trate expansão como venda consultiva para clientes ativos. Valide uso/valor, descubra novas dores e construa business case. Seja objetivo e pragmático.',
           },
           goal: {
-            description: 'Gerar receita de expansÃ£o com previsibilidade.',
+            description: 'Gerar receita de expansão com previsibilidade.',
             kpi: 'Expansion MRR',
             targetValue: '15000',
             type: 'currency',
           },
-          entryTrigger: 'Clientes saudÃ¡veis com sinais de expansÃ£o (uso alto, novas squads, request de features).',
+          entryTrigger: 'Clientes saudáveis com sinais de expansão (uso alto, novas squads, request de features).',
         },
       },
     ],
@@ -229,7 +229,7 @@ export const OFFICIAL_JOURNEYS: Record<
     id: 'SIMPLE_SALES',
     schemaVersion: '1.0',
     name: 'Funil de Vendas Simples',
-    description: 'Perfeito para comeÃ§ar. Um Ãºnico board focado em fechar negÃ³cios rapidamente.',
+    description: 'Perfeito para começar. Um único board focado em fechar negócios rapidamente.',
     icon: 'âš¡',
     boards: [
       {

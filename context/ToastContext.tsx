@@ -1,17 +1,17 @@
 ﻿/**
- * @fileoverview Contexto de NotificaÃ§Ãµes Toast
+ * @fileoverview Contexto de Notificações Toast
  * 
- * Provider React que fornece sistema de notificaÃ§Ãµes toast acessÃ­vel,
+ * Provider React que fornece sistema de notificações toast acessível,
  * com suporte a diferentes tipos (success, error, warning, info) e
- * auto-dismiss configurÃ¡vel.
+ * auto-dismiss configurável.
  * 
  * @module context/ToastContext
  * 
  * Recursos de Acessibilidade (WCAG 2.1):
- * - aria-live="polite" para notificaÃ§Ãµes nÃ£o-crÃ­ticas
+ * - aria-live="polite" para notificações não-críticas
  * - role="alert" para erros (assertive)
  * - Cada toast tem role="status" ou "alert" apropriado
- * - BotÃ£o de fechar com label acessÃ­vel
+ * - Botão de fechar com label acessível
  * 
  * @example
  * ```tsx
@@ -41,16 +41,16 @@
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 import { X, CheckCircle, AlertCircle, Info } from 'lucide-react';
 
-/** Tipos de notificaÃ§Ã£o toast */
+/** Tipos de notificação toast */
 export type ToastType = 'success' | 'error' | 'info' | 'warning';
 
 /**
- * Estrutura de uma notificaÃ§Ã£o toast
+ * Estrutura de uma notificação toast
  * 
  * @interface Toast
- * @property {string} id - Identificador Ãºnico gerado automaticamente
- * @property {string} message - Mensagem da notificaÃ§Ã£o
- * @property {ToastType} type - Tipo visual e semÃ¢ntico
+ * @property {string} id - Identificador único gerado automaticamente
+ * @property {string} message - Mensagem da notificação
+ * @property {ToastType} type - Tipo visual e semântico
  */
 export interface Toast {
     id: string;
@@ -62,8 +62,8 @@ export interface Toast {
  * Tipo do contexto de toast
  * 
  * @interface ToastContextType
- * @property {(message: string, type?: ToastType) => void} addToast - Adiciona notificaÃ§Ã£o
- * @property {(id: string) => void} removeToast - Remove notificaÃ§Ã£o por ID
+ * @property {(message: string, type?: ToastType) => void} addToast - Adiciona notificação
+ * @property {(id: string) => void} removeToast - Remove notificação por ID
  */
 interface ToastContextType {
     addToast: (message: string, type?: ToastType) => void;
@@ -73,9 +73,9 @@ interface ToastContextType {
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
 /**
- * Provider de notificaÃ§Ãµes toast acessÃ­veis
+ * Provider de notificações toast acessíveis
  * 
- * Gerencia lista de toasts com auto-dismiss apÃ³s 3 segundos.
+ * Gerencia lista de toasts com auto-dismiss após 3 segundos.
  * Renderiza toasts no canto inferior direito da tela.
  * 
  * @param {Object} props - Props do componente
@@ -114,7 +114,7 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             <div
                 className="fixed bottom-4 right-4 z-[10001] flex flex-col gap-2"
                 role="region"
-                aria-label="NotificaÃ§Ãµes"
+                aria-label="Notificações"
             >
                 {toasts.map((toast) => (
                     <div
@@ -136,7 +136,7 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
                         <button
                             type="button"
                             onClick={() => removeToast(toast.id)}
-                            aria-label={`Fechar notificaÃ§Ã£o: ${toast.message}`}
+                            aria-label={`Fechar notificação: ${toast.message}`}
                             className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 focus-visible-ring rounded p-0.5"
                         >
                             <X size={14} aria-hidden="true" />
@@ -149,15 +149,15 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 };
 
 /**
- * Hook para acessar sistema de notificaÃ§Ãµes toast
+ * Hook para acessar sistema de notificações toast
  * 
- * Fornece funÃ§Ãµes para adicionar e remover toasts.
+ * Fornece funções para adicionar e remover toasts.
  * Deve ser usado dentro de um ToastProvider.
  * 
- * @returns {Object} FunÃ§Ãµes de controle de toast
+ * @returns {Object} Funções de controle de toast
  * @returns {(message: string, type?: ToastType) => void} return.addToast - Adiciona toast
  * @returns {(message: string, type?: ToastType) => void} return.showToast - Alias para addToast
- * @returns {(id: string) => void} return.removeToast - Remove toast especÃ­fico
+ * @returns {(id: string) => void} return.removeToast - Remove toast específico
  * @throws {Error} Se usado fora do ToastProvider
  * 
  * @example
@@ -166,8 +166,8 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
  *   const { addToast, showToast } = useToast();
  *   
  *   // Ambas as sintaxes funcionam
- *   addToast('AÃ§Ã£o realizada!', 'success');
- *   showToast('AÃ§Ã£o realizada!', 'success');
+ *   addToast('Ação realizada!', 'success');
+ *   showToast('Ação realizada!', 'success');
  * }
  * ```
  */
@@ -186,8 +186,8 @@ export const useToast = () => {
 /**
  * Hook opcional para toast.
  *
- * Ãštil em componentes que podem ser renderizados em testes/ambientes
- * sem ToastProvider. Retorna funÃ§Ãµes no-op quando o provider nÃ£o existe.
+ * Íštil em componentes que podem ser renderizados em testes/ambientes
+ * sem ToastProvider. Retorna funções no-op quando o provider não existe.
  */
 export const useOptionalToast = () => {
     const context = useContext(ToastContext);

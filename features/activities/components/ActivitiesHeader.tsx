@@ -16,7 +16,7 @@ interface ActivitiesHeaderProps {
   setViewMode,
   onNewActivity,
   dateFilter = 'ALL',
-} - ParÃ¢metro `{
+} - Parâmetro `{
   viewMode,
   setViewMode,
   onNewActivity,
@@ -36,7 +36,7 @@ export const ActivitiesHeader: React.FC<ActivitiesHeaderProps> = ({
       : dateFilter === 'today'
         ? 'Hoje'
         : dateFilter === 'upcoming'
-          ? 'PrÃ³ximos'
+          ? 'Próximos'
           : null;
 
   return (

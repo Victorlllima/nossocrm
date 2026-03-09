@@ -9,14 +9,14 @@ interface PeriodFilterSelectProps {
 }
 
 /**
- * Componente de seleÃ§Ã£o de perÃ­odo compartilhado.
- * Usado em Dashboard, Reports e outras pÃ¡ginas que precisam filtrar por perÃ­odo.
+ * Componente de seleção de período compartilhado.
+ * Usado em Dashboard, Reports e outras páginas que precisam filtrar por período.
  */
 export const PeriodFilterSelect: React.FC<PeriodFilterSelectProps> = ({
     value,
     onChange,
     className = '',
-    'aria-label': ariaLabel = 'Selecionar PerÃ­odo',
+    'aria-label': ariaLabel = 'Selecionar Período',
 }) => {
     return (
         <select

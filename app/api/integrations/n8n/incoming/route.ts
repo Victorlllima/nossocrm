@@ -4,7 +4,7 @@ import { n8nIncomingSchema } from '@/lib/validations/n8n-incoming';
 
 export const dynamic = 'force-dynamic';
 
-// API Key para autenticaÃ§Ã£o do webhook n8n
+// API Key para autenticação do webhook n8n
 const WEBHOOK_API_KEY = process.env.N8N_INCOMING_WEBHOOK_KEY;
 
 export async function POST(req: Request) {
@@ -14,7 +14,7 @@ export async function POST(req: Request) {
 
     if (!supabaseUrl || !supabaseKey) {
         return NextResponse.json(
-            { error: 'ConfiguraÃ§Ã£o do servidor incompleta: chaves do Supabase ausentes' },
+            { error: 'Configuração do servidor incompleta: chaves do Supabase ausentes' },
             { status: 500 }
         );
     }
@@ -23,15 +23,15 @@ export async function POST(req: Request) {
 
     try {
         // =====================================================
-        // 0. VALIDAÃ‡ÃƒO DE API KEY (SeguranÃ§a)
+        // 0. VALIDAÇÍƒO DE API KEY (Segurança)
         // =====================================================
         const apiKey = req.headers.get('X-API-Key') || req.headers.get('x-api-key');
 
         if (!WEBHOOK_API_KEY) {
-            console.warn('[n8n-webhook] âš ï¸ N8N_INCOMING_WEBHOOK_KEY nÃ£o configurada - acesso liberado temporariamente');
+            console.warn('[n8n-webhook] âš ï¸ N8N_INCOMING_WEBHOOK_KEY não configurada - acesso liberado temporariamente');
         } else if (apiKey !== WEBHOOK_API_KEY) {
             return NextResponse.json(
-                { error: 'Unauthorized: API Key invÃ¡lida ou ausente' },
+                { error: 'Unauthorized: API Key inválida ou ausente' },
                 { status: 401 }
             );
         }
@@ -39,14 +39,14 @@ export async function POST(req: Request) {
         const body = await req.json();
 
         // =====================================================
-        // 1. VALIDAÃ‡ÃƒO COM ZOD (SanitizaÃ§Ã£o)
+        // 1. VALIDAÇÍƒO COM ZOD (Sanitização)
         // =====================================================
         const parseResult = n8nIncomingSchema.safeParse(body);
 
         if (!parseResult.success) {
             return NextResponse.json(
                 {
-                    error: 'Dados invÃ¡lidos',
+                    error: 'Dados inválidos',
                     details: parseResult.error.flatten().fieldErrors
                 },
                 { status: 400 }
@@ -56,7 +56,7 @@ export async function POST(req: Request) {
         const { phone, name, organization_id } = parseResult.data;
 
         // =====================================================
-        // 2. LÃ“GICA DE CONTATO - Busca ou Cria
+        // 2. LÍ“GICA DE CONTATO - Busca ou Cria
         // =====================================================
         const { data: existingContact } = await supabase
             .from('contacts')
@@ -87,10 +87,10 @@ export async function POST(req: Request) {
         }
 
         // =====================================================
-        // 2. LÃ“GICA DE PIPELINE - Busca Board e EstÃ¡gio
+        // 2. LÍ“GICA DE PIPELINE - Busca Board e Estágio
         // =====================================================
 
-        // Busca o primeiro board da organizaÃ§Ã£o
+        // Busca o primeiro board da organização
         const { data: board } = await supabase
             .from('boards')
             .select('id')
@@ -99,10 +99,10 @@ export async function POST(req: Request) {
             .single();
 
         if (!board) {
-            throw new Error('OrganizaÃ§Ã£o sem Pipeline configurado.');
+            throw new Error('Organização sem Pipeline configurado.');
         }
 
-        // Tenta encontrar um estÃ¡gio com "Novo" no nome
+        // Tenta encontrar um estágio com "Novo" no nome
         const { data: targetStage } = await supabase
             .from('board_stages')
             .select('id')
@@ -113,7 +113,7 @@ export async function POST(req: Request) {
 
         let stageId = targetStage?.id;
 
-        // Fallback: pega o primeiro estÃ¡gio ordenado por posiÃ§Ã£o
+        // Fallback: pega o primeiro estágio ordenado por posição
         if (!stageId) {
             const { data: firstStage } = await supabase
                 .from('board_stages')
@@ -131,7 +131,7 @@ export async function POST(req: Request) {
         }
 
         // =====================================================
-        // 3. LÃ“GICA DE DEAL - Cria novo Deal
+        // 3. LÍ“GICA DE DEAL - Cria novo Deal
         // =====================================================
         const { error: dealError } = await supabase
             .from('deals')

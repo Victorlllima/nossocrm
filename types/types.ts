@@ -1,8 +1,8 @@
 ﻿/**
- * @fileoverview DefiniÃ§Ãµes de Tipos do CRM
+ * @fileoverview Definições de Tipos do CRM
  * 
  * Arquivo central de tipos TypeScript para o sistema NossoCRM.
- * ContÃ©m interfaces para todas as entidades do domÃ­nio.
+ * Contém interfaces para todas as entidades do domínio.
  * 
  * @module types
  * 
@@ -22,8 +22,8 @@
 
 /**
  * @deprecated Use deal.isWon e deal.isLost para verificar status final.
- * O estÃ¡gio atual Ã© deal.status (UUID do stage no board).
- * Mantido apenas para compatibilidade de cÃ³digo legado.
+ * O estágio atual é deal.status (UUID do stage no board).
+ * Mantido apenas para compatibilidade de código legado.
  */
 export enum DealStatus {
   NEW = 'NEW',
@@ -40,8 +40,8 @@ export enum DealStatus {
 
 /**
  * @deprecated Sistema migrado para single-tenant.
- * Mantido apenas para compatibilidade de cÃ³digo legado.
- * Campos organization_id sÃ£o opcionais e ignorados.
+ * Mantido apenas para compatibilidade de código legado.
+ * Campos organization_id são opcionais e ignorados.
  */
 export type OrganizationId = string;
 
@@ -49,17 +49,17 @@ export type OrganizationId = string;
  * Client Company ID - UUID de empresa CLIENTE cadastrada no CRM
  * 
  * @description
- * Este ID representa uma empresa que Ã© cliente/prospect do usuÃ¡rio do CRM.
- * Ã‰ um relacionamento comercial, nÃ£o relacionado a seguranÃ§a.
+ * Este ID representa uma empresa que é cliente/prospect do usuário do CRM.
+ * É um relacionamento comercial, não relacionado a segurança.
  * 
- * @origin Selecionado pelo usuÃ¡rio em dropdowns/formulÃ¡rios
- * @optional Pode ser null (contatos podem nÃ£o ter empresa)
+ * @origin Selecionado pelo usuário em dropdowns/formulários
+ * @optional Pode ser null (contatos podem não ter empresa)
  * 
  * @example
  * ```ts
- * // âœ… Correto: client_company_id vem de seleÃ§Ã£o do usuÃ¡rio
+ * // âœ… Correto: client_company_id vem de seleção do usuário
  * const deal = { 
- *   organization_id: organizationId,     // Do auth (seguranÃ§a)
+ *   organization_id: organizationId,     // Do auth (segurança)
  *   client_company_id: selectedCompany,  // Do form (opcional)
  * };
  * ```
@@ -70,7 +70,7 @@ export type ClientCompanyId = string;
 // Core Types
 // =============================================================================
 
-// EstÃ¡gio do Ciclo de Vida (DinÃ¢mico)
+// Estágio do Ciclo de Vida (Dinâmico)
 export interface LifecycleStage {
   id: string;
   name: string;
@@ -79,22 +79,22 @@ export interface LifecycleStage {
   isDefault?: boolean; // Cannot be deleted
 }
 
-// EstÃ¡gio do Contato no Funil de Carteira
+// Estágio do Contato no Funil de Carteira
 // @deprecated - Use LifecycleStage IDs (strings)
 export enum ContactStage {
-  LEAD = 'LEAD', // Suspeito - ainda nÃ£o qualificado
+  LEAD = 'LEAD', // Suspeito - ainda não qualificado
   MQL = 'MQL', // Marketing Qualified Lead
-  PROSPECT = 'PROSPECT', // Em negociaÃ§Ã£o ativa
+  PROSPECT = 'PROSPECT', // Em negociação ativa
   CUSTOMER = 'CUSTOMER', // Cliente fechado
 }
 
 // @deprecated - Use Contact com stage: ContactStage.LEAD
-// Mantido apenas para compatibilidade de migraÃ§Ã£o
+// Mantido apenas para compatibilidade de migração
 export interface Lead {
   id: string;
   name: string; // Nome da pessoa
   email: string;
-  companyName: string; // Texto solto, ainda nÃ£o Ã© uma Company
+  companyName: string; // Texto solto, ainda não é uma Company
   role?: string;
   source: 'WEBSITE' | 'LINKEDIN' | 'REFERRAL' | 'MANUAL';
   status: 'NEW' | 'CONTACTED' | 'QUALIFIED' | 'DISQUALIFIED';
@@ -163,17 +163,17 @@ export interface Contact {
   status: 'ACTIVE' | 'INACTIVE' | 'CHURNED';
   stage: string; // ID do LifecycleStage (antes era ContactStage enum)
   source?: 'WEBSITE' | 'LINKEDIN' | 'REFERRAL' | 'MANUAL'; // Origem do contato
-  notes?: string; // AnotaÃ§Ãµes gerais
+  notes?: string; // Anotações gerais
   lastPurchaseDate?: string;
   totalValue?: number; // LTV
   createdAt: string;
-  updatedAt?: string; // Ãšltima modificaÃ§Ã£o do registro
+  updatedAt?: string; // Íšltima modificação do registro
 
   // @deprecated - Use clientCompanyId instead
   companyId?: string;
 }
 
-// ITEM 3: Produtos e ServiÃ§os
+// ITEM 3: Produtos e Serviços
 export interface Product {
   id: string;
   organizationId?: OrganizationId; // Tenant FK (for RLS) - optional during migration
@@ -181,7 +181,7 @@ export interface Product {
   description?: string;
   price: number;
   sku?: string;
-  /** Se estÃ¡ ativo no catÃ¡logo (itens inativos nÃ£o devem aparecer no dropdown do deal). */
+  /** Se está ativo no catálogo (itens inativos não devem aparecer no dropdown do deal). */
   active?: boolean;
 }
 
@@ -210,7 +210,7 @@ export interface Deal {
   id: string;
   organizationId?: OrganizationId; // Tenant FK (for RLS) - optional during migration
   clientCompanyId?: ClientCompanyId; // CRM company FK
-  title: string; // Ex: "LicenÃ§a Anual"
+  title: string; // Ex: "Licença Anual"
   contactId: string; // Relacionamento
   boardId: string; // Qual board este deal pertence
   value: number;
@@ -227,7 +227,7 @@ export interface Deal {
     name: string;
     avatar: string;
   };
-  ownerId?: string; // ID do usuÃ¡rio responsÃ¡vel
+  ownerId?: string; // ID do usuário responsável
   nextActivity?: {
     type: 'CALL' | 'MEETING' | 'EMAIL' | 'TASK';
     date: string;
@@ -243,12 +243,12 @@ export interface Deal {
   companyId?: string;
 }
 
-// Helper Type para VisualizaÃ§Ã£o (Desnormalizado)
+// Helper Type para Visualização (Desnormalizado)
 export interface DealView extends Deal {
   clientCompanyName?: string; // Name of the CRM client company
   contactName: string;
   contactEmail: string;
-  /** Nome/label do estÃ¡gio atual (resolvido a partir do status UUID) */
+  /** Nome/label do estágio atual (resolvido a partir do status UUID) */
   stageLabel: string;
 
   // @deprecated - Use clientCompanyName instead
@@ -259,7 +259,7 @@ export interface Activity {
   id: string;
   organizationId?: OrganizationId; // Tenant FK (for RLS) - optional during migration
   dealId: string;
-  /** ID do contato associado (opcional). Ãštil para tarefas sem deal. */
+  /** ID do contato associado (opcional). Íštil para tarefas sem deal. */
   contactId?: string;
   /** ID da empresa CRM associada (opcional). Derivado do deal ou contato. */
   clientCompanyId?: ClientCompanyId;
@@ -284,7 +284,7 @@ export interface DashboardStats {
   winRate: number;
 }
 
-// EstÃ¡gio de um Board (etapa do Kanban)
+// Estágio de um Board (etapa do Kanban)
 export interface BoardStage {
   id: string;
   organizationId?: OrganizationId; // Tenant FK (for RLS) - optional for templates
@@ -297,7 +297,7 @@ export interface BoardStage {
 // Metas do Board (Revenue Ops)
 export interface BoardGoal {
   description: string; // "Converter 20% dos leads"
-  kpi: string; // "Taxa de ConversÃ£o"
+  kpi: string; // "Taxa de Conversão"
   targetValue: string; // "20%"
   currentValue?: string; // "15%" (Progresso atual)
   type?: 'currency' | 'number' | 'percentage'; // Explicit type for calculation
@@ -307,16 +307,16 @@ export interface BoardGoal {
 export interface AgentPersona {
   name: string; // "Dra. Ana (Virtual)"
   role: string; // "Consultora de Beleza"
-  behavior: string; // "EmpÃ¡tica, usa emojis..."
+  behavior: string; // "Empática, usa emojis..."
 }
 
-// Board = Kanban configurÃ¡vel (ex: Pipeline de Vendas, Onboarding, etc)
+// Board = Kanban configurável (ex: Pipeline de Vendas, Onboarding, etc)
 export interface Board {
   id: string;
   organizationId?: OrganizationId; // Tenant FK (for RLS) - optional for templates
   name: string;
   /**
-   * Identificador humano e estÃ¡vel (slug) para integraÃ§Ãµes.
+   * Identificador humano e estável (slug) para integrações.
    * Ex.: "sales", "pos-venda".
    */
   key?: string;
@@ -324,16 +324,16 @@ export interface Board {
   linkedStage?: ContactStage; // Quando mover para etapa final, atualiza o stage do contato
   linkedLifecycleStage?: string; // Qual lifecycle stage este board gerencia (ex: 'LEAD', 'MQL', 'CUSTOMER')
   nextBoardId?: string; // Quando mover para etapa final (Ganho), cria um card neste board
-  wonStageId?: string; // EstÃ¡gio de Ganho
-  lostStageId?: string; // EstÃ¡gio de Perda
+  wonStageId?: string; // Estágio de Ganho
+  lostStageId?: string; // Estágio de Perda
   wonStayInStage?: boolean; // Se true, "Arquiva" na etapa atual (status Won) em vez de mover
   lostStayInStage?: boolean; // Se true, "Arquiva" na etapa atual (status Lost) em vez de mover
-  /** Produto padrÃ£o sugerido para deals desse board (opcional). */
+  /** Produto padrão sugerido para deals desse board (opcional). */
   defaultProductId?: string;
   stages: BoardStage[];
   isDefault?: boolean;
   template?: 'PRE_SALES' | 'SALES' | 'ONBOARDING' | 'CS' | 'CUSTOM'; // Template usado para criar este board
-  automationSuggestions?: string[]; // SugestÃµes de automaÃ§Ã£o da IA
+  automationSuggestions?: string[]; // Sugestões de automação da IA
 
   // AI Strategy Fields
   goal?: BoardGoal;
@@ -343,7 +343,7 @@ export interface Board {
   createdAt: string;
 }
 
-// EstÃ¡gios padrÃ£o do board de vendas
+// Estágios padrão do board de vendas
 export const DEFAULT_BOARD_STAGES: BoardStage[] = [
   { id: DealStatus.NEW, label: 'Novas Oportunidades', color: 'bg-blue-500' },
   { id: DealStatus.CONTACTED, label: 'Contatado', color: 'bg-yellow-500' },
@@ -355,7 +355,7 @@ export const DEFAULT_BOARD_STAGES: BoardStage[] = [
   },
   {
     id: DealStatus.NEGOTIATION,
-    label: 'NegociaÃ§Ã£o',
+    label: 'Negociação',
     color: 'bg-orange-500',
     linkedLifecycleStage: ContactStage.PROSPECT,
   },
@@ -410,8 +410,8 @@ export interface JourneyDefinition {
 // =============================================================================
 
 /**
- * Estado de paginaÃ§Ã£o para controle de navegaÃ§Ã£o.
- * CompatÃ­vel com TanStack Table.
+ * Estado de paginação para controle de navegação.
+ * Compatível com TanStack Table.
  * 
  * @example
  * ```ts
@@ -422,20 +422,20 @@ export interface JourneyDefinition {
  * ```
  */
 export interface PaginationState {
-  /** Ãndice da pÃ¡gina atual (0-indexed). */
+  /** Índice da página atual (0-indexed). */
   pageIndex: number;
-  /** Quantidade de itens por pÃ¡gina. */
+  /** Quantidade de itens por página. */
   pageSize: number;
 }
 
-/** OpÃ§Ãµes vÃ¡lidas para tamanho de pÃ¡gina. */
+/** Opções válidas para tamanho de página. */
 export const PAGE_SIZE_OPTIONS = [25, 50, 100] as const;
 
-/** Tamanho de pÃ¡gina padrÃ£o. */
+/** Tamanho de página padrão. */
 export const DEFAULT_PAGE_SIZE = 50;
 
 /**
- * Resposta paginada genÃ©rica do servidor.
+ * Resposta paginada genérica do servidor.
  * 
  * @template T Tipo dos itens retornados.
  * 
@@ -451,40 +451,40 @@ export const DEFAULT_PAGE_SIZE = 50;
  * ```
  */
 export interface PaginatedResponse<T> {
-  /** Array de itens da pÃ¡gina atual. */
+  /** Array de itens da página atual. */
   data: T[];
-  /** Total de registros no banco (para calcular nÃºmero de pÃ¡ginas). */
+  /** Total de registros no banco (para calcular número de páginas). */
   totalCount: number;
-  /** Ãndice da pÃ¡gina retornada (0-indexed). */
+  /** Índice da página retornada (0-indexed). */
   pageIndex: number;
-  /** Tamanho da pÃ¡gina solicitada. */
+  /** Tamanho da página solicitada. */
   pageSize: number;
-  /** Se existem mais pÃ¡ginas apÃ³s esta. */
+  /** Se existem mais páginas após esta. */
   hasMore: boolean;
 }
 
 /**
  * Filtros de contatos para busca server-side.
- * ExtensÃ£o dos filtros existentes com suporte a paginaÃ§Ã£o.
+ * Extensão dos filtros existentes com suporte a paginação.
  */
 export interface ContactsServerFilters {
   /** Busca por nome ou email (case-insensitive). */
   search?: string;
-  /** Filtro por estÃ¡gio do funil. */
+  /** Filtro por estágio do funil. */
   stage?: string | 'ALL';
   /** Filtro por status. */
   status?: 'ALL' | 'ACTIVE' | 'INACTIVE' | 'CHURNED' | 'RISK';
-  /** Data de inÃ­cio (created_at >= dateStart). */
+  /** Data de início (created_at >= dateStart). */
   dateStart?: string;
   /** Data de fim (created_at <= dateEnd). */
   dateEnd?: string;
   /** ID da empresa cliente (opcional). */
   clientCompanyId?: string;
-  /** Campo para ordenaÃ§Ã£o. */
+  /** Campo para ordenação. */
   sortBy?: ContactSortableColumn;
-  /** DireÃ§Ã£o da ordenaÃ§Ã£o. */
+  /** Direção da ordenação. */
   sortOrder?: 'asc' | 'desc';
 }
 
-/** Colunas ordenÃ¡veis na tabela de contatos. */
+/** Colunas ordenáveis na tabela de contatos. */
 export type ContactSortableColumn = 'name' | 'created_at' | 'updated_at' | 'stage';

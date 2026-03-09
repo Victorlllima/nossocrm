@@ -37,7 +37,7 @@ function getOrCreateLiveRegion(mode: 'polite' | 'assertive'): HTMLDivElement {
  *   
  *   const handleSave = async () => {
  *     await save();
- *     announce('AlteraÃ§Ãµes salvas com sucesso');
+ *     announce('Alterações salvas com sucesso');
  *   };
  *   
  *   return <button onClick={handleSave}>Salvar</button>;

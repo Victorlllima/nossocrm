@@ -27,7 +27,7 @@ interface ContactFormModalProps {
   onSubmit,
   editingContact,
   defaultCompanyName = '',
-} - ParÃ¢metro `{
+} - Parâmetro `{
   isOpen,
   onClose,
   onSubmit,
@@ -125,14 +125,14 @@ export const ContactFormModalV2: React.FC<ContactFormModalProps> = ({
           hint={
             editingContact
               ? 'Edite para alterar a empresa. Deixe em branco para desvincular.'
-              : 'Se a empresa jÃ¡ existir, o contato serÃ¡ vinculado a ela.'
+              : 'Se a empresa já existir, o contato será vinculado a ela.'
           }
           error={errors.companyName}
           registration={register('companyName')}
         />
 
         <SubmitButton isLoading={isSubmitting}>
-          {editingContact ? 'Salvar AlteraÃ§Ãµes' : 'Criar Contato'}
+          {editingContact ? 'Salvar Alterações' : 'Criar Contato'}
         </SubmitButton>
       </ModalForm>
     </Modal>

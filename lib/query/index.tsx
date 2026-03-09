@@ -1,25 +1,25 @@
 ﻿/**
- * @fileoverview ConfiguraÃ§Ã£o do TanStack Query para o NossoCRM.
+ * @fileoverview Configuração do TanStack Query para o NossoCRM.
  * 
- * Este mÃ³dulo centraliza toda a configuraÃ§Ã£o de gerenciamento de estado do servidor:
+ * Este módulo centraliza toda a configuração de gerenciamento de estado do servidor:
  * - Cliente e provider do TanStack Query
  * - Query keys centralizadas para todas as entidades
  * - Tratamento de erros padronizado
- * - Hooks customizados para operaÃ§Ãµes comuns
+ * - Hooks customizados para operações comuns
  * 
  * ## Funcionalidades
  * 
  * - Cache inteligente com stale time de 5 minutos
- * - Garbage collection apÃ³s 30 minutos
- * - Retry automÃ¡tico com backoff exponencial
- * - Refetch automÃ¡tico em foco/reconexÃ£o
- * - Updates otimistas para UX instantÃ¢nea
+ * - Garbage collection após 30 minutos
+ * - Retry automático com backoff exponencial
+ * - Refetch automático em foco/reconexão
+ * - Updates otimistas para UX instantânea
  * 
  * @module lib/query
  * 
  * @example
  * ```tsx
- * // Usando o provider na raiz da aplicaÃ§Ã£o
+ * // Usando o provider na raiz da aplicação
  * <QueryProvider>
  *   <App />
  * </QueryProvider>
@@ -50,7 +50,7 @@ import { ERROR_CODES, getErrorMessage } from '@/lib/validations/errorCodes';
  * @interface APIError
  */
 interface APIError {
-  /** CÃ³digo do erro. */
+  /** Código do erro. */
   code: string;
   /** Mensagem do erro. */
   message: string;
@@ -61,7 +61,7 @@ interface APIError {
 /**
  * Handler de erros para queries.
  * 
- * Exibe notificaÃ§Ã£o com mensagem apropriada baseada no tipo de erro.
+ * Exibe notificação com mensagem apropriada baseada no tipo de erro.
  * 
  * @param error - Erro capturado.
  */
@@ -101,8 +101,8 @@ const handleQueryError = (error: unknown) => {
  * Handler de erros para mutations.
  * 
  * @param error - Erro capturado.
- * @param _variables - VariÃ¡veis da mutation (nÃ£o utilizado).
- * @param _context - Contexto da mutation (nÃ£o utilizado).
+ * @param _variables - Variáveis da mutation (não utilizado).
+ * @param _context - Contexto da mutation (não utilizado).
  */
 const handleMutationError = (error: unknown, _variables: unknown, _context: unknown) => {
   handleQueryError(error);
@@ -113,11 +113,11 @@ const handleMutationError = (error: unknown, _variables: unknown, _context: unkn
 /**
  * Cliente TanStack Query configurado para o NossoCRM.
  * 
- * ConfiguraÃ§Ãµes:
+ * Configurações:
  * - Stale time: 5 minutos
  * - Cache time: 30 minutos
  * - Retry: 3x com backoff exponencial
- * - Refetch automÃ¡tico em foco/reconexÃ£o
+ * - Refetch automático em foco/reconexão
  */
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -163,10 +163,10 @@ interface QueryProviderProps {
 }
 
 /**
- * Provider do TanStack Query para a aplicaÃ§Ã£o.
+ * Provider do TanStack Query para a aplicação.
  * 
- * Envolve a aplicaÃ§Ã£o com o cliente de query configurado.
- * Deve ser colocado prÃ³ximo Ã  raiz da Ã¡rvore de componentes.
+ * Envolve a aplicação com o cliente de query configurado.
+ * Deve ser colocado próximo Í  raiz da árvore de componentes.
  * 
  * @param props - Props do componente.
  * @returns Componente provider.
@@ -179,7 +179,7 @@ export const QueryProvider: React.FC<QueryProviderProps> = ({ children }) => {
 /**
  * Query keys centralizadas para gerenciamento de cache.
  * 
- * Usar estas keys garante consistÃªncia na invalidaÃ§Ã£o e prefetch.
+ * Usar estas keys garante consistência na invalidação e prefetch.
  * Pattern: `queryKeys.entity.action(params)`
  * 
  * @example
@@ -187,7 +187,7 @@ export const QueryProvider: React.FC<QueryProviderProps> = ({ children }) => {
  * // Invalidar todos os deals
  * queryClient.invalidateQueries({ queryKey: queryKeys.deals.all });
  * 
- * // Invalidar deals de um board especÃ­fico
+ * // Invalidar deals de um board específico
  * queryClient.invalidateQueries({ 
  *   queryKey: queryKeys.deals.list({ boardId: 'xxx' }) 
  * });
@@ -200,15 +200,15 @@ import { queryKeys } from './queryKeys';
 // ============ HOOKS CUSTOMIZADOS ============
 
 /**
- * Hook para mutations com atualizaÃ§Ãµes otimistas.
+ * Hook para mutations com atualizações otimistas.
  * 
- * Fornece UX instantÃ¢nea ao atualizar o cache antes da resposta do servidor.
- * Em caso de erro, faz rollback automÃ¡tico para o estado anterior.
+ * Fornece UX instantânea ao atualizar o cache antes da resposta do servidor.
+ * Em caso de erro, faz rollback automático para o estado anterior.
  * 
  * @template TData Tipo dos dados retornados.
- * @template TVariables Tipo das variÃ¡veis da mutation.
+ * @template TVariables Tipo das variáveis da mutation.
  * @template TContext Tipo do contexto da mutation.
- * @param options - ConfiguraÃ§Ãµes da mutation.
+ * @param options - Configurações da mutation.
  * @returns Mutation configurada com updates otimistas.
  * 
  * @example
@@ -222,11 +222,11 @@ import { queryKeys } from './queryKeys';
  * ```
  */
 export const useOptimisticMutation = <TData, TVariables, TContext>(options: {
-  /** FunÃ§Ã£o de mutation a ser executada. */
+  /** Função de mutation a ser executada. */
   mutationFn: (variables: TVariables) => Promise<TData>;
-  /** Query key para invalidaÃ§Ã£o. */
+  /** Query key para invalidação. */
   queryKey: readonly unknown[];
-  /** FunÃ§Ã£o para atualizar otimisticamente o cache. */
+  /** Função para atualizar otimisticamente o cache. */
   optimisticUpdate: (oldData: TData | undefined, variables: TVariables) => TData;
   /** Callback de sucesso. */
   onSuccess?: (data: TData, variables: TVariables, context: TContext) => void;
@@ -272,15 +272,15 @@ export const useOptimisticMutation = <TData, TVariables, TContext>(options: {
 // ============ PREFETCH HELPERS ============
 
 /**
- * PrÃ©-carrega dados para uma rota antes da navegaÃ§Ã£o.
+ * Pré-carrega dados para uma rota antes da navegação.
  * 
- * Melhora a percepÃ§Ã£o de velocidade ao carregar dados antecipadamente.
+ * Melhora a percepção de velocidade ao carregar dados antecipadamente.
  * 
- * @param route - Nome da rota a ser prÃ©-carregada.
+ * @param route - Nome da rota a ser pré-carregada.
  * 
  * @example
  * ```typescript
- * // No hover de um link de navegaÃ§Ã£o
+ * // No hover de um link de navegação
  * <Link onMouseEnter={() => prefetchRouteData('contacts')}>
  *   Contatos
  * </Link>

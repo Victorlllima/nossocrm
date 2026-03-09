@@ -199,7 +199,7 @@ Timeline (em segundos):
 3. `getOrCreateConversation()` usa organization_id implicitamente
 
 **Cenário seguro:**
-- Agente A (Org 1) NÃO pode processar com Agente B (Org 2)
+- Agente A (Org 1) NÍO pode processar com Agente B (Org 2)
 - Históricos completamente isolados por organization_id
 
 ---
@@ -225,7 +225,7 @@ Timeline (em segundos):
 
 ---
 
-## 📝 PRÓXIMA AÇÃO
+## 📝 PRÓXIMA AÇÍO
 
 1. **Criar agente de teste** (insert no banco)
 2. **Testar health check** (deve retornar healthy)

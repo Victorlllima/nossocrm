@@ -73,7 +73,7 @@ const sizeClasses = {
   initialFocus,
   focusTrapEnabled = true,
   closeOnBackdropClick = true,
-} - ParÃ¢metro `{ 
+} - Parâmetro `{ 
   isOpen, 
   onClose, 
   title, 
@@ -185,7 +185,7 @@ interface ModalFormProps extends React.FormHTMLAttributes<HTMLFormElement> {
 /**
  * Componente React `ModalForm`.
  *
- * @param {ModalFormProps} { children, className, ...props } - ParÃ¢metro `{ children, className, ...props }`.
+ * @param {ModalFormProps} { children, className, ...props } - Parâmetro `{ children, className, ...props }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const ModalForm: React.FC<ModalFormProps> = ({ children, className, ...props }) => (

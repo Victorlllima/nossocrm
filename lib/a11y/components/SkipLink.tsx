@@ -24,7 +24,7 @@ export interface SkipLinkProps {
  */
 export const SkipLink: React.FC<SkipLinkProps> = ({
   targetId,
-  children = 'Pular para conteÃºdo principal',
+  children = 'Pular para conteúdo principal',
 }) => {
   const handleClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();

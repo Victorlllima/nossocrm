@@ -20,7 +20,7 @@ const SetupSchema = z
 /**
  * Handler HTTP `POST` deste endpoint (Next.js Route Handler).
  *
- * @param {Request} req - Objeto da requisiÃ§Ã£o.
+ * @param {Request} req - Objeto da requisição.
  * @returns {Promise<Response>} Retorna um valor do tipo `Promise<Response>`.
  */
 export async function POST(req: Request) {
@@ -37,7 +37,7 @@ export async function POST(req: Request) {
 
   const admin = createStaticAdminClient();
 
-  // SÃ³ permite setup se ainda nÃ£o inicializado.
+  // Só permite setup se ainda não inicializado.
   const { data: isInitialized, error: initError } = await admin.rpc('is_instance_initialized');
   if (initError) return json({ error: initError.message }, 500);
   if (isInitialized) return json({ error: 'Instance already initialized' }, 403);

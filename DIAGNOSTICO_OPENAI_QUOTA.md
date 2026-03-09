@@ -40,7 +40,7 @@
 
 ## 🎯 CAUSA RAIZ IDENTIFICADA
 
-O problema **NÃO é** de rate limit por chamadas simultâneas, mas sim:
+O problema **NÍO é** de rate limit por chamadas simultâneas, mas sim:
 
 ### **A API Key Específica tem Limitação de Billing**
 
@@ -69,7 +69,7 @@ Possibilidades:
 
 ## ✅ SOLUÇÕES DISPONÍVEIS (PRIORIDADE)
 
-### **OPÇÃO A: Gerar Nova API Key (RECOMENDADO)**
+### **OPÇÍO A: Gerar Nova API Key (RECOMENDADO)**
 
 ```bash
 # 1. Acesse: https://platform.openai.com/api-keys
@@ -84,7 +84,7 @@ OPENAI_API_KEY=sk-proj-<NOVA-KEY-AQUI>
 
 ---
 
-### **OPÇÃO B: Verificar Organização (Se Tiver Múltiplas)**
+### **OPÇÍO B: Verificar Organização (Se Tiver Múltiplas)**
 
 ```bash
 # Se tiver múltiplas organizações:
@@ -95,7 +95,7 @@ OPENAI_API_KEY=sk-proj-<NOVA-KEY-AQUI>
 
 ---
 
-### **OPÇÃO C: Usar Modelo Legado (Curto Prazo)**
+### **OPÇÍO C: Usar Modelo Legado (Curto Prazo)**
 
 Se a key só funciona com modelos antigos:
 
@@ -158,7 +158,7 @@ Quando conseguir nova key funcional:
 
 ---
 
-## 🚀 VERSÃO MOCK: PLANO B SEMPRE DISPONÍVEL
+## 🚀 VERSÍO MOCK: PLANO B SEMPRE DISPONÍVEL
 
 Enquanto você resolve a key OpenAI:
 

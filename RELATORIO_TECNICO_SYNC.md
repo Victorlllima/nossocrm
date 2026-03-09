@@ -71,9 +71,9 @@ Arquivo alterado: `app/api/integrations/google-sheets/sync/route.ts`
 - Todos os deploys das últimas 20 horas apresentam o mesmo comportamento
 
 ### Workaround Temporário
-**AÇÃO OBRIGATÓRIA:** Atualizar o cron job externo para usar **deploy direto** em vez do domínio principal:
+**AÇÍO OBRIGATÓRIA:** Atualizar o cron job externo para usar **deploy direto** em vez do domínio principal:
 
-❌ **NÃO USE:** `https://nossocrm.vercel.app/api/integrations/google-sheets/sync`
+❌ **NÍO USE:** `https://nossocrm.vercel.app/api/integrations/google-sheets/sync`
 ✅ **USE:** URL do deploy mais recente (obtido via `vercel ls`)
 
 **Script para obter URL atual:**

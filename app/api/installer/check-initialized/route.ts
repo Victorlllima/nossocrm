@@ -13,8 +13,8 @@ function json<T>(body: T, status = 200): Response {
 }
 
 /**
- * Verifica se a instÃ¢ncia jÃ¡ foi inicializada.
- * Endpoint pÃºblico (nÃ£o requer autenticaÃ§Ã£o) para uso nas pÃ¡ginas de instalaÃ§Ã£o.
+ * Verifica se a instância já foi inicializada.
+ * Endpoint público (não requer autenticação) para uso nas páginas de instalação.
  * 
  * @returns {Promise<Response>} Retorna { initialized: boolean }
  */
@@ -32,14 +32,14 @@ export async function GET() {
     const { data, error } = await supabase.rpc('is_instance_initialized');
     
     if (error) {
-      // Em caso de erro, assumimos que nÃ£o estÃ¡ inicializado para nÃ£o bloquear o wizard
+      // Em caso de erro, assumimos que não está inicializado para não bloquear o wizard
       console.warn('[check-initialized] Error checking initialization:', error);
       return json({ initialized: false });
     }
     
     return json({ initialized: data === true });
   } catch (err) {
-    // Fail-safe: em caso de erro, nÃ£o bloqueia o acesso ao wizard
+    // Fail-safe: em caso de erro, não bloqueia o acesso ao wizard
     console.warn('[check-initialized] Exception:', err);
     return json({ initialized: false });
   }

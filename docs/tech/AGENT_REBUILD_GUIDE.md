@@ -1,7 +1,7 @@
 # Guia de Reconstrução do Agente de IA para WhatsApp
-**Status:** PRONTO PARA EXECUÇÃO
+**Status:** PRONTO PARA EXECUÇÍO
 **Base:** Dev Resetada (igual a Main)
-**Dependência Crítica:** `ai@^3.2.14`, `zod@^3.23` (NÃO TENTE ATUALIZAR, VAI QUEBRAR TUDO)
+**Dependência Crítica:** `ai@^3.2.14`, `zod@^3.23` (NÍO TENTE ATUALIZAR, VAI QUEBRAR TUDO)
 
 Bem-vindo, Agente (ou Dev Humano). 👋
 Sua missão: Implementar o Agente de IA para WhatsApp DE FORMA LIMPA E SEGURA.
@@ -12,12 +12,12 @@ Sua missão: Implementar o Agente de IA para WhatsApp DE FORMA LIMPA E SEGURA.
     - Não toque no `package.json` para atualizar dependências globais (`ai`, `zod`, `react`, etc.). O projeto DEVE rodar com o stack atual.
     - Se precisar de uma feature nova do AI SDK v6, **ESQUEÇA**. Use a v3 (instalada) ou crie um polyfill manual.
 
-2.  **USE O PADRÃO ANTIGO DE FERRAMENTAS:**
+2.  **USE O PADRÍO ANTIGO DE FERRAMENTAS:**
     - Em vez de `jsonSchema`, use `zod` schema diretamente.
     - Em vez de `execute: async ({ ... })`, use `execute: async (input) => { const { ... } = input; }`. (Isso evita problemas de destructuring com tipos inferidos errados).
 
 3.  **TYPE SAFETY FIRST:**
-    - **NÃO USE `as any`**. Se o TypeScript reclamar, significa que sua definição está errada para a versão instalada. Conserte a definição.
+    - **NÍO USE `as any`**. Se o TypeScript reclamar, significa que sua definição está errada para a versão instalada. Conserte a definição.
     - Declare interfaces explícitas para Inputs e Outputs das Tools.
 
 ## Plano de Implementação Passo-a-Passo 📝
@@ -34,7 +34,7 @@ Sua missão: Implementar o Agente de IA para WhatsApp DE FORMA LIMPA E SEGURA.
 ### 3. Implementar o Endpoint (`app/api/whatsapp/webhook/route.ts`)
 - Use `streamText` ou `generateText` da versão v3.
 - Lembre-se que `onToolCall` pode ter assinatura diferente na v3. Verifique a doc ou tipos instalados (`node_modules/ai/dist/index.d.ts`).
-- **NÃO tente usar `ToolLoopAgent` ou outras abstrações removidas.**
+- **NÍO tente usar `ToolLoopAgent` ou outras abstrações removidas.**
 - Implemente o loop de ferramentas manualmente se necessário (na v3, o `streamText` já suporta `maxSteps: 5` e `tools` automaticamente).
 
 ### 4. Teste Local

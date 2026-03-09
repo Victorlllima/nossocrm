@@ -59,10 +59,10 @@ async function postTask<T>(path: string, payload: unknown): Promise<T> {
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `analyzeLead` do projeto.
+ * Função pública `analyzeLead` do projeto.
  *
- * @param {Deal | DealView} deal - ParÃ¢metro `deal`.
- * @param {string | undefined} stageLabel - ParÃ¢metro `stageLabel`.
+ * @param {Deal | DealView} deal - Parâmetro `deal`.
+ * @param {string | undefined} stageLabel - Parâmetro `stageLabel`.
  * @returns {Promise<AnalyzeLeadResult>} Retorna um valor do tipo `Promise<AnalyzeLeadResult>`.
  */
 export async function analyzeLead(
@@ -87,10 +87,10 @@ export async function analyzeLead(
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `generateEmailDraft` do projeto.
+ * Função pública `generateEmailDraft` do projeto.
  *
- * @param {Deal | DealView} deal - ParÃ¢metro `deal`.
- * @param {string | undefined} stageLabel - ParÃ¢metro `stageLabel`.
+ * @param {Deal | DealView} deal - Parâmetro `deal`.
+ * @param {string | undefined} stageLabel - Parâmetro `stageLabel`.
  * @returns {Promise<string>} Retorna um valor do tipo `Promise<string>`.
  */
 export async function generateEmailDraft(deal: Deal | DealView, stageLabel?: string): Promise<string> {
@@ -109,10 +109,10 @@ export async function generateEmailDraft(deal: Deal | DealView, stageLabel?: str
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `generateObjectionResponse` do projeto.
+ * Função pública `generateObjectionResponse` do projeto.
  *
- * @param {Deal | DealView} deal - ParÃ¢metro `deal`.
- * @param {string} objection - ParÃ¢metro `objection`.
+ * @param {Deal | DealView} deal - Parâmetro `deal`.
+ * @param {string} objection - Parâmetro `objection`.
  * @returns {Promise<string[]>} Retorna um valor do tipo `Promise<string[]>`.
  */
 export async function generateObjectionResponse(
@@ -128,10 +128,10 @@ export async function generateObjectionResponse(
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `generateBoardStructure` do projeto.
+ * Função pública `generateBoardStructure` do projeto.
  *
- * @param {string} description - ParÃ¢metro `description`.
- * @param {LifecycleStage[]} lifecycleStages - ParÃ¢metro `lifecycleStages`.
+ * @param {string} description - Parâmetro `description`.
+ * @param {LifecycleStage[]} lifecycleStages - Parâmetro `lifecycleStages`.
  * @returns {Promise<{ boardName: string; description: string; stages: { name: string; description: string; color: string; linkedLifecycleStage: string; estimatedDuration?: string | undefined; }[]; automationSuggestions: string[]; }>} Retorna um valor do tipo `Promise<{ boardName: string; description: string; stages: { name: string; description: string; color: string; linkedLifecycleStage: string; estimatedDuration?: string | undefined; }[]; automationSuggestions: string[]; }>`.
  */
 export async function generateBoardStructure(
@@ -150,9 +150,9 @@ export async function generateBoardStructure(
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `generateBoardStrategy` do projeto.
+ * Função pública `generateBoardStrategy` do projeto.
  *
- * @param {{ boardName: string; description: string; stages: { name: string; description: string; color: string; linkedLifecycleStage: string; estimatedDuration?: string | undefined; }[]; automationSuggestions: string[]; }} boardData - ParÃ¢metro `boardData`.
+ * @param {{ boardName: string; description: string; stages: { name: string; description: string; color: string; linkedLifecycleStage: string; estimatedDuration?: string | undefined; }[]; automationSuggestions: string[]; }} boardData - Parâmetro `boardData`.
  * @returns {Promise<Pick<GeneratedBoard, "goal" | "agentPersona" | "entryTrigger">>} Retorna um valor do tipo `Promise<Pick<GeneratedBoard, "goal" | "agentPersona" | "entryTrigger">>`.
  */
 export async function generateBoardStrategy(boardData: {
@@ -165,11 +165,11 @@ export async function generateBoardStrategy(boardData: {
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `refineBoardWithAI` do projeto.
+ * Função pública `refineBoardWithAI` do projeto.
  *
- * @param {GeneratedBoard} currentBoard - ParÃ¢metro `currentBoard`.
- * @param {string} userInstruction - ParÃ¢metro `userInstruction`.
- * @param {{ role: "user" | "ai"; content: string; }[] | undefined} chatHistory - ParÃ¢metro `chatHistory`.
+ * @param {GeneratedBoard} currentBoard - Parâmetro `currentBoard`.
+ * @param {string} userInstruction - Parâmetro `userInstruction`.
+ * @param {{ role: "user" | "ai"; content: string; }[] | undefined} chatHistory - Parâmetro `chatHistory`.
  * @returns {Promise<{ message: string; board: any; }>} Retorna um valor do tipo `Promise<{ message: string; board: any; }>`.
  */
 export async function refineBoardWithAI(
@@ -183,7 +183,7 @@ export async function refineBoardWithAI(
     chatHistory,
   });
 
-  // SAFETY MERGE: se a IA nÃ£o retornar campos de estratÃ©gia, preserva do board atual.
+  // SAFETY MERGE: se a IA não retornar campos de estratégia, preserva do board atual.
   if (result.board) {
     result.board = {
       ...currentBoard,
@@ -198,9 +198,9 @@ export async function refineBoardWithAI(
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `generateDailyBriefing` do projeto.
+ * Função pública `generateDailyBriefing` do projeto.
  *
- * @param {unknown} radarData - ParÃ¢metro `radarData`.
+ * @param {unknown} radarData - Parâmetro `radarData`.
  * @returns {Promise<string>} Retorna um valor do tipo `Promise<string>`.
  */
 export async function generateDailyBriefing(radarData: unknown): Promise<string> {
@@ -209,9 +209,9 @@ export async function generateDailyBriefing(radarData: unknown): Promise<string>
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `generateSalesScript` do projeto.
+ * Função pública `generateSalesScript` do projeto.
  *
- * @param {{ deal: { title?: string | undefined; }; scriptType?: string | undefined; context?: string | undefined; }} args - ParÃ¢metro `args`.
+ * @param {{ deal: { title?: string | undefined; }; scriptType?: string | undefined; context?: string | undefined; }} args - Parâmetro `args`.
  * @returns {Promise<{ script: string; scriptType?: string | undefined; generatedFor?: string | undefined; }>} Retorna um valor do tipo `Promise<{ script: string; scriptType?: string | undefined; generatedFor?: string | undefined; }>`.
  */
 export async function generateSalesScript(args: {

@@ -163,7 +163,7 @@ export async function waitForSupabaseProjectReady(params: {
   return {
     ok: false,
     error:
-      `Projeto Supabase ainda estÃ¡ subindo (${lastStatus || 'status desconhecido'}). ` +
+      `Projeto Supabase ainda está subindo (${lastStatus || 'status desconhecido'}). ` +
       'Aguarde um pouco e tente novamente.',
     lastStatus,
     response: lastResponse,
@@ -621,7 +621,7 @@ export async function resolveSupabaseDbUrlViaCliLoginRole(params: {
     return {
       ok: false,
       error: looksLikeIpv4OnlyIssue
-        ? 'ConexÃ£o direta do banco parece ser IPv6-only (incompatÃ­vel com IPv4). Use Connection Pooling (Transaction pooler / porta 6543) ou habilite o add-on de IPv4 no Supabase.'
+        ? 'Conexão direta do banco parece ser IPv6-only (incompatível com IPv4). Use Connection Pooling (Transaction pooler / porta 6543) ou habilite o add-on de IPv4 no Supabase.'
         : msg,
       status: loginRole.status,
       response: loginRole.data,
@@ -676,7 +676,7 @@ export async function resolveSupabaseDbUrlViaCliLoginRole(params: {
     if (typeof n === 'string' && n.trim()) poolerDbName = n.trim();
   }
 
-  // Fallback: usa o host do projeto (db.<ref>.supabase.co) se nÃ£o conseguir resolver o pooler
+  // Fallback: usa o host do projeto (db.<ref>.supabase.co) se não conseguir resolver o pooler
   const finalHost = poolerHost || host.trim();
   const finalPort = poolerPort || 6543;
   const finalDbName = poolerDbName || 'postgres';

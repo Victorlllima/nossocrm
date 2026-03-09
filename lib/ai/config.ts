@@ -1,7 +1,7 @@
 ﻿/**
- * @fileoverview ConfiguraÃ§Ã£o de provedores de IA para o CRM.
+ * @fileoverview Configuração de provedores de IA para o CRM.
  * 
- * Este mÃ³dulo abstrai a criaÃ§Ã£o de clientes de diferentes provedores de IA
+ * Este módulo abstrai a criação de clientes de diferentes provedores de IA
  * (Google Gemini, OpenAI, Anthropic Claude), permitindo trocar entre eles
  * de forma transparente.
  * 
@@ -20,25 +20,25 @@ import { createAnthropic } from '@ai-sdk/anthropic';
 export type AIProvider = 'google' | 'openai' | 'anthropic';
 
 /**
- * Cria e retorna uma instÃ¢ncia do modelo de IA configurada.
+ * Cria e retorna uma instância do modelo de IA configurada.
  * 
- * Suporta mÃºltiplos provedores com modelos padrÃ£o:
+ * Suporta múltiplos provedores com modelos padrão:
  * - Google: gemini-1.5-flash
  * - OpenAI: gpt-4o
  * - Anthropic: claude-3-5-sonnet-20240620
  * 
  * @param provider - Provedor de IA a ser utilizado.
  * @param apiKey - Chave de API do provedor.
- * @param modelId - ID do modelo especÃ­fico (opcional, usa padrÃ£o se nÃ£o informado).
- * @returns InstÃ¢ncia configurada do modelo de IA.
- * @throws Error se a API key nÃ£o for fornecida ou provedor nÃ£o for suportado.
+ * @param modelId - ID do modelo específico (opcional, usa padrão se não informado).
+ * @returns Instância configurada do modelo de IA.
+ * @throws Error se a API key não for fornecida ou provedor não for suportado.
  * 
  * @example
  * ```typescript
  * // Usando Google Gemini
  * const model = getModel('google', 'sua-api-key', 'gemini-1.5-pro');
  * 
- * // Usando OpenAI com modelo padrÃ£o
+ * // Usando OpenAI com modelo padrão
  * const model = getModel('openai', 'sua-api-key', '');
  * ```
  */

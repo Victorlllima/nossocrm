@@ -7,7 +7,7 @@
 
 ---
 
-## 🎯 MISSÃO RESUMIDA
+## 🎯 MISSÍO RESUMIDA
 
 O projeto NossoCRM WhatsApp Agent estava bloqueado por **OpenAI quota esgotada**.
 
@@ -110,7 +110,7 @@ cp app/api/whatsapp/webhook/route-mock.ts app/api/whatsapp/webhook/route.ts
 ❌ Teste 5: Com Tools Habilitadas
    → Error: "tools.0.custom.input_schema.type: Field required"
    → Motivo: Anthropic espera JSON Schema diferente
-   → Status: NÃO BLOQUEADOR (sistema funciona sem tools)
+   → Status: NÍO BLOQUEADOR (sistema funciona sem tools)
 ```
 
 ### O Que Funciona
@@ -164,7 +164,7 @@ Tools é nice-to-have, não bloqueador.
 
 ---
 
-## 📊 DOCUMENTAÇÃO CRIADA
+## 📊 DOCUMENTAÇÍO CRIADA
 
 ### Documentos Principais
 ```

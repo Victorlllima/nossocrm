@@ -61,7 +61,7 @@ const STAGE_CONFIG = {
   activeStage,
   onStageChange,
   counts,
-} - ParÃ¢metro `{
+} - Parâmetro `{
   activeStage,
   onStageChange,
   counts,
@@ -130,11 +130,11 @@ export const ContactsStageTabs: React.FC<ContactsStageTabs> = ({
   );
 };
 
-// Badge de estÃ¡gio para usar nas rows
+// Badge de estágio para usar nas rows
 /**
  * Componente React `StageBadge`.
  *
- * @param {{ stage: string; }} { stage } - ParÃ¢metro `{ stage }`.
+ * @param {{ stage: string; }} { stage } - Parâmetro `{ stage }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const StageBadge: React.FC<{ stage: ContactStage | string }> = ({ stage }) => {

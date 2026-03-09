@@ -75,12 +75,12 @@ vi.mock('@/context/CRMContext', () => ({
 
     const deal = {
       id: 'deal-1',
-      title: 'Pequeno ChapÃ©u',
+      title: 'Pequeno Chapéu',
       value: 1000,
       status: 'stage-1',
       boardId: 'board-1',
       contactId: 'contact-1',
-      companyName: 'Moreira ComÃ©rcio',
+      companyName: 'Moreira Comércio',
       contactName: 'Fulano',
       contactEmail: 'fulano@example.com',
       createdAt: new Date().toISOString(),
@@ -116,7 +116,7 @@ vi.mock('@/context/CRMContext', () => ({
 }));
 
 describe('Story â€” US-001: Abrir deal no Boards', () => {
-  it('simula a histÃ³ria e garante que nÃ£o quebra', async () => {
+  it('simula a história e garante que não quebra', async () => {
     const user = userEvent.setup();
 
     const Harness = ({ open }: { open: boolean }) => (
@@ -135,7 +135,7 @@ describe('Story â€” US-001: Abrir deal no Boards', () => {
     rerender(<Harness open={true} />);
 
     await runStorySteps(user, [
-      { kind: 'expectText', text: 'Pequeno ChapÃ©u' },
+      { kind: 'expectText', text: 'Pequeno Chapéu' },
       { kind: 'expectNotText', text: /Application error/i },
     ]);
 
