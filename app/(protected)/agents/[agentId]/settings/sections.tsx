@@ -147,7 +147,7 @@ export function BehaviorSection({ config, setConfig }: SectionProps) {
               onChange={(e) => setConfig({ ...config, splitLongMessages: e.target.checked })}
               className="w-4 h-4"
             />
-            <span>Dividir resposta em partes (se > 1000 chars)</span>
+            <span>Dividir resposta em partes (se {`>`} 1000 chars)</span>
           </label>
 
           <label className="flex items-center gap-2 cursor-pointer">
