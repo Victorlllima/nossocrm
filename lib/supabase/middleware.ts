@@ -19,9 +19,15 @@ export async function updateSession(request: NextRequest) {
         return NextResponse.next({ request })
     }
 
-    // DEV MODE: Bypass authentication in development
+    // DEV MODE: Bypass authentication AND setup guard in development
     if (process.env.DEV_MODE === 'true' || process.env.NEXT_PUBLIC_DEV_MODE === 'true') {
         console.log('[proxy] DEV_MODE active - bypassing auth checks')
+        const pathname = request.nextUrl.pathname
+        if (pathname === '/' || pathname === '/onboarding' || pathname.startsWith('/onboarding/')) {
+            const url = request.nextUrl.clone()
+            url.pathname = '/dashboard'
+            return NextResponse.redirect(url)
+        }
         return NextResponse.next({ request })
     }
 

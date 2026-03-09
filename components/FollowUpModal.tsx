@@ -174,15 +174,15 @@ export const FollowUpModal: React.FC<FollowUpModalProps> = ({
     if (isOpen && dealId) {
       const fetchData = async () => {
         try {
-          // Check for phone number
+          // Check for phone number via contact relationship
           const { data: dealData } = await supabase
             .from('deals')
-            .select('phone, contacts(phone)')
+            .select('contact_id, contacts(phone)')
             .eq('id', dealId)
             .single();
 
           // @ts-expect-error - dealData type inference issue with inner join
-          const phone = dealData?.phone || dealData?.contacts?.phone;
+          const phone = dealData?.contacts?.phone;
           setHasValidPhone(!!phone);
 
           // Fetch scheduled message
