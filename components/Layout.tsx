@@ -163,6 +163,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   // Redirect to onboarding if user doesn't have an organization yet
   useEffect(() => {
+    if (process.env.NEXT_PUBLIC_DEV_MODE === 'true') return;
     if (needsOnboarding && pathname !== '/onboarding') {
       router.replace('/onboarding');
     }

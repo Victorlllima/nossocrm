@@ -173,17 +173,38 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     useEffect(() => {
-        // BYPASS: Se DEV_MODE estiver ativo, simular usuÃ¡rio logado
-        if (process.env.NEXT_PUBLIC_DEV_MODE === 'true') {
-            const devUserId = process.env.NEXT_PUBLIC_DEV_USER_ID || '00000000-0000-0000-0000-000000000002';
-            console.log(`[AuthContext] DEV_MODE bypass active. Mocking user: ${devUserId}`);
+        // BYPASS: Se DEV_MODE estiver ativo, fazer login automatico com credenciais dev
+        if (process.env.NEXT_PUBLIC_DEV_MODE === 'true' && sb) {
+            console.log('[AuthContext] DEV_MODE: iniciando sessao automatica...');
 
-            setLoading(true);
-            setUser({ id: devUserId, email: 'dev@test.com' } as any);
-            setSession({ user: { id: devUserId } } as any);
+            const doDevLogin = async () => {
+                // Reutilizar sessao ativa se existir
+                const { data: { session: existingSession } } = await sb.auth.getSession();
+                if (existingSession?.user) {
+                    setSession(existingSession);
+                    setUser(existingSession.user);
+                    await fetchProfile(existingSession.user.id);
+                    setIsInitialized(true);
+                    return;
+                }
 
-            // Buscar o perfil do usuÃ¡rio fake para ter organization_id
-            fetchProfile(devUserId);
+                const devEmail = process.env.NEXT_PUBLIC_DEV_EMAIL || 'victorlllima@gmail.com';
+                const devPassword = process.env.NEXT_PUBLIC_DEV_PASSWORD || '';
+
+                const { data, error } = await sb.auth.signInWithPassword({ email: devEmail, password: devPassword });
+                if (error) {
+                    console.error('[AuthContext] DEV_MODE login error:', error.message);
+                    setLoading(false);
+                    return;
+                }
+
+                setSession(data.session);
+                setUser(data.user);
+                await fetchProfile(data.user.id);
+                setIsInitialized(true);
+            };
+
+            doDevLogin();
             return;
         }
 
