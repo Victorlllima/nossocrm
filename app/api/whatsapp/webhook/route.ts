@@ -149,11 +149,10 @@ export async function POST(req: NextRequest) {
         const sessionId = `whatsapp-${leadPhone}`;
         const history = await getFormattedHistory(sessionId);
 
+        const leadContextStr = [leadContext.imovel_nome, leadContext.contexto_markdown].filter(Boolean).join('\n');
         const systemPrompt = getWhatsAppAgentPrompt({
             leadName,
-            leadPhone,
-            imovelContext: leadContext.imovel_nome,
-            detalhesImovel: leadContext.contexto_markdown
+            leadContext: leadContextStr,
         });
 
         // Salva mensagem do usuário
