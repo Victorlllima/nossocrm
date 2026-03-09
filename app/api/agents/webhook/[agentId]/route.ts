@@ -183,8 +183,9 @@ async function validateAgentOwnership(
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { agentId: string } }
+  ctx: { params: Promise<{ agentId: string }> }
 ) {
+  const params = await ctx.params;
   const requestId = `${params.agentId}-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
   const startTime = Date.now();
 

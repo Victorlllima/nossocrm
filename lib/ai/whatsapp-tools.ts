@@ -17,20 +17,6 @@ export const consultarBaseImoveis = tool({
     parameters: z.object({
         query: z.string().min(2).describe('Termo de busca: pode ser ID do imóvel, bairro, tipo, ou características em linguagem natural.'),
     }),
-    inputExamples: [
-        {
-            query: 'ID: 1547',
-        },
-        {
-            query: 'Apartamento com 3 quartos em Boa Viagem até 800 mil',
-        },
-        {
-            query: 'Casa com piscina no Pina para alugar',
-        },
-        {
-            query: 'Perto do Shopping Recife',
-        }
-    ],
     execute: async ({ query }) => {
         const supabase = createStaticAdminClient();
 
