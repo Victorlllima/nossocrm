@@ -39,7 +39,7 @@ export interface UIChatProps {
     /**
      * Controla de onde vem o contexto:
      * - 'auto' (default): usa props e faz fallback para AIContext (global/board/deal)
-     * - 'props-only': usa SOMENTE props (não lê AIContext para montar body.context)
+     * - 'props-only': usa SOMENTE props (nÃ£o lÃª AIContext para montar body.context)
      */
     contextMode?: 'auto' | 'props-only';
     /** Whether to show as a floating widget */
@@ -181,12 +181,12 @@ export function UIChat({
         try {
             el.focus({ preventScroll: true });
         } catch {
-            // Fallback para browsers que não suportam FocusOptions
+            // Fallback para browsers que nÃ£o suportam FocusOptions
             el.focus();
         }
     };
 
-    // UI state para cards de aprovação (agrupados).
+    // UI state para cards de aprovaÃ§Ã£o (agrupados).
     const [expandedApprovalGroups, setExpandedApprovalGroups] = useState<Record<string, boolean>>({});
     const [selectedApprovalsById, setSelectedApprovalsById] = useState<Record<string, boolean>>({});
     const [selectionModeByGroup, setSelectionModeByGroup] = useState<Record<string, boolean>>({});
@@ -229,7 +229,7 @@ export function UIChat({
 
     // const isLoading = status === 'streaming' || status === 'submitted'; // Removed as it's now provided by useChat
 
-    // Se existir uma tool-call aguardando aprovação, não podemos aceitar novas mensagens:
+    // Se existir uma tool-call aguardando aprovaÃ§Ã£o, nÃ£o podemos aceitar novas mensagens:
     // alguns providers exigem que toda tool-call tenha um tool-result antes de continuar.
     // Caso contrário, aparece o erro â€œNo tool output found for function call ...â€.
     const pendingApprovalIds = (() => {
@@ -304,7 +304,7 @@ export function UIChat({
         const parsed = parseProviderError(msg);
 
         if (parsed.isToolApproval) {
-            return 'Existe uma confirmação pendente acima. Aprove ou negue a ação anterior antes de enviar uma nova mensagem.';
+            return 'Existe uma confirmaÃ§Ã£o pendente acima. Aprove ou negue a aÃ§Ã£o anterior antes de enviar uma nova mensagem.';
         }
 
         if (parsed.isAuth) {
@@ -316,7 +316,7 @@ export function UIChat({
         }
 
         if (parsed.isRateLimit) {
-            return 'A IA está limitando requisições (rate limit). Aguarde alguns segundos e tente novamente.';
+            return 'A IA estÃ¡ limitando requisiÃ§Ãµes (rate limit). Aguarde alguns segundos e tente novamente.';
         }
 
         if (parsed.isOpenAIServerError) {
@@ -339,22 +339,22 @@ export function UIChat({
                     {
                         label: 'ðŸ§¾ Diagnóstico do Deal',
                         prompt:
-                            'Faça um diagnóstico completo deste deal usando o contexto do cockpit (notas, atividades e arquivos). Liste riscos, próximos passos e um plano de follow-up para 7 dias.',
+                            'FaÃ§a um diagnÃ³stico completo deste deal usando o contexto do cockpit (notas, atividades e arquivos). Liste riscos, prÃ³ximos passos e um plano de follow-up para 7 dias.',
                     },
                     {
                         label: 'ðŸ‘‰ Próxima ação',
                         prompt:
-                            'Qual a próxima melhor ação para avançar este deal agora? Seja específico e use o histórico do cockpit para justificar.',
+                            'Qual a prÃ³xima melhor aÃ§Ã£o para avanÃ§ar este deal agora? Seja especÃ­fico e use o histÃ³rico do cockpit para justificar.',
                     },
                     {
                         label: 'âœï¸ Mensagem WhatsApp',
                         prompt:
-                            'Escreva uma mensagem curta de follow-up para WhatsApp para este contato, baseada no estágio atual e no histórico do cockpit. Traga 2 variações.',
+                            'Escreva uma mensagem curta de follow-up para WhatsApp para este contato, baseada no estÃ¡gio atual e no histÃ³rico do cockpit. Traga 2 variaÃ§Ãµes.',
                     },
                     {
                         label: 'âœ… Tarefas da semana',
                         prompt:
-                            'Crie 3 tarefas objetivas para avançar este deal nesta semana (com datas sugeridas) e descreva rapidamente o porquê de cada uma.',
+                            'Crie 3 tarefas objetivas para avanÃ§ar este deal nesta semana (com datas sugeridas) e descreva rapidamente o porquÃª de cada uma.',
                     },
                 ],
             };
@@ -382,7 +382,7 @@ export function UIChat({
     }, [cockpitDealTitle, context.boardId, context.dealId]);
 
     const headerSubtitle = useMemo(() => {
-        // No cockpit, priorizar título do deal / nome do contato em vez de IDs.
+        // No cockpit, priorizar tÃ­tulo do deal / nome do contato em vez de IDs.
         if (cockpitDealTitle) return `Deal: ${cockpitDealTitle}`;
         if (cockpitContactName) return `Contato: ${cockpitContactName}`;
 
@@ -393,7 +393,7 @@ export function UIChat({
     }, [cockpitContactName, cockpitDealTitle, context.boardId, context.contactId, context.dealId]);
 
     const toolLabelMap: Record<string, string> = {
-        moveDeal: 'Mover estágio',
+        moveDeal: 'Mover estÃ¡gio',
         createDeal: 'Criar novo deal',
         updateDeal: 'Atualizar deal',
         markDealAsWon: 'Marcar deal como ganho',
@@ -422,18 +422,18 @@ export function UIChat({
 
         if (diffDays < 0) return { label: 'Atrasada', className: 'bg-red-500/15 text-red-200 border border-red-500/30' };
         if (diffDays === 0) return { label: 'Hoje', className: 'bg-slate-500/15 text-slate-200 border border-slate-500/30' };
-        if (diffDays === 1) return { label: 'Amanhã', className: 'bg-blue-500/15 text-blue-200 border border-blue-500/30' };
+        if (diffDays === 1) return { label: 'AmanhÃ£', className: 'bg-blue-500/15 text-blue-200 border border-blue-500/30' };
         return null;
     };
 
     const sanitizeAssistantText = (text: string) => {
-        // Remove UUIDs e trechos comuns do tipo "(ID: <uuid>)" para não poluir a UI.
-        // Mantém o texto humano (título/contato/valor) e evita exposição de identificadores internos.
+        // Remove UUIDs e trechos comuns do tipo "(ID: <uuid>)" para nÃ£o poluir a UI.
+        // MantÃ©m o texto humano (tÃ­tulo/contato/valor) e evita exposiÃ§Ã£o de identificadores internos.
         let t = text;
         t = t.replace(/\(ID:\s*[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\)/gi, '');
         t = t.replace(/\bID:\s*[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/gi, '');
         t = t.replace(/\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/gi, '');
-        // Não colapsar quebras de linha (senão markdown de lista vira um parágrafo com "*").
+        // NÃ£o colapsar quebras de linha (senÃ£o markdown de lista vira um parÃ¡grafo com "*").
         t = t.replace(/[\t ]{2,}/g, ' ').trim();
         return t;
     };
@@ -475,7 +475,7 @@ export function UIChat({
                 break;
             }
             default: {
-                // Fallback: tente ao menos mostrar o título do deal, sem expor UUID.
+                // Fallback: tente ao menos mostrar o tÃ­tulo do deal, sem expor UUID.
                 {
                     const title = input?.dealTitle || dealTitleFromId(input?.dealId);
                     if (title) lines.push(`Deal: ${title}`);
@@ -484,7 +484,7 @@ export function UIChat({
             }
         }
 
-        return lines.length > 0 ? lines : ['Confirma essa ação?'];
+        return lines.length > 0 ? lines : ['Confirma essa aÃ§Ã£o?'];
     };
 
     // Floating minimized button
@@ -656,7 +656,7 @@ export function UIChat({
                                                         detailLines.find((l) => l.startsWith('Motivo: '))?.replace(/^Motivo:\s*/, 'Motivo: ') ||
                                                         detailLines.find((l) => l.startsWith('Valor final: '))?.replace(/^Valor final:\s*/, 'Valor final: ') ||
                                                         detailLines[0] ||
-                                                        'Confirma essa ação?';
+                                                        'Confirma essa aÃ§Ã£o?';
 
                                                     return {
                                                         toolPart,
@@ -732,8 +732,8 @@ export function UIChat({
                                                 return Array.from(map.entries());
                                             })();
 
-                                            // Se todas as ações têm o mesmo "main" (ex.: moveDeal com o mesmo destino),
-                                            // mostramos esse detalhe uma vez só e listamos apenas os deals.
+                                            // Se todas as aÃ§Ãµes tÃªm o mesmo "main" (ex.: moveDeal com o mesmo destino),
+                                            // mostramos esse detalhe uma vez sÃ³ e listamos apenas os deals.
                                             const commonMain = (() => {
                                                 if (parsedItems.length === 0) return null;
                                                 const first = parsedItems[0].main;
@@ -756,7 +756,7 @@ export function UIChat({
                                                     <div className="flex items-start gap-2">
                                                         <Wrench className="w-4 h-4 shrink-0 text-amber-200" />
                                                         <div className="min-w-0 flex-1">
-                                                            {/* Linha 1: só o título (não compete com detalhes) */}
+                                                            {/* Linha 1: sÃ³ o tÃ­tulo (nÃ£o compete com detalhes) */}
                                                             <div className="flex items-baseline gap-2 min-w-0">
                                                                 <div className="text-sm font-semibold text-amber-100 whitespace-normal leading-snug">
                                                                     {headerTitle}
@@ -764,7 +764,7 @@ export function UIChat({
                                                                 <span className="text-xs text-amber-200/80 shrink-0">({parsedItems.length}x)</span>
                                                             </div>
 
-                                                            {/* Linha 2: contexto + botão */}
+                                                            {/* Linha 2: contexto + botÃ£o */}
                                                             <div className="mt-1 flex items-start justify-between gap-3">
                                                                 <div className="text-[12px] text-amber-200/80 flex flex-wrap gap-x-2 gap-y-1 min-w-0">
                                                                     <span>{uniqueDeals.size} deal{uniqueDeals.size === 1 ? '' : 's'}</span>
@@ -774,7 +774,7 @@ export function UIChat({
                                                                             <span>{dueSummary}</span>
                                                                         </>
                                                                     )}
-                                                                    {/* Se o parâmetro principal não foi promovido pro título, mostramos como detalhe */}
+                                                                    {/* Se o parÃ¢metro principal nÃ£o foi promovido pro tÃ­tulo, mostramos como detalhe */}
                                                                     {commonMain && headerTitle === toolTitle && (
                                                                         <>
                                                                             <span className="opacity-60">â€¢</span>
@@ -870,8 +870,8 @@ export function UIChat({
                                                                                     const dueText = p.dueDate ? formatDateTimePtBr(p.dueDate) : null;
 
                                                                                     // Se commonMain existe (ex.: mesmo "Destino" para todos):
-                                                                                    // - no modo normal (sem seleção) não precisamos repetir; mostramos um placeholder amigável.
-                                                                                    // - no modo seleção, é útil ter um rótulo por checkbox; usamos o commonMain.
+                                                                                    // - no modo normal (sem seleÃ§Ã£o) nÃ£o precisamos repetir; mostramos um placeholder amigÃ¡vel.
+                                                                                    // - no modo seleÃ§Ã£o, Ã© Ãºtil ter um rÃ³tulo por checkbox; usamos o commonMain.
                                                                                     const lineMain = commonMain
                                                                                         ? (selectionMode ? commonMain : '')
                                                                                         : p.main;
@@ -886,7 +886,7 @@ export function UIChat({
                                                                                                         </div>
                                                                                                     ) : (
                                                                                                         <div className="text-[12px] text-amber-200/70">
-                                                                                                            Incluído
+                                                                                                            IncluÃ­do
                                                                                                         </div>
                                                                                                     )}
                                                                                                     {(dueBadge || dueText) && (
@@ -928,12 +928,12 @@ export function UIChat({
                                                                                                     const value = e.target.checked;
                                                                                                     setSelectedApprovalsById((prev) => ({ ...prev, [p.id]: value }));
                                                                                                 }}
-                                                                                                aria-label="Selecionar ação"
+                                                                                                aria-label="Selecionar aÃ§Ã£o"
                                                                                             />
                                                                                             <div className="min-w-0 flex-1">
                                                                                                 <div className="flex items-start justify-between gap-2">
                                                                                                     <div className="text-sm text-amber-100 leading-snug truncate">
-                                                                                                        {lineMain || 'Incluído'}
+                                                                                                        {lineMain || 'IncluÃ­do'}
                                                                                                     </div>
                                                                                                     {(dueBadge || dueText) && (
                                                                                                         <div className="shrink-0 flex items-center gap-2">
@@ -1127,7 +1127,7 @@ export function UIChat({
             < form onSubmit={handleSubmit} className="p-3 border-t border-slate-700/50" >
                 {hasPendingApprovals && (
                     <div className="mb-2 rounded-xl border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-[12px] text-amber-100">
-                        Você tem {pendingApprovalIds.length} confirmação{pendingApprovalIds.length === 1 ? '' : 'ões'} pendente{pendingApprovalIds.length === 1 ? '' : 's'}. Aprove ou negue acima para continuar.
+                        VocÃª tem {pendingApprovalIds.length} confirmaÃ§Ã£o{pendingApprovalIds.length === 1 ? '' : 'Ãµes'} pendente{pendingApprovalIds.length === 1 ? '' : 's'}. Aprove ou negue acima para continuar.
                     </div>
                 )}
 

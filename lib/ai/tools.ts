@@ -17,16 +17,16 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
     const supabase = createStaticAdminClient();
     const organizationId = context.organizationId;
 
-    // Em UI normal, ações são gateadas por um card de Aprovar/Negar.
-    // Em scripts/CI (sem UI), isso pode impedir a execução real das tools.
-    // Use AI_TOOL_APPROVAL_BYPASS=true para permitir execução direta (somente dev/test).
+    // Em UI normal, aÃ§Ãµes sÃ£o gateadas por um card de Aprovar/Negar.
+    // Em scripts/CI (sem UI), isso pode impedir a execuÃ§Ã£o real das tools.
+    // Use AI_TOOL_APPROVAL_BYPASS=true para permitir execuÃ§Ã£o direta (somente dev/test).
     const bypassApproval = process.env.AI_TOOL_APPROVAL_BYPASS === 'true';
 
     const formatSupabaseFailure = (error: any) => {
         const msg = (error?.message || error?.error_description || String(error || '')).trim();
         const normalized = msg.toLowerCase();
 
-        // Mensagens comuns quando a service role key está ausente/errada ou não bate com a URL.
+        // Mensagens comuns quando a service role key estÃ¡ ausente/errada ou nÃ£o bate com a URL.
         const looksLikeAuth =
             normalized.includes('jwt') ||
             normalized.includes('invalid api key') ||
@@ -36,7 +36,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             normalized.includes('forbidden');
 
         const hint = looksLikeAuth
-            ? ' Dica: verifique se `SUPABASE_SERVICE_ROLE_KEY` está configurada e corresponde ao mesmo projeto do `NEXT_PUBLIC_SUPABASE_URL`.'
+            ? ' Dica: verifique se `SUPABASE_SERVICE_ROLE_KEY` estÃ¡ configurada e corresponde ao mesmo projeto do `NEXT_PUBLIC_SUPABASE_URL`.'
             : '';
 
         return `Falha ao consultar o Supabase. ${msg || 'Erro desconhecido.'}${hint}`;
@@ -78,7 +78,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
         }
 
         if (!deal) {
-            return { ok: false as const, error: 'Deal não encontrado nesta organização.' };
+            return { ok: false as const, error: 'Deal nÃ£o encontrado nesta organizaÃ§Ã£o.' };
         }
 
         return { ok: true as const, deal };
@@ -93,12 +93,12 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
 
         const stageName = (params.stageName || '').trim();
         if (!stageName) {
-            return { ok: false as const, error: 'Especifique o estágio destino.' };
+            return { ok: false as const, error: 'Especifique o estÃ¡gio destino.' };
         }
 
         // â€œprimeiro estágioâ€ / â€œúltimo estágioâ€ (atalhos úteis)
         const lowered = stageName.toLowerCase();
-        if (/(primeiro|in[íi]cio|inicial)/.test(lowered)) {
+        if (/(primeiro|in[Ã­i]cio|inicial)/.test(lowered)) {
             const { data: first, error } = await supabase
                 .from('board_stages')
                 .select('id')
@@ -108,11 +108,11 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 .limit(1)
                 .maybeSingle();
             if (error) return { ok: false as const, error: formatSupabaseFailure(error) };
-            if (!first?.id) return { ok: false as const, error: 'Board não tem estágios configurados.' };
+            if (!first?.id) return { ok: false as const, error: 'Board nÃ£o tem estÃ¡gios configurados.' };
             return { ok: true as const, stageId: first.id };
         }
 
-        if (/(u[úu]ltimo|final)/.test(lowered)) {
+        if (/(u[Ãºu]ltimo|final)/.test(lowered)) {
             const { data: last, error } = await supabase
                 .from('board_stages')
                 .select('id')
@@ -122,7 +122,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 .limit(1)
                 .maybeSingle();
             if (error) return { ok: false as const, error: formatSupabaseFailure(error) };
-            if (!last?.id) return { ok: false as const, error: 'Board não tem estágios configurados.' };
+            if (!last?.id) return { ok: false as const, error: 'Board nÃ£o tem estÃ¡gios configurados.' };
             return { ok: true as const, stageId: last.id };
         }
 
@@ -143,12 +143,12 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 .eq('board_id', params.boardId);
 
             const stageNames = allStages?.map((s) => s.name || s.label).filter(Boolean).join(', ') || 'nenhum';
-            return { ok: false as const, error: `Estágio "${stageName}" não encontrado. Estágios disponíveis: ${stageNames}` };
+            return { ok: false as const, error: `EstÃ¡gio "${stageName}" nÃ£o encontrado. EstÃ¡gios disponÃ­veis: ${stageNames}` };
         }
 
         if (stages.length > 1) {
             const opts = stages.map((s) => s.name || s.label || s.id).join(', ');
-            return { ok: false as const, error: `Estágio "${stageName}" está ambíguo. Possíveis: ${opts}` };
+            return { ok: false as const, error: `EstÃ¡gio "${stageName}" estÃ¡ ambÃ­guo. PossÃ­veis: ${opts}` };
         }
 
         return { ok: true as const, stageId: stages[0].id };
@@ -167,7 +167,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 console.log('[AI] ðŸš€ analyzePipeline EXECUTED!', { targetBoardId });
 
                 if (!targetBoardId) {
-                    return { error: 'Nenhum board selecionado. Vá para um board ou especifique qual.' };
+                    return { error: 'Nenhum board selecionado. VÃ¡ para um board ou especifique qual.' };
                 }
 
                 const { data: deals } = await supabase
@@ -186,10 +186,10 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     ? Math.round(wonDeals.length / (wonDeals.length + lostDeals.length) * 100)
                     : 0;
 
-                // Agrupar por estágio
+                // Agrupar por estÃ¡gio
                 const stageMap = new Map<string, { count: number; value: number }>();
                 openDeals.forEach((deal: any) => {
-                    const stageName = deal.stage?.name || deal.stage?.label || 'Sem estágio';
+                    const stageName = deal.stage?.name || deal.stage?.label || 'Sem estÃ¡gio';
                     const existing = stageMap.get(stageName) || { count: 0, value: 0 };
                     stageMap.set(stageName, {
                         count: existing.count + 1,
@@ -270,13 +270,13 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 // Normalize pontuação e remova palavras â€œdecorativasâ€ que o modelo costuma incluir
                 // (ex.: "buscar deal Nike"), para evitar falso negativo.
                 const normalizedQuery = cleanedQuery
-                    // troca pontuações por espaço
+                    // troca pontuaÃ§Ãµes por espaÃ§o
                     .replace(/[^\p{L}\p{N}\s.-]+/gu, ' ')
                     .replace(/\s+/g, ' ')
                     .trim();
 
                 const strippedQuery = normalizedQuery
-                    .replace(/\b(buscar|busque|procure|procurar|encontre|encontrar|mostrar|liste|listar|deal|deals|neg[oó]cio|neg[oó]cios|oportunidade|oportunidades|card|cards)\b/gi, ' ')
+                    .replace(/\b(buscar|busque|procure|procurar|encontre|encontrar|mostrar|liste|listar|deal|deals|neg[oÃ³]cio|neg[oÃ³]cios|oportunidade|oportunidades|card|cards)\b/gi, ' ')
                     .replace(/\s+/g, ' ')
                     .trim();
 
@@ -301,7 +301,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 if (terms.length <= 1) {
                     queryBuilder = queryBuilder.ilike('title', `%${effectiveQuery}%`);
                 } else {
-                    // OR: title contém qualquer termo (mais robusto do que exigir a frase inteira)
+                    // OR: title contÃ©m qualquer termo (mais robusto do que exigir a frase inteira)
                     // Ex.: "deal Nike" -> encontra "Nike"
                     queryBuilder = queryBuilder.or(
                         terms.map((t) => `title.ilike.%${t}%`).join(',')
@@ -309,12 +309,12 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 }
 
                 if (context.boardId) {
-                    // Segurança: só permite consultar por board_id se o board for do mesmo tenant.
+                    // SeguranÃ§a: sÃ³ permite consultar por board_id se o board for do mesmo tenant.
                     const guard = await ensureBoardBelongsToOrganization(context.boardId);
                     if (!guard.ok) return { error: guard.error };
 
                     // Compat: inclui deals legados que ficaram com organization_id NULL.
-                    // Como o board já foi validado no tenant, isso não vaza dados.
+                    // Como o board jÃ¡ foi validado no tenant, isso nÃ£o vaza dados.
                     queryBuilder = queryBuilder
                         .eq('board_id', context.boardId)
                         .or(`organization_id.eq.${organizationId},organization_id.is.null`);
@@ -397,7 +397,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     return { error: 'Nenhum board selecionado.' };
                 }
 
-                // Segurança + compat: valida board no tenant e permite ler deals legados com organization_id NULL.
+                // SeguranÃ§a + compat: valida board no tenant e permite ler deals legados com organization_id NULL.
                 const boardGuard = await ensureBoardBelongsToOrganization(targetBoardId);
                 if (!boardGuard.ok) return { error: boardGuard.error };
 
@@ -462,12 +462,12 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                             .eq('board_id', targetBoardId);
 
                         const stageNames = allStages?.map(s => s.name || s.label).join(', ') || 'nenhum';
-                        return { error: `Estágio "${effectiveStageName}" não encontrado. Estágios disponíveis: ${stageNames}` };
+                        return { error: `EstÃ¡gio "${effectiveStageName}" nÃ£o encontrado. EstÃ¡gios disponÃ­veis: ${stageNames}` };
                     }
                 }
 
                 if (!finalStageId) {
-                    return { error: 'Estágio não identificado. Informe o nome do estágio (ex: "Proposta", "Descoberta").' };
+                    return { error: 'EstÃ¡gio nÃ£o identificado. Informe o nome do estÃ¡gio (ex: "Proposta", "Descoberta").' };
                 }
 
                 console.log('[AI] ðŸ“‹ Querying deals with stageId:', finalStageId);
@@ -479,7 +479,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .eq('stage_id', finalStageId)
                     .or(`organization_id.eq.${organizationId},organization_id.is.null`)
                     .order('value', { ascending: false })
-                    // Busca mais do que o necessário e filtra client-side para tratar legacy NULL
+                    // Busca mais do que o necessÃ¡rio e filtra client-side para tratar legacy NULL
                     .limit(Math.max(limit * 5, 50));
 
                 if (dealsError) {
@@ -514,7 +514,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             description: 'Lista deals parados/estagnados há mais de X dias sem atualização',
             parameters: z.object({
                 boardId: z.string().optional(),
-                daysStagnant: z.number().int().positive().optional().default(7).describe('Dias sem atualização'),
+                daysStagnant: z.number().int().positive().optional().default(7).describe('Dias sem atualizaÃ§Ã£o'),
                 limit: z.number().int().positive().optional().default(10),
             }),
             execute: async ({ boardId, daysStagnant, limit }) => {
@@ -546,7 +546,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
 
                 return {
                     count: finalDeals.length || 0,
-                    message: `${finalDeals.length || 0} deals parados há mais de ${daysStagnant} dias`,
+                    message: `${finalDeals.length || 0} deals parados hÃ¡ mais de ${daysStagnant} dias`,
                     deals: finalDeals.map((d: any) => {
                         const days = Math.floor((Date.now() - new Date(d.updated_at).getTime()) / (1000 * 60 * 60 * 24));
                         return {
@@ -638,7 +638,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .single();
 
                 if (error || !deal) {
-                    return { error: 'Deal não encontrado.' };
+                    return { error: 'Deal nÃ£o encontrado.' };
                 }
 
                 const pendingActivities = deal.activities?.filter((a: any) => !a.completed) || [];
@@ -683,7 +683,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .single();
 
                 if (!deal) {
-                    return { error: 'Deal não encontrado.' };
+                    return { error: 'Deal nÃ£o encontrado.' };
                 }
 
                 let targetStageId = stageId;
@@ -698,12 +698,12 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     if (stages && stages.length > 0) {
                         targetStageId = stages[0].id;
                     } else {
-                        return { error: `Estágio "${stageName}" não encontrado.` };
+                        return { error: `EstÃ¡gio "${stageName}" nÃ£o encontrado.` };
                     }
                 }
 
                 if (!targetStageId) {
-                    return { error: 'Especifique o estágio destino.' };
+                    return { error: 'Especifique o estÃ¡gio destino.' };
                 }
 
                 const { error } = await supabase
@@ -750,7 +750,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
 
                 const firstStageId = stages?.[0]?.id;
                 if (!firstStageId) {
-                    return { error: 'Board não tem estágios configurados.' };
+                    return { error: 'Board nÃ£o tem estÃ¡gios configurados.' };
                 }
 
                 let contactId: string | null = null;
@@ -852,8 +852,8 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             description: 'Marca um deal como GANHO/fechado com sucesso! ðŸŽ‰ Pode encontrar o deal por ID, título, ou estágio. Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
             parameters: z.object({
                 dealId: z.string().optional().describe('ID do deal (opcional se fornecer outros identificadores)'),
-                dealTitle: z.string().optional().describe('Título/nome do deal para buscar'),
-                stageName: z.string().optional().describe('Nome do estágio onde o deal está (ex: "Proposta")'),
+                dealTitle: z.string().optional().describe('TÃ­tulo/nome do deal para buscar'),
+                stageName: z.string().optional().describe('Nome do estÃ¡gio onde o deal estÃ¡ (ex: "Proposta")'),
                 wonValue: z.number().optional().describe('Valor final do fechamento'),
             }),
             needsApproval: !bypassApproval,
@@ -912,11 +912,11 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 }
 
                 if (!targetDealId) {
-                    return { error: 'Não consegui identificar o deal. Forneça o ID, título ou nome do estágio.' };
+                    return { error: 'NÃ£o consegui identificar o deal. ForneÃ§a o ID, tÃ­tulo ou nome do estÃ¡gio.' };
                 }
 
-                // Se existir um estágio de "Ganho" no board, também mova o card para ele.
-                // Isso evita a sensação de "não moveu" quando a UI do kanban é baseada em stage_id.
+                // Se existir um estÃ¡gio de "Ganho" no board, tambÃ©m mova o card para ele.
+                // Isso evita a sensaÃ§Ã£o de "nÃ£o moveu" quando a UI do kanban Ã© baseada em stage_id.
                 let wonStageId: string | null = null;
                 const wonStageNameFromContext = context.wonStage || 'Ganho';
 
@@ -952,7 +952,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .single();
 
                 if (error || !deal) {
-                    return { success: false, error: error?.message || 'Deal não encontrado' };
+                    return { success: false, error: error?.message || 'Deal nÃ£o encontrado' };
                 }
 
                 return {
@@ -967,7 +967,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             description: 'Marca um deal como PERDIDO. Requer motivo da perda. Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
             parameters: z.object({
                 dealId: z.string().optional().describe('ID do deal'),
-                reason: z.string().describe('Motivo da perda (ex: Preço, Concorrente, Timing)'),
+                reason: z.string().describe('Motivo da perda (ex: PreÃ§o, Concorrente, Timing)'),
             }),
             needsApproval: !bypassApproval, // âœ… Requer aprovação (bypassável em dev/test)
             execute: async ({ dealId, reason }) => {
@@ -994,7 +994,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .single();
 
                 if (error || !deal) {
-                    return { success: false, error: error?.message || 'Deal não encontrado' };
+                    return { success: false, error: error?.message || 'Deal nÃ£o encontrado' };
                 }
 
                 return {
@@ -1008,7 +1008,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             description: 'Reatribui um deal para outro vendedor/responsável. Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
             parameters: z.object({
                 dealId: z.string().optional().describe('ID do deal'),
-                newOwnerId: z.string().describe('ID do novo responsável (UUID)'),
+                newOwnerId: z.string().describe('ID do novo responsÃ¡vel (UUID)'),
             }),
             needsApproval: !bypassApproval, // âœ… Requer aprovação (bypassável em dev/test)
             execute: async ({ dealId, newOwnerId }) => {
@@ -1027,7 +1027,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .eq('id', newOwnerId)
                     .single();
 
-                const ownerName = ownerProfile?.nickname || ownerProfile?.first_name || 'Novo responsável';
+                const ownerName = ownerProfile?.nickname || ownerProfile?.first_name || 'Novo responsÃ¡vel';
 
                 const { data: deal, error } = await supabase
                     .from('deals')
@@ -1041,12 +1041,12 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .single();
 
                 if (error || !deal) {
-                    return { success: false, error: error?.message || 'Deal não encontrado' };
+                    return { success: false, error: error?.message || 'Deal nÃ£o encontrado' };
                 }
 
                 return {
                     success: true,
-                    message: `Deal "${deal.title}" reatribuído para ${ownerName}`
+                    message: `Deal "${deal.title}" reatribuÃ­do para ${ownerName}`
                 };
             },
         }),
@@ -1100,13 +1100,13 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 'Move vários deals de uma vez para outro estágio. Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
             parameters: z.object({
                 dealIds: z.array(z.string()).min(1).describe('IDs dos deals a mover'),
-                boardId: z.string().optional().describe('Board alvo (usa contexto se não fornecido)'),
-                stageName: z.string().optional().describe('Nome do estágio destino (ex: "Contatado")'),
-                stageId: z.string().optional().describe('ID do estágio destino'),
-                allowPartial: z.boolean().optional().default(true).describe('Se true, ignora IDs que não pertencem ao tenant e move o restante'),
-                maxDeals: z.number().int().positive().optional().default(50).describe('Guardrail: máximo de deals por ação'),
-                createFollowUpTask: z.boolean().optional().default(false).describe('Se true, cria 1 tarefa por deal após mover (guardrails aplicados)'),
-                followUpTitle: z.string().optional().describe('Título da tarefa de follow-up'),
+                boardId: z.string().optional().describe('Board alvo (usa contexto se nÃ£o fornecido)'),
+                stageName: z.string().optional().describe('Nome do estÃ¡gio destino (ex: "Contatado")'),
+                stageId: z.string().optional().describe('ID do estÃ¡gio destino'),
+                allowPartial: z.boolean().optional().default(true).describe('Se true, ignora IDs que nÃ£o pertencem ao tenant e move o restante'),
+                maxDeals: z.number().int().positive().optional().default(50).describe('Guardrail: mÃ¡ximo de deals por aÃ§Ã£o'),
+                createFollowUpTask: z.boolean().optional().default(false).describe('Se true, cria 1 tarefa por deal apÃ³s mover (guardrails aplicados)'),
+                followUpTitle: z.string().optional().describe('TÃ­tulo da tarefa de follow-up'),
                 followUpDueInDays: z.number().int().positive().optional().default(2),
                 followUpType: z.enum(['CALL', 'MEETING', 'EMAIL', 'TASK']).optional().default('TASK'),
             }),
@@ -1115,12 +1115,12 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 const unique = Array.from(new Set((dealIds || []).filter(Boolean)));
                 if (unique.length === 0) return { error: 'Informe pelo menos 1 deal.' };
                 if (unique.length > maxDeals) {
-                    return { error: `Muitos deals (${unique.length}). Por segurança, o máximo por ação é ${maxDeals}. Filtre ou faça em lotes.` };
+                    return { error: `Muitos deals (${unique.length}). Por seguranÃ§a, o mÃ¡ximo por aÃ§Ã£o Ã© ${maxDeals}. Filtre ou faÃ§a em lotes.` };
                 }
 
                 const targetBoardId = boardId || context.boardId;
                 if (!targetBoardId) {
-                    return { error: 'Nenhum board selecionado. Vá para um board ou informe qual.' };
+                    return { error: 'Nenhum board selecionado. VÃ¡ para um board ou informe qual.' };
                 }
 
                 const boardGuard = await ensureBoardBelongsToOrganization(targetBoardId);
@@ -1140,7 +1140,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 const missingIds = unique.filter((id) => !foundIds.has(id));
 
                 if (missingIds.length > 0 && !allowPartial) {
-                    return { error: `Alguns deals não foram encontrados neste board/organização (${missingIds.length}).` };
+                    return { error: `Alguns deals nÃ£o foram encontrados neste board/organizaÃ§Ã£o (${missingIds.length}).` };
                 }
 
                 const stageRes = await resolveStageIdForBoard({ boardId: targetBoardId, stageId, stageName });
@@ -1148,7 +1148,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
 
                 const idsToMove = (deals || []).map((d: any) => d.id);
                 if (idsToMove.length === 0) {
-                    return { error: 'Nenhum deal válido encontrado para mover (cheque board/organização).' };
+                    return { error: 'Nenhum deal vÃ¡lido encontrado para mover (cheque board/organizaÃ§Ã£o).' };
                 }
 
                 // 2) Atualiza em lote
@@ -1168,7 +1168,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     const due = new Date();
                     due.setDate(due.getDate() + (followUpDueInDays || 2));
 
-                    const title = (followUpTitle || 'Follow-up após mudança de estágio').trim();
+                    const title = (followUpTitle || 'Follow-up apÃ³s mudanÃ§a de estÃ¡gio').trim();
                     const inserts = idsToMove.slice(0, maxTasks).map((id) => ({
                         organization_id: organizationId,
                         title,
@@ -1194,7 +1194,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     deals: (deals || []).map((d: any) => ({ id: d.id, title: d.title })),
                     message:
                         `Movi ${idsToMove.length} deal(s) com sucesso.` +
-                        (missingIds.length ? ` (${missingIds.length} ignorado(s) por não pertencerem ao board/organização.)` : '') +
+                        (missingIds.length ? ` (${missingIds.length} ignorado(s) por nÃ£o pertencerem ao board/organizaÃ§Ã£o.)` : '') +
                         (followUpCreated ? ` Criei ${followUpCreated} tarefa(s) de follow-up.` : ''),
                 };
             },
@@ -1233,7 +1233,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 if (completed !== undefined) q = q.eq('completed', completed);
                 if (fromDate) q = q.gte('date', fromDate);
                 if (toDate) q = q.lte('date', toDate);
-                // PostgREST: filtro em tabela relacionada funciona melhor com join explícito.
+                // PostgREST: filtro em tabela relacionada funciona melhor com join explÃ­cito.
                 if (targetBoardId) {
                     q = supabase
                         .from('activities')
@@ -1286,8 +1286,8 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .maybeSingle();
 
                 if (error) return { error: formatSupabaseFailure(error) };
-                if (!data) return { error: 'Atividade não encontrada nesta organização.' };
-                return { success: true, message: `Atividade "${data.title}" marcada como concluída.` };
+                if (!data) return { error: 'Atividade nÃ£o encontrada nesta organizaÃ§Ã£o.' };
+                return { success: true, message: `Atividade "${data.title}" marcada como concluÃ­da.` };
             },
         }),
 
@@ -1308,7 +1308,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .maybeSingle();
 
                 if (error) return { error: formatSupabaseFailure(error) };
-                if (!data) return { error: 'Atividade não encontrada nesta organização.' };
+                if (!data) return { error: 'Atividade nÃ£o encontrada nesta organizaÃ§Ã£o.' };
                 return { success: true, message: `Atividade "${data.title}" reagendada.`, date: data.date };
             },
         }),
@@ -1321,7 +1321,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 dealId: z.string().optional(),
                 contactId: z.string().optional(),
                 type: z.enum(['CALL', 'MEETING', 'EMAIL', 'TASK']).optional().default('CALL'),
-                date: z.string().optional().describe('ISO (padrão: agora)'),
+                date: z.string().optional().describe('ISO (padrÃ£o: agora)'),
             }),
             needsApproval: !bypassApproval,
             execute: async ({ title, description, dealId, contactId, type, date }) => {
@@ -1477,7 +1477,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .select('id, name, email, phone, company_name')
                     .maybeSingle();
                 if (error) return { error: formatSupabaseFailure(error) };
-                if (!data) return { error: 'Contato não encontrado nesta organização.' };
+                if (!data) return { error: 'Contato nÃ£o encontrado nesta organizaÃ§Ã£o.' };
                 return { success: true, contact: data, message: `Contato "${data.name}" atualizado.` };
             },
         }),
@@ -1495,7 +1495,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .eq('id', contactId)
                     .maybeSingle();
                 if (error) return { error: formatSupabaseFailure(error) };
-                if (!data) return { error: 'Contato não encontrado nesta organização.' };
+                if (!data) return { error: 'Contato nÃ£o encontrado nesta organizaÃ§Ã£o.' };
                 return data;
             },
         }),
@@ -1521,7 +1521,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .eq('id', contactId)
                     .maybeSingle();
                 if (contactError) return { error: formatSupabaseFailure(contactError) };
-                if (!contact) return { error: 'Contato não encontrado nesta organização.' };
+                if (!contact) return { error: 'Contato nÃ£o encontrado nesta organizaÃ§Ã£o.' };
 
                 const { error } = await supabase
                     .from('deals')
@@ -1586,8 +1586,8 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .maybeSingle();
 
                 if (error) return { error: formatSupabaseFailure(error) };
-                if (!data) return { error: 'Estágio não encontrado nesta organização.' };
-                return { success: true, stage: data, message: `Estágio atualizado: ${data.name}` };
+                if (!data) return { error: 'EstÃ¡gio nÃ£o encontrado nesta organizaÃ§Ã£o.' };
+                return { success: true, stage: data, message: `EstÃ¡gio atualizado: ${data.name}` };
             },
         }),
 
@@ -1615,9 +1615,9 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 if (stError) return { error: formatSupabaseFailure(stError) };
                 const found = new Set((stages || []).map((s: any) => s.id));
                 const missing = orderedStageIds.filter((id) => !found.has(id));
-                if (missing.length) return { error: 'Alguns estágios não pertencem a este board/organização.' };
+                if (missing.length) return { error: 'Alguns estÃ¡gios nÃ£o pertencem a este board/organizaÃ§Ã£o.' };
 
-                // atualiza em série (n pequeno). Se crescer, migrar para RPC.
+                // atualiza em sÃ©rie (n pequeno). Se crescer, migrar para RPC.
                 for (let i = 0; i < orderedStageIds.length; i++) {
                     const id = orderedStageIds[i];
                     const { error } = await supabase
@@ -1629,13 +1629,13 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     if (error) return { error: formatSupabaseFailure(error) };
                 }
 
-                return { success: true, message: `Reordenei ${orderedStageIds.length} estágio(s).` };
+                return { success: true, message: `Reordenei ${orderedStageIds.length} estÃ¡gio(s).` };
             },
         }),
     } as Record<string, any>;
 
-    // Debug/diagnóstico (scripts): registra chamadas de tools, independentemente do formato do stream.
-    // IMPORTANTE: desabilitado por padrão.
+    // Debug/diagnÃ³stico (scripts): registra chamadas de tools, independentemente do formato do stream.
+    // IMPORTANTE: desabilitado por padrÃ£o.
     if (String(process.env.AI_TOOL_CALLS_DEBUG || '').toLowerCase() === 'true') {
         const g = globalThis as any;
         if (!Array.isArray(g.__AI_TOOL_CALLS__)) g.__AI_TOOL_CALLS__ = [];

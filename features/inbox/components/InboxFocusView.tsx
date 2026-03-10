@@ -74,7 +74,7 @@ interface InboxFocusViewProps {
   onSkip,
   onPrev,
   onNext,
-} - Parâmetro `{
+} - ParÃ¢metro `{
   currentItem,
   currentIndex,
   totalItems,
@@ -167,8 +167,8 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
     if (currentItem.type === 'activity') {
       const act = currentItem.data as Activity;
       dealId = dealId || act.dealId || '';
-      // Fallback: muitas telas exibem apenas `dealTitle` mesmo quando `dealId` está vazio.
-      // Tentamos resolver o deal por título para permitir abrir o painel de contexto.
+      // Fallback: muitas telas exibem apenas `dealTitle` mesmo quando `dealId` estÃ¡ vazio.
+      // Tentamos resolver o deal por tÃ­tulo para permitir abrir o painel de contexto.
       if (!dealId && act.dealTitle) {
         const key = normalizeTitleKey(act.dealTitle);
         const matches = dealsByTitleKey.get(key);
@@ -177,13 +177,13 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
         }
       }
 
-      // Tenta extrair nome do contato da descrição (ex: "O cliente Amanda Ribeiro não compra...")
+      // Tenta extrair nome do contato da descriÃ§Ã£o (ex: "O cliente Amanda Ribeiro nÃ£o compra...")
       extractedContactName =
         tryExtractContactNameFromText(act.description)
         || tryExtractContactNameFromText(act.title)
         || '';
 
-      // Também tenta no título (ex: "... para Amanda Ribeiro")
+      // TambÃ©m tenta no tÃ­tulo (ex: "... para Amanda Ribeiro")
       if (!extractedContactName) {
         const titleMatch = act.title?.match(/para\s+([A-Za-zÀ-Úà-ú]+(?:\s+[A-Za-zÀ-Úà-ú]+)*)/i);
         if (titleMatch) extractedContactName = titleMatch[1];
@@ -196,7 +196,7 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
 
     const deal = dealId ? dealsById.get(dealId) : undefined;
 
-    // Busca contato por ID, por contactId do deal, ou pelo nome extraído
+    // Busca contato por ID, por contactId do deal, ou pelo nome extraÃ­do
     const primaryContactId = contactId || deal?.contactId || '';
     let contact = primaryContactId ? contactsById.get(primaryContactId) : undefined;
     if (!contact && extractedContactName) {
@@ -207,7 +207,7 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
     const dealActivities = deal ? (activitiesByDealIdSorted.get(deal.id) ?? []) : [];
     const board = deal ? (boardsById.get(deal.boardId) ?? null) : activeBoard;
 
-    // Se não tem deal mas tem contact, cria um placeholder para o Cockpit
+    // Se nÃ£o tem deal mas tem contact, cria um placeholder para o Cockpit
     const nowIso = new Date().toISOString();
     const placeholderDeal = !deal && contact ? {
       id: `placeholder-${contact.id}`,
@@ -311,7 +311,7 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
   const activity = isActivity ? (currentItem.data as Activity) : null;
   const suggestion = !isActivity ? (currentItem.data as AISuggestion) : null;
 
-  // Determinar se é atrasado
+  // Determinar se Ã© atrasado
   const startOfToday = new Date();
   startOfToday.setHours(0, 0, 0, 0);
   const isOverdue = activity ? Date.parse(activity.date) < startOfToday.getTime() : false;
@@ -338,7 +338,7 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
     return <FileText size={24} />;
   };
 
-  // Cor do ícone
+  // Cor do Ã­cone
   const getIconColor = () => {
     if (isOverdue) return 'text-red-500';
     if (activity) {
@@ -359,13 +359,13 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
     return 'text-slate-500';
   };
 
-  // Título e descrição
+  // TÃ­tulo e descriÃ§Ã£o
   const title = activity?.title || suggestion?.title || '';
   const description = activity?.description || suggestion?.description || '';
   const context = activity?.dealTitle || suggestion?.data.deal?.companyName || suggestion?.data.contact?.name || '';
   const value = suggestion?.data.deal?.value;
 
-  // Horário (se for reunião/call)
+  // HorÃ¡rio (se for reuniÃ£o/call)
   const isMeeting = activity?.type === 'MEETING' || activity?.type === 'CALL';
   const timeString = activity ? PT_BR_TIME_FORMATTER.format(new Date(activity.date)) : '';
   const hasResolvedContext = !!(contextData?.deal || contextData?.contact);
@@ -384,7 +384,7 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
         </div>
       )}
 
-      {/* Horário grande (se for reunião) */}
+      {/* HorÃ¡rio grande (se for reuniÃ£o) */}
       {isMeeting && (
         <div className="text-6xl font-bold text-slate-900 dark:text-white mb-4 font-display">
           {timeString}
@@ -398,12 +398,12 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
         </div>
       )}
 
-      {/* Título */}
+      {/* TÃ­tulo */}
       <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white text-center mb-3 max-w-lg">
         {title}
       </h1>
 
-      {/* Descrição */}
+      {/* DescriÃ§Ã£o */}
       {description && (
         <p className="text-slate-500 dark:text-slate-400 text-center mb-4 max-w-md">
           "{description}"
@@ -425,7 +425,7 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
         </div>
       )}
 
-      {/* Ver detalhes - sempre aparece; quando não há contexto, abre painel para vincular um deal */}
+      {/* Ver detalhes - sempre aparece; quando nÃ£o hÃ¡ contexto, abre painel para vincular um deal */}
       {currentItem && (
         <div className="flex items-center justify-center my-6">
           <button
@@ -448,8 +448,8 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
         </div>
       )}
 
-      {/* Ações */}
-      <div className="flex items-center gap-4 mt-8" role="group" aria-label="Ações">
+      {/* AÃ§Ãµes */}
+      <div className="flex items-center gap-4 mt-8" role="group" aria-label="AÃ§Ãµes">
         <button
           onClick={onSnooze}
           className="group flex items-center gap-3 px-6 py-3 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-white/10 transition-all font-medium border border-transparent hover:border-slate-300 dark:hover:border-white/10"
@@ -486,8 +486,8 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
         </button>
       </div>
 
-      {/* Navegação */}
-      <nav aria-label="Navegação entre itens" className="flex items-center gap-6 mt-12">
+      {/* NavegaÃ§Ã£o */}
+      <nav aria-label="NavegaÃ§Ã£o entre itens" className="flex items-center gap-6 mt-12">
         <button
           onClick={onPrev}
           disabled={currentIndex === 0}
@@ -517,7 +517,7 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
         <button
           onClick={onNext}
           disabled={currentIndex >= totalItems - 1}
-          aria-label="Próximo item"
+          aria-label="PrÃ³ximo item"
           className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
         >
           <ChevronRight size={24} aria-hidden="true" />
@@ -578,7 +578,7 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
                   <div>
                     <div className="text-sm font-semibold text-slate-900 dark:text-white">Vincular contexto</div>
                     <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                      Esta atividade não tem deal/contato associado. Selecione um negócio para abrir o Cockpit.
+                      Esta atividade nÃ£o tem deal/contato associado. Selecione um negÃ³cio para abrir o Cockpit.
                     </div>
                   </div>
                   <button
@@ -612,7 +612,7 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
                   ))}
                   {suggestedDeals.length === 0 && (
                     <div className="text-sm text-slate-500 dark:text-slate-400 py-6 text-center col-span-full">
-                      Nenhum negócio encontrado. Tente outro termo.
+                      Nenhum negÃ³cio encontrado. Tente outro termo.
                     </div>
                   )}
                 </div>

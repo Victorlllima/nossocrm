@@ -106,7 +106,7 @@ interface UseFormEnhancedReturn<TFormData extends FieldValues> extends UseFormRe
 // ============ HOOK ============
 
 /**
- * Hook React `useFormEnhanced` que encapsula uma lógica reutilizável.
+ * Hook React `useFormEnhanced` que encapsula uma lÃ³gica reutilizÃ¡vel.
  *
  * @param {UseFormOptions<TFormData>} {
   schema,
@@ -119,7 +119,7 @@ interface UseFormEnhancedReturn<TFormData extends FieldValues> extends UseFormRe
   onInvalid,
   defaultValues,
   ...options
-} - Parâmetro `{
+} - ParÃ¢metro `{
   schema,
   formId,
   autoSave = false,

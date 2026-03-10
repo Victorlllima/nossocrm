@@ -27,7 +27,7 @@ interface MessageComposerModalProps {
     contactPhone?: string;
     initialSubject?: string;
     initialMessage?: string;
-    /** Dispara quando o usuário realmente executa (abre) WhatsApp/mailto */
+    /** Dispara quando o usuÃ¡rio realmente executa (abre) WhatsApp/mailto */
     onExecuted?: (event: MessageExecutedEvent) => void;
     /** Contexto rico opcional (ex.: cockpitSnapshot) para melhorar a reescrita com IA */
     aiContext?: {
@@ -42,7 +42,7 @@ interface MessageComposerModalProps {
 }
 
 function formatPhoneForWhatsApp(raw?: string) {
-    // wa.me usa somente dígitos (sem '+')
+    // wa.me usa somente dÃ­gitos (sem '+')
     return toWhatsAppPhone(raw);
 }
 
@@ -85,15 +85,15 @@ function formatForWhatsApp(input: string) {
     };
 
     text = text.replace(/Que tal\s+([^\n?]+?)\s+ou\s+([^\n?]+?)\?/i, bulletize);
-    text = text.replace(/Você\s+(?:consegue|prefere)\s+([^\n?]+?)\s+ou\s+([^\n?]+?)\?/i, (_m, a, b) => {
+    text = text.replace(/VocÃª\s+(?:consegue|prefere)\s+([^\n?]+?)\s+ou\s+([^\n?]+?)\?/i, (_m, a, b) => {
         const A = String(a).trim().replace(/[?.!]+$/g, '');
         const B = String(b).trim().replace(/[?.!]+$/g, '');
-        return `Você prefere:\n- ${A}\n- ${B}`;
+        return `VocÃª prefere:\n- ${A}\n- ${B}`;
     });
-    text = text.replace(/Sugest(?:ões|oes) de hor[áa]rio:\s*([^\n?]+?)\s+ou\s+([^\n?]+?)\.?/i, (_m, a, b) => {
+    text = text.replace(/Sugest(?:Ãµes|oes) de hor[Ã¡a]rio:\s*([^\n?]+?)\s+ou\s+([^\n?]+?)\.?/i, (_m, a, b) => {
         const A = String(a).trim().replace(/[?.!]+$/g, '');
         const B = String(b).trim().replace(/[?.!]+$/g, '');
-        return `Sugestões:\n- ${A}\n- ${B}`;
+        return `SugestÃµes:\n- ${A}\n- ${B}`;
     });
 
     // Collapse multiple blank lines again after transformations
@@ -126,13 +126,13 @@ function formatForEmail(input: string) {
     // If everything is one block, try to introduce breaks after common separators
     if (!text.includes('\n')) {
         text = text
-            .replace(/\s+(Gostaria|Queria|Podemos|Podemos\s+marcar|Você\s+teria|Sugest(?:ões|oes)\s+de\s+hor[áa]rio|Se\s+preferir|Fico\s+no\s+aguardo)\b/g, '\n\n$1')
+            .replace(/\s+(Gostaria|Queria|Podemos|Podemos\s+marcar|VocÃª\s+teria|Sugest(?:Ãµes|oes)\s+de\s+hor[Ã¡a]rio|Se\s+preferir|Fico\s+no\s+aguardo)\b/g, '\n\n$1')
             .replace(/\n{3,}/g, '\n\n');
     }
 
     // Bulletize simple "X ou Y" scheduling options into list items
     text = text.replace(
-        /(Você\s+teria\s+disponibilidade\s+em|Você\s+prefere|Podemos\s+marcar\s+em)\s+([^\n?.!]+?)\s+ou\s+([^\n?.!]+?)\?/i,
+        /(VocÃª\s+teria\s+disponibilidade\s+em|VocÃª\s+prefere|Podemos\s+marcar\s+em)\s+([^\n?.!]+?)\s+ou\s+([^\n?.!]+?)\?/i,
         (_m, lead, a, b) => {
             const A = String(a).trim().replace(/[?.!]+$/g, '');
             const B = String(b).trim().replace(/[?.!]+$/g, '');
@@ -162,7 +162,7 @@ function formatForEmail(input: string) {
     initialMessage,
     onExecuted,
     aiContext,
-} - Parâmetro `{
+} - ParÃ¢metro `{
     isOpen,
     onClose,
     channel,
@@ -357,7 +357,7 @@ export function MessageComposerModal({
             } else if (isRateLimitError(err)) {
                 setRewriteError('IA em limite de uso no momento. Tente novamente em instantes.');
             } else {
-                const msg = err instanceof Error ? err.message : 'Não foi possível reescrever com IA.';
+                const msg = err instanceof Error ? err.message : 'NÃ£o foi possÃ­vel reescrever com IA.';
                 setRewriteError(msg);
             }
         } finally {
@@ -444,7 +444,7 @@ export function MessageComposerModal({
                                     value={subject}
                                     onChange={(e) => setSubject(e.target.value)}
                                     className="flex-1 px-3 py-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-white text-sm focus:outline-none focus-visible-ring"
-                                    placeholder="Ex: Próximos passos"
+                                    placeholder="Ex: PrÃ³ximos passos"
                                 />
                                 <button
                                     type="button"
@@ -474,7 +474,7 @@ export function MessageComposerModal({
                             placeholder={
                                 channel === 'WHATSAPP'
                                     ? 'Ex: Oi! Podemos falar rapidinho hoje?'
-                                    : 'Ex: Olá, tudo bem? Seguem os próximos passos...'
+                                    : 'Ex: OlÃ¡, tudo bem? Seguem os prÃ³ximos passos...'
                             }
                         />
                         <div className="flex items-center justify-between">
