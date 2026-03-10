@@ -1,0 +1,21 @@
+import { NextResponse } from 'next/server';
+
+export function GET() {
+  return NextResponse.json({
+    name: 'Max Lima CRM',
+    short_name: 'Max CRM',
+    description: 'CRM Max Lima — Gestão de vendas mobile',
+    start_url: '/inbox',
+    display: 'standalone',
+    orientation: 'portrait',
+    background_color: '#191815',
+    theme_color: '#191815',
+    icons: [
+      { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+      { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+    ],
+    categories: ['business', 'productivity'],
+    lang: 'pt-BR',
+  });
+}

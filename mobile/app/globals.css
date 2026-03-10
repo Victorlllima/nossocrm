@@ -1,0 +1,93 @@
+@config "../tailwind.config.js";
+@import "tailwindcss";
+
+/* =============================================
+ * Max Lima Mobile — Design Tokens
+ * Idênticos ao desktop para consistência visual
+ * ============================================= */
+@theme {
+  --font-sans: 'Inter', var(--font-inter), sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+
+  /* Brand — Max Lima Gold */
+  --color-primary-50:  #FDF8F0;
+  --color-primary-100: #F9ECDA;
+  --color-primary-200: #F3D9B5;
+  --color-primary-300: #ECC197;
+  --color-primary-400: #E5A970;
+  --color-primary-500: #D4934A;
+  --color-primary-600: #B87A35;
+  --color-primary-700: #9A6328;
+  --color-primary-800: #7D4D1E;
+  --color-primary-900: #5F3815;
+
+  /* Dark theme */
+  --color-dark-bg:     #191815;
+  --color-dark-card:   #322C25;
+  --color-dark-border: #4A4238;
+  --color-dark-hover:  #5A5248;
+}
+
+/* =============================================
+ * CSS Custom Properties
+ * ============================================= */
+:root {
+  --app-safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --app-safe-area-top:    env(safe-area-inset-top, 0px);
+  --app-bottom-nav-height: 56px;
+
+  /* Light */
+  --color-bg:             oklch(97% 0.005 90);
+  --color-surface:        oklch(99% 0.002 90);
+  --color-border:         oklch(90% 0.01 90);
+  --color-border-subtle:  oklch(93% 0.008 90);
+  --color-text:           oklch(20% 0.01 90);
+  --color-text-muted:     oklch(50% 0.008 90);
+}
+
+.dark {
+  --color-bg:             #191815;
+  --color-surface:        #322C25;
+  --color-border:         #4A4238;
+  --color-border-subtle:  #3A342C;
+  --color-text:           oklch(95% 0.005 90);
+  --color-text-muted:     oklch(65% 0.008 90);
+}
+
+/* =============================================
+ * Base — Mobile-first resets
+ * ============================================= */
+* {
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
+
+html {
+  /* Previne zoom em inputs no iOS */
+  touch-action: manipulation;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  /* Ocupa toda a viewport incluindo safe areas */
+  min-height: 100dvh;
+  overscroll-behavior: none;
+}
+
+/* Scroll suave com momentum no iOS */
+.scroll-touch {
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+}
+
+/* Bottom nav + safe area padding no conteúdo */
+.content-area {
+  padding-bottom: calc(var(--app-bottom-nav-height) + var(--app-safe-area-bottom) + 1rem);
+}
+
+/* Lucide icon reset */
+svg.lucide {
+  fill: none;
+}
