@@ -193,7 +193,7 @@ DELETE /api/agents/[agentId]
 
 ---
 
-## 🔌 INTEGRAÇÃO COM BACKEND
+## 🔌 INTEGRAÇÍO COM BACKEND
 
 ### Fluxo de Dados
 

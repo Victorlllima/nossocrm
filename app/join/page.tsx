@@ -6,7 +6,7 @@ import { JoinClient } from './JoinClient'
  *
  * @param {{ searchParams?: { token?: string | string[] | undefined; } | undefined; }} {
   searchParams,
-} - ParÃ¢metro `{
+} - Parâmetro `{
   searchParams,
 }`.
  * @returns {Element} Retorna um valor do tipo `Element`.

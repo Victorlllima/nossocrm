@@ -42,9 +42,9 @@ interface SettingsContextType {
   deleteLifecycleStage: (id: string, contacts: any[]) => Promise<void>;
   reorderLifecycleStages: (newOrder: LifecycleStage[]) => Promise<void>;
 
-  // Products (CatÃ¡logo)
+  // Products (Catálogo)
   products: Product[];
-  /** Recarrega o catÃ¡logo de produtos (usado para manter o dropdown do deal atualizado). */
+  /** Recarrega o catálogo de produtos (usado para manter o dropdown do deal atualizado). */
   refreshProducts: () => Promise<void>;
 
   // Custom Fields (TODO: migrate to Supabase)
@@ -68,12 +68,12 @@ interface SettingsContextType {
   aiAnthropicKey: string;
   aiModel: string;
   setAiModel: (model: string) => Promise<void>;
-  /** Toggle org-wide: admin controla se IA estÃ¡ ativa para a organizaÃ§Ã£o */
+  /** Toggle org-wide: admin controla se IA está ativa para a organização */
   aiOrgEnabled: boolean;
   setAiOrgEnabled: (enabled: boolean) => Promise<void>;
-  /** True quando a organizaÃ§Ã£o tem uma key configurada para o provider atual (sem expor o segredo ao membro). */
+  /** True quando a organização tem uma key configurada para o provider atual (sem expor o segredo ao membro). */
   aiKeyConfigured: boolean;
-  /** Feature flags (org-wide) para habilitar/desabilitar funÃ§Ãµes especÃ­ficas de IA. */
+  /** Feature flags (org-wide) para habilitar/desabilitar funções específicas de IA. */
   aiFeatureFlags: Record<string, boolean>;
   setAIFeatureFlag: (key: string, enabled: boolean) => Promise<void>;
   aiThinking: boolean;
@@ -103,7 +103,7 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 /**
  * Componente React `SettingsProvider`.
  *
- * @param {{ children: ReactNode; }} { children } - ParÃ¢metro `{ children }`.
+ * @param {{ children: ReactNode; }} { children } - Parâmetro `{ children }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -190,7 +190,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     setError(null);
 
     try {
-      // PreferÃªncias por usuÃ¡rio (mantidas em user_settings)
+      // Preferências por usuário (mantidas em user_settings)
       const { data: settings } = await settingsService.get();
       if (settings) {
         setAiThinkingState(settings.aiThinking);
@@ -356,7 +356,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     // Validate if there are linked contacts
     const hasLinkedContacts = contacts.some(c => c.stage === id);
     if (hasLinkedContacts) {
-      setError('NÃ£o Ã© possÃ­vel excluir estÃ¡gio com contatos vinculados');
+      setError('Não é possível excluir estágio com contatos vinculados');
       return;
     }
 
@@ -631,7 +631,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
 };
 
 /**
- * Hook React `useSettings` que encapsula uma lÃ³gica reutilizÃ¡vel.
+ * Hook React `useSettings` que encapsula uma lógica reutilizável.
  * @returns {SettingsContextType} Retorna um valor do tipo `SettingsContextType`.
  */
 export const useSettings = () => {

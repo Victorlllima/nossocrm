@@ -11,9 +11,10 @@ import { invalidateAgentCache } from '@/lib/ai/agents';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { agentId: string } }
+  ctx: { params: Promise<{ agentId: string }> }
 ) {
   try {
+    const params = await ctx.params;
     const supabase = createStaticAdminClient();
 
     const { data, error } = await supabase
@@ -67,9 +68,10 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { agentId: string } }
+  ctx: { params: Promise<{ agentId: string }> }
 ) {
   try {
+    const params = await ctx.params;
     const supabase = createStaticAdminClient();
     const body = await req.json();
 

@@ -63,7 +63,7 @@ const getTypeConfig = (type: AISuggestionType) => {
   onAccept,
   onDismiss,
   onSnooze
-} - ParÃ¢metro `{
+} - Parâmetro `{
   suggestions,
   onAccept,
   onDismiss,
@@ -87,7 +87,7 @@ export const AISuggestionsSection: React.FC<AISuggestionsSectionProps> = ({
           <Sparkles size={16} className="text-white" />
         </div>
         <h2 className="text-sm font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider">
-          SugestÃµes da IA
+          Sugestões da IA
         </h2>
         <span className="text-xs px-2 py-0.5 rounded-full bg-primary-100 dark:bg-primary-500/20 text-primary-600 dark:text-primary-400 font-medium">
           {suggestions.length}
@@ -173,7 +173,7 @@ export const AISuggestionsSection: React.FC<AISuggestionsSectionProps> = ({
                 onClick={() => onAccept(suggestion)}
                 className="mt-3 w-full flex items-center justify-center gap-2 py-2 text-sm font-medium text-primary-600 dark:text-primary-400 hover:bg-primary-100 dark:hover:bg-primary-500/20 rounded-lg transition-colors md:hidden"
               >
-                Aceitar sugestÃ£o <ChevronRight size={16} />
+                Aceitar sugestão <ChevronRight size={16} />
               </button>
             </div>
           );

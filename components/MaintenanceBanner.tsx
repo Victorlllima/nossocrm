@@ -20,18 +20,18 @@ interface MaintenanceBannerProps {
  *
  * @param {MaintenanceBannerProps} {
   show = true,
-  message = 'ðŸ”’ Funcionalidades de IA temporariamente desativadas para atualizaÃ§Ãµes de seguranÃ§a. VoltarÃ£o em breve.',
+  message = 'ðŸ”’ Funcionalidades de IA temporariamente desativadas para atualizações de segurança. Voltarão em breve.',
   onDismiss,
-} - ParÃ¢metro `{
+} - Parâmetro `{
   show = true,
-  message = 'ðŸ”’ Funcionalidades de IA temporariamente desativadas para atualizaÃ§Ãµes de seguranÃ§a. VoltarÃ£o em breve.',
+  message = 'ðŸ”’ Funcionalidades de IA temporariamente desativadas para atualizações de segurança. Voltarão em breve.',
   onDismiss,
 }`.
  * @returns {Element | null} Retorna um valor do tipo `Element | null`.
  */
 export const MaintenanceBanner: React.FC<MaintenanceBannerProps> = ({
   show = true,
-  message = 'ðŸ”’ Funcionalidades de IA temporariamente desativadas para atualizaÃ§Ãµes de seguranÃ§a. VoltarÃ£o em breve.',
+  message = 'ðŸ”’ Funcionalidades de IA temporariamente desativadas para atualizações de segurança. Voltarão em breve.',
   onDismiss,
 }) => {
   const [dismissed, setDismissed] = React.useState(false);

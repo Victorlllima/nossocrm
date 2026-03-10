@@ -16,7 +16,7 @@ interface RevenueTrendChartProps {
 /**
  * Componente React `RevenueTrendChart`.
  *
- * @param {RevenueTrendChartProps} { data } - ParÃ¢metro `{ data }`.
+ * @param {RevenueTrendChartProps} { data } - Parâmetro `{ data }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const RevenueTrendChart: React.FC<RevenueTrendChartProps> = ({ data }) => (

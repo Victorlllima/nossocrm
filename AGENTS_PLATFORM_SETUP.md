@@ -57,7 +57,7 @@ supabase migration push
 
 ### Tabela: `agents`
 ```
-Armazena CONFIGURAÇÃO dos agentes
+Armazena CONFIGURAÇÍO dos agentes
 - id, organization_id, name
 - Informações pessoais (agent_name, communication_style)
 - Comportamento (use_emojis, sign_with_name, etc)

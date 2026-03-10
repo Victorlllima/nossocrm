@@ -68,7 +68,7 @@ if (hasBufferedMessages(leadPhone)) {
 
 O buffer original do N8n era simples:
 - ✅ Evita processar 2 mensagens SIMULTANEAMENTE
-- ❌ NÃO foi designed para reprocessamento automático
+- ❌ NÍO foi designed para reprocessamento automático
 
 Minha implementação tentou criar um queue processor, mas:
 1. Não tinha mecanismo para parar o loop
@@ -89,7 +89,7 @@ Minha implementação tentou criar um queue processor, mas:
 **Novo Entendimento:**
 - Quando MSG2 é buffered, ela fica **em memória** do servidor
 - Quando MSG3 chega e é processada, as mensagens antigas no buffer morrem
-- **Solução correta:** NÃO reprocessar buffer automaticamente
+- **Solução correta:** NÍO reprocessar buffer automaticamente
 
 **Por quê?** Porque a Evolution API (webhook) envia cada mensagem como um HTTP POST separado. Não há "fila que espera ser processada". Cada POST é independente.
 
@@ -100,7 +100,7 @@ Red, você enviou:
 2. MSG2 (0.5s depois) → Buffered por < 5s
 3. MSG3 (3s depois) → Processada, mas MSG2 já foi descartada do buffer!
 
-**Solução:** O buffer não é o problema. A Evolution API NÃO reenvia as mensagens que ficaram buffered. Elas são perdidas.
+**Solução:** O buffer não é o problema. A Evolution API NÍO reenvia as mensagens que ficaram buffered. Elas são perdidas.
 
 ---
 
@@ -201,7 +201,7 @@ Para reabilitar, comente essas linhas e descomente o resto do código.
 
 ---
 
-## ✅ VERIFICAÇÃO PRÉ-REABILITAÇÃO
+## ✅ VERIFICAÇÍO PRÉ-REABILITAÇÍO
 
 Antes de reabilitar o webhook, verificar:
 

@@ -20,7 +20,7 @@ export async function processImage(imageUrl: string, userPrompt?: string): Promi
             apiKey: process.env.OPENAI_API_KEY,
         });
 
-        const prompt = userPrompt || 'Descreva esta imagem em detalhes, focando em texto visÃ­vel, caracterÃ­sticas de imÃ³veis, ou informaÃ§Ãµes relevantes para um corretor de imÃ³veis.';
+        const prompt = userPrompt || 'Descreva esta imagem em detalhes, focando em texto visível, características de imóveis, ou informações relevantes para um corretor de imóveis.';
 
         const response = await openaiClient.chat.completions.create({
             model: 'gpt-4o-mini',
@@ -36,7 +36,7 @@ export async function processImage(imageUrl: string, userPrompt?: string): Promi
             max_tokens: 500,
         });
 
-        const description = response.choices[0]?.message?.content || '[NÃ£o foi possÃ­vel processar a imagem]';
+        const description = response.choices[0]?.message?.content || '[Não foi possível processar a imagem]';
         return description;
 
     } catch (error) {
@@ -68,7 +68,7 @@ export async function processPDF(pdfUrl: string): Promise<string> {
         const text = pdfData.text.trim();
 
         if (!text) {
-            return '[PDF vazio ou sem texto extraÃ­vel. Por favor, envie as informaÃ§Ãµes como texto.]';
+            return '[PDF vazio ou sem texto extraível. Por favor, envie as informações como texto.]';
         }
 
         // Limit text length (max 2000 chars)
@@ -76,7 +76,7 @@ export async function processPDF(pdfUrl: string): Promise<string> {
 
     } catch (error) {
         console.error('Error processing PDF:', error);
-        return '[Erro ao processar PDF. Por favor, envie as informaÃ§Ãµes como texto.]';
+        return '[Erro ao processar PDF. Por favor, envie as informações como texto.]';
     }
 }
 
@@ -109,11 +109,11 @@ export async function processAudio(audioUrl: string): Promise<string> {
             language: 'pt',
         });
 
-        return transcription.text || '[NÃ£o foi possÃ­vel transcrever o Ã¡udio]';
+        return transcription.text || '[Não foi possível transcrever o áudio]';
 
     } catch (error) {
         console.error('Error processing audio:', error);
-        return '[Erro ao processar Ã¡udio. Por favor, envie sua mensagem como texto.]';
+        return '[Erro ao processar áudio. Por favor, envie sua mensagem como texto.]';
     }
 }
 

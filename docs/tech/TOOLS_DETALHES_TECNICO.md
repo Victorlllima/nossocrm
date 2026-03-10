@@ -85,7 +85,7 @@ ENTRADA: query = "2 quartos em Boa Viagem"
 PASSO 1: Verificar se é ID
   ├─ Regex: /ID:\s*(\d+)/i
   ├─ Regex: /^(\d+)$/
-  └─ Resultado: NÃO (não é ID puro)
+  └─ Resultado: NÍO (não é ID puro)
 
 PASSO 2: Busca Semântica (hybridSearchProperties)
   │
@@ -348,7 +348,7 @@ async function acionarHumano({ motivo, leadPhone, leadName, conversationId }) {
 ✅ "ID 42"
 ✅ "Tenho interesse em casa"
 
-### Consultar_Base_Imoveis: NÃO
+### Consultar_Base_Imoveis: NÍO
 
 ❌ "Bom dia!" (não é busca, é saudação)
 ❌ "Tudo bem?" (small talk)
@@ -363,7 +363,7 @@ async function acionarHumano({ motivo, leadPhone, leadName, conversationId }) {
 ✅ "Preciso de financiamento" (não é suporte de IA)
 ✅ "Tem WhatsApp do Max?" (operacional)
 
-### Acionar_Humano: NÃO
+### Acionar_Humano: NÍO
 
 ❌ "Tem 2 quartos?" (pode responder com tool)
 ❌ "Qual o preço?" (pode responder com tool)
@@ -371,12 +371,12 @@ async function acionarHumano({ motivo, leadPhone, leadName, conversationId }) {
 
 ---
 
-## Instrução Crítica do Prompt: VALIDAÇÃO DE TOOL CALLS
+## Instrução Crítica do Prompt: VALIDAÇÍO DE TOOL CALLS
 
 (Extraída do prompt, no N8n)
 
 ```
-# INSTRUÇÕES DE VALIDAÇÃO (CÉREBRO DO AGENTE)
+# INSTRUÇÕES DE VALIDAÇÍO (CÉREBRO DO AGENTE)
 Ao receber dados da tool:
 1. **Finalidade:** Venda vs Aluguel (Se incompatível → Transbordo).
 2. **Repetição:** Não mostre imóvel já apresentado nas últimas 3 mensagens.

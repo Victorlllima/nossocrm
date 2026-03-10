@@ -6,7 +6,7 @@
 
 ---
 
-## 🎯 SITUAÇÃO ATUAL
+## 🎯 SITUAÇÍO ATUAL
 
 ### O Que Aconteceu Hoje
 1. ✅ **Identificado loop infinito** de consumo de tokens
@@ -76,8 +76,8 @@ const MAX_RESPONSE_LENGTH = 500; // chars
 
 ### 3. Prompt Mais Explícito ✅
 ```
-# ⚠️ INSTRUÇÃO CRÍTICA: RESPONDA APENAS O PERGUNTADO
-**NÃO CRIE CONTEÚDO ADICIONAL.**
+# ⚠️ INSTRUÇÍO CRÍTICA: RESPONDA APENAS O PERGUNTADO
+**NÍO CRIE CONTEÚDO ADICIONAL.**
 ```
 
 **Ganho:** Claude segue instruções de forma mais consistente
@@ -92,7 +92,7 @@ const MAX_RESPONSE_LENGTH = 500; // chars
 
 ---
 
-## 📈 DOCUMENTAÇÃO CRIADA
+## 📈 DOCUMENTAÇÍO CRIADA
 
 ### 4 Documentos Estratégicos
 
@@ -263,7 +263,7 @@ Se tiver dúvidas:
 
 ---
 
-## ✅ CHECKLIST: PRONTO PARA REABILITAÇÃO
+## ✅ CHECKLIST: PRONTO PARA REABILITAÇÍO
 
 Antes de iniciar servidor:
 
@@ -280,7 +280,7 @@ Antes de iniciar servidor:
 
 ---
 
-## 🎬 AÇÃO IMEDIATA
+## 🎬 AÇÍO IMEDIATA
 
 Red, você pode **AGORA**:
 

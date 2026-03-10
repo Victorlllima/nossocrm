@@ -1,16 +1,16 @@
 ﻿/**
- * @fileoverview FÃ¡brica de Query Keys para TanStack Query.
+ * @fileoverview Fábrica de Query Keys para TanStack Query.
  * 
- * Este mÃ³dulo cria estruturas padronizadas de query keys para qualquer entidade,
- * eliminando definiÃ§Ãµes repetitivas e garantindo consistÃªncia no cache.
+ * Este módulo cria estruturas padronizadas de query keys para qualquer entidade,
+ * eliminando definições repetitivas e garantindo consistência no cache.
  * 
- * ## PadrÃ£o de Query Keys
+ * ## Padrão de Query Keys
  * 
  * - `entity.all` - Key base para todas as queries da entidade
  * - `entity.lists()` - Key para listagens
  * - `entity.list(filters)` - Key para listagem filtrada
  * - `entity.details()` - Key base para detalhes
- * - `entity.detail(id)` - Key para detalhe especÃ­fico
+ * - `entity.detail(id)` - Key para detalhe específico
  * 
  * @module lib/query/createQueryKeys
  * 
@@ -24,7 +24,7 @@
  * // Invalidar apenas listagens
  * queryClient.invalidateQueries({ queryKey: dealsKeys.lists() });
  * 
- * // Invalidar um deal especÃ­fico
+ * // Invalidar um deal específico
  * queryClient.invalidateQueries({ queryKey: dealsKeys.detail('deal-id') });
  * ```
  */
@@ -44,7 +44,7 @@ export interface QueryKeySet<T extends string> {
   list: (filters: Record<string, unknown>) => readonly [T, 'list', Record<string, unknown>];
   /** Key base para queries de detalhe. */
   details: () => readonly [T, 'detail'];
-  /** Key para query de detalhe especÃ­fico. */
+  /** Key para query de detalhe específico. */
   detail: (id: string) => readonly [T, 'detail', string];
 }
 
@@ -78,13 +78,13 @@ export function createQueryKeys<T extends string>(entity: T): QueryKeySet<T> {
 /**
  * Cria query keys estendidas com chaves customizadas.
  * 
- * Ãštil para entidades que precisam de keys adicionais como 'byDeal', 'byContact', etc.
+ * Íštil para entidades que precisam de keys adicionais como 'byDeal', 'byContact', etc.
  * 
  * @template T Nome da entidade.
- * @template E ExtensÃµes customizadas.
+ * @template E Extensões customizadas.
  * @param entity - Nome da entidade.
- * @param extensions - FunÃ§Ã£o que recebe as keys base e retorna extensÃµes.
- * @returns Objeto com query keys base + extensÃµes.
+ * @param extensions - Função que recebe as keys base e retorna extensões.
+ * @returns Objeto com query keys base + extensões.
  * 
  * @example
  * ```typescript

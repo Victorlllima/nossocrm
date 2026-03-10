@@ -2,9 +2,9 @@
 import { twMerge } from "tailwind-merge"
 
 /**
- * FunÃ§Ã£o pÃºblica `cn` do projeto.
+ * Função pública `cn` do projeto.
  *
- * @param {ClassValue[]} inputs - ParÃ¢metro `inputs`.
+ * @param {ClassValue[]} inputs - Parâmetro `inputs`.
  * @returns {string} Retorna um valor do tipo `string`.
  */
 export function cn(...inputs: ClassValue[]) {

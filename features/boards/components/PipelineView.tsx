@@ -140,7 +140,7 @@ interface PipelineViewProps {
   lossReasonModal,
   handleLossReasonConfirm,
   handleLossReasonClose,
-} - ParÃ¢metro `{
+} - Parâmetro `{
   // Boards
   boards,
   activeBoard,
@@ -307,8 +307,8 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
             Bem-vindo ao seu CRM
           </h2>
           <p className="text-slate-500 dark:text-slate-400 max-w-md mb-8">
-            VocÃª ainda nÃ£o tem nenhum board criado. Comece criando seu primeiro fluxo de trabalho
-            para organizar seus negÃ³cios.
+            Você ainda não tem nenhum board criado. Comece criando seu primeiro fluxo de trabalho
+            para organizar seus negócios.
           </p>
           <button
             onClick={() => setIsWizardOpen(true)}

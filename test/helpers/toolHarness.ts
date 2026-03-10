@@ -4,11 +4,11 @@
 
 // In tests, we invoke tools directly to validate behavior without UI.
 /**
- * FunÃ§Ã£o pÃºblica `callTool` do projeto.
+ * Função pública `callTool` do projeto.
  *
- * @param {Record<string, ExecutableTool>} tools - ParÃ¢metro `tools`.
- * @param {string} name - ParÃ¢metro `name`.
- * @param {unknown} input - ParÃ¢metro `input`.
+ * @param {Record<string, ExecutableTool>} tools - Parâmetro `tools`.
+ * @param {string} name - Parâmetro `name`.
+ * @param {unknown} input - Parâmetro `input`.
  * @returns {Promise<unknown>} Retorna um valor do tipo `Promise<unknown>`.
  */
 export async function callTool(

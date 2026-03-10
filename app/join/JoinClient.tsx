@@ -9,14 +9,14 @@ import { Loader2, Mail, Lock, User, ArrowRight, AlertCircle } from 'lucide-react
 /**
  * Componente React `JoinClient`.
  *
- * @param {{ token: string | null; }} { token } - ParÃ¢metro `{ token }` (opcional, lÃª da URL se nÃ£o fornecido).
+ * @param {{ token: string | null; }} { token } - Parâmetro `{ token }` (opcional, lê da URL se não fornecido).
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export function JoinClient({ token: tokenProp }: { token?: string | null }) {
   const router = useRouter()
   const searchParams = useSearchParams()
   
-  // LÃª o token da URL se nÃ£o foi fornecido como prop (fallback para compatibilidade)
+  // Lê o token da URL se não foi fornecido como prop (fallback para compatibilidade)
   const token = tokenProp ?? searchParams.get('token')
 
   const [loading, setLoading] = useState(false)
@@ -33,7 +33,7 @@ export function JoinClient({ token: tokenProp }: { token?: string | null }) {
   useEffect(() => {
     const validateToken = async () => {
       if (!token) {
-        setError('Link de convite invÃ¡lido ou ausente.')
+        setError('Link de convite inválido ou ausente.')
         setValidating(false)
         return
       }
@@ -54,7 +54,7 @@ export function JoinClient({ token: tokenProp }: { token?: string | null }) {
         })
         
         if (!res.ok || !payload?.valid) {
-          const errorMsg = payload?.error || 'Este convite nÃ£o existe ou jÃ¡ foi utilizado.'
+          const errorMsg = payload?.error || 'Este convite não existe ou já foi utilizado.'
           console.error('[JoinClient] Validation failed:', errorMsg)
           throw new Error(errorMsg)
         }
@@ -127,7 +127,7 @@ export function JoinClient({ token: tokenProp }: { token?: string | null }) {
           <div className="h-16 w-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <AlertCircle className="h-8 w-8 text-red-500" />
           </div>
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Convite InvÃ¡lido</h2>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Convite Inválido</h2>
           <p className="text-slate-500 dark:text-slate-400 mb-6">{error}</p>
           <button
             onClick={() => router.push('/login')}
@@ -152,7 +152,7 @@ export function JoinClient({ token: tokenProp }: { token?: string | null }) {
           <h1 className="text-3xl font-bold text-slate-900 dark:text-white font-display tracking-tight mb-2">
             Aceitar Convite
           </h1>
-          <p className="text-slate-500 dark:text-slate-400">Crie sua conta para se juntar Ã  equipe.</p>
+          <p className="text-slate-500 dark:text-slate-400">Crie sua conta para se juntar Í  equipe.</p>
         </div>
 
         <div className="bg-white dark:bg-dark-card border border-slate-200 dark:border-white/10 rounded-2xl shadow-xl p-8 backdrop-blur-sm">

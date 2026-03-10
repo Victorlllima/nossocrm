@@ -168,7 +168,7 @@ async function createDeal(params: {
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `createMinimalFixtures` do projeto.
+ * Função pública `createMinimalFixtures` do projeto.
  * @returns {Promise<TestFixtureBundle>} Retorna um valor do tipo `Promise<TestFixtureBundle>`.
  */
 export async function createMinimalFixtures(): Promise<TestFixtureBundle> {
@@ -227,7 +227,7 @@ export async function createMinimalFixtures(): Promise<TestFixtureBundle> {
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `cleanupFixtures` do projeto.
+ * Função pública `cleanupFixtures` do projeto.
  *
  * @param {string} runId - Identificador do recurso.
  * @returns {Promise<void>} Retorna uma Promise resolvida sem valor.

@@ -54,7 +54,7 @@ export const MoveToStageModal: React.FC<MoveToStageModalProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="Mover para EstÃ¡gio"
+      title="Mover para Estágio"
       size="sm"
       describedById={headingId}
     >
@@ -62,14 +62,14 @@ export const MoveToStageModal: React.FC<MoveToStageModalProps> = ({
         {/* Current deal info */}
         <div className="p-3 bg-slate-50 dark:bg-white/5 rounded-lg border border-slate-200 dark:border-white/10">
           <p className="text-sm text-slate-600 dark:text-slate-400">
-            Movendo o negÃ³cio:
+            Movendo o negócio:
           </p>
           <p className="font-bold text-slate-900 dark:text-white">
             {deal.title}
           </p>
           {stageData.currentStage && (
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-              EstÃ¡gio atual: <span className="font-medium">{stageData.currentStage.label}</span>
+              Estágio atual: <span className="font-medium">{stageData.currentStage.label}</span>
             </p>
           )}
         </div>
@@ -77,9 +77,9 @@ export const MoveToStageModal: React.FC<MoveToStageModalProps> = ({
         {/* Stage options */}
         <div id={headingId}>
           <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-            Selecione o novo estÃ¡gio:
+            Selecione o novo estágio:
           </p>
-          <div className="space-y-2" role="listbox" aria-label="EstÃ¡gios disponÃ­veis">
+          <div className="space-y-2" role="listbox" aria-label="Estágios disponíveis">
             {stageData.availableStages.map((stage, index) => (
               <button
                 key={stage.id}

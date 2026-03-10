@@ -1,7 +1,7 @@
 ﻿/**
- * @fileoverview Componente de Carregamento de PÃ¡gina
+ * @fileoverview Componente de Carregamento de Página
  * 
- * Spinner de carregamento exibido durante transiÃ§Ãµes de pÃ¡gina
+ * Spinner de carregamento exibido durante transições de página
  * e carregamento de dados iniciais.
  * 
  * @module components/PageLoader
@@ -21,8 +21,8 @@ import React from 'react';
 /**
  * Spinner de carregamento centralizado
  * 
- * Exibe animaÃ§Ã£o de loading com mensagem "Carregando...".
- * Ocupa altura mÃ­nima de 60vh para centralizaÃ§Ã£o vertical.
+ * Exibe animação de loading com mensagem "Carregando...".
+ * Ocupa altura mínima de 60vh para centralização vertical.
  * 
  * @returns {JSX.Element} Spinner de carregamento
  */

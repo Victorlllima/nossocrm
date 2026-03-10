@@ -6,7 +6,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { dealNotesService, DealNote } from '@/lib/supabase/dealNotes';
 
 /**
- * Hook React `useDealNotes` que encapsula uma lÃ³gica reutilizÃ¡vel.
+ * Hook React `useDealNotes` que encapsula uma lógica reutilizável.
  *
  * @param {string | undefined} dealId - Identificador do recurso.
  * @returns {{ notes: DealNote[]; isLoading: boolean; error: Error | null; createNote: UseMutationResult<DealNote | null, Error, string, unknown>; updateNote: UseMutationResult<...>; deleteNote: UseMutationResult<...>; }} Retorna um valor do tipo `{ notes: DealNote[]; isLoading: boolean; error: Error | null; createNote: UseMutationResult<DealNote | null, Error, string, unknown>; updateNote: UseMutationResult<...>; deleteNote: UseMutationResult<...>; }`.

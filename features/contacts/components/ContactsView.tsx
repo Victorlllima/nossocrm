@@ -17,7 +17,7 @@ interface ContactsViewProps {
   isLoading, 
   onSearch, 
   onRefresh 
-} - ParÃ¢metro `{ 
+} - Parâmetro `{ 
   contacts, 
   isLoading, 
   onSearch, 

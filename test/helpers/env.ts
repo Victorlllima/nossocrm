@@ -28,11 +28,11 @@ function parseDotEnv(contents: string): Record<string, string> {
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `loadEnvFile` do projeto.
+ * Função pública `loadEnvFile` do projeto.
  *
- * @param {string} filePath - ParÃ¢metro `filePath`.
- * @param {{ override?: boolean | undefined; } | undefined} opts - ParÃ¢metro `opts`.
- * @returns {void} NÃ£o retorna valor.
+ * @param {string} filePath - Parâmetro `filePath`.
+ * @param {{ override?: boolean | undefined; } | undefined} opts - Parâmetro `opts`.
+ * @returns {void} Não retorna valor.
  */
 export function loadEnvFile(filePath: string, opts?: { override?: boolean }) {
   if (!existsSync(filePath)) return;
@@ -44,9 +44,9 @@ export function loadEnvFile(filePath: string, opts?: { override?: boolean }) {
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `requireEnv` do projeto.
+ * Função pública `requireEnv` do projeto.
  *
- * @param {string} name - ParÃ¢metro `name`.
+ * @param {string} name - Parâmetro `name`.
  * @returns {string} Retorna um valor do tipo `string`.
  */
 export function requireEnv(name: string): string {
@@ -56,7 +56,7 @@ export function requireEnv(name: string): string {
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `getSupabaseUrl` do projeto.
+ * Função pública `getSupabaseUrl` do projeto.
  * @returns {string} Retorna um valor do tipo `string`.
  */
 export function getSupabaseUrl(): string {
@@ -68,7 +68,7 @@ export function getSupabaseUrl(): string {
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `getServiceRoleKey` do projeto.
+ * Função pública `getServiceRoleKey` do projeto.
  * @returns {string} Retorna um valor do tipo `string`.
  */
 export function getServiceRoleKey(): string {
@@ -76,9 +76,9 @@ export function getServiceRoleKey(): string {
 }
 
 /**
- * FunÃ§Ã£o pÃºblica `isPlaceholderApiKey` do projeto.
+ * Função pública `isPlaceholderApiKey` do projeto.
  *
- * @param {string | null | undefined} value - ParÃ¢metro `value`.
+ * @param {string | null | undefined} value - Parâmetro `value`.
  * @returns {boolean} Retorna um valor do tipo `boolean`.
  */
 export function isPlaceholderApiKey(value?: string | null): boolean {

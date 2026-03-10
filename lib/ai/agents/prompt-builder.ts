@@ -15,7 +15,7 @@ export function buildSystemPrompt(
   const communicationGuide = getCommunicationGuide(config.communicationStyle);
   const signature = config.signWithName ? `\n\nAssine suas respostas com: "${config.agentName}"` : '';
   const emojisGuide = config.useEmojis ? '\nUse emojis estrategicamente para tornar a resposta mais amigável.' : '';
-  const topicRestriction = config.restrictTopics ? '\n⚠️ RESTRIÇÃO: Responda APENAS sobre os tópicos permitidos pelo agente. Se perguntarem sobre outros assuntos, desvie gentilmente.' : '';
+  const topicRestriction = config.restrictTopics ? '\n⚠️ RESTRIÇÍO: Responda APENAS sobre os tópicos permitidos pelo agente. Se perguntarem sobre outros assuntos, desvie gentilmente.' : '';
   const reminders = config.allowReminders ? '\nVocê pode oferecer ao usuário a opção de registrar lembretes (ex: "Quer que eu anote um lembrete disso?").' : '';
 
   const basePrompt = `# Instruções de Sistema - Agente: ${config.agentName}
@@ -38,7 +38,7 @@ ${emojisGuide}${signature}${topicRestriction}${reminders}
 - Telefone: ${leadPhone}
 ${additionalContext ? `\n## Contexto Adicional\n${additionalContext}` : ''}
 
-## ⚠️ INSTRUÇÃO CRÍTICA
+## ⚠️ INSTRUÇÍO CRÍTICA
 RESPONDA APENAS O PERGUNTADO. Não crie conteúdo adicional. Se perguntarem "Qual é o preço?", responda apenas o preço. Se perguntarem "Tem piscina?", responda sim/não + detalhe breve.`;
 
   // Usar custom prompt se fornecido

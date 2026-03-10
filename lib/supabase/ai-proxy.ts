@@ -1,22 +1,22 @@
 ﻿/**
  * @fileoverview Cliente para Edge Function de IA (ai-proxy).
  * 
- * Este mÃ³dulo fornece a interface para chamar o Edge Function ai-proxy,
- * que processa todas as requisiÃ§Ãµes de IA de forma segura.
+ * Este módulo fornece a interface para chamar o Edge Function ai-proxy,
+ * que processa todas as requisições de IA de forma segura.
  * 
- * ## SeguranÃ§a
+ * ## Segurança
  * 
  * Todas as chamadas de IA passam por esta Edge Function autenticada.
- * As chaves de API sÃ£o armazenadas no servidor e nunca expostas ao frontend.
+ * As chaves de API são armazenadas no servidor e nunca expostas ao frontend.
  * 
  * ## Compliance LGPD
  * 
- * Consentimento implÃ­cito: configurar uma API key = consentimento.
+ * Consentimento implícito: configurar uma API key = consentimento.
  * 
  * ## Rate Limiting
  * 
- * - 60 requisiÃ§Ãµes por minuto
- * - 1000 requisiÃ§Ãµes por dia
+ * - 60 requisições por minuto
+ * - 1000 requisições por dia
  * 
  * @module lib/supabase/ai-proxy
  * 
@@ -40,7 +40,7 @@
 'use client';
 
 /**
- * AÃ§Ãµes de IA disponÃ­veis no proxy.
+ * Ações de IA disponíveis no proxy.
  * 
  * @typedef AIAction
  */
@@ -65,10 +65,10 @@ export type AIAction =
  * 
  * @interface AIProxyResponse
  * @template T Tipo do resultado esperado.
- * @property {T} [result] - Resultado da operaÃ§Ã£o de IA.
+ * @property {T} [result] - Resultado da operação de IA.
  * @property {string} [error] - Mensagem de erro, se houver.
- * @property {string} [consentType] - Tipo de consentimento necessÃ¡rio.
- * @property {number} [retryAfter] - Segundos atÃ© poder tentar novamente (rate limit).
+ * @property {string} [consentType] - Tipo de consentimento necessário.
+ * @property {number} [retryAfter] - Segundos até poder tentar novamente (rate limit).
  */
 export interface AIProxyResponse<T = unknown> {
   result?: T;
@@ -78,13 +78,13 @@ export interface AIProxyResponse<T = unknown> {
 }
 
 /**
- * Chama o Edge Function ai-proxy para executar uma aÃ§Ã£o de IA.
+ * Chama o Edge Function ai-proxy para executar uma ação de IA.
  * 
  * @template T Tipo do resultado esperado.
- * @param action - AÃ§Ã£o de IA a ser executada.
- * @param data - Dados especÃ­ficos da aÃ§Ã£o.
+ * @param action - Ação de IA a ser executada.
+ * @param data - Dados específicos da ação.
  * @returns Promise com o resultado da IA.
- * @throws Error se consentimento for necessÃ¡rio (com propriedade consentType).
+ * @throws Error se consentimento for necessário (com propriedade consentType).
  * @throws Error se rate limit for atingido (com propriedade retryAfter).
  * @throws Error para outros erros de processamento.
  * 
@@ -142,7 +142,7 @@ export async function callAIProxy<T = unknown>(
 }
 
 /**
- * Verifica se um erro Ã© de consentimento necessÃ¡rio.
+ * Verifica se um erro é de consentimento necessário.
  * 
  * @param error - Erro a ser verificado.
  * @returns true se for erro de consentimento.
@@ -159,7 +159,7 @@ export function isConsentError(error: unknown): error is Error & { consentType: 
 }
 
 /**
- * Verifica se um erro Ã© de rate limit.
+ * Verifica se um erro é de rate limit.
  * 
  * @param error - Erro a ser verificado.
  * @returns true se for erro de rate limit.

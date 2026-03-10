@@ -1,8 +1,8 @@
 ﻿/**
  * @fileoverview Hook de Reconhecimento de Fala
  * 
- * Hook que encapsula a Web Speech API para transcriÃ§Ã£o de voz em tempo real,
- * usado para entrada de voz no assistente de IA e formulÃ¡rios.
+ * Hook que encapsula a Web Speech API para transcrição de voz em tempo real,
+ * usado para entrada de voz no assistente de IA e formulários.
  * 
  * @module hooks/useSpeechRecognition
  * 
@@ -18,7 +18,7 @@
  *   } = useSpeechRecognition();
  *   
  *   if (!hasRecognitionSupport) {
- *     return <p>Seu navegador nÃ£o suporta reconhecimento de voz</p>;
+ *     return <p>Seu navegador não suporta reconhecimento de voz</p>;
  *   }
  *   
  *   return (
@@ -41,7 +41,7 @@ import { useState, useEffect, useCallback } from 'react';
  * @interface SpeechRecognitionHook
  */
 interface SpeechRecognitionHook {
-  /** Se estÃ¡ ativamente ouvindo */
+  /** Se está ativamente ouvindo */
   isListening: boolean;
   /** Texto transcrito da fala */
   transcript: string;
@@ -98,8 +98,8 @@ interface SpeechRecognitionErrorEvent {
 /**
  * Hook para reconhecimento de fala usando Web Speech API
  * 
- * Fornece interface simples para capturar e transcrever fala do usuÃ¡rio
- * em tempo real. Configurado para portuguÃªs brasileiro (pt-BR).
+ * Fornece interface simples para capturar e transcrever fala do usuário
+ * em tempo real. Configurado para português brasileiro (pt-BR).
  * 
  * @returns {SpeechRecognitionHook} Estado e controles do reconhecimento de fala
  * 
@@ -129,7 +129,7 @@ interface SpeechRecognitionErrorEvent {
  * 
  * @remarks
  * - Usa WebKit prefix para suporte a Safari/Chrome
- * - Modo contÃ­nuo com resultados intermediÃ¡rios
+ * - Modo contínuo com resultados intermediários
  * - Logs de debug no console para troubleshooting
  */
 export const useSpeechRecognition = (): SpeechRecognitionHook => {
@@ -179,7 +179,7 @@ export const useSpeechRecognition = (): SpeechRecognitionHook => {
       setRecognition(recognitionInstance);
 
       return () => {
-        // Cleanup para evitar listeners vivos e setState apÃ³s unmount
+        // Cleanup para evitar listeners vivos e setState após unmount
         try {
           recognitionInstance.onstart = null;
           recognitionInstance.onresult = null;

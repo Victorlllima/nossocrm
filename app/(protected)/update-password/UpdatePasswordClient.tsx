@@ -12,13 +12,13 @@ import { updatePassword } from '@/features/auth/actions/update-password'
 const updatePasswordFormSchema = z.object({
     newPassword: z
         .string()
-        .min(6, 'Senha deve ter no mÃ­nimo 6 caracteres')
-        .max(72, 'Senha deve ter no mÃ¡ximo 72 caracteres'),
+        .min(6, 'Senha deve ter no mínimo 6 caracteres')
+        .max(72, 'Senha deve ter no máximo 72 caracteres'),
     confirmPassword: z
         .string()
-        .min(1, 'ConfirmaÃ§Ã£o de senha Ã© obrigatÃ³ria'),
+        .min(1, 'Confirmação de senha é obrigatória'),
 }).refine((data) => data.newPassword === data.confirmPassword, {
-    message: 'As senhas nÃ£o coincidem',
+    message: 'As senhas não coincidem',
     path: ['confirmPassword'],
 })
 
@@ -111,7 +111,7 @@ export default function UpdatePasswordClient() {
                         Atualize sua senha
                     </h1>
                     <p className="text-slate-500 dark:text-slate-400">
-                        Por seguranÃ§a, vocÃª precisa criar uma nova senha para continuar.
+                        Por segurança, você precisa criar uma nova senha para continuar.
                     </p>
                 </div>
 
@@ -131,7 +131,7 @@ export default function UpdatePasswordClient() {
                                     name="newPassword"
                                     type="password"
                                     className={`block w-full pl-10 pr-3 py-2.5 border rounded-xl bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all sm:text-sm ${errors.newPassword ? 'border-red-500' : 'border-slate-300'}`}
-                                    placeholder="MÃ­nimo 6 caracteres"
+                                    placeholder="Mínimo 6 caracteres"
                                 />
                             </div>
                             {errors.newPassword && <p className="mt-1.5 text-sm text-red-500">{errors.newPassword.message}</p>}

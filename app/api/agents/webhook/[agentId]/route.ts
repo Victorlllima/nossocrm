@@ -115,7 +115,8 @@ async function robustGenerateWithFallback(params: {
       const result = await retryWithBackoff(
         () =>
           generateText({
-            model,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            model: model as any,
             temperature,
             system,
             messages,
@@ -134,7 +135,7 @@ async function robustGenerateWithFallback(params: {
 }
 
 // ============================================================================
-// VALIDAÇÃO E PARSING
+// VALIDAÇÍO E PARSING
 // ============================================================================
 
 function parseEvolutionWebhook(body: any): EvolutionMessage | null {
@@ -182,8 +183,9 @@ async function validateAgentOwnership(
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { agentId: string } }
+  ctx: { params: Promise<{ agentId: string }> }
 ) {
+  const params = await ctx.params;
   const requestId = `${params.agentId}-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
   const startTime = Date.now();
 
@@ -191,7 +193,7 @@ export async function POST(
     console.log(`📨 [${requestId}] Webhook recebido para agente: ${params.agentId}`);
 
     // ───────────────────────────────────────────────────────────
-    // 1. PARSE E VALIDAÇÃO
+    // 1. PARSE E VALIDAÇÍO
     // ───────────────────────────────────────────────────────────
 
     const body = await req.json();

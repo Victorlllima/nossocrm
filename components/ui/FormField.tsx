@@ -75,7 +75,7 @@ interface FormFieldProps {
   showSuccessState = false,
   isDirty,
   isTouched,
-} - ParÃ¢metro `{
+} - Parâmetro `{
   label,
   error,
   hint,
@@ -141,7 +141,7 @@ export const FormField: React.FC<FormFieldProps> = ({
       {showSuccess && (
         <p className="text-xs text-green-500 mt-1 flex items-center gap-1">
           <CheckCircle2 size={12} />
-          <span>VÃ¡lido</span>
+          <span>Válido</span>
         </p>
       )}
 
@@ -184,7 +184,7 @@ interface InputFieldProps extends Omit<React.InputHTMLAttributes<HTMLInputElemen
   isTouched,
   required,
   ...props
-} - ParÃ¢metro `{
+} - Parâmetro `{
   label,
   error,
   hint,
@@ -265,7 +265,7 @@ interface TextareaFieldProps extends Omit<
   textareaClassName,
   required,
   ...props
-} - ParÃ¢metro `{
+} - Parâmetro `{
   label,
   error,
   hint,
@@ -343,7 +343,7 @@ interface SelectFieldProps extends Omit<
   selectClassName,
   required,
   ...props
-} - ParÃ¢metro `{
+} - Parâmetro `{
   label,
   options,
   error,
@@ -418,7 +418,7 @@ interface CheckboxFieldProps extends Omit<
   registration,
   containerClassName,
   ...props
-} - ParÃ¢metro `{
+} - Parâmetro `{
   label,
   error,
   hint,
@@ -494,7 +494,7 @@ const buttonVariants = {
   className,
   variant = 'primary',
   ...props
-} - ParÃ¢metro `{
+} - Parâmetro `{
   children,
   isLoading,
   loadingText = 'Salvando...',
@@ -564,7 +564,7 @@ interface FormErrorSummaryProps {
 /**
  * Componente React `FormErrorSummary`.
  *
- * @param {FormErrorSummaryProps} { errors, className } - ParÃ¢metro `{ errors, className }`.
+ * @param {FormErrorSummaryProps} { errors, className } - Parâmetro `{ errors, className }`.
  * @returns {Element | null} Retorna um valor do tipo `Element | null`.
  */
 export const FormErrorSummary: React.FC<FormErrorSummaryProps> = ({ errors, className }) => {

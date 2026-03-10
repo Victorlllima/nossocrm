@@ -10,7 +10,7 @@ interface ActivitiesCalendarProps {
 }
 
 const HOURS = Array.from({ length: 10 }, (_, i) => i + 9); // 9:00 to 18:00
-const DAYS_OF_WEEK = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'SÃ¡b'];
+const DAYS_OF_WEEK = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
 /**
  * Componente React `ActivitiesCalendar`.
@@ -20,7 +20,7 @@ const DAYS_OF_WEEK = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'SÃ¡b'];
     deals,
     currentDate,
     setCurrentDate
-} - ParÃ¢metro `{
+} - Parâmetro `{
     activities,
     deals,
     currentDate,

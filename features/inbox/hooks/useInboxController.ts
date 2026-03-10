@@ -23,7 +23,7 @@ import { SuggestionType } from '@/lib/supabase/aiSuggestions';
 import { isDebugMode, generateFakeContacts, fakeDeal } from '@/lib/debug';
 import { supabase } from '@/lib/supabase/client';
 
-// Tipos para sugestÃµes de IA (BIRTHDAY removido - serÃ¡ implementado em widget separado)
+// Tipos para sugestões de IA (BIRTHDAY removido - será implementado em widget separado)
 export type AISuggestionType = 'UPSELL' | 'RESCUE' | 'STALLED';
 
 export interface AISuggestion {
@@ -41,7 +41,7 @@ export interface AISuggestion {
 
 export type ViewMode = 'overview' | 'list' | 'focus';
 
-// Item unificado para o modo Focus (atividade ou sugestÃ£o)
+// Item unificado para o modo Focus (atividade ou sugestão)
 export interface FocusItem {
   id: string;
   type: 'activity' | 'suggestion';
@@ -50,11 +50,11 @@ export interface FocusItem {
 }
 
 /**
- * Hook React `useInboxController` que encapsula uma lÃ³gica reutilizÃ¡vel.
+ * Hook React `useInboxController` que encapsula uma lógica reutilizável.
  * @returns {{ isLoading: boolean; viewMode: ViewMode; setViewMode: Dispatch<SetStateAction<ViewMode>>; briefing: string | null; isGeneratingBriefing: boolean; ... 23 more ...; handleSelectActivity: (id: string) => void; }} Retorna um valor do tipo `{ isLoading: boolean; viewMode: ViewMode; setViewMode: Dispatch<SetStateAction<ViewMode>>; briefing: string | null; isGeneratingBriefing: boolean; ... 23 more ...; handleSelectActivity: (id: string) => void; }`.
  */
 export const useInboxController = () => {
-  // Auth (single-tenant com multiusuÃ¡rio). Mantemos profile para permissÃµes/owner.
+  // Auth (single-tenant com multiusuário). Mantemos profile para permissões/owner.
   const { profile } = useAuth();
 
   // TanStack Query hooks
@@ -80,7 +80,7 @@ export const useInboxController = () => {
 
   const { showToast } = useToast();
 
-  // State para modo de visualizaÃ§Ã£o (persiste no localStorage)
+  // State para modo de visualização (persiste no localStorage)
   const [viewMode, setViewMode] = usePersistedState<ViewMode>('inbox_view_mode', 'overview');
   const [focusIndex, setFocusIndex] = useState(0);
 
@@ -94,7 +94,7 @@ export const useInboxController = () => {
 
   const isLoading = activitiesLoading || contactsLoading || dealsLoading;
 
-  // --- Datas de referÃªncia ---
+  // --- Datas de referência ---
   const today = useMemo(() => {
     const d = new Date();
     d.setHours(0, 0, 0, 0);
@@ -166,10 +166,10 @@ export const useInboxController = () => {
     [todayActivities]
   );
 
-  // --- SugestÃµes de IA (do Radar) ---
+  // --- Sugestões de IA (do Radar) ---
   const currentMonth = new Date().getMonth() + 1;
 
-  // Aniversariantes do mÃªs
+  // Aniversariantes do mês
   const birthdaysThisMonth = useMemo(
     () =>
       contacts.filter(c => {
@@ -180,7 +180,7 @@ export const useInboxController = () => {
     [contacts, currentMonth]
   );
 
-  // NegÃ³cios estagnados (> 7 dias sem update)
+  // Negócios estagnados (> 7 dias sem update)
   const stalledDeals = useMemo(
     () =>
       deals.filter(d => {
@@ -191,7 +191,7 @@ export const useInboxController = () => {
     [deals, sevenDaysAgo]
   );
 
-  // Oportunidades de Upsell (ganhos hÃ¡ > 30 dias)
+  // Oportunidades de Upsell (ganhos há > 30 dias)
   const upsellDeals = useMemo(
     () =>
       deals.filter(d => {
@@ -202,21 +202,21 @@ export const useInboxController = () => {
     [deals, thirtyDaysAgo]
   );
 
-  // Clientes em risco de churn (inativos hÃ¡ > 30 dias)
+  // Clientes em risco de churn (inativos há > 30 dias)
   const rescueContacts = useMemo(
     () =>
       contacts.filter(c => {
-        // PadrÃ£o de mercado: considerar apenas clientes ativos (nÃ£o leads)
+        // Padrão de mercado: considerar apenas clientes ativos (não leads)
         if (c.status !== 'ACTIVE' || c.stage !== 'CUSTOMER') return false;
 
         const createdAtTs = Date.parse(c.createdAt);
 
-        // Sem histÃ³rico: carÃªncia de 30d apÃ³s criaÃ§Ã£o
+        // Sem histórico: carência de 30d após criação
         if (!c.lastInteraction && !c.lastPurchaseDate) {
           return createdAtTs < thirtyDaysAgo.getTime();
         }
 
-        // Com histÃ³rico: pega a data mais recente entre interaÃ§Ã£o e compra
+        // Com histórico: pega a data mais recente entre interação e compra
         const lastInteractionTs = c.lastInteraction ? Date.parse(c.lastInteraction) : null;
         const lastPurchaseTs = c.lastPurchaseDate ? Date.parse(c.lastPurchaseDate) : null;
         const lastActivityTs =
@@ -248,7 +248,7 @@ export const useInboxController = () => {
     return (valueScore * probFactor * (1 + timeFactor));
   }, []);
 
-  // Gerar sugestÃµes de IA como objetos com scoring inteligente
+  // Gerar sugestões de IA como objetos com scoring inteligente
   const aiSuggestions = useMemo((): AISuggestion[] => {
     const suggestions: AISuggestion[] = [];
     const nowIso = new Date().toISOString();
@@ -265,7 +265,7 @@ export const useInboxController = () => {
         suggestions.push({
           id,
           type: 'STALLED',
-          title: `NegÃ³cio Parado (${daysSinceUpdate}d)`,
+          title: `Negócio Parado (${daysSinceUpdate}d)`,
           description: `${deal.title} - R$ ${deal.value.toLocaleString('pt-BR')} â€¢ ${deal.probability}% probabilidade`,
           priority: score > 30 ? 'high' : score > 15 ? 'medium' : 'low',
           data: { deal },
@@ -287,7 +287,7 @@ export const useInboxController = () => {
           id,
           type: 'UPSELL',
           title: `Oportunidade de Upsell`,
-          description: `${deal.companyName} fechou hÃ¡ ${daysSinceClose} dias â€¢ R$ ${deal.value.toLocaleString('pt-BR')}`,
+          description: `${deal.companyName} fechou há ${daysSinceClose} dias â€¢ R$ ${deal.value.toLocaleString('pt-BR')}`,
           priority: score > 25 ? 'high' : score > 10 ? 'medium' : 'low',
           data: { deal },
           createdAt: nowIso,
@@ -309,7 +309,7 @@ export const useInboxController = () => {
           type: 'RESCUE',
           title: `Risco de Churn`,
           description: daysSince
-            ? `${contact.name} nÃ£o interage hÃ¡ ${daysSince} dias`
+            ? `${contact.name} não interage há ${daysSince} dias`
             : `${contact.name} nunca interagiu - reative!`,
           priority: daysSince && daysSince > 60 ? 'high' : 'medium',
           data: { contact },
@@ -335,7 +335,7 @@ export const useInboxController = () => {
         overdueActivities.length > 0 || upsellDeals.length > 0;
 
       if (!hasData) {
-        setBriefing('Sua inbox estÃ¡ limpa! Nenhuma pendÃªncia no momento. ðŸŽ‰');
+        setBriefing('Sua inbox está limpa! Nenhuma pendência no momento. ðŸŽ‰');
         return;
       }
 
@@ -353,12 +353,12 @@ export const useInboxController = () => {
         const text = await generateDailyBriefing(radarData);
 
         if (isMounted) {
-          setBriefing(text || 'Nenhuma pendÃªncia crÃ­tica. Bom trabalho!');
+          setBriefing(text || 'Nenhuma pendência crítica. Bom trabalho!');
         }
       } catch (error: any) {
         if (isMounted) {
           // Fallback message if AI proxy fails
-          const fallback = `VocÃª tem ${overdueActivities.length} atividades atrasadas, ${stalledDeals.length} negÃ³cios parados e ${upsellDeals.length} oportunidades de upsell.`;
+          const fallback = `Você tem ${overdueActivities.length} atividades atrasadas, ${stalledDeals.length} negócios parados e ${upsellDeals.length} oportunidades de upsell.`;
           setBriefing(fallback);
         }
       } finally {
@@ -400,7 +400,7 @@ export const useInboxController = () => {
         { id, updates: { completed: !activity.completed } },
         {
           onSuccess: () => {
-            showToast(activity.completed ? 'Atividade reaberta' : 'Atividade concluÃ­da!', 'success');
+            showToast(activity.completed ? 'Atividade reaberta' : 'Atividade concluída!', 'success');
           },
         }
       );
@@ -431,7 +431,7 @@ export const useInboxController = () => {
     });
   };
 
-  // --- Handlers para SugestÃµes de IA ---
+  // --- Handlers para Sugestões de IA ---
 
   const handleAcceptSuggestion = (suggestion: AISuggestion) => {
     switch (suggestion.type) {
@@ -439,7 +439,7 @@ export const useInboxController = () => {
         if (suggestion.data.deal && activeBoard) {
           const deal = suggestion.data.deal;
           createDealMutation.mutate({
-            title: `RenovaÃ§Ã£o/Upsell: ${deal.title}`,
+            title: `Renovação/Upsell: ${deal.title}`,
             boardId: activeBoardId,
             status: activeBoard.stages[0]?.id || 'NEW',
             value: Math.round(deal.value * 1.2),
@@ -462,7 +462,7 @@ export const useInboxController = () => {
         if (suggestion.data.deal) {
           const deal = suggestion.data.deal;
 
-          // Transforme â€œdeal paradoâ€ em trabalho rastreÃ¡vel (nÃ£o sÃ³ um update vazio).
+          // Transforme â€œdeal paradoâ€ em trabalho rastreável (não só um update vazio).
           const due = new Date();
           due.setDate(due.getDate() + 1);
           due.setHours(10, 0, 0, 0);
@@ -471,7 +471,7 @@ export const useInboxController = () => {
             activity: {
               title: `Follow-up: ${deal.title}`,
               type: 'TASK',
-              description: 'Deal parado â€” fazer follow-up para destravar o prÃ³ximo passo',
+              description: 'Deal parado â€” fazer follow-up para destravar o próximo passo',
               date: due.toISOString(),
               dealId: deal.id,
               contactId: deal.contactId,
@@ -483,7 +483,7 @@ export const useInboxController = () => {
             },
           });
 
-          showToast('Follow-up criado para reativar o negÃ³cio', 'success');
+          showToast('Follow-up criado para reativar o negócio', 'success');
         }
         break;
 
@@ -505,7 +505,7 @@ export const useInboxController = () => {
               user: { name: 'Eu', avatar: '' },
             },
           });
-          showToast('Tarefa de reativaÃ§Ã£o criada!', 'success');
+          showToast('Tarefa de reativação criada!', 'success');
         }
         break;
     }
@@ -526,7 +526,7 @@ export const useInboxController = () => {
       return;
     }
     if (!supabase || !profile?.id || !activeBoardId || !activeBoard?.stages?.length) {
-      showToast('Supabase/board nÃ£o configurado para seed.', 'error');
+      showToast('Supabase/board não configurado para seed.', 'error');
       return;
     }
 
@@ -537,7 +537,7 @@ export const useInboxController = () => {
       const tenDaysAgo = new Date(now);
       tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
 
-      // Cliente em risco (sem interaÃ§Ã£o, criado hÃ¡ > 30d)
+      // Cliente em risco (sem interação, criado há > 30d)
       const [seedContact] = generateFakeContacts(1);
       const createdContact = await createContactMutation.mutateAsync({
         name: seedContact.name,
@@ -557,7 +557,7 @@ export const useInboxController = () => {
 
       const firstStage = activeBoard.stages[0];
 
-      // Deal ganho hÃ¡ > 30d (Upsell)
+      // Deal ganho há > 30d (Upsell)
       const upsell = fakeDeal();
       const upsellDeal = await createDealMutation.mutateAsync({
         title: `Upsell - ${upsell.title}`,
@@ -581,7 +581,7 @@ export const useInboxController = () => {
         .update({ updated_at: fortyDaysAgo.toISOString(), is_won: true })
         .eq('id', upsellDeal.id);
 
-      // Deal parado hÃ¡ > 7d (Stalled)
+      // Deal parado há > 7d (Stalled)
       const stalled = fakeDeal();
       const stalledDeal = await createDealMutation.mutateAsync({
         title: `Stalled - ${stalled.title}`,
@@ -605,7 +605,7 @@ export const useInboxController = () => {
         .update({ updated_at: tenDaysAgo.toISOString() })
         .eq('id', stalledDeal.id);
 
-      // Garante que o cliente tambÃ©m tem histÃ³rico antigo (alternativo ao created_at)
+      // Garante que o cliente também tem histórico antigo (alternativo ao created_at)
       updateContactMutation.mutate({
         id: createdContact.id,
         updates: { lastPurchaseDate: fortyDaysAgo.toISOString() },
@@ -643,7 +643,7 @@ export const useInboxController = () => {
       entityId,
       action: 'DISMISSED',
     });
-    showToast('SugestÃ£o descartada', 'info');
+    showToast('Sugestão descartada', 'info');
   };
 
   const handleSnoozeSuggestion = (suggestionId: string) => {
@@ -676,10 +676,10 @@ export const useInboxController = () => {
       action: 'SNOOZED',
       snoozedUntil: tomorrow,
     });
-    showToast('SugestÃ£o adiada para amanhÃ£', 'info');
+    showToast('Sugestão adiada para amanhã', 'info');
   };
 
-  // --- MÃ©tricas ---
+  // --- Métricas ---
   const stats = useMemo(
     () => ({
       overdueCount: overdueActivities.length,
@@ -706,7 +706,7 @@ export const useInboxController = () => {
       });
     });
 
-    // 2. SugestÃµes de alta prioridade (prioridade 100-199)
+    // 2. Sugestões de alta prioridade (prioridade 100-199)
     aiSuggestions
       .filter(s => s.priority === 'high')
       .forEach((suggestion, i) => {
@@ -718,7 +718,7 @@ export const useInboxController = () => {
         });
       });
 
-    // 3. Hoje - ReuniÃµes primeiro por horÃ¡rio (prioridade 200-299)
+    // 3. Hoje - Reuniões primeiro por horário (prioridade 200-299)
     todayMeetings.forEach((activity, i) => {
       items.push({
         id: activity.id,
@@ -738,7 +738,7 @@ export const useInboxController = () => {
       });
     });
 
-    // 5. SugestÃµes de mÃ©dia/baixa prioridade (prioridade 400+)
+    // 5. Sugestões de média/baixa prioridade (prioridade 400+)
     aiSuggestions
       .filter(s => s.priority !== 'high')
       .forEach((suggestion, i) => {
@@ -756,7 +756,7 @@ export const useInboxController = () => {
   // Item atual no modo Focus
   const currentFocusItem = focusQueue[focusIndex] || null;
 
-  // NavegaÃ§Ã£o do Focus Mode
+  // Navegação do Focus Mode
   const handleFocusNext = useCallback(() => {
     if (focusIndex < focusQueue.length - 1) {
       setFocusIndex(prev => prev + 1);
@@ -770,9 +770,9 @@ export const useInboxController = () => {
   }, [focusIndex]);
 
   const handleFocusSkip = useCallback(() => {
-    // Pula para o prÃ³ximo (sem completar)
+    // Pula para o próximo (sem completar)
     handleFocusNext();
-    showToast('Pulado para o prÃ³ximo', 'info');
+    showToast('Pulado para o próximo', 'info');
   }, [handleFocusNext, showToast]);
 
   const handleFocusDone = useCallback(() => {
@@ -785,8 +785,8 @@ export const useInboxController = () => {
       handleAcceptSuggestion(item.data as AISuggestion);
     }
 
-    // MantÃ©m no mesmo Ã­ndice (prÃ³ximo item "sobe")
-    // SÃ³ avanÃ§a se era o Ãºltimo
+    // Mantém no mesmo índice (próximo item "sobe")
+    // Só avança se era o último
     if (focusIndex >= focusQueue.length - 1) {
       setFocusIndex(Math.max(0, focusQueue.length - 2));
     }
@@ -808,7 +808,7 @@ export const useInboxController = () => {
       handleSnoozeSuggestion(item.id);
     }
 
-    // MantÃ©m no mesmo Ã­ndice
+    // Mantém no mesmo índice
     if (focusIndex >= focusQueue.length - 1) {
       setFocusIndex(Math.max(0, focusQueue.length - 2));
     }
@@ -820,7 +820,7 @@ export const useInboxController = () => {
     handleSnoozeSuggestion,
   ]);
 
-  // Reset do Ã­ndice quando a fila muda
+  // Reset do índice quando a fila muda
   useEffect(() => {
     if (focusIndex >= focusQueue.length) {
       setFocusIndex(Math.max(0, focusQueue.length - 1));
@@ -846,7 +846,7 @@ export const useInboxController = () => {
     todayTasks,
     upcomingActivities,
 
-    // SugestÃµes de IA
+    // Sugestões de IA
     aiSuggestions,
 
     // Focus Mode
@@ -869,7 +869,7 @@ export const useInboxController = () => {
     handleSnoozeActivity,
     handleDiscardActivity,
 
-    // Handlers de SugestÃµes
+    // Handlers de Sugestões
     handleAcceptSuggestion,
     handleDismissSuggestion,
     handleSnoozeSuggestion,

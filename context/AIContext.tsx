@@ -16,7 +16,7 @@ const AIContext = createContext<AIContextType | undefined>(undefined);
 /**
  * Componente React `AIProvider`.
  *
- * @param {{ children: ReactNode; }} { children } - ParÃ¢metro `{ children }`.
+ * @param {{ children: ReactNode; }} { children } - Parâmetro `{ children }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const AIProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -32,7 +32,7 @@ export const AIProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
             ...context,
             user: context.user || {
                 id: user?.id || 'anon',
-                name: profile?.nickname || profile?.first_name || user?.email || 'UsuÃ¡rio',
+                name: profile?.nickname || profile?.first_name || user?.email || 'Usuário',
                 role: profile?.role || 'user',
             }
         };
@@ -75,7 +75,7 @@ export const AIProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
             setActiveContextState({
                 user: {
                     id: user.id,
-                    name: profile?.nickname || profile?.first_name || user.email || 'UsuÃ¡rio',
+                    name: profile?.nickname || profile?.first_name || user.email || 'Usuário',
                     role: profile?.role || 'user',
                 },
                 view: { type: 'global', url: pathname || '/' },
@@ -104,7 +104,7 @@ export const AIProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 /**
- * Hook React `useAI` que encapsula uma lÃ³gica reutilizÃ¡vel.
+ * Hook React `useAI` que encapsula uma lógica reutilizável.
  * @returns {AIContextType} Retorna um valor do tipo `AIContextType`.
  */
 export const useAI = () => {

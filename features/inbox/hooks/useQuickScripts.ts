@@ -6,9 +6,9 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { quickScriptsService, QuickScript, CreateScriptInput, ScriptCategory } from '@/lib/supabase/quickScripts';
 
 /**
- * Hook React `useQuickScripts` que encapsula uma lÃ³gica reutilizÃ¡vel.
+ * Hook React `useQuickScripts` que encapsula uma lógica reutilizável.
  *
- * @param {ScriptCategory | undefined} category - ParÃ¢metro `category`.
+ * @param {ScriptCategory | undefined} category - Parâmetro `category`.
  * @returns {{ scripts: QuickScript[]; isLoading: boolean; error: Error | null; createScript: UseMutationResult<QuickScript | null, Error, CreateScriptInput, unknown>; updateScript: UseMutationResult<...>; deleteScript: UseMutationResult<...>; applyVariables: (template: string, variables: Record<...>) => string; getCategoryInfo:...} Retorna um valor do tipo `{ scripts: QuickScript[]; isLoading: boolean; error: Error | null; createScript: UseMutationResult<QuickScript | null, Error, CreateScriptInput, unknown>; updateScript: UseMutationResult<...>; deleteScript: UseMutationResult<...>; applyVariables: (template: string, variables: Record<...>) => string; getCategoryInfo:...`.
  */
 export function useQuickScripts(category?: ScriptCategory) {

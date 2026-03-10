@@ -1,20 +1,20 @@
 ﻿/**
  * Consent Service - LGPD Compliance
  * 
- * Gerencia consentimento Ãºnico para uso de IA no sistema.
+ * Gerencia consentimento único para uso de IA no sistema.
  * 
- * SIMPLIFICADO: Um Ãºnico consentimento (AI_CONSENT) cobre:
- * - Processamento de dados por IA (anÃ¡lise, sugestÃµes, geraÃ§Ã£o de texto)
+ * SIMPLIFICADO: Um único consentimento (AI_CONSENT) cobre:
+ * - Processamento de dados por IA (análise, sugestões, geração de texto)
  * - Envio de dados para APIs externas (Google Gemini, OpenAI, Anthropic)
  * 
- * Conforme LGPD Art. 7 (bases legais) e Art. 11 (dados sensÃ­veis).
+ * Conforme LGPD Art. 7 (bases legais) e Art. 11 (dados sensíveis).
  */
 
 import { supabase } from './client';
 
 /** 
- * Tipo Ãºnico de consentimento para IA
- * Mantemos como union type para compatibilidade futura, mas sÃ³ usamos AI_CONSENT
+ * Tipo único de consentimento para IA
+ * Mantemos como union type para compatibilidade futura, mas só usamos AI_CONSENT
  */
 export type ConsentType = 'AI_CONSENT';
 
@@ -30,7 +30,7 @@ export interface UserConsent {
   created_at: string;
 }
 
-/** VersÃ£o atual do consentimento - incrementar quando houver mudanÃ§as no texto */
+/** Versão atual do consentimento - incrementar quando houver mudanças no texto */
 export const CONSENT_VERSION = '1.0.1';
 
 // Mantido para compatibilidade
@@ -168,18 +168,18 @@ export async function revokeConsent(type: ConsentType): Promise<boolean> {
 export function getConsentText(): { title: string; description: string; version: string } {
   return {
     title: 'Consentimento para Uso de IA',
-    description: `Ao aceitar, vocÃª autoriza:
+    description: `Ao aceitar, você autoriza:
 
-â€¢ O processamento de seus dados e contatos por APIs de InteligÃªncia Artificial externas (Google Gemini, OpenAI, Anthropic)
-â€¢ AnÃ¡lise de leads, sugestÃµes automatizadas e personalizaÃ§Ã£o de comunicaÃ§Ãµes
+â€¢ O processamento de seus dados e contatos por APIs de Inteligência Artificial externas (Google Gemini, OpenAI, Anthropic)
+â€¢ Análise de leads, sugestões automatizadas e personalização de comunicações
 
-ObservaÃ§Ã£o sobre ditado por voz (microfone):
-â€¢ O recurso de ditado/transcriÃ§Ã£o Ã© feito no seu navegador via Web Speech API.
+Observação sobre ditado por voz (microfone):
+â€¢ O recurso de ditado/transcrição é feito no seu navegador via Web Speech API.
 â€¢ Dependendo do navegador, o reconhecimento pode envolver processamento pelo fornecedor do navegador/OS.
 
-Seus dados serÃ£o tratados conforme nossa PolÃ­tica de Privacidade e a LGPD (Lei Geral de ProteÃ§Ã£o de Dados), incluindo Art. 11 para dados sensÃ­veis (voz).
+Seus dados serão tratados conforme nossa Política de Privacidade e a LGPD (Lei Geral de Proteção de Dados), incluindo Art. 11 para dados sensíveis (voz).
 
-VocÃª pode revogar este consentimento a qualquer momento nas ConfiguraÃ§Ãµes â†’ Privacidade.`,
+Você pode revogar este consentimento a qualquer momento nas Configurações â†’ Privacidade.`,
     version: CONSENT_VERSION,
   };
 }

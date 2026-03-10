@@ -1,12 +1,12 @@
 # 📊 RESUMO EXECUTIVO: ESTADO ATUAL DO AGENTE WHATSAPP
 
 **Data:** 10/02/2026
-**Status:** ✅ BUILD PASSANDO | ⚠️ PRONTO PARA TESTES | ❌ NÃO EM PRODUÇÃO AINDA
+**Status:** ✅ BUILD PASSANDO | ⚠️ PRONTO PARA TESTES | ❌ NÍO EM PRODUÇÍO AINDA
 **Red:** Analise aqui o que está pronto, o que precisa validar e qual é o plano de ataque.
 
 ---
 
-## 🎯 SITUAÇÃO ATUAL EM 3 LINHAS
+## 🎯 SITUAÇÍO ATUAL EM 3 LINHAS
 
 1. **Onde estávamos:** Agente conversacional rodando em N8n (produção, lento, caro)
 2. **Onde estamos agora:** Agente reconstruído em Vercel AI SDK v3 (código novo, build ok, não validado em runtime)
@@ -87,7 +87,7 @@
 - **Como testar?** Enviar: "Tem 2 quartos em Boa Viagem?" via Postman
 - **Esperado:** Agente chama `consultarBaseImoveis` com query "2 quartos Boa Viagem"
 - **Resultado da Tool:** Retorna até 5 imóveis com similaridade
-- **Status:** ❓ NÃO TESTADO
+- **Status:** ❓ NÍO TESTADO
 
 ### 2. **Histórico e Contexto Completo** (CRÍTICO)
 - **O que é?** Verificar se o agente lembra de mensagens anteriores
@@ -96,29 +96,29 @@
   - Msg 2: "Prefiro 2 quartos"
   - Msg 3: "Qual o valor?"
 - **Esperado:** Na msg 3, agente lembra que é 2Q (não repete pergunta)
-- **Status:** ❓ NÃO TESTADO
+- **Status:** ❓ NÍO TESTADO
 
 ### 3. **Transbordo Inteligente** (CRÍTICO)
 - **O que é?** Quando agente não consegue resolver, chama `acionarHumano`
 - **Como testar?** Enviar: "Tem imóvel comercial?"
 - **Esperado:** Agente chama `acionarHumano` com motivo relevante
-- **Status:** ❓ NÃO TESTADO
+- **Status:** ❓ NÍO TESTADO
 
 ### 4. **Formatação de Resposta** (IMPORTANTE)
 - **O que é?** Resposta não deve ter "vômito de dados"
 - **Como testar?** Verificar que resposta é legível e curta (<1000 chars)
 - **Esperado:** "Tenho 3 opções em Boa Viagem..." (não lista toda API response)
-- **Status:** ❓ NÃO TESTADO
+- **Status:** ❓ NÍO TESTADO
 
 ### 5. **Anti-spam / Buffer** (IMPORTANTE)
 - **O que é?** Se lead envia 5 msgs em 2s, deve bufferizar
 - **Como testar?** Enviar 5 mensagens com 100ms de delay
 - **Esperado:** Apenas 1 processada (outras em buffer)
-- **Status:** ❓ NÃO TESTADO
+- **Status:** ❓ NÍO TESTADO
 
 ---
 
-## ❌ O QUE NÃO ESTÁ IMPLEMENTADO (FUTURE)
+## ❌ O QUE NÍO ESTÁ IMPLEMENTADO (FUTURE)
 
 | Item | Por quê | Quando |
 |------|---------|--------|
@@ -155,7 +155,7 @@
 
 ## 🚀 PLANO DE ATAQUE (PRÓXIMOS 3 DIAS)
 
-### DIA 1: Validação P1 (HOJE/AMANHÃ)
+### DIA 1: Validação P1 (HOJE/AMANHÍ)
 
 - [ ] **09:00** Setup de teste com Postman
   - Arquivo: `test/webhook-simulator.postman.json` (criar)
@@ -215,7 +215,7 @@
 
 ---
 
-## 📚 DOCUMENTAÇÃO CRIADA HOJE
+## 📚 DOCUMENTAÇÍO CRIADA HOJE
 
 1. **`AGENTE_WHATSAPP_ANALISE_COMPLETA.md`** (Este resumo integrado)
    - Arquitetura completa
@@ -289,7 +289,7 @@
 
 ---
 
-## ⚡ RISCO & MITIGAÇÃO
+## ⚡ RISCO & MITIGAÇÍO
 
 | Risco | Impacto | Probabilidade | Mitigação |
 |-------|---------|---------------|-----------|

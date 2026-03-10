@@ -61,8 +61,8 @@ if (responseText.length > MAX_RESPONSE_LENGTH) {
 
 **Adicionado:**
 ```
-# ⚠️ INSTRUÇÃO CRÍTICA: RESPONDA APENAS O PERGUNTADO
-**NÃO CRIE CONTEÚDO ADICIONAL.** Responda EXATAMENTE o que foi perguntado:
+# ⚠️ INSTRUÇÍO CRÍTICA: RESPONDA APENAS O PERGUNTADO
+**NÍO CRIE CONTEÚDO ADICIONAL.** Responda EXATAMENTE o que foi perguntado:
 - Se perguntam "Qual o preço?" → Responda apenas o preço
 - Se perguntam "Tem piscina?" → Responda sim/não + breve detalhe
 - Se perguntam "Qual seu nome?" → Responda seu nome

@@ -20,11 +20,11 @@ type DbPromptRow = {
 };
 
 /**
- * FunÃ§Ã£o pÃºblica `getResolvedPrompt` do projeto.
+ * Função pública `getResolvedPrompt` do projeto.
  *
- * @param {SupabaseClient<any, "public", "public", any, any>} supabase - ParÃ¢metro `supabase`.
+ * @param {SupabaseClient<any, "public", "public", any, any>} supabase - Parâmetro `supabase`.
  * @param {string} organizationId - Identificador do recurso.
- * @param {string} key - ParÃ¢metro `key`.
+ * @param {string} key - Parâmetro `key`.
  * @returns {Promise<PromptResolution | null>} Retorna um valor do tipo `Promise<PromptResolution | null>`.
  */
 export async function getResolvedPrompt(
@@ -44,7 +44,7 @@ export async function getResolvedPrompt(
     .maybeSingle();
 
   if (error) {
-    // NÃ£o quebrar IA por falha em prompt override; apenas log e fallback.
+    // Não quebrar IA por falha em prompt override; apenas log e fallback.
     console.warn('[ai/prompts] Failed to load override; using default.', { key, message: error.message });
   }
 

@@ -1,4 +1,4 @@
-# 🚀 MELHORES PRÁTICAS: VERCEL AI SDK PARA AGENTES EM PRODUÇÃO
+# 🚀 MELHORES PRÁTICAS: VERCEL AI SDK PARA AGENTES EM PRODUÇÍO
 
 **Red, este é um guia que consolida as melhores práticas de 2026 para sua arquitetura Vercel AI SDK com Anthropic.**
 
@@ -52,7 +52,7 @@ export const consultarBaseImoveis = tool({
         }).optional().describe('Filtros opcionais'),
     }),
 
-    // ✅ ADIÇÃO CRÍTICA: Input examples clarificam expectativa
+    // ✅ ADIÇÍO CRÍTICA: Input examples clarificam expectativa
     inputExamples: [
         {
             query: '2 quartos em Boa Viagem até 500 mil',
@@ -82,7 +82,7 @@ export const consultarBaseImoveis = tool({
 
 ---
 
-### 2. VALIDAÇÃO & TRIMMING DE RESPOSTA
+### 2. VALIDAÇÍO & TRIMMING DE RESPOSTA
 
 **Já implementado!** Seu código tem:
 ```typescript
@@ -256,7 +256,7 @@ export async function saveChatMessageSafe(
 
 ---
 
-## 📋 CHECKLIST: PRONTO PARA PRODUÇÃO?
+## 📋 CHECKLIST: PRONTO PARA PRODUÇÍO?
 
 ### Segurança
 - [x] Zod schemas em todas as tools
@@ -295,7 +295,7 @@ export async function saveChatMessageSafe(
 
 ---
 
-## 🔧 IMPLEMENTAÇÃO RÁPIDA (Próximas 2 Horas)
+## 🔧 IMPLEMENTAÇÍO RÁPIDA (Próximas 2 Horas)
 
 ### Passo 1: Adicione inputExamples (10 min)
 ```bash

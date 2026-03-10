@@ -3,7 +3,7 @@
 /**
  * Static admin client (service role) for non-Next runtimes.
  *
- * - NÃ£o depende de `next/headers` nem de `server-only`
+ * - Não depende de `next/headers` nem de `server-only`
  * - Seguro para uso em scripts/CLI e em agentes (sem cookies)
  */
 export function createStaticAdminClient() {

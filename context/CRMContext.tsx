@@ -1,14 +1,14 @@
 ﻿/**
  * @fileoverview Contexto Principal do CRM
  * 
- * Provider composto que agrega todos os contextos de domÃ­nio (deals, contacts,
+ * Provider composto que agrega todos os contextos de domínio (deals, contacts,
  * activities, boards, settings) em uma API unificada para compatibilidade.
  * 
  * @module context/CRMContext
  * 
  * Este contexto serve como camada de compatibilidade, delegando para
  * contextos especializados internamente. Para novos desenvolvimentos,
- * considere usar os hooks especÃ­ficos diretamente.
+ * considere usar os hooks específicos diretamente.
  * 
  * @example
  * ```tsx
@@ -21,7 +21,7 @@
  *   setAiApiKey
  * } = useCRM();
  * 
- * // Alternativa: hooks especÃ­ficos (recomendado)
+ * // Alternativa: hooks específicos (recomendado)
  * import { useDeals } from '@/context/deals/DealsContext';
  * const { rawDeals, addDeal } = useDeals();
  * ```
@@ -59,14 +59,14 @@ import { SettingsProvider, useSettings } from './settings/SettingsContext';
 /**
  * Tipo do contexto CRM unificado
  * 
- * Interface de compatibilidade que expÃµe funcionalidades de todos os
- * contextos de domÃ­nio. Mantida para cÃ³digo legado.
+ * Interface de compatibilidade que expõe funcionalidades de todos os
+ * contextos de domínio. Mantida para código legado.
  * 
  * @interface CRMContextType
  */
 interface CRMContextType {
   // Loading states
-  /** Se algum contexto estÃ¡ carregando */
+  /** Se algum contexto está carregando */
   loading: boolean;
   /** Primeiro erro encontrado, se houver */
   error: string | null;
@@ -80,17 +80,17 @@ interface CRMContextType {
   contacts: Contact[];
   /** @deprecated Usar leadsFromContacts */
   leads: Lead[];
-  /** Contatos em estÃ¡gio de lead */
+  /** Contatos em estágio de lead */
   leadsFromContacts: Contact[];
-  /** CatÃ¡logo de produtos */
+  /** Catálogo de produtos */
   products: Product[];
-  /** DefiniÃ§Ãµes de campos customizados */
+  /** Definições de campos customizados */
   customFieldDefinitions: CustomFieldDefinition[];
-  /** Tags disponÃ­veis */
+  /** Tags disponíveis */
   availableTags: string[];
 
   // Lifecycle Stages
-  /** EstÃ¡gios do funil de lifecycle */
+  /** Estágios do funil de lifecycle */
   lifecycleStages: LifecycleStage[];
   addLifecycleStage: (stage: Omit<LifecycleStage, 'id' | 'order'>) => Promise<LifecycleStage | null>;
   updateLifecycleStage: (id: string, updates: Partial<LifecycleStage>) => Promise<void>;
@@ -118,7 +118,7 @@ interface CRMContextType {
   removeItemFromDeal: (dealId: string, itemId: string) => Promise<void>;
 
   // Activities
-  /** Lista de atividades (tarefas, reuniÃµes) */
+  /** Lista de atividades (tarefas, reuniões) */
   activities: Activity[];
   addActivity: (activity: Omit<Activity, 'id' | 'createdAt'>) => Promise<Activity | null>;
   updateActivity: (id: string, updates: Partial<Activity>) => Promise<void>;
@@ -154,7 +154,7 @@ interface CRMContextType {
   removeTag: (tag: string) => void;
 
   // Utilities
-  /** Verifica saÃºde da carteira */
+  /** Verifica saúde da carteira */
   checkWalletHealth: () => Promise<number>;
   checkStagnantDeals: () => Promise<number>;
 
@@ -367,7 +367,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const optimisticBoardId = deal.boardId || '';
     const optimisticStageId = deal.status || '';
     const optimisticStageLabel =
-      activeBoard?.stages?.find((s) => s.id === optimisticStageId)?.label || 'EstÃ¡gio nÃ£o identificado';
+      activeBoard?.stages?.find((s) => s.id === optimisticStageId)?.label || 'Estágio não identificado';
     const optimisticContactName = (relatedData?.contact?.name || 'Sem contato').trim() || 'Sem contato';
     const optimisticContactEmail = (relatedData?.contact?.email || '').trim();
     const optimisticCompanyName = (relatedData?.companyName || 'Sem empresa').trim() || 'Sem empresa';
@@ -566,7 +566,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         dealId: createdDeal.id,
         dealTitle: createdDeal.title,
         type: 'STATUS_CHANGE',
-        title: 'NegÃ³cio Criado',
+        title: 'Negócio Criado',
         date: new Date().toISOString(),
         user: { name: 'Eu', avatar: 'https://i.pravatar.cc/150?u=me' },
         completed: true,
@@ -586,7 +586,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   }, [companies, contacts, activeBoard, addCompany, addContact, addDealState, addActivity, queryClient]);
 
   // moveDeal foi removido - use useMoveDeal de @/lib/query/hooks
-  // O hook unificado trata: detecÃ§Ã£o won/lost, atividades, LinkedStage, etc.
+  // O hook unificado trata: detecção won/lost, atividades, LinkedStage, etc.
 
   const convertContactToDeal = useCallback(async (contactId: string) => {
     const contact = contacts.find(c => c.id === contactId);
@@ -605,7 +605,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
     if (activeBoard && activeBoard.stages.length > 0) {
       const newDeal: Omit<Deal, 'id' | 'createdAt'> = {
-        title: `NegÃ³cio com ${contact.name}`,
+        title: `Negócio com ${contact.name}`,
         companyId,
         contactId: contact.id,
         boardId: activeBoardId,
@@ -664,7 +664,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     if (!newContact || !activeBoard || activeBoard.stages.length === 0) return;
 
     const newDeal: Omit<Deal, 'id' | 'createdAt'> = {
-      title: `NegÃ³cio com ${lead.companyName}`,
+      title: `Negócio com ${lead.companyName}`,
       companyId: newCompany.id,
       contactId: newContact.id,
       boardId: activeBoardId,
@@ -703,12 +703,12 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
     const riskyContacts = contacts.filter(c => {
-      // PadrÃ£o de mercado: sÃ³ considerar clientes ativos (nÃ£o leads)
+      // Padrão de mercado: só considerar clientes ativos (não leads)
       if (c.status !== 'ACTIVE' || c.stage !== 'CUSTOMER') return false;
 
       const createdAtTs = Date.parse(c.createdAt);
 
-      // Sem histÃ³rico: carÃªncia de 30 dias apÃ³s criaÃ§Ã£o
+      // Sem histórico: carência de 30 dias após criação
       if (!c.lastPurchaseDate && !c.lastInteraction) {
         return createdAtTs < thirtyDaysAgo.getTime();
       }
@@ -728,7 +728,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     for (const contact of riskyContacts) {
       const existingTask = activities.find(
         a =>
-          a.title === 'AnÃ¡lise de Carteira: Risco de Churn' &&
+          a.title === 'Análise de Carteira: Risco de Churn' &&
           a.description?.includes(contact.name) &&
           !a.completed
       );
@@ -738,8 +738,8 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
           dealId: '',
           dealTitle: 'Carteira de Clientes',
           type: 'TASK',
-          title: 'AnÃ¡lise de Carteira: Risco de Churn',
-          description: `O cliente ${contact.name} ${companies.find(c => c.id === (contact.clientCompanyId || contact.companyId))?.name ? `(Empresa: ${companies.find(c => c.id === (contact.clientCompanyId || contact.companyId))?.name})` : ''} estÃ¡ inativo hÃ¡ mais de 30 dias.`,
+          title: 'Análise de Carteira: Risco de Churn',
+          description: `O cliente ${contact.name} ${companies.find(c => c.id === (contact.clientCompanyId || contact.companyId))?.name ? `(Empresa: ${companies.find(c => c.id === (contact.clientCompanyId || contact.companyId))?.name})` : ''} está inativo há mais de 30 dias.`,
           date: new Date().toISOString(),
           user: { name: 'Sistema', avatar: '' },
           completed: false,
@@ -766,11 +766,11 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     if (stagnantDeals.length > 0) {
       for (const deal of stagnantDeals.slice(0, 3)) {
         const existingAlert = activities.find(
-          a => a.dealId === deal.id && a.title === 'Alerta de EstagnaÃ§Ã£o' && !a.completed
+          a => a.dealId === deal.id && a.title === 'Alerta de Estagnação' && !a.completed
         );
 
         if (!existingAlert) {
-          // Buscar o label do estÃ¡gio para a mensagem (nÃ£o UUID)
+          // Buscar o label do estágio para a mensagem (não UUID)
           const board = getBoardById(deal.boardId);
           const stageLabel = board?.stages.find(s => s.id === deal.status)?.label || deal.status;
 
@@ -778,8 +778,8 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
             dealId: deal.id,
             dealTitle: deal.title,
             type: 'TASK',
-            title: 'Alerta de EstagnaÃ§Ã£o',
-            description: `Oportunidade parada em ${stageLabel} hÃ¡ mais de 10 dias.`,
+            title: 'Alerta de Estagnação',
+            description: `Oportunidade parada em ${stageLabel} há mais de 10 dias.`,
             date: new Date().toISOString(),
             user: { name: 'Sistema', avatar: '' },
             completed: false,
@@ -956,7 +956,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 /**
  * Componente React `CRMProvider`.
  *
- * @param {{ children: ReactNode; }} { children } - ParÃ¢metro `{ children }`.
+ * @param {{ children: ReactNode; }} { children } - Parâmetro `{ children }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
 export const CRMProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -980,7 +980,7 @@ export const CRMProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 // ============================================
 
 /**
- * Hook React `useCRM` que encapsula uma lÃ³gica reutilizÃ¡vel.
+ * Hook React `useCRM` que encapsula uma lógica reutilizável.
  * @returns {CRMContextType} Retorna um valor do tipo `CRMContextType`.
  */
 export const useCRM = () => {

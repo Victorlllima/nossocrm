@@ -1,15 +1,15 @@
 ﻿/**
- * @fileoverview ServiÃ§o Supabase para gerenciamento de deals (negÃ³cios/oportunidades).
+ * @fileoverview Serviço Supabase para gerenciamento de deals (negócios/oportunidades).
  * 
- * Este mÃ³dulo fornece operaÃ§Ãµes CRUD para deals e seus itens,
- * com transformaÃ§Ã£o automÃ¡tica entre o formato do banco e o formato da aplicaÃ§Ã£o.
+ * Este módulo fornece operações CRUD para deals e seus itens,
+ * com transformação automática entre o formato do banco e o formato da aplicação.
  * 
  * ## Conceitos de Deal
  * 
- * - Deals sÃ£o oportunidades de venda em um pipeline/board
+ * - Deals são oportunidades de venda em um pipeline/board
  * - `stage_id` define a coluna atual no kanban
  * - `is_won` / `is_lost` indicam se o deal foi fechado
- * - `board_id` Ã© obrigatÃ³rio e define qual pipeline o deal pertence
+ * - `board_id` é obrigatório e define qual pipeline o deal pertence
  * 
  * @module lib/supabase/deals
  */
@@ -51,18 +51,18 @@ async function getCurrentOrganizationId(): Promise<string | null> {
 // ============================================
 
 /**
- * RepresentaÃ§Ã£o de deal no banco de dados.
+ * Representação de deal no banco de dados.
  * 
  * @interface DbDeal
  */
 export interface DbDeal {
-  /** ID Ãºnico do deal (UUID). */
+  /** ID único do deal (UUID). */
   id: string;
-  /** ID da organizaÃ§Ã£o/tenant. */
+  /** ID da organização/tenant. */
   organization_id: string;
-  /** TÃ­tulo do deal. */
+  /** Título do deal. */
   title: string;
-  /** Valor monetÃ¡rio do deal. */
+  /** Valor monetário do deal. */
   value: number;
   /** Probabilidade de fechamento (0-100). */
   probability: number;
@@ -72,7 +72,7 @@ export interface DbDeal {
   priority: string;
   /** ID do board/pipeline. */
   board_id: string | null;
-  /** ID do estÃ¡gio atual no kanban. */
+  /** ID do estágio atual no kanban. */
   stage_id: string | null;
   /** ID do contato associado. */
   contact_id: string | null;
@@ -80,19 +80,19 @@ export interface DbDeal {
   client_company_id: string | null;
   /** Resumo gerado por IA. */
   ai_summary: string | null;
-  /** Motivo da perda, se aplicÃ¡vel. */
+  /** Motivo da perda, se aplicável. */
   loss_reason: string | null;
   /** Tags associadas. */
   tags: string[];
-  /** Data da Ãºltima mudanÃ§a de estÃ¡gio. */
+  /** Data da última mudança de estágio. */
   last_stage_change_date: string | null;
   /** Campos customizados. */
   custom_fields: Record<string, any>;
-  /** Data de criaÃ§Ã£o. */
+  /** Data de criação. */
   created_at: string;
-  /** Data de atualizaÃ§Ã£o. */
+  /** Data de atualização. */
   updated_at: string;
-  /** ID do dono/responsÃ¡vel. */
+  /** ID do dono/responsável. */
   owner_id: string | null;
   /** Indica se o deal foi ganho. */
   is_won: boolean;
@@ -103,38 +103,38 @@ export interface DbDeal {
 }
 
 /**
- * RepresentaÃ§Ã£o de item de deal no banco de dados.
+ * Representação de item de deal no banco de dados.
  * 
  * @interface DbDealItem
  */
 export interface DbDealItem {
-  /** ID Ãºnico do item. */
+  /** ID único do item. */
   id: string;
-  /** ID da organizaÃ§Ã£o/tenant. */
+  /** ID da organização/tenant. */
   organization_id: string;
   /** ID do deal pai. */
   deal_id: string;
-  /** ID do produto do catÃ¡logo. */
+  /** ID do produto do catálogo. */
   product_id: string | null;
   /** Nome do item. */
   name: string;
   /** Quantidade. */
   quantity: number;
-  /** PreÃ§o unitÃ¡rio. */
+  /** Preço unitário. */
   price: number;
-  /** Data de criaÃ§Ã£o. */
+  /** Data de criação. */
   created_at: string;
 }
 
 /**
- * Transforma deal do formato DB para o formato da aplicaÃ§Ã£o.
+ * Transforma deal do formato DB para o formato da aplicação.
  * 
  * @param db - Deal no formato do banco.
  * @param items - Itens do deal no formato do banco.
- * @returns Deal no formato da aplicaÃ§Ã£o.
+ * @returns Deal no formato da aplicação.
  */
 const transformDeal = (db: DbDeal, items: DbDealItem[]): Deal => {
-  // Usar stage_id como status (UUID do estÃ¡gio no kanban)
+  // Usar stage_id como status (UUID do estágio no kanban)
   // is_won e is_lost indicam se o deal foi fechado
   const stageStatus = db.stage_id || db.status || '';
 
@@ -176,9 +176,9 @@ const transformDeal = (db: DbDeal, items: DbDealItem[]): Deal => {
 };
 
 /**
- * Transforma deal do formato da aplicaÃ§Ã£o para o formato DB.
+ * Transforma deal do formato da aplicação para o formato DB.
  * 
- * @param deal - Deal parcial no formato da aplicaÃ§Ã£o.
+ * @param deal - Deal parcial no formato da aplicação.
  * @returns Deal parcial no formato do banco.
  */
 const transformDealToDb = (deal: Partial<Deal>): Partial<DbDeal> => {
@@ -188,7 +188,7 @@ const transformDealToDb = (deal: Partial<Deal>): Partial<DbDeal> => {
   if (deal.value !== undefined) db.value = deal.value;
   if (deal.probability !== undefined) db.probability = deal.probability;
 
-  // Status = stage_id (UUID do estÃ¡gio no kanban)
+  // Status = stage_id (UUID do estágio no kanban)
   if (deal.status !== undefined && isValidUUID(deal.status)) {
     db.stage_id = deal.status;
   }
@@ -215,10 +215,10 @@ const transformDealToDb = (deal: Partial<Deal>): Partial<DbDeal> => {
 };
 
 /**
- * ServiÃ§o de deals do Supabase.
+ * Serviço de deals do Supabase.
  * 
- * Fornece operaÃ§Ãµes CRUD para a tabela `deals` e `deal_items`.
- * Deals representam oportunidades de venda em diferentes estÃ¡gios do pipeline.
+ * Fornece operações CRUD para a tabela `deals` e `deal_items`.
+ * Deals representam oportunidades de venda em diferentes estágios do pipeline.
  * 
  * @example
  * ```typescript
@@ -234,14 +234,14 @@ const transformDealToDb = (deal: Partial<Deal>): Partial<DbDeal> => {
  */
 export const dealsService = {
   /**
-   * Busca todos os deals da organizaÃ§Ã£o com seus itens.
+   * Busca todos os deals da organização com seus itens.
    * 
    * @returns Promise com array de deals ou erro.
    */
   async getAll(): Promise<{ data: Deal[] | null; error: Error | null }> {
     try {
       if (!supabase) {
-        return { data: null, error: new Error('Supabase nÃ£o configurado') };
+        return { data: null, error: new Error('Supabase não configurado') };
       }
       const [dealsResult, itemsResult] = await Promise.all([
         supabase.from('deals').select('*').order('created_at', { ascending: false }),
@@ -261,7 +261,7 @@ export const dealsService = {
   },
 
   /**
-   * Busca um deal especÃ­fico pelo ID.
+   * Busca um deal específico pelo ID.
    * 
    * @param id - ID do deal.
    * @returns Promise com o deal ou erro.
@@ -269,7 +269,7 @@ export const dealsService = {
   async getById(id: string): Promise<{ data: Deal | null; error: Error | null }> {
     try {
       if (!supabase) {
-        return { data: null, error: new Error('Supabase nÃ£o configurado') };
+        return { data: null, error: new Error('Supabase não configurado') };
       }
       const [dealResult, itemsResult] = await Promise.all([
         supabase.from('deals').select('*').eq('id', id).single(),
@@ -292,17 +292,17 @@ export const dealsService = {
    * 
    * @param deal - Dados do deal (sem id e createdAt).
    * @returns Promise com deal criado ou erro.
-   * @throws Error se board_id for invÃ¡lido ou nÃ£o existir.
+   * @throws Error se board_id for inválido ou não existir.
    */
   async create(deal: Omit<Deal, 'id' | 'createdAt'> & { stageId?: string }): Promise<{ data: Deal | null; error: Error | null }> {
     try {
       if (!supabase) {
-        return { data: null, error: new Error('Supabase nÃ£o configurado') };
+        return { data: null, error: new Error('Supabase não configurado') };
       }
       // stageId pode vir separado ou ser o mesmo que status
       const stageId = deal.stageId || deal.status || null;
 
-      // ValidaÃ§Ã£o: board_id Ã© OBRIGATÃ“RIO e deve existir
+      // Validação: board_id é OBRIGATÍ“RIO e deve existir
       let boardId: string;
       try {
         boardId = requireUUID(deal.boardId, 'Board ID');
@@ -310,11 +310,11 @@ export const dealsService = {
         return { data: null, error: e as Error };
       }
 
-      // organization_id Ã© obrigatÃ³rio no banco. Se nÃ£o vier do caller, inferimos pelo board.
+      // organization_id é obrigatório no banco. Se não vier do caller, inferimos pelo board.
       // (Evita deals com organization_id NULL que somem de ferramentas e quebram isolamento multi-tenant.)
       let organizationId: string | null = sanitizeUUID((deal as any).organizationId);
 
-      // ValidaÃ§Ã£o: verifica se o board existe antes de inserir
+      // Validação: verifica se o board existe antes de inserir
       const { data: boardExists, error: boardCheckError } = await supabase
         .from('boards')
         .select('id, organization_id')
@@ -324,7 +324,7 @@ export const dealsService = {
       if (boardCheckError || !boardExists) {
         return {
           data: null,
-          error: new Error(`Board nÃ£o encontrado: ${boardId}. Recarregue a pÃ¡gina.`)
+          error: new Error(`Board não encontrado: ${boardId}. Recarregue a página.`)
         };
       }
 
@@ -352,7 +352,7 @@ export const dealsService = {
       if (!organizationId) {
         return {
           data: null,
-          error: new Error('OrganizaÃ§Ã£o nÃ£o identificada para este deal. FaÃ§a logout/login ou recarregue a pÃ¡gina e tente novamente.')
+          error: new Error('Organização não identificada para este deal. Faça logout/login ou recarregue a página e tente novamente.')
         };
       }
 
@@ -371,8 +371,8 @@ export const dealsService = {
         custom_fields: deal.customFields || {},
         owner_id: sanitizeUUID(deal.ownerId),
         // Importante: deals legados podem ficar com is_won/is_lost = NULL se o schema
-        // estiver permissivo ou se defaults nÃ£o estiverem aplicados. ForÃ§amos valores
-        // explÃ­citos para evitar que deals "abertos" sumam de queries que filtram por FALSE.
+        // estiver permissivo ou se defaults não estiverem aplicados. Forçamos valores
+        // explícitos para evitar que deals "abertos" sumam de queries que filtram por FALSE.
         is_won: deal.isWon ?? false,
         is_lost: deal.isLost ?? false,
         closed_at: deal.closedAt ?? null,
@@ -386,10 +386,10 @@ export const dealsService = {
 
       if (error) {
         // Trata erro de duplicidade do backend
-        if (error.code === '23505' || error.message?.includes('unique_violation') || error.message?.includes('JÃ¡ existe um negÃ³cio')) {
+        if (error.code === '23505' || error.message?.includes('unique_violation') || error.message?.includes('Já existe um negócio')) {
           return {
             data: null,
-            error: new Error('JÃ¡ existe um negÃ³cio com este tÃ­tulo para este contato. Altere o tÃ­tulo ou selecione outro contato.')
+            error: new Error('Já existe um negócio com este título para este contato. Altere o título ou selecione outro contato.')
           };
         }
         return { data: null, error };
@@ -430,7 +430,7 @@ export const dealsService = {
   async update(id: string, updates: Partial<Deal>): Promise<{ error: Error | null }> {
     try {
       if (!supabase) {
-        return { error: new Error('Supabase nÃ£o configurado') };
+        return { error: new Error('Supabase não configurado') };
       }
       const dbUpdates = transformDealToDb(updates);
       dbUpdates.updated_at = new Date().toISOString();
@@ -442,9 +442,9 @@ export const dealsService = {
 
       if (error) {
         // Trata erro de duplicidade do backend
-        if (error.code === '23505' || error.message?.includes('unique_violation') || error.message?.includes('JÃ¡ existe um negÃ³cio')) {
+        if (error.code === '23505' || error.message?.includes('unique_violation') || error.message?.includes('Já existe um negócio')) {
           return {
-            error: new Error('JÃ¡ existe um negÃ³cio com este tÃ­tulo para este contato. Altere o tÃ­tulo ou selecione outro contato.')
+            error: new Error('Já existe um negócio com este título para este contato. Altere o título ou selecione outro contato.')
           };
         }
         return { error };
@@ -459,7 +459,7 @@ export const dealsService = {
   async delete(id: string): Promise<{ error: Error | null }> {
     try {
       if (!supabase) {
-        return { error: new Error('Supabase nÃ£o configurado') };
+        return { error: new Error('Supabase não configurado') };
       }
       // Items are deleted automatically via CASCADE
       const { error } = await supabase
@@ -476,7 +476,7 @@ export const dealsService = {
   async deleteByBoardId(boardId: string): Promise<{ error: Error | null }> {
     try {
       if (!supabase) {
-        return { error: new Error('Supabase nÃ£o configurado') };
+        return { error: new Error('Supabase não configurado') };
       }
       // Items are deleted automatically via CASCADE
       const { error } = await supabase
@@ -493,7 +493,7 @@ export const dealsService = {
   async addItem(dealId: string, item: Omit<DealItem, 'id'>): Promise<{ data: DealItem | null; error: Error | null }> {
     try {
       if (!supabase) {
-        return { data: null, error: new Error('Supabase nÃ£o configurado') };
+        return { data: null, error: new Error('Supabase não configurado') };
       }
       const { data, error } = await supabase
         .from('deal_items')
@@ -530,7 +530,7 @@ export const dealsService = {
   async removeItem(dealId: string, itemId: string): Promise<{ error: Error | null }> {
     try {
       if (!supabase) {
-        return { error: new Error('Supabase nÃ£o configurado') };
+        return { error: new Error('Supabase não configurado') };
       }
       const { error } = await supabase
         .from('deal_items')
@@ -551,7 +551,7 @@ export const dealsService = {
   async recalculateDealValue(dealId: string): Promise<{ error: Error | null }> {
     try {
       if (!supabase) {
-        return { error: new Error('Supabase nÃ£o configurado') };
+        return { error: new Error('Supabase não configurado') };
       }
       const { data: items } = await supabase
         .from('deal_items')
@@ -575,7 +575,7 @@ export const dealsService = {
   async markAsWon(dealId: string): Promise<{ error: Error | null }> {
     try {
       if (!supabase) {
-        return { error: new Error('Supabase nÃ£o configurado') };
+        return { error: new Error('Supabase não configurado') };
       }
       const { error } = await supabase
         .from('deals')
@@ -597,7 +597,7 @@ export const dealsService = {
   async markAsLost(dealId: string, lossReason?: string): Promise<{ error: Error | null }> {
     try {
       if (!supabase) {
-        return { error: new Error('Supabase nÃ£o configurado') };
+        return { error: new Error('Supabase não configurado') };
       }
       const updates: Record<string, any> = {
         is_lost: true,
@@ -625,7 +625,7 @@ export const dealsService = {
   async reopen(dealId: string): Promise<{ error: Error | null }> {
     try {
       if (!supabase) {
-        return { error: new Error('Supabase nÃ£o configurado') };
+        return { error: new Error('Supabase não configurado') };
       }
       const { error } = await supabase
         .from('deals')

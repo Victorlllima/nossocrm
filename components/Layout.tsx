@@ -1,15 +1,15 @@
 ﻿/**
- * @fileoverview Layout Principal da AplicaÃ§Ã£o
+ * @fileoverview Layout Principal da Aplicação
  *
- * Componente de layout que fornece estrutura base para todas as pÃ¡ginas,
- * incluindo sidebar de navegaÃ§Ã£o, header e Ã¡rea de conteÃºdo.
+ * Componente de layout que fornece estrutura base para todas as páginas,
+ * incluindo sidebar de navegação, header e área de conteúdo.
  *
  * @module components/Layout
  *
  * Recursos de Acessibilidade:
- * - Skip link para navegaÃ§Ã£o por teclado
- * - NavegaÃ§Ã£o com aria-current para pÃ¡gina ativa
- * - Ãcones decorativos com aria-hidden
+ * - Skip link para navegação por teclado
+ * - Navegação com aria-current para página ativa
+ * - Ícones decorativos com aria-hidden
  * - Suporte a prefetch em hover/focus
  *
  * @example
@@ -63,22 +63,22 @@ import { NotificationPopover } from './notifications/NotificationPopover';
 /**
  * Props do componente Layout
  * @interface LayoutProps
- * @property {React.ReactNode} children - ConteÃºdo da pÃ¡gina
+ * @property {React.ReactNode} children - Conteúdo da página
  */
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 /**
- * Item de navegaÃ§Ã£o da sidebar
+ * Item de navegação da sidebar
  *
- * @param props - Props do item de navegaÃ§Ã£o
+ * @param props - Props do item de navegação
  * @param props.to - Rota de destino
- * @param props.icon - Componente de Ã­cone Lucide
+ * @param props.icon - Componente de ícone Lucide
  * @param props.label - Label exibido
  * @param props.prefetch - Nome da rota para prefetch
- * @param props.clickedPath - Path que foi clicado (para manter highlight durante transiÃ§Ã£o)
- * @param props.onItemClick - Callback quando o item Ã© clicado
+ * @param props.clickedPath - Path que foi clicado (para manter highlight durante transição)
+ * @param props.onItemClick - Callback quando o item é clicado
  */
 const NavItem = ({
   to,
@@ -124,10 +124,10 @@ const NavItem = ({
 
 
 /**
- * Layout principal da aplicaÃ§Ã£o
+ * Layout principal da aplicação
  *
- * Fornece estrutura com sidebar fixa, header responsivo e Ã¡rea de conteÃºdo.
- * Inclui navegaÃ§Ã£o, controles de tema e acesso ao assistente de IA.
+ * Fornece estrutura com sidebar fixa, header responsivo e área de conteúdo.
+ * Inclui navegação, controles de tema e acesso ao assistente de IA.
  *
  * @param {LayoutProps} props - Props do componente
  * @returns {JSX.Element} Estrutura de layout completa
@@ -153,7 +153,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   }, []);
 
   // If the user signed out (or session expired), leave protected shell ASAP.
-  // This prevents rendering fallbacks like "UsuÃ¡rio" while unauthenticated.
+  // This prevents rendering fallbacks like "Usuário" while unauthenticated.
   useEffect(() => {
     if (loading) return;
     // Bypass redirect if in dev mode
@@ -282,15 +282,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             )}
           </div>
 
-          <nav className={`flex-1 p-4 space-y-2 flex flex-col ${sidebarCollapsed ? 'items-center px-2' : ''}`} aria-label="NavegaÃ§Ã£o do sistema">
+          <nav className={`flex-1 p-4 space-y-2 flex flex-col ${sidebarCollapsed ? 'items-center px-2' : ''}`} aria-label="Navegação do sistema">
             {[
               { to: '/inbox', icon: Inbox, label: 'Inbox', prefetch: 'inbox' as const },
-              { to: '/dashboard', icon: LayoutDashboard, label: 'VisÃ£o Geral', prefetch: 'dashboard' as const },
+              { to: '/dashboard', icon: LayoutDashboard, label: 'Visão Geral', prefetch: 'dashboard' as const },
               { to: '/boards', icon: KanbanSquare, label: 'Boards', prefetch: 'boards' as const },
               { to: '/contacts', icon: Users, label: 'Contatos', prefetch: 'contacts' as const },
               { to: '/activities', icon: CheckSquare, label: 'Atividades', prefetch: 'activities' as const },
-              { to: '/reports', icon: BarChart3, label: 'RelatÃ³rios', prefetch: 'reports' as const },
-              { to: '/settings', icon: Settings, label: 'ConfiguraÃ§Ãµes', prefetch: 'settings' as const },
+              { to: '/reports', icon: BarChart3, label: 'Relatórios', prefetch: 'reports' as const },
+              { to: '/settings', icon: Settings, label: 'Configurações', prefetch: 'settings' as const },
             ].map((item) => {
               if (sidebarCollapsed) {
                 return (
@@ -373,7 +373,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   <>
                     <div className="flex-1 min-w-0 text-left">
                       <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">
-                        {profile?.nickname || profile?.first_name || profile?.email?.split('@')[0] || 'UsuÃ¡rio'}
+                        {profile?.nickname || profile?.first_name || profile?.email?.split('@')[0] || 'Usuário'}
                       </p>
                       <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
                         {profile?.email || ''}

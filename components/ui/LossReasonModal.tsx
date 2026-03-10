@@ -10,10 +10,10 @@ interface LossReasonModalProps {
 }
 
 const QUICK_REASONS = [
-  { label: 'PreÃ§o', icon: DollarSign, value: 'PreÃ§o muito alto' },
-  { label: 'ConcorrÃªncia', icon: Users, value: 'Perdeu para concorrente' },
+  { label: 'Preço', icon: DollarSign, value: 'Preço muito alto' },
+  { label: 'Concorrência', icon: Users, value: 'Perdeu para concorrente' },
   { label: 'Timing', icon: Clock, value: 'Momento inadequado' },
-  { label: 'DesistÃªncia', icon: X, value: 'Cliente desistiu' },
+  { label: 'Desistência', icon: X, value: 'Cliente desistiu' },
   { label: 'Outro', icon: HelpCircle, value: '' },
 ];
 
@@ -79,7 +79,7 @@ export const LossReasonModal: React.FC<LossReasonModalProps> = ({
   };
 
   const handleSkip = () => {
-    onConfirm('NÃ£o informado');
+    onConfirm('Não informado');
     onClose();
   };
 
@@ -112,7 +112,7 @@ export const LossReasonModal: React.FC<LossReasonModalProps> = ({
                   id={titleId}
                   className="font-bold text-slate-900 dark:text-white font-display"
                 >
-                  NegÃ³cio Perdido
+                  Negócio Perdido
                 </h3>
                 {dealTitle && (
                   <p className="text-xs text-slate-500 dark:text-slate-400 truncate max-w-[200px]">
@@ -137,11 +137,11 @@ export const LossReasonModal: React.FC<LossReasonModalProps> = ({
               id={descId}
               className="text-sm text-slate-600 dark:text-slate-400 mb-4"
             >
-              Qual foi o motivo da perda? Isso ajuda a melhorar suas estratÃ©gias.
+              Qual foi o motivo da perda? Isso ajuda a melhorar suas estratégias.
             </p>
 
             {!showCustomInput ? (
-              <div className="grid grid-cols-2 gap-2" role="group" aria-label="Motivos rÃ¡pidos">
+              <div className="grid grid-cols-2 gap-2" role="group" aria-label="Motivos rápidos">
                 {QUICK_REASONS.map((item) => (
                   <button
                     key={item.label}

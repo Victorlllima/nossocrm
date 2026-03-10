@@ -1,4 +1,4 @@
-# 🦈 PROTOCOLO DE TRANSMISSÃO S.H.A.R.K. - V1.0
+# 🦈 PROTOCOLO DE TRANSMISSÍO S.H.A.R.K. - V1.0
 
 Este documento é a ÚNICA fonte de verdade para a continuidade do desenvolvimento do **NossoCRM**.
 
@@ -39,7 +39,7 @@ A ordem de prioridade definida pelo usuário (Red) é:
 5.  **Newsletter (Vortex)**: Implementar efeito visual "Vortex" na captura de email.
 6.  **Contato (AI Terminal)**: Chat interface em estilo terminal de comando.
 
-## 📜 REGRAS DE OURO (NÃO NEGOCIÁVEIS)
+## 📜 REGRAS DE OURO (NÍO NEGOCIÁVEIS)
 - **Analogias Invisíveis**: Nunca diga "pense como um..."; apenas explique o conceito técnico usando a analogia de forma direta na narração.
 - **Didática SHARK**: Tom amigável, chamando o usuário pelo nome (Red) e celebrando vitórias.
 - **Build First**: Não avance para novas features sem garantir que `npm run build` termine com sucesso.

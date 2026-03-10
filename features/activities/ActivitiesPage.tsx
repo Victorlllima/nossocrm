@@ -62,13 +62,13 @@ export const ActivitiesPage: React.FC = () => {
         selectedActivities.forEach(id => {
             handleToggleComplete(id);
         });
-        addToast(`${selectedActivities.size} atividades concluÃ­das!`, 'success');
+        addToast(`${selectedActivities.size} atividades concluídas!`, 'success');
         handleClearSelection();
     };
 
     const handleSnoozeAll = () => {
         // In a real app, this would update the date of each activity
-        addToast(`${selectedActivities.size} atividades adiadas para amanhÃ£!`, 'success');
+        addToast(`${selectedActivities.size} atividades adiadas para amanhã!`, 'success');
         handleClearSelection();
     };
 

@@ -18,7 +18,7 @@ interface ActivityRowProps {
 
 /**
  * Performance: essa linha aparece em listas grandes (activities).
- * `React.memo` ajuda a evitar re-render de todas as linhas quando apenas seleÃ§Ã£o/1 item muda.
+ * `React.memo` ajuda a evitar re-render de todas as linhas quando apenas seleção/1 item muda.
  */
 const ActivityRowComponent: React.FC<ActivityRowProps> = ({
     activity,
@@ -45,13 +45,13 @@ const ActivityRowComponent: React.FC<ActivityRowProps> = ({
     const { activeBoard, boards } = useCRM();
 
     const translateStatus = (status: string) => {
-        // Se nÃ£o parece ser um UUID, retorna direto (jÃ¡ Ã© um label legÃ­vel)
+        // Se não parece ser um UUID, retorna direto (já é um label legível)
         const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
         if (!uuidRegex.test(status)) {
             return status;
         }
 
-        // Procura em TODOS os boards, nÃ£o sÃ³ no ativo
+        // Procura em TODOS os boards, não só no ativo
         for (const board of boards) {
             const stage = board.stages.find(s => s.id === status);
             if (stage) return stage.label;
@@ -62,7 +62,7 @@ const ActivityRowComponent: React.FC<ActivityRowProps> = ({
             'NEW': 'Novas Oportunidades',
             'CONTACTED': 'Contatado',
             'PROPOSAL': 'Proposta',
-            'NEGOTIATION': 'NegociaÃ§Ã£o',
+            'NEGOTIATION': 'Negociação',
             'CLOSED_WON': 'Ganho',
             'CLOSED_LOST': 'Perdido',
             'LEAD': 'Lead',
@@ -71,8 +71,8 @@ const ActivityRowComponent: React.FC<ActivityRowProps> = ({
             'CUSTOMER': 'Cliente'
         };
         
-        // Se ainda Ã© UUID e nÃ£o encontrou, mostra fallback amigÃ¡vel
-        return map[status] || 'EstÃ¡gio nÃ£o identificado';
+        // Se ainda é UUID e não encontrou, mostra fallback amigável
+        return map[status] || 'Estágio não identificado';
     };
 
     const formatRelativeTime = (dateString: string) => {
@@ -81,8 +81,8 @@ const ActivityRowComponent: React.FC<ActivityRowProps> = ({
         const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
         if (diffInSeconds < 60) return 'agora mesmo';
-        if (diffInSeconds < 3600) return `hÃ¡ ${Math.floor(diffInSeconds / 60)} min`;
-        if (diffInSeconds < 86400) return `hÃ¡ ${Math.floor(diffInSeconds / 3600)} h`;
+        if (diffInSeconds < 3600) return `há ${Math.floor(diffInSeconds / 60)} min`;
+        if (diffInSeconds < 86400) return `há ${Math.floor(diffInSeconds / 3600)} h`;
         if (diffInSeconds < 172800) return 'ontem';
         return date.toLocaleDateString('pt-BR');
     };
@@ -96,7 +96,7 @@ const ActivityRowComponent: React.FC<ActivityRowProps> = ({
                 </span>
             );
         }
-        if (title === 'NegÃ³cio Criado') return 'NegÃ³cio criado';
+        if (title === 'Negócio Criado') return 'Negócio criado';
         return title;
     };
 

@@ -1,29 +1,29 @@
 ﻿/**
  * Webhook de entrada de leads (100% produto).
  *
- * Endpoint pÃºblico para receber leads de Hotmart/forms/n8n/Make e criar:
+ * Endpoint público para receber leads de Hotmart/forms/n8n/Make e criar:
  * - Contato (upsert por email/telefone)
- * - Deal (no board + estÃ¡gio configurados na fonte)
+ * - Deal (no board + estágio configurados na fonte)
  *
  * Rota (Supabase Edge Functions):
  * - `POST /functions/v1/webhook-in/<source_id>`
  *
- * AutenticaÃ§Ã£o:
+ * Autenticação:
  * - Aceita **um** destes formatos:
  *   - Header `X-Webhook-Secret: <secret>`
  *   - Header `Authorization: Bearer <secret>`
  *   O valor deve bater com o `secret` da fonte em `integration_inbound_sources`.
  *
- * ObservaÃ§Ã£o:
- * - Este handler usa `SUPABASE_SERVICE_ROLE_KEY` (segredo padrÃ£o do Supabase) e ignora RLS.
+ * Observação:
+ * - Este handler usa `SUPABASE_SERVICE_ROLE_KEY` (segredo padrão do Supabase) e ignora RLS.
  */
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 type LeadPayload = {
   /**
    * ID do evento no sistema de origem (opcional).
-   * Use quando sua origem for orientada a eventos (ex.: Hotmart) e vocÃª quiser idempotÃªncia contra retry.
-   * Para â€œcadastro/atualizaÃ§Ã£oâ€ (formulÃ¡rio), nÃ£o Ã© necessÃ¡rio.
+   * Use quando sua origem for orientada a eventos (ex.: Hotmart) e você quiser idempotência contra retry.
+   * Para â€œcadastro/atualizaçãoâ€ (formulário), não é necessário.
    */
   external_event_id?: string;
   /** Nome do contato (legado) */
@@ -37,10 +37,10 @@ type LeadPayload = {
   /** Nome da empresa (cliente) */
   company_name?: string;
 
-  // ===== Campos "produto" (espelham o modal Novo NegÃ³cio) =====
-  /** Nome do negÃ³cio */
+  // ===== Campos "produto" (espelham o modal Novo Negócio) =====
+  /** Nome do negócio */
   deal_title?: string;
-  /** Valor estimado do negÃ³cio */
+  /** Valor estimado do negócio */
   deal_value?: number | string;
   /** Nome do contato principal (alias) */
   contact_name?: string;
@@ -57,7 +57,7 @@ type LeadPayload = {
 
 const corsHeaders = {
   // NOTE: Para chamadas a partir do browser (UI "Enviar teste") precisamos de CORS.
-  // Edge Functions do Supabase sÃ£o cross-origin em relaÃ§Ã£o ao app, entÃ£o o navegador
+  // Edge Functions do Supabase são cross-origin em relação ao app, então o navegador
   // faz um preflight (OPTIONS), especialmente com JSON/headers custom.
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -159,7 +159,7 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { status: 204, headers: corsHeaders });
   }
-  if (req.method !== "POST") return json(405, { error: "MÃ©todo nÃ£o permitido" });
+  if (req.method !== "POST") return json(405, { error: "Método não permitido" });
 
   const sourceId = getSourceIdFromPath(req);
   if (!sourceId) return json(404, { error: "source_id ausente na URL" });
@@ -174,7 +174,7 @@ Deno.serve(async (req) => {
     Deno.env.get("CRM_SUPABASE_SERVICE_ROLE_KEY") ??
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   if (!supabaseUrl || !serviceKey) {
-    return json(500, { error: "Supabase nÃ£o configurado no runtime" });
+    return json(500, { error: "Supabase não configurado no runtime" });
   }
 
   const supabase = createClient(supabaseUrl, serviceKey);
@@ -186,14 +186,14 @@ Deno.serve(async (req) => {
     .maybeSingle();
 
   if (sourceErr) return json(500, { error: "Erro ao buscar fonte", details: sourceErr.message });
-  if (!source || !source.active) return json(404, { error: "Fonte nÃ£o encontrada/inativa" });
-  if (String(source.secret) !== String(secretHeader)) return json(401, { error: "Secret invÃ¡lido" });
+  if (!source || !source.active) return json(404, { error: "Fonte não encontrada/inativa" });
+  if (String(source.secret) !== String(secretHeader)) return json(401, { error: "Secret inválido" });
 
   let payload: LeadPayload;
   try {
     payload = (await req.json()) as LeadPayload;
   } catch {
-    return json(400, { error: "JSON invÃ¡lido" });
+    return json(400, { error: "JSON inválido" });
   }
 
   const leadName = getContactName(payload);
@@ -217,7 +217,7 @@ Deno.serve(async (req) => {
         status: "received",
       });
 
-    // Unique violation (dedupe) -> retorna ids jÃ¡ processados (idempotÃªncia)
+    // Unique violation (dedupe) -> retorna ids já processados (idempotência)
     if (insertEventErr) {
       const msg = String(insertEventErr.message).toLowerCase();
       if (!msg.includes("duplicate")) {
@@ -235,14 +235,14 @@ Deno.serve(async (req) => {
         return json(200, {
           ok: true,
           duplicate: true,
-          message: "Recebido! Esse envio jÃ¡ tinha sido processado (nÃ£o duplicamos nada).",
+          message: "Recebido! Esse envio já tinha sido processado (não duplicamos nada).",
           organization_id: source.organization_id,
           contact_id: existingEvent.created_contact_id ?? null,
           deal_id: existingEvent.created_deal_id,
           status: existingEvent.status ?? "processed",
         });
       }
-      // se ainda nÃ£o tem IDs gravados, seguimos o fluxo (best-effort)
+      // se ainda não tem IDs gravados, seguimos o fluxo (best-effort)
     }
   }
 
@@ -284,7 +284,7 @@ Deno.serve(async (req) => {
         if (clientCompanyId) companyAction = "created";
       }
     } catch {
-      // nÃ£o bloqueia o fluxo do webhook
+      // não bloqueia o fluxo do webhook
       clientCompanyId = null;
       companyAction = "none";
     }
@@ -350,8 +350,8 @@ Deno.serve(async (req) => {
   }
 
   // 3) Deal (cadastro/upsert):
-  // - Se jÃ¡ existir um deal "em aberto" do mesmo contato no mesmo board, atualiza em vez de criar outro.
-  // - Se nÃ£o existir (ou nÃ£o tiver contato), cria.
+  // - Se já existir um deal "em aberto" do mesmo contato no mesmo board, atualiza em vez de criar outro.
+  // - Se não existir (ou não tiver contato), cria.
   const dealTitle = dealTitleFromPayload || leadName || leadEmail || leadPhone || "Novo Lead";
 
   let dealId: string | null = null;
@@ -385,7 +385,7 @@ Deno.serve(async (req) => {
       if (dealValue !== null) updates.value = dealValue;
       if (clientCompanyId) updates.client_company_id = clientCompanyId;
 
-      // mantÃ©m stage atual (nÃ£o â€œpuxaâ€ de volta pro stage de entrada)
+      // mantém stage atual (não â€œpuxaâ€ de volta pro stage de entrada)
       // apenas carimba metadados do inbound
       updates.custom_fields = {
         inbound_source_id: source.id,
@@ -448,8 +448,8 @@ Deno.serve(async (req) => {
     ok: true,
     message:
       dealAction === "updated"
-        ? "Recebido! Atualizamos o negÃ³cio existente com os dados mais recentes."
-        : "Recebido! Criamos um novo negÃ³cio no funil configurado.",
+        ? "Recebido! Atualizamos o negócio existente com os dados mais recentes."
+        : "Recebido! Criamos um novo negócio no funil configurado.",
     action: {
       contact: contactAction,
       company: companyAction,

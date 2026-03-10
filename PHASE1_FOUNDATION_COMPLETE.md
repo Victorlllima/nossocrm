@@ -222,7 +222,7 @@ return { status: 'success', response: formattedResponse };
 
 ---
 
-## ⚙️ CONFIGURAÇÃO REQUERIDA
+## ⚙️ CONFIGURAÇÍO REQUERIDA
 
 Nada! Tudo pronto. Apenas:
 

@@ -10,9 +10,10 @@ import { clearAllConfigCache } from '@/lib/ai/agents';
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { agentId: string } }
+  ctx: { params: Promise<{ agentId: string }> }
 ) {
   try {
+    const params = await ctx.params;
     const supabase = createStaticAdminClient();
 
     // Deletar agente (cascata deleta conversas e mensagens)

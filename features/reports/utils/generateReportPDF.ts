@@ -33,13 +33,13 @@ const COLORS = {
 };
 
 /**
- * FunÃ§Ã£o pÃºblica `generateReportPDF` do projeto.
+ * Função pública `generateReportPDF` do projeto.
  *
- * @param {ReportData} data - ParÃ¢metro `data`.
- * @param {PeriodFilter} period - ParÃ¢metro `period`.
- * @param {string | undefined} boardName - ParÃ¢metro `boardName`.
- * @param {string | undefined} generatedBy - ParÃ¢metro `generatedBy`.
- * @returns {void} NÃ£o retorna valor.
+ * @param {ReportData} data - Parâmetro `data`.
+ * @param {PeriodFilter} period - Parâmetro `period`.
+ * @param {string | undefined} boardName - Parâmetro `boardName`.
+ * @param {string | undefined} generatedBy - Parâmetro `generatedBy`.
+ * @returns {void} Não retorna valor.
  */
 export const generateReportPDF = (data: ReportData, period: PeriodFilter, boardName?: string, generatedBy?: string) => {
     const doc = new jsPDF();
@@ -76,13 +76,13 @@ export const generateReportPDF = (data: ReportData, period: PeriodFilter, boardN
     doc.setFontSize(20);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(...COLORS.primary);
-    doc.text('RelatÃ³rio de Performance', margin + 18, 21);
+    doc.text('Relatório de Performance', margin + 18, 21);
 
     // Pipeline name
     doc.setFontSize(10);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(...COLORS.secondary);
-    doc.text(`Pipeline: ${boardName || 'PadrÃ£o'}`, margin, 32);
+    doc.text(`Pipeline: ${boardName || 'Padrão'}`, margin, 32);
 
     // Period badge - Rocket science precision
     const periodLabel = PERIOD_LABELS[period];
@@ -114,7 +114,7 @@ export const generateReportPDF = (data: ReportData, period: PeriodFilter, boardN
     doc.setFontSize(7);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(...COLORS.secondary);
-    doc.text(`Por: ${generatedBy || 'UsuÃ¡rio'} | ${dateStr} Ã s ${timeStr}`, pageWidth - margin, metaY, { align: 'right' });
+    doc.text(`Por: ${generatedBy || 'Usuário'} | ${dateStr} Í s ${timeStr}`, pageWidth - margin, metaY, { align: 'right' });
 
     // Divider
     doc.setDrawColor(...COLORS.border);
@@ -145,9 +145,9 @@ export const generateReportPDF = (data: ReportData, period: PeriodFilter, boardN
             accent: COLORS.emerald
         },
         {
-            label: 'Ciclo MÃ©dio',
+            label: 'Ciclo Médio',
             value: `${data.avgSalesCycle} dias`,
-            change: `MÃ­n: ${data.fastestDeal}d`,
+            change: `Mín: ${data.fastestDeal}d`,
             isPositive: true,
             accent: COLORS.purple
         },
@@ -268,7 +268,7 @@ export const generateReportPDF = (data: ReportData, period: PeriodFilter, boardN
             rep.deals.toString(),
             formatCurrency(rep.revenue)
         ])
-        : [['â€”', 'Sem dados no perÃ­odo', 'â€”', 'â€”']];
+        : [['â€”', 'Sem dados no período', 'â€”', 'â€”']];
 
     autoTable(doc, {
         startY: leaderboardY + 5,
@@ -311,7 +311,7 @@ export const generateReportPDF = (data: ReportData, period: PeriodFilter, boardN
     doc.setFontSize(7);
     doc.setTextColor(...COLORS.secondary);
     doc.text('NossoCRM', margin, pageHeight - 10);
-    doc.text('PÃ¡gina 1', pageWidth / 2, pageHeight - 10, { align: 'center' });
+    doc.text('Página 1', pageWidth / 2, pageHeight - 10, { align: 'center' });
     doc.text(new Date().toLocaleDateString('pt-BR'), pageWidth - margin, pageHeight - 10, { align: 'right' });
 
     // ============================================

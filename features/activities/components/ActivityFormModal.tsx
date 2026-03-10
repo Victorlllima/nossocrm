@@ -32,7 +32,7 @@ interface ActivityFormModalProps {
   setFormData,
   editingActivity,
   deals,
-} - ParÃ¢metro `{
+} - Parâmetro `{
   isOpen,
   onClose,
   onSubmit,
@@ -88,7 +88,7 @@ export const ActivityFormModal: React.FC<ActivityFormModalProps> = ({
         </div>
         <form onSubmit={onSubmit} className="p-5 space-y-4 overflow-auto pb-[calc(1.25rem+var(--app-safe-area-bottom,0px))]">
           <div>
-            <label className="block text-xs font-bold text-slate-500 uppercase mb-1">TÃ­tulo</label>
+            <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Título</label>
             <input
               required
               type="text"
@@ -109,15 +109,15 @@ export const ActivityFormModal: React.FC<ActivityFormModalProps> = ({
                   setFormData({ ...formData, type: e.target.value as Activity['type'] })
                 }
               >
-                <option value="CALL">LigaÃ§Ã£o</option>
-                <option value="MEETING">ReuniÃ£o</option>
+                <option value="CALL">Ligação</option>
+                <option value="MEETING">Reunião</option>
                 <option value="EMAIL">Email</option>
                 <option value="TASK">Tarefa</option>
               </select>
             </div>
             <div>
               <label className="block text-xs font-bold text-slate-500 uppercase mb-1">
-                NegÃ³cio Relacionado
+                Negócio Relacionado
               </label>
               <select
                 required={!editingActivity}
@@ -160,7 +160,7 @@ export const ActivityFormModal: React.FC<ActivityFormModalProps> = ({
 
           <div>
             <label className="block text-xs font-bold text-slate-500 uppercase mb-1">
-              DescriÃ§Ã£o
+              Descrição
             </label>
             <textarea
               className="w-full bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary-500 min-h-[80px]"
@@ -174,7 +174,7 @@ export const ActivityFormModal: React.FC<ActivityFormModalProps> = ({
             type="submit"
             className="w-full bg-primary-600 hover:bg-primary-500 text-white font-bold py-2.5 rounded-lg mt-2 shadow-lg shadow-primary-600/20 transition-all"
           >
-            {editingActivity ? 'Salvar AlteraÃ§Ãµes' : 'Criar Atividade'}
+            {editingActivity ? 'Salvar Alterações' : 'Criar Atividade'}
           </button>
         </form>
       </div>

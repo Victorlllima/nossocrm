@@ -122,7 +122,7 @@ A biblioteca **`@ai-sdk/anthropic`** não está gerando o schema de tools no for
 
 ## 🚀 PRÓXIMOS PASSOS
 
-### OPÇÃO A: Usar Anthropic SEM Tools (Imediato)
+### OPÇÍO A: Usar Anthropic SEM Tools (Imediato)
 ✅ **Vantagem:** Funciona agora, sem dependências
 ✅ **Latência:** ~8 segundos por resposta
 ✅ **Custo:** Menor que OpenAI
@@ -130,7 +130,7 @@ A biblioteca **`@ai-sdk/anthropic`** não está gerando o schema de tools no for
 
 **Ação:** Manter `route-anthropic-notools.ts` como `route.ts`
 
-### OPÇÃO B: Corrigir Schema de Tools (Médio Prazo)
+### OPÇÍO B: Corrigir Schema de Tools (Médio Prazo)
 **Necessário fazer:**
 1. Definir tools diretamente com JSON Schema (não Zod)
 2. Ou criar wrapper que converta Zod → JSON Schema formato Anthropic
@@ -138,7 +138,7 @@ A biblioteca **`@ai-sdk/anthropic`** não está gerando o schema de tools no for
 
 **Tempo estimado:** 1-2 horas
 
-### OPÇÃO C: Voltar para OpenAI com Nova Key (Alternativa)
+### OPÇÍO C: Voltar para OpenAI com Nova Key (Alternativa)
 Se conseguir nova chave OpenAI com crédito visível:
 1. Atualizar .env.local
 2. Ativar route-optimized.ts
@@ -146,7 +146,7 @@ Se conseguir nova chave OpenAI com crédito visível:
 
 ---
 
-## 📋 CHECKLIST: DECISÃO
+## 📋 CHECKLIST: DECISÍO
 
 Red, qual caminho você prefere?
 

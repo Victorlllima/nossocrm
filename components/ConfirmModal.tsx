@@ -1,18 +1,18 @@
 ﻿/**
- * @fileoverview Modal de ConfirmaÃ§Ã£o AcessÃ­vel
+ * @fileoverview Modal de Confirmação Acessível
  * 
- * Componente de diÃ¡logo de confirmaÃ§Ã£o com suporte completo a acessibilidade
- * para aÃ§Ãµes destrutivas ou que requerem confirmaÃ§Ã£o do usuÃ¡rio.
+ * Componente de diálogo de confirmação com suporte completo a acessibilidade
+ * para ações destrutivas ou que requerem confirmação do usuário.
  * 
  * @module components/ConfirmModal
  * 
  * Recursos de Acessibilidade (WCAG 2.1 AA):
- * - role="alertdialog" para diÃ¡logos de confirmaÃ§Ã£o
- * - aria-describedby para conteÃºdo da mensagem
- * - Focus trap mantÃ©m foco dentro do diÃ¡logo
+ * - role="alertdialog" para diálogos de confirmação
+ * - aria-describedby para conteúdo da mensagem
+ * - Focus trap mantém foco dentro do diálogo
  * - Foco retorna ao elemento trigger ao fechar
  * - Tecla Escape fecha o modal
- * - Auto-focus no botÃ£o cancelar (opÃ§Ã£o mais segura)
+ * - Auto-focus no botão cancelar (opção mais segura)
  * 
  * @example
  * ```tsx
@@ -26,8 +26,8 @@
  *         isOpen={isOpen}
  *         onClose={() => setIsOpen(false)}
  *         onConfirm={handleDelete}
- *         title="Confirmar exclusÃ£o"
- *         message="Esta aÃ§Ã£o nÃ£o pode ser desfeita."
+ *         title="Confirmar exclusão"
+ *         message="Esta ação não pode ser desfeita."
  *         variant="danger"
  *       />
  *     </>
@@ -44,13 +44,13 @@ import { FocusTrap, useFocusReturn } from '@/lib/a11y';
  * Props do componente ConfirmModal
  * 
  * @interface ConfirmModalProps
- * @property {boolean} isOpen - Se o modal estÃ¡ visÃ­vel
+ * @property {boolean} isOpen - Se o modal está visível
  * @property {() => void} onClose - Callback ao fechar/cancelar
  * @property {() => void} onConfirm - Callback ao confirmar
- * @property {string} title - TÃ­tulo do diÃ¡logo
- * @property {React.ReactNode} message - Mensagem de confirmaÃ§Ã£o
- * @property {string} [confirmText='Confirmar'] - Texto do botÃ£o de confirmar
- * @property {string} [cancelText='Cancelar'] - Texto do botÃ£o de cancelar
+ * @property {string} title - Título do diálogo
+ * @property {React.ReactNode} message - Mensagem de confirmação
+ * @property {string} [confirmText='Confirmar'] - Texto do botão de confirmar
+ * @property {string} [cancelText='Cancelar'] - Texto do botão de cancelar
  * @property {'danger' | 'primary'} [variant='danger'] - Estilo visual
  */
 interface ConfirmModalProps {
@@ -65,10 +65,10 @@ interface ConfirmModalProps {
 }
 
 /**
- * Modal de confirmaÃ§Ã£o acessÃ­vel
+ * Modal de confirmação acessível
  * 
- * Exibe diÃ¡logo de confirmaÃ§Ã£o com focus trap e suporte a teclado.
- * Use variant="danger" para aÃ§Ãµes destrutivas como exclusÃ£o.
+ * Exibe diálogo de confirmação com focus trap e suporte a teclado.
+ * Use variant="danger" para ações destrutivas como exclusão.
  * 
  * @param {ConfirmModalProps} props - Props do componente
  * @returns {JSX.Element | null} Modal ou null se fechado

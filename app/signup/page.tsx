@@ -8,8 +8,8 @@ import { Loader2, Mail, Lock, UserPlus, CheckCircle, ArrowRight } from 'lucide-r
 import { signup, signupFormSchema, type SignupFormData, type SignupState } from '@/features/auth'
 
 /**
- * PÃ¡gina de cadastro de usuÃ¡rio
- * Usa Server Actions com React Hook Form para validaÃ§Ã£o client-side
+ * Página de cadastro de usuário
+ * Usa Server Actions com React Hook Form para validação client-side
  */
 export default function SignupPage() {
     const [state, formAction, isPending] = useActionState<SignupState | null, FormData>(
@@ -31,7 +31,7 @@ export default function SignupPage() {
         },
     })
 
-    // Sincroniza erros do servidor com o formulÃ¡rio
+    // Sincroniza erros do servidor com o formulário
     useEffect(() => {
         if (state?.errors) {
             if (state.errors.email) {
@@ -46,7 +46,7 @@ export default function SignupPage() {
         }
     }, [state?.errors, setError])
 
-    // Se cadastro foi bem sucedido, mostra mensagem de verificaÃ§Ã£o de email
+    // Se cadastro foi bem sucedido, mostra mensagem de verificação de email
     if (state?.success) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-dark-bg relative overflow-hidden">
@@ -65,7 +65,7 @@ export default function SignupPage() {
                             Verifique seu email
                         </h1>
                         <p className="text-slate-500 dark:text-slate-400 mb-6">
-                            Enviamos um link de confirmaÃ§Ã£o para o seu email.
+                            Enviamos um link de confirmação para o seu email.
                             Clique no link para ativar sua conta.
                         </p>
                         <Link
@@ -164,7 +164,7 @@ export default function SignupPage() {
                                             ? 'border-red-500 dark:border-red-500'
                                             : 'border-slate-300 dark:border-slate-700'
                                         }`}
-                                    placeholder="MÃ­nimo 6 caracteres"
+                                    placeholder="Mínimo 6 caracteres"
                                 />
                             </div>
                             {errors.password && (
@@ -216,7 +216,7 @@ export default function SignupPage() {
                             </div>
                         )}
 
-                        {/* BotÃ£o de submissÃ£o */}
+                        {/* Botão de submissão */}
                         <button
                             type="submit"
                             disabled={isPending}
@@ -235,12 +235,12 @@ export default function SignupPage() {
 
                     {/* Link para login */}
                     <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
-                        JÃ¡ tem uma conta?{' '}
+                        Já tem uma conta?{' '}
                         <Link
                             href="/login"
                             className="font-medium text-primary-600 dark:text-primary-400 hover:text-primary-500 transition-colors"
                         >
-                            FaÃ§a login
+                            Faça login
                         </Link>
                     </p>
                 </div>

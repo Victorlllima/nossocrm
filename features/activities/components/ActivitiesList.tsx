@@ -25,7 +25,7 @@ interface ActivitiesListProps {
     onDelete,
     selectedActivities = new Set(),
     onSelectActivity
-} - ParÃ¢metro `{
+} - Parâmetro `{
     activities,
     deals,
     onToggleComplete,

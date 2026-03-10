@@ -111,7 +111,7 @@ cp app/api/whatsapp/webhook/route-mock.ts app/api/whatsapp/webhook/route.ts
 
 ---
 
-## 🔄 FLUXO DE DECISÃO
+## 🔄 FLUXO DE DECISÍO
 
 ```
 Qual versão usar?
@@ -135,7 +135,7 @@ Qual versão usar?
 
 ---
 
-## 📊 COMPARAÇÃO LADO A LADO
+## 📊 COMPARAÇÍO LADO A LADO
 
 | Feature | Anthropic No Tools | Mock | OpenAI Optimized | Anthropic Com Tools |
 |---------|-------------------|------|------------------|-------------------|
@@ -173,7 +173,7 @@ ou
 
 ---
 
-## 🔧 COMO TROCAR DE VERSÃO
+## 🔧 COMO TROCAR DE VERSÍO
 
 ### Ativar Anthropic (SEM TOOLS) - RECOMENDADO
 ```bash

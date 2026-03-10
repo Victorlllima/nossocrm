@@ -39,8 +39,8 @@ interface StatCardProps {
     icon: Icon,
     color,
     onClick,
-    comparisonLabel = 'vs perÃ­odo anterior'
-} - ParÃ¢metro `{
+    comparisonLabel = 'vs período anterior'
+} - Parâmetro `{
     title,
     value,
     subtext,
@@ -48,7 +48,7 @@ interface StatCardProps {
     icon: Icon,
     color,
     onClick,
-    comparisonLabel = 'vs perÃ­odo anterior'
+    comparisonLabel = 'vs período anterior'
 }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
@@ -60,7 +60,7 @@ export const StatCard: React.FC<StatCardProps> = ({
     icon: Icon,
     color,
     onClick,
-    comparisonLabel = 'vs perÃ­odo anterior'
+    comparisonLabel = 'vs período anterior'
 }) => {
     const TrendIcon = subtextPositive ? TrendingUp : TrendingDown;
     const trendColorClass = subtextPositive

@@ -24,7 +24,7 @@ const BootstrapSchema = z
 /**
  * Handler HTTP `POST` deste endpoint (Next.js Route Handler).
  *
- * @param {Request} req - Objeto da requisiÃ§Ã£o.
+ * @param {Request} req - Objeto da requisição.
  * @returns {Promise<Response>} Retorna um valor do tipo `Promise<Response>`.
  */
 export async function POST(req: Request) {

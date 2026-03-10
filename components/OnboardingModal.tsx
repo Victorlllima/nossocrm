@@ -104,13 +104,13 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
 
                                 <div className="p-4 bg-white/10 rounded-xl backdrop-blur-sm" role="listitem">
                                     <div className="text-2xl mb-2" aria-hidden="true">âœ¨</div>
-                                    <h3 className="font-semibold mb-1">CriaÃ§Ã£o com IA</h3>
-                                    <p className="text-sm text-white/80">Descreva seu negÃ³cio em 1 frase</p>
+                                    <h3 className="font-semibold mb-1">Criação com IA</h3>
+                                    <p className="text-sm text-white/80">Descreva seu negócio em 1 frase</p>
                                 </div>
 
                                 <div className="p-4 bg-white/10 rounded-xl backdrop-blur-sm" role="listitem">
                                     <div className="text-2xl mb-2" aria-hidden="true">âš¡</div>
-                                    <h3 className="font-semibold mb-1">Super RÃ¡pido</h3>
+                                    <h3 className="font-semibold mb-1">Super Rápido</h3>
                                     <p className="text-sm text-white/80">Menos de 30 segundos</p>
                                 </div>
                             </div>
@@ -123,7 +123,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
                                     className="px-8 py-4 bg-white text-primary-600 font-bold rounded-xl hover:bg-white/90 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-lg focus-visible-ring"
                                     autoFocus
                                 >
-                                    ComeÃ§ar agora
+                                    Começar agora
                                     <ArrowRight size={20} aria-hidden="true" />
                                 </button>
 
@@ -138,7 +138,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
 
                             {/* Small print */}
                             <p className="mt-6 text-sm text-white/60">
-                                VocÃª pode criar quantos boards quiser depois ðŸ˜Š
+                                Você pode criar quantos boards quiser depois ðŸ˜Š
                             </p>
                         </div>
                     </div>
