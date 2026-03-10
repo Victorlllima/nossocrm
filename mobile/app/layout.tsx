@@ -8,6 +8,10 @@ export const metadata: Metadata = {
   title: 'Max Lima CRM',
   description: 'CRM Max Lima — Mobile',
   manifest: '/manifest.json',
+  icons: {
+    icon: '/icons/icon.svg',
+    apple: '/icons/icon.svg',
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
