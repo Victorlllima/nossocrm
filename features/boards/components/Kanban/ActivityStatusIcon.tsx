@@ -1,5 +1,5 @@
-﻿import React from 'react';
-import { Phone, Mail, Calendar, ChevronRight, AlertTriangle, ArrowRightLeft, CalendarClock } from 'lucide-react';
+import React from 'react';
+import { Phone, Mail, Calendar, ChevronRight, AlertTriangle, ArrowRightLeft } from 'lucide-react';
 
 interface ActivityStatusIconProps {
     status: string;
@@ -13,13 +13,11 @@ interface ActivityStatusIconProps {
     onRequestClose?: () => void;
     /** Callback for keyboard-accessible move to stage action */
     onMoveToStage?: () => void;
-    /** Callback to open follow-up WhatsApp modal */
-    onFollowUp?: () => void;
 }
 
 /**
  * ActivityStatusIcon - Shows deal activity status with quick-add menu
- * 
+ *
  * Accessibility:
  * - Button has descriptive aria-label based on status
  * - Menu items are proper buttons with visible labels
@@ -35,7 +33,6 @@ export const ActivityStatusIcon: React.FC<ActivityStatusIconProps> = ({
     onQuickAdd,
     onRequestClose,
     onMoveToStage,
-    onFollowUp,
 }) => {
     const Icon = type === 'CALL' ? Phone : type === 'EMAIL' ? Mail : type === 'MEETING' ? Calendar : ChevronRight;
 
@@ -86,7 +83,7 @@ export const ActivityStatusIcon: React.FC<ActivityStatusIconProps> = ({
 
     return (
         <div className="relative">
-            <button 
+            <button
                 type="button"
                 onClick={onToggle}
                 aria-label={`${getStatusLabel()}. Clique para agendar atividade`}
@@ -107,11 +104,11 @@ export const ActivityStatusIcon: React.FC<ActivityStatusIconProps> = ({
                     <div className="p-2 border-b border-slate-100 dark:border-white/5">
                         <p className="text-xs font-bold text-slate-500 uppercase px-2" id={`quick-add-heading-${dealId}`}>Ações Rápidas</p>
                     </div>
-                    
+
                     {/* Keyboard-accessible move to stage option */}
                     {onMoveToStage && (
                         <div className="p-1 border-b border-slate-100 dark:border-white/5">
-                            <button 
+                            <button
                                 type="button"
                                 role="menuitem"
                                 onClick={() => {
@@ -124,7 +121,7 @@ export const ActivityStatusIcon: React.FC<ActivityStatusIconProps> = ({
                             </button>
                         </div>
                     )}
-                    
+
                     <div className="p-1" role="group" aria-labelledby={`quick-add-heading-${dealId}`}>
                         <p className="text-[10px] font-bold text-slate-400 uppercase px-3 py-1">Agendar</p>
                         <button
@@ -161,21 +158,6 @@ export const ActivityStatusIcon: React.FC<ActivityStatusIconProps> = ({
                             <Calendar size={14} className="text-orange-500" aria-hidden="true" /> Reunião amanhã
                         </button>
                     </div>
-                    {onFollowUp && (
-                        <div className="p-1 border-t border-slate-100 dark:border-white/5">
-                            <button
-                                type="button"
-                                role="menuitem"
-                                onClick={() => {
-                                    onFollowUp();
-                                    onRequestClose?.();
-                                }}
-                                className="w-full text-left px-3 py-2 text-sm text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded flex items-center gap-2 font-semibold focus-visible-ring"
-                            >
-                                <CalendarClock size={14} aria-hidden="true" /> Follow-up WhatsApp
-                            </button>
-                        </div>
-                    )}
                 </div>
             )}
         </div>

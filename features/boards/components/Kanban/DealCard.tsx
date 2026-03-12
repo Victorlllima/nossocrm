@@ -28,8 +28,6 @@ interface DealCardProps {
   setLastMouseDownDealId: (id: string | null) => void;
   /** Callback to open move-to-stage modal for keyboard accessibility */
   onMoveToStage?: (dealId: string) => void;
-  /** Callback to open follow-up WhatsApp modal */
-  onFollowUp?: (dealId: string) => void;
 }
 
 // Check if deal is closed (won or lost)
@@ -60,7 +58,6 @@ const DealCardComponent: React.FC<DealCardProps> = ({
   onQuickAddActivity,
   setLastMouseDownDealId,
   onMoveToStage,
-  onFollowUp,
 }) => {
   const [localDragging, setLocalDragging] = useState(false);
   const isClosed = isDealClosed(deal);
@@ -289,7 +286,6 @@ const DealCardComponent: React.FC<DealCardProps> = ({
             onQuickAdd={handleQuickAdd}
             onRequestClose={() => setOpenMenuId(null)}
             onMoveToStage={onMoveToStage ? () => onMoveToStage(deal.id) : undefined}
-            onFollowUp={onFollowUp ? () => onFollowUp(deal.id) : undefined}
           />
         </div>
       </div>
