@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { Phone, Mail, Calendar, ChevronRight, AlertTriangle, ArrowRightLeft } from 'lucide-react';
+import { Phone, Mail, Calendar, ChevronRight, AlertTriangle, ArrowRightLeft, CalendarClock } from 'lucide-react';
 
 interface ActivityStatusIconProps {
     status: string;
@@ -13,6 +13,8 @@ interface ActivityStatusIconProps {
     onRequestClose?: () => void;
     /** Callback for keyboard-accessible move to stage action */
     onMoveToStage?: () => void;
+    /** Callback to open follow-up WhatsApp modal */
+    onFollowUp?: () => void;
 }
 
 /**
@@ -32,7 +34,8 @@ export const ActivityStatusIcon: React.FC<ActivityStatusIconProps> = ({
     onToggle,
     onQuickAdd,
     onRequestClose,
-    onMoveToStage
+    onMoveToStage,
+    onFollowUp,
 }) => {
     const Icon = type === 'CALL' ? Phone : type === 'EMAIL' ? Mail : type === 'MEETING' ? Calendar : ChevronRight;
 
@@ -124,7 +127,7 @@ export const ActivityStatusIcon: React.FC<ActivityStatusIconProps> = ({
                     
                     <div className="p-1" role="group" aria-labelledby={`quick-add-heading-${dealId}`}>
                         <p className="text-[10px] font-bold text-slate-400 uppercase px-3 py-1">Agendar</p>
-                        <button 
+                        <button
                             type="button"
                             role="menuitem"
                             onClick={() => {
@@ -135,7 +138,7 @@ export const ActivityStatusIcon: React.FC<ActivityStatusIconProps> = ({
                         >
                             <Phone size={14} className="text-blue-500" aria-hidden="true" /> Ligar amanhã
                         </button>
-                        <button 
+                        <button
                             type="button"
                             role="menuitem"
                             onClick={() => {
@@ -146,7 +149,7 @@ export const ActivityStatusIcon: React.FC<ActivityStatusIconProps> = ({
                         >
                             <Mail size={14} className="text-purple-500" aria-hidden="true" /> Email amanhã
                         </button>
-                        <button 
+                        <button
                             type="button"
                             role="menuitem"
                             onClick={() => {
@@ -158,6 +161,21 @@ export const ActivityStatusIcon: React.FC<ActivityStatusIconProps> = ({
                             <Calendar size={14} className="text-orange-500" aria-hidden="true" /> Reunião amanhã
                         </button>
                     </div>
+                    {onFollowUp && (
+                        <div className="p-1 border-t border-slate-100 dark:border-white/5">
+                            <button
+                                type="button"
+                                role="menuitem"
+                                onClick={() => {
+                                    onFollowUp();
+                                    onRequestClose?.();
+                                }}
+                                className="w-full text-left px-3 py-2 text-sm text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded flex items-center gap-2 font-semibold focus-visible-ring"
+                            >
+                                <CalendarClock size={14} aria-hidden="true" /> Follow-up WhatsApp
+                            </button>
+                        </div>
+                    )}
                 </div>
             )}
         </div>

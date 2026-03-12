@@ -1,23 +1,95 @@
 'use client';
 
-import { Plus, CalendarClock, Clock, CheckCircle2, ChevronRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Plus, Clock, ChevronRight, CalendarClock, Loader2, AlertCircle } from 'lucide-react';
+import { createBrowserClient } from '@supabase/ssr';
 
-const TODAY = [
-  { id: 1, name: 'Carlos Mendonça', deal: 'Apto 3q Moema', time: '10:00', note: 'Verificar se ainda tem interesse após visita da semana passada', avatar: 'CM', done: false },
-  { id: 2, name: 'Patrícia Souza', deal: 'Casa Alphaville', time: '14:30', note: 'Apresentar contraproposta — ela pediu desconto de 5%', avatar: 'PS', done: false },
-  { id: 3, name: 'Juliana Ferraz', deal: 'Sala comercial Centro', time: '16:00', note: 'Confirmar documentação para assinatura', avatar: 'JF', done: true },
-];
+interface ScheduledMessage {
+  id: string;
+  deal_id: string;
+  scheduled_at: string;
+  message_content: string;
+  status: string;
+  deal_title?: string;
+  contact_name?: string;
+}
 
-const UPCOMING = [
-  { id: 4, name: 'Roberto Lima', deal: 'Studio Vila Olímpia', date: 'Amanhã', time: '09:00', avatar: 'RL' },
-  { id: 5, name: 'Diego Santos', deal: 'Studio Consolação', date: 'Quinta', time: '11:30', avatar: 'DS' },
-  { id: 6, name: 'Marcos Vinicius', deal: 'Apto 2q Mooca', date: 'Sex', time: '15:00', avatar: 'MV' },
-  { id: 7, name: 'Ana Beatriz Costa', deal: 'Cobertura Itaim', date: 'Seg', time: '10:00', avatar: 'AC' },
-];
+function formatDate(iso: string) {
+  const d = new Date(iso);
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const tomorrow = new Date(today.getTime() + 86400000);
+  const msgDay = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+
+  if (msgDay.getTime() === today.getTime()) return 'Hoje';
+  if (msgDay.getTime() === tomorrow.getTime()) return 'Amanhã';
+
+  return d.toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'short' });
+}
+
+function formatTime(iso: string) {
+  return new Date(iso).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+}
+
+function isOverdue(iso: string) {
+  return new Date(iso) < new Date();
+}
 
 export default function FollowUpPage() {
-  const pending = TODAY.filter((f) => !f.done);
-  const done = TODAY.filter((f) => f.done);
+  const [items, setItems] = useState<ScheduledMessage[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const supabase = createBrowserClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
+
+    async function load() {
+      setLoading(true);
+      try {
+        const { data, error } = await supabase
+          .from('scheduled_messages')
+          .select(`
+            id,
+            deal_id,
+            scheduled_at,
+            message_content,
+            status,
+            deals(title, contacts(name))
+          `)
+          .eq('status', 'PENDING')
+          .order('scheduled_at', { ascending: true });
+
+        if (error) throw error;
+
+        const mapped = (data || []).map((row: any) => ({
+          id: row.id,
+          deal_id: row.deal_id,
+          scheduled_at: row.scheduled_at,
+          message_content: row.message_content,
+          status: row.status,
+          deal_title: row.deals?.title,
+          contact_name: row.deals?.contacts?.name,
+        }));
+
+        setItems(mapped);
+      } catch (e: any) {
+        setError(e.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    load();
+  }, []);
+
+  const today = items.filter((i) => formatDate(i.scheduled_at) === 'Hoje');
+  const upcoming = items.filter((i) => formatDate(i.scheduled_at) !== 'Hoje');
+  const overdue = items.filter((i) => isOverdue(i.scheduled_at));
+
+  const pendingToday = today.length;
 
   return (
     <div className="flex flex-col">
@@ -27,66 +99,120 @@ export default function FollowUpPage() {
       >
         <div>
           <h1 className="font-display text-xl font-bold text-white">Follow-up</h1>
-          <p className="text-xs text-slate-400">{pending.length} hoje · {UPCOMING.length} esta semana</p>
+          <p className="text-xs text-slate-400">
+            {loading ? 'Carregando...' : `${pendingToday} hoje · ${upcoming.length} próximos`}
+          </p>
         </div>
         <button className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-500 text-white active:bg-primary-600">
           <Plus className="h-4 w-4" />
         </button>
       </header>
 
-      <div className="px-4 pt-4 space-y-5 pb-4">
-        {/* Hoje */}
-        <section>
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">Hoje</h2>
-          <div className="space-y-2.5">
-            {TODAY.map((f) => (
-              <div key={f.id} className={`rounded-2xl border p-3.5 ${f.done ? 'border-dark-border bg-dark-card/40 opacity-60' : 'border-dark-border bg-dark-card'}`}>
-                <div className="flex items-center gap-3 mb-2">
-                  <div className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold ${f.done ? 'bg-green-400/10 text-green-400' : 'bg-primary-500/20 text-primary-400'}`}>
-                    {f.done ? <CheckCircle2 className="h-5 w-5" /> : f.avatar}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className={`text-sm font-semibold ${f.done ? 'text-slate-400 line-through' : 'text-white'}`}>{f.name}</p>
-                    <p className="text-xs text-slate-400 truncate">{f.deal}</p>
-                  </div>
-                  <div className="flex items-center gap-1 text-xs text-primary-400 flex-shrink-0">
-                    <Clock className="h-3 w-3" />
-                    {f.time}
-                  </div>
-                </div>
-                {!f.done && f.note && (
-                  <p className="text-xs text-slate-400 bg-dark-bg rounded-xl px-3 py-2 leading-relaxed">
-                    {f.note}
-                  </p>
-                )}
-              </div>
-            ))}
+      <div className="px-4 pt-4 pb-6 space-y-5">
+        {loading && (
+          <div className="flex items-center justify-center py-16">
+            <Loader2 className="h-6 w-6 animate-spin text-primary-400" />
           </div>
-        </section>
+        )}
+
+        {error && (
+          <div className="flex items-center gap-3 rounded-2xl border border-red-500/30 bg-red-500/10 p-4">
+            <AlertCircle className="h-5 w-5 text-red-400 flex-shrink-0" />
+            <p className="text-sm text-red-400">{error}</p>
+          </div>
+        )}
+
+        {!loading && !error && items.length === 0 && (
+          <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-500/10">
+              <CalendarClock className="h-8 w-8 text-primary-400" />
+            </div>
+            <div>
+              <h2 className="font-display text-lg font-semibold text-white">Nenhum follow-up pendente</h2>
+              <p className="mt-1 text-sm text-slate-400">Todos os agendamentos foram enviados.</p>
+            </div>
+          </div>
+        )}
+
+        {/* Atrasados */}
+        {!loading && overdue.length > 0 && (
+          <section>
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-red-400 mb-3 flex items-center gap-1.5">
+              <AlertCircle className="h-3 w-3" /> Atrasados
+            </h2>
+            <div className="space-y-2.5">
+              {overdue.map((f) => (
+                <FollowUpCard key={f.id} item={f} highlight="overdue" />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Hoje */}
+        {!loading && today.filter((i) => !isOverdue(i.scheduled_at)).length > 0 && (
+          <section>
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">Hoje</h2>
+            <div className="space-y-2.5">
+              {today.filter((i) => !isOverdue(i.scheduled_at)).map((f) => (
+                <FollowUpCard key={f.id} item={f} highlight="today" />
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Próximos */}
-        <section>
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">Próximos</h2>
-          <div className="rounded-2xl border border-dark-border bg-dark-card overflow-hidden divide-y divide-dark-border">
-            {UPCOMING.map((f) => (
-              <div key={f.id} className="flex items-center gap-3 px-4 py-3 active:bg-dark-hover">
-                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary-500/10 text-xs font-bold text-primary-400">
-                  {f.avatar}
+        {!loading && upcoming.length > 0 && (
+          <section>
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">Próximos</h2>
+            <div className="rounded-2xl border border-dark-border bg-dark-card overflow-hidden divide-y divide-dark-border">
+              {upcoming.map((f) => (
+                <div key={f.id} className="flex items-center gap-3 px-4 py-3 active:bg-dark-hover">
+                  <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-primary-500/10 text-xs font-bold text-primary-400">
+                    {getInitials(f.contact_name || f.deal_title || '?')}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium text-white truncate">{f.contact_name || 'Sem contato'}</p>
+                    <p className="text-xs text-slate-500 truncate">{f.deal_title}</p>
+                  </div>
+                  <div className="flex flex-col items-end flex-shrink-0">
+                    <span className="text-xs font-semibold text-slate-300">{formatDate(f.scheduled_at)}</span>
+                    <span className="text-[10px] text-slate-500">{formatTime(f.scheduled_at)}</span>
+                  </div>
+                  <ChevronRight className="h-4 w-4 text-slate-600 flex-shrink-0" />
                 </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium text-white">{f.name}</p>
-                  <p className="text-xs text-slate-500 truncate">{f.deal}</p>
-                </div>
-                <div className="flex flex-col items-end flex-shrink-0">
-                  <span className="text-xs font-semibold text-slate-300">{f.date}</span>
-                  <span className="text-[10px] text-slate-500">{f.time}</span>
-                </div>
-                <ChevronRight className="h-4 w-4 text-slate-600 flex-shrink-0" />
-              </div>
-            ))}
-          </div>
-        </section>
+              ))}
+            </div>
+          </section>
+        )}
       </div>
+    </div>
+  );
+}
+
+function getInitials(name: string) {
+  return name.split(' ').map((n) => n[0]).slice(0, 2).join('').toUpperCase();
+}
+
+function FollowUpCard({ item, highlight }: { item: ScheduledMessage; highlight: 'today' | 'overdue' }) {
+  return (
+    <div className={`rounded-2xl border p-3.5 ${highlight === 'overdue' ? 'border-red-500/40 bg-red-500/5' : 'border-dark-border bg-dark-card'}`}>
+      <div className="flex items-center gap-3 mb-2">
+        <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-primary-500/20 text-sm font-bold text-primary-400">
+          {getInitials(item.contact_name || item.deal_title || '?')}
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-semibold text-white truncate">{item.contact_name || 'Sem contato'}</p>
+          <p className="text-xs text-slate-400 truncate">{item.deal_title}</p>
+        </div>
+        <div className={`flex items-center gap-1 text-xs flex-shrink-0 ${highlight === 'overdue' ? 'text-red-400' : 'text-primary-400'}`}>
+          <Clock className="h-3 w-3" />
+          {formatTime(item.scheduled_at)}
+          {highlight === 'overdue' && <span className="font-bold">· Atrasado</span>}
+        </div>
+      </div>
+      <p className="text-xs text-slate-400 bg-dark-bg rounded-xl px-3 py-2 leading-relaxed line-clamp-2">
+        {item.message_content}
+      </p>
     </div>
   );
 }

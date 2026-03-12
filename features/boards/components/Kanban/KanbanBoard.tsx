@@ -66,6 +66,8 @@ interface KanbanBoardProps {
   setLastMouseDownDealId: (id: string | null) => void;
   /** Callback to move a deal to a new stage (for keyboard accessibility) */
   onMoveDealToStage?: (dealId: string, newStageId: string) => void;
+  /** Callback to open follow-up WhatsApp modal */
+  onFollowUp?: (dealId: string) => void;
 }
 /**
  * Componente React `KanbanBoard`.
@@ -83,6 +85,7 @@ interface KanbanBoardProps {
   handleQuickAddActivity,
   setLastMouseDownDealId,
   onMoveDealToStage,
+  onFollowUp,
 } - Parâmetro `{
   stages,
   filteredDeals,
@@ -96,6 +99,7 @@ interface KanbanBoardProps {
   handleQuickAddActivity,
   setLastMouseDownDealId,
   onMoveDealToStage,
+  onFollowUp,
 }`.
  * @returns {Element} Retorna um valor do tipo `Element`.
  */
@@ -112,6 +116,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
   handleQuickAddActivity,
   setLastMouseDownDealId,
   onMoveDealToStage,
+  onFollowUp,
 }) => {
   const { lifecycleStages } = useCRM();
   const [dragOverStage, setDragOverStage] = useState<string | null>(null);
@@ -287,6 +292,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
                     onQuickAddActivity={handleQuickAddActivity}
                     setLastMouseDownDealId={setLastMouseDownDealId}
                     onMoveToStage={onMoveDealToStage ? handleOpenMoveToStage : undefined}
+                    onFollowUp={onFollowUp}
                   />
                 ))}
               </div>
