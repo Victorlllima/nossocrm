@@ -56,7 +56,7 @@ export async function analyzeLead(
 
     return {
       ...result,
-      suggestion: `${result.action} â€” ${result.reason}`,
+      suggestion: `${result.action} — ${result.reason}`,
     };
   } catch (error) {
     console.error('Error analyzing lead:', error);
@@ -70,7 +70,7 @@ export async function analyzeLead(
         actionType: 'TASK',
         urgency: 'medium',
         probabilityScore: fallbackScore,
-        suggestion: 'Consentimento necessário para usar IA. Vá em Configurações â†’ Inteligência Artificial.',
+        suggestion: 'Consentimento necessário para usar IA. Vá em Configurações → Inteligência Artificial.',
       };
     }
 

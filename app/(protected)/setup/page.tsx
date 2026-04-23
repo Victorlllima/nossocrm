@@ -139,7 +139,7 @@ export default function SetupPage() {
           {checkingInit ? (
             <div className="flex items-center justify-center py-10 text-slate-600 dark:text-slate-300">
               <Loader2 className="animate-spin h-5 w-5 mr-2" />
-              Verificando configuraçãoâ€¦
+              Verificando configuração…
             </div>
           ) : (
             <form className="space-y-6" onSubmit={handleSubmit}>
@@ -205,7 +205,7 @@ export default function SetupPage() {
                     aria-required="true"
                     aria-describedby="password-requirements"
                     className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all sm:text-sm"
-                    placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                    placeholder="••••••••"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                   />
@@ -254,7 +254,7 @@ export default function SetupPage() {
                           : 'border-red-500 focus:border-red-500'
                         : 'border-slate-300 dark:border-slate-700 focus:border-primary-500'
                       }`}
-                    placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                    placeholder="••••••••"
                     value={confirmPassword}
                     onChange={e => setConfirmPassword(e.target.value)}
                   />

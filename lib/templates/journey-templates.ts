@@ -56,7 +56,7 @@ export const OFFICIAL_JOURNEYS: Record<
               'Venda consultiva e objetiva. Foque em clareza da transformação, prova, urgência e remoção de objeções. Sem enrolação.',
           },
           goal: {
-            description: 'Maximizar conversão de MQL â†’ Matriculado.',
+            description: 'Maximizar conversão de MQL → Matriculado.',
             kpi: 'Conversão',
             targetValue: '25',
             type: 'percentage',
@@ -127,7 +127,7 @@ export const OFFICIAL_JOURNEYS: Record<
             targetValue: '15000',
             type: 'currency',
           },
-          entryTrigger: 'Alunos saudáveis com sinais de evolução e pedido de â€œpróximo passoâ€.',
+          entryTrigger: 'Alunos saudáveis com sinais de evolução e pedido de “próximo passoâ€.',
         },
       },
     ],

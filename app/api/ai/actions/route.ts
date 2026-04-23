@@ -180,7 +180,7 @@ export async function POST(req: Request) {
   const aiEnabled = typeof (orgSettings as any)?.ai_enabled === 'boolean' ? (orgSettings as any).ai_enabled : true;
   if (!aiEnabled) {
     return json<AIActionResponse>(
-      { error: 'IA desativada pela organização. Um admin pode ativar em Configurações â†’ Central de I.A.' },
+      { error: 'IA desativada pela organização. Um admin pode ativar em Configurações → Central de I.A.' },
       403
     );
   }
@@ -299,18 +299,18 @@ ${snapshotText || '[não fornecido]'}
 REGRAS:
 1) Português do Brasil, natural e humano. Evite jargão e evite rótulos tipo "Contexto:"/"Sobre:".
 2) Use o contexto para personalizar (nome, deal, etapa, próximos passos), mas NÍƒO invente fatos.
-3) Para WHATSAPP: curto, direto e MUITO legível no WhatsApp. Use quebras de linha (parágrafos) e, quando houver opções, use lista com marcadores no formato "- item" (hífen + espaço). Evite parágrafos longos. 3â€“10 linhas.
+3) Para WHATSAPP: curto, direto e MUITO legível no WhatsApp. Use quebras de linha (parágrafos) e, quando houver opções, use lista com marcadores no formato "- item" (hífen + espaço). Evite parágrafos longos. 3–10 linhas.
 4) Para EMAIL: devolva subject + body (message = body). Aplique boas práticas de email de vendas/CRM:
    - Assunto curto e específico (<= 80), sem ALL CAPS e sem "RE:" falso.
-   - Corpo SEMPRE bem escaneável: parágrafos curtos (1â€“2 frases), com linhas em branco entre blocos.
+   - Corpo SEMPRE bem escaneável: parágrafos curtos (1–2 frases), com linhas em branco entre blocos.
    - Estrutura sugerida (adapte ao contexto):
      a) Saudação breve (use o nome se tiver certeza).
      b) 1 frase de contexto (por que está falando agora).
-     c) 1â€“2 bullets com valor/objetivo ou próximos passos (use "- ").
+     c) 1–2 bullets com valor/objetivo ou próximos passos (use "- ").
      d) CTA claro e simples (uma pergunta) e, se houver opções de agenda, liste em bullets ("- segunda 10h", "- terça 15h").
      e) Fechamento curto (ex.: "Obrigado!"), sem assinatura com dados pessoais.
    - Evite bloco único de texto: NÍƒO devolva tudo em um parágrafo.
-   - Tamanho: 6â€“16 linhas no total (incluindo linhas em branco).
+   - Tamanho: 6–16 linhas no total (incluindo linhas em branco).
 5) Não inclua placeholders (tipo "[nome]") e não inclua assinatura com dados pessoais.
 
 Retorne APENAS no formato do schema (subject opcional, message obrigatório).`,

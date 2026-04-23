@@ -7,7 +7,7 @@ import { z } from 'zod';
 
 function slugify(input: string) {
   // NOTE: avoid Unicode property escapes (\p{L}) for broader browser compatibility (Safari).
-  // Normalize accents â†’ ASCII-ish, then keep [a-z0-9-].
+  // Normalize accents → ASCII-ish, then keep [a-z0-9-].
   const ascii = (input ?? '')
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '');
@@ -93,7 +93,7 @@ function buildDefaultJourneyName(selectedBoards: Board[]) {
   if (selectedBoards.length <= 1) return selectedBoards[0]?.name || 'Jornada';
   const first = selectedBoards[0]?.name ?? 'Board 1';
   const last = selectedBoards[selectedBoards.length - 1]?.name ?? 'Board N';
-  return `Jornada - ${first} â†’ ${last}`;
+  return `Jornada - ${first} → ${last}`;
 }
 
 const JourneySchema = z.object({
@@ -445,7 +445,7 @@ export function ExportTemplateModal(props: {
             <textarea
               value={importText}
               onChange={e => parseImport(e.target.value)}
-              placeholder="Cole o conteúdo do arquivo JSON aquiâ€¦"
+              placeholder="Cole o conteúdo do arquivo JSON aqui…"
               className="w-full min-h-44 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-black/30 px-3 py-2 text-xs font-mono"
             />
           )}
@@ -456,7 +456,7 @@ export function ExportTemplateModal(props: {
 
           {importJourney && (
             <div className="text-xs text-slate-600 dark:text-slate-300">
-              <b>Detectado:</b> {importJourney.boards.length} board(s){importJourney.name ? ` â€¢ ${importJourney.name}` : ''}
+              <b>Detectado:</b> {importJourney.boards.length} board(s){importJourney.name ? ` • ${importJourney.name}` : ''}
             </div>
           )}
 
@@ -470,7 +470,7 @@ export function ExportTemplateModal(props: {
                 : 'bg-primary-600 hover:bg-primary-700 text-white'
                 }`}
             >
-              <Download size={16} /> {isImporting ? 'Instalandoâ€¦' : 'Instalar jornada'}
+              <Download size={16} /> {isImporting ? 'Instalando…' : 'Instalar jornada'}
             </button>
           </div>
         </div>
@@ -510,7 +510,7 @@ export function ExportTemplateModal(props: {
             <div className="mt-4">
               <div className="text-xs font-semibold text-slate-600 dark:text-slate-300 mb-2">boards da jornada (ordem importa)</div>
               <div className="text-xs text-slate-500 dark:text-slate-400 mb-2">
-                <b>Ordem que será exportada:</b> {selectedBoards.map(b => b.name).join(' â†’ ') || '(nenhum)'}
+                <b>Ordem que será exportada:</b> {selectedBoards.map(b => b.name).join(' → ') || '(nenhum)'}
               </div>
               <div className="rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-2 max-h-64 overflow-auto space-y-1">
                 {boards.map(b => {

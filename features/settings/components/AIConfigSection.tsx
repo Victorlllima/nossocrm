@@ -12,8 +12,8 @@ const AI_PROVIDERS = [
         models: [
             { id: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash', description: 'Recomendado - Best value', price: '$0.30 / $2.50' },
             { id: 'gemini-2.5-flash-lite', name: 'Gemini 2.5 Flash Lite', description: 'Ultra fast', price: '$0.10 / $0.40' },
-            { id: 'gemini-2.5-pro', name: 'Gemini 2.5 Pro', description: 'Thinking model', price: '$1.25â€“$2.50 / $10â€“$15' },
-            { id: 'gemini-3-pro-preview', name: 'Gemini 3 Pro (Preview)', description: 'Most intelligent', price: '$2â€“$4 / $12â€“$18' },
+            { id: 'gemini-2.5-pro', name: 'Gemini 2.5 Pro', description: 'Thinking model', price: '$1.25–$2.50 / $10–$15' },
+            { id: 'gemini-3-pro-preview', name: 'Gemini 3 Pro (Preview)', description: 'Most intelligent', price: '$2–$4 / $12–$18' },
         ]
     },
     {
@@ -155,7 +155,7 @@ export const AIConfigSection: React.FC = () => {
     );
     const [validationError, setValidationError] = useState<string | null>(null);
     // UX: mostrar LGPD expandido apenas quando ainda NÍƒO há key salva (primeira configuração).
-    // Depois que a key existe, manter colapsado por padrão para não â€œinflarâ€ a tela.
+    // Depois que a key existe, manter colapsado por padrão para não “inflarâ€ a tela.
     const [lgpdExpanded, setLgpdExpanded] = useState(!aiApiKey);
 
     // Sync local state when context changes (ex: carregamento inicial)
@@ -232,7 +232,7 @@ export const AIConfigSection: React.FC = () => {
     // - OpenAI: https://platform.openai.com/docs/pricing
     // - Google Gemini API: https://ai.google.dev/gemini-api/docs/pricing
     // - Anthropic (model comparison / pricing): https://platform.claude.com/docs/en/about-claude/models
-    // Observação: alguns provedores têm preço em faixas (ex.: Gemini por tamanho de contexto) e/ou â€œcached inputâ€ (OpenAI).
+    // Observação: alguns provedores têm preço em faixas (ex.: Gemini por tamanho de contexto) e/ou “cached inputâ€ (OpenAI).
     const currentProvider = AI_PROVIDERS.find(p => p.id === aiProvider);
     const isCatalogModel = !!currentProvider?.models.some(m => m.id === aiModel);
 
@@ -595,7 +595,7 @@ export const AIConfigSection: React.FC = () => {
                         </p>
                     )}
                     <p className="text-xs text-slate-500 dark:text-slate-400">
-                        ðŸ”’ Sua chave é validada antes de salvar e armazenada no banco de dados da organização.
+                        🔒 Sua chave é validada antes de salvar e armazenada no banco de dados da organização.
                         Trate como segredo e use uma chave com o menor escopo possível.
                     </p>
 

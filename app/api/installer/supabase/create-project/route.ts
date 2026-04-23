@@ -47,7 +47,7 @@ export async function POST(req: Request) {
   });
 
   if (!created.ok) {
-    // Never reuse existing projects â€” always fail if name conflicts.
+    // Never reuse existing projects — always fail if name conflicts.
     // But provide details of the existing project so the UI can offer actions (pause/delete/rename).
     const msg = String(created.error || '').toLowerCase();
     if ((created.status === 400 || created.status === 409) && msg.includes('already exists')) {

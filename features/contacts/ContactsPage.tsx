@@ -196,7 +196,7 @@ export const ContactsPage: React.FC = () => {
                                         onClick={() => goToDeal(deal.id)}
                                         className="text-primary-600 dark:text-primary-400 hover:underline font-medium text-left"
                                     >
-                                        â€¢ {deal.title}
+                                        • {deal.title}
                                     </button>
                                 </li>
                             ))}

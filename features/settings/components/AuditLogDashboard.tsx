@@ -421,7 +421,7 @@ export const AuditLogDashboard: React.FC = () => {
                         {log.resource_type && (
                           <span className="text-slate-400">
                             {log.resource_type}
-                            {log.resource_id && ` â†’ ${log.resource_id.slice(0, 8)}...`}
+                            {log.resource_id && ` → ${log.resource_id.slice(0, 8)}...`}
                           </span>
                         )}
                       </div>

@@ -387,7 +387,7 @@ export default function InstallStartPage() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 mb-6">
             <Loader2 className="w-8 h-8 text-amber-400 animate-spin" />
           </div>
-          <h1 className="text-2xl font-bold text-white mb-2">Destravando instaladorâ€¦</h1>
+          <h1 className="text-2xl font-bold text-white mb-2">Destravando instalador…</h1>
           <p className="text-slate-400">Ajustando variáveis e preparando o redeploy na Vercel.</p>
           {unlockError && (
             <div className="mt-4 rounded-xl bg-red-500/10 border border-red-500/20 p-4 text-red-400 text-sm">

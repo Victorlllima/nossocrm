@@ -26,12 +26,12 @@ export const AICenterSettings: React.FC = () => {
         </p>
       </div>
 
-      {/* Org-wide toggle (admin-only) â€” sempre visível no topo */}
+      {/* Org-wide toggle (admin-only) — sempre visível no topo */}
       <div className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl p-6 mb-6">
         <div className="flex items-center justify-between gap-4">
           <div>
             <h2 className="text-base font-semibold text-slate-900 dark:text-white flex items-center gap-2">
-              <span className="text-lg">âœ¨</span> IA ativa na organização
+              <span className="text-lg">✨</span> IA ativa na organização
             </h2>
             <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">
               Quando desligado, recursos de IA ficam indisponíveis para toda a equipe.

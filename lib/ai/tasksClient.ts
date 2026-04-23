@@ -82,7 +82,7 @@ export async function analyzeLead(
 
   return {
     ...result,
-    suggestion: `${result.action} â€” ${result.reason}`,
+    suggestion: `${result.action} — ${result.reason}`,
   };
 }
 

@@ -268,7 +268,7 @@ export const generateReportPDF = (data: ReportData, period: PeriodFilter, boardN
             rep.deals.toString(),
             formatCurrency(rep.revenue)
         ])
-        : [['â€”', 'Sem dados no período', 'â€”', 'â€”']];
+        : [['—', 'Sem dados no período', '—', '—']];
 
     autoTable(doc, {
         startY: leaderboardY + 5,

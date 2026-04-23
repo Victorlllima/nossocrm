@@ -137,7 +137,7 @@ export const KanbanHeader: React.FC<KanbanHeaderProps> = ({
                                 <ul className="space-y-1">
                                     {activeBoard.automationSuggestions.map((suggestion, idx) => (
                                         <li key={idx} className="text-sm text-slate-700 dark:text-slate-300 p-2 hover:bg-slate-50 dark:hover:bg-white/5 rounded-md flex gap-2 items-start">
-                                            <span className="text-slate-400 mt-0.5">â€¢</span>
+                                            <span className="text-slate-400 mt-0.5">•</span>
                                             <span>{suggestion}</span>
                                         </li>
                                     ))}

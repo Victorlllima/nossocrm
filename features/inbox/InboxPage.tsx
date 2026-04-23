@@ -14,7 +14,7 @@ import { DebugFillButton } from '@/components/debug/DebugFillButton';
 export const InboxPage: React.FC = () => {
   const router = useRouter();
 
-  // Controla â€œintençãoâ€ ao abrir a Lista (ex.: abrir já com sugestões expandidas)
+  // Controla “intençãoâ€ ao abrir a Lista (ex.: abrir já com sugestões expandidas)
   const [listPreset, setListPreset] = useState<'default' | 'suggestions-expanded'>('default');
 
   const {

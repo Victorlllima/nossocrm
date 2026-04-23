@@ -83,7 +83,7 @@ export function useInstallState(): InstallState {
   const isEligible = useMemo(() => {
     if (standalone) return false;
     const platform = platformHint();
-    // Só mostra em mobile/tablet â€” desktop não precisa de PWA
+    // Só mostra em mobile/tablet — desktop não precisa de PWA
     if (platform === 'desktop') return false;
     // If browser supports native prompt, we consider eligible (when event is captured).
     if (bipEvent) return true;

@@ -102,7 +102,7 @@ export async function POST(req: Request) {
         }
       }
       
-      log(`âœ… ${action} completed`);
+      log(`✅ ${action} completed`);
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Unknown error';
       log(`âŒ ${action} failed: ${errorMsg}`);

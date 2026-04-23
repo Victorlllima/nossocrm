@@ -12,7 +12,7 @@
 };
 
 /**
- * Catálogo de prompts â€œdefaultâ€ do sistema.
+ * Catálogo de prompts “defaultâ€ do sistema.
  * - A Central de I.A lista tudo daqui.
  * - O backend pode sobrescrever via `ai_prompt_templates` (override por organização).
  */
@@ -20,7 +20,7 @@ export const PROMPT_CATALOG: PromptCatalogItem[] = [
   {
     key: 'task_inbox_sales_script',
     title: 'Inbox Â· Script de vendas',
-    usedBy: ['app/api/ai/tasks/inbox/sales-script', 'app/api/ai/actions â†’ generateSalesScript'],
+    usedBy: ['app/api/ai/tasks/inbox/sales-script', 'app/api/ai/actions → generateSalesScript'],
     defaultTemplate:
       `Gere script de vendas ({{scriptType}}).\n` +
       `Deal: {{dealTitle}}. Contexto: {{context}}.\n` +
@@ -31,14 +31,14 @@ export const PROMPT_CATALOG: PromptCatalogItem[] = [
   {
     key: 'task_inbox_daily_briefing',
     title: 'Inbox Â· Briefing diário',
-    usedBy: ['app/api/ai/tasks/inbox/daily-briefing', 'app/api/ai/actions â†’ generateDailyBriefing'],
+    usedBy: ['app/api/ai/tasks/inbox/daily-briefing', 'app/api/ai/actions → generateDailyBriefing'],
     defaultTemplate: `Briefing diário. Dados: {{dataJson}}. Resuma prioridades em português do Brasil.`,
     notes: 'Variáveis: dataJson (JSON string).',
   },
   {
     key: 'task_deals_objection_responses',
     title: 'Deals Â· Respostas de objeção (3 opções)',
-    usedBy: ['app/api/ai/tasks/deals/objection-responses', 'app/api/ai/actions â†’ generateObjectionResponse'],
+    usedBy: ['app/api/ai/tasks/deals/objection-responses', 'app/api/ai/actions → generateObjectionResponse'],
     defaultTemplate:
       `Objeção: "{{objection}}" no deal "{{dealTitle}}".\n` +
       `Gere 3 respostas práticas (Empática, Valor, Pergunta). Português do Brasil.`,
@@ -47,7 +47,7 @@ export const PROMPT_CATALOG: PromptCatalogItem[] = [
   {
     key: 'task_deals_email_draft',
     title: 'Deals Â· Rascunho de e-mail',
-    usedBy: ['app/api/ai/tasks/deals/email-draft', 'app/api/ai/actions â†’ generateEmailDraft'],
+    usedBy: ['app/api/ai/tasks/deals/email-draft', 'app/api/ai/actions → generateEmailDraft'],
     defaultTemplate:
       `Gere um rascunho de email profissional para:\n` +
       `- Contato: {{contactName}}\n` +
@@ -59,7 +59,7 @@ export const PROMPT_CATALOG: PromptCatalogItem[] = [
   {
     key: 'task_deals_analyze',
     title: 'Deals Â· Análise (coach) para próxima ação',
-    usedBy: ['app/api/ai/tasks/deals/analyze', 'app/api/ai/actions â†’ analyzeLead'],
+    usedBy: ['app/api/ai/tasks/deals/analyze', 'app/api/ai/actions → analyzeLead'],
     defaultTemplate:
       `Você é um coach de vendas analisando um deal de CRM. Seja DIRETO e ACIONÍVEL.\n` +
       `DEAL:\n` +
@@ -79,7 +79,7 @@ export const PROMPT_CATALOG: PromptCatalogItem[] = [
   {
     key: 'task_boards_generate_structure',
     title: 'Boards Â· Gerar estrutura de board (Kanban)',
-    usedBy: ['app/api/ai/tasks/boards/generate-structure', 'app/api/ai/actions â†’ generateBoardStructure'],
+    usedBy: ['app/api/ai/tasks/boards/generate-structure', 'app/api/ai/actions → generateBoardStructure'],
     defaultTemplate:
       `Crie uma estrutura de board Kanban para: {{description}}.\n` +
       `LIFECYCLES: {{lifecycleJson}}\n` +
@@ -89,7 +89,7 @@ export const PROMPT_CATALOG: PromptCatalogItem[] = [
   {
     key: 'task_boards_generate_strategy',
     title: 'Boards Â· Gerar estratégia (meta/KPI/persona)',
-    usedBy: ['app/api/ai/tasks/boards/generate-strategy', 'app/api/ai/actions â†’ generateBoardStrategy'],
+    usedBy: ['app/api/ai/tasks/boards/generate-strategy', 'app/api/ai/actions → generateBoardStrategy'],
     defaultTemplate:
       `Defina estratégia para board: {{boardName}}.\n` +
       `Meta, KPI, Persona. Português do Brasil.`,
@@ -98,7 +98,7 @@ export const PROMPT_CATALOG: PromptCatalogItem[] = [
   {
     key: 'task_boards_refine',
     title: 'Boards Â· Refinar board com instruções (chat)',
-    usedBy: ['app/api/ai/tasks/boards/refine', 'app/api/ai/actions â†’ refineBoardWithAI'],
+    usedBy: ['app/api/ai/tasks/boards/refine', 'app/api/ai/actions → refineBoardWithAI'],
     defaultTemplate:
       `Ajuste o board com base na instrução: "{{userInstruction}}".\n` +
       `{{boardContext}}\n` +
@@ -110,9 +110,9 @@ export const PROMPT_CATALOG: PromptCatalogItem[] = [
   {
     key: 'agent_crm_base_instructions',
     title: 'Agente Â· System prompt base (CRM Pilot)',
-    usedBy: ['lib/ai/crmAgent â†’ BASE_INSTRUCTIONS', 'app/api/ai/chat'],
+    usedBy: ['lib/ai/crmAgent → BASE_INSTRUCTIONS', 'app/api/ai/chat'],
     defaultTemplate:
-      `Você é o Max Lima Pilot, um assistente de vendas inteligente. ðŸš€\n` +
+      `Você é o Max Lima Pilot, um assistente de vendas inteligente. 🚀\n` +
       `\n` +
       `PERSONALIDADE:\n` +
       `- Seja proativo, amigável e analítico\n` +
@@ -125,7 +125,7 @@ export const PROMPT_CATALOG: PromptCatalogItem[] = [
       `- Se der erro, informe de forma amigável\n` +
       `- Não mostre IDs/UUIDs para o usuário final\n`,
     notes:
-      'Importante: esse prompt é â€œsensívelâ€. Mudanças ruins degradam o agente e podem quebrar fluxos. Ideal ter versionamento e botão â€œresetâ€.',
+      'Importante: esse prompt é “sensívelâ€. Mudanças ruins degradam o agente e podem quebrar fluxos. Ideal ter versionamento e botão “resetâ€.',
   },
 ];
 

@@ -222,7 +222,7 @@ export const useBoardsController = () => {
     lastContextSignatureRef.current = contextSignature;
 
     if (process.env.NODE_ENV !== 'production') {
-      console.log('[BoardsController] ðŸŽ¯ Setting AI Context for board:', activeBoard.id, activeBoard.name);
+      console.log('[BoardsController] 🎯 Setting AI Context for board:', activeBoard.id, activeBoard.name);
     }
 
     setContext({
@@ -668,8 +668,8 @@ export const useBoardsController = () => {
     const tempId = makeTempId();
     // Removed optimistic setActiveBoardId to prevent "empty board" flash or redirection issues
     setBoardCreateOverlay({
-      title: 'Criando boardâ€¦',
-      subtitle: boardData?.name ? `â€” ${boardData.name}` : undefined,
+      title: 'Criando board…',
+      subtitle: boardData?.name ? `— ${boardData.name}` : undefined,
     });
 
     createBoardMutation.mutate({ board: boardData, order, clientTempId: tempId }, {

@@ -172,9 +172,9 @@ export function analyzeOverdueActivities(
 
     const { primary, alternatives } = generateSuggestedActions(activity, deal);
 
-    const typeLabel = activity.type === 'CALL' ? 'ðŸ“ž Ligação' :
-                     activity.type === 'MEETING' ? 'ðŸ“… Reunião' :
-                     activity.type === 'EMAIL' ? 'ðŸ“§ Email' : 'âœ… Tarefa';
+    const typeLabel = activity.type === 'CALL' ? '📞 Ligação' :
+                     activity.type === 'MEETING' ? '📅 Reunião' :
+                     activity.type === 'EMAIL' ? 'ðŸ“§ Email' : '✅ Tarefa';
 
     decisions.push({
       id: crypto.randomUUID(),
@@ -182,7 +182,7 @@ export function analyzeOverdueActivities(
       priority,
       category: 'deadline',
       title: `${typeLabel} atrasada: ${activity.title}`,
-      description: `${daysOverdue} ${daysOverdue === 1 ? 'dia' : 'dias'} de atraso â€¢ ${deal ? deal.title : 'Sem deal vinculado'}`,
+      description: `${daysOverdue} ${daysOverdue === 1 ? 'dia' : 'dias'} de atraso • ${deal ? deal.title : 'Sem deal vinculado'}`,
       reasoning: generateReasoning(activity, daysOverdue, deal),
       dealId: activity.dealId,
       contactId: deal?.contactId,

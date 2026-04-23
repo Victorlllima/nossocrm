@@ -301,7 +301,7 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
       {!activeBoard ? (
         <div className="flex-1 flex flex-col items-center justify-center text-center p-8">
           <div className="w-24 h-24 bg-primary-50 dark:bg-primary-900/20 rounded-full flex items-center justify-center mb-6">
-            <span className="text-4xl">ðŸš€</span>
+            <span className="text-4xl">🚀</span>
           </div>
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
             Bem-vindo ao seu CRM
@@ -314,7 +314,7 @@ export const PipelineView: React.FC<PipelineViewProps> = ({
             onClick={() => setIsWizardOpen(true)}
             className="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl transition-colors flex items-center gap-2 shadow-lg shadow-primary-600/20"
           >
-            âœ¨ Criar meu primeiro Board
+            ✨ Criar meu primeiro Board
           </button>
         </div>
       ) : (

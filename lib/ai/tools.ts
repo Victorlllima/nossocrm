@@ -96,7 +96,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             return { ok: false as const, error: 'Especifique o estágio destino.' };
         }
 
-        // â€œprimeiro estágioâ€ / â€œúltimo estágioâ€ (atalhos úteis)
+        // “primeiro estágioâ€ / “último estágioâ€ (atalhos úteis)
         const lowered = stageName.toLowerCase();
         if (/(primeiro|in[íi]cio|inicial)/.test(lowered)) {
             const { data: first, error } = await supabase
@@ -164,7 +164,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             execute: async ({ boardId }) => {
                 // supabase is already initialized
                 const targetBoardId = boardId || context.boardId;
-                console.log('[AI] ðŸš€ analyzePipeline EXECUTED!', { targetBoardId });
+                console.log('[AI] 🚀 analyzePipeline EXECUTED!', { targetBoardId });
 
                 if (!targetBoardId) {
                     return { error: 'Nenhum board selecionado. Vá para um board ou especifique qual.' };
@@ -218,7 +218,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
             execute: async ({ boardId }) => {
                 // supabase is already initialized
                 const targetBoardId = boardId || context.boardId;
-                console.log('[AI] ðŸ“Š getBoardMetrics EXECUTED!');
+                console.log('[AI] 📊 getBoardMetrics EXECUTED!');
 
                 if (!targetBoardId) {
                     return { error: 'Nenhum board selecionado.' };
@@ -263,11 +263,11 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 const cleanedQuery = String(query)
                     .trim()
                     // remove aspas comuns no início/fim (modelo costuma mandar "Nike")
-                    .replace(/^["'â€œâ€â€˜â€™]+/, '')
-                    .replace(/["'â€œâ€â€˜â€™]+$/, '')
+                    .replace(/^["'“â€‘’]+/, '')
+                    .replace(/["'“â€‘’]+$/, '')
                     .trim();
 
-                // Normalize pontuação e remova palavras â€œdecorativasâ€ que o modelo costuma incluir
+                // Normalize pontuação e remova palavras “decorativasâ€ que o modelo costuma incluir
                 // (ex.: "buscar deal Nike"), para evitar falso negativo.
                 const normalizedQuery = cleanedQuery
                     // troca pontuações por espaço
@@ -337,7 +337,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                         value: `R$ ${(d.value || 0).toLocaleString('pt-BR')}`,
                         stage: d.stage?.name || d.stage?.label || 'N/A',
                         contact: d.contact?.name || 'N/A',
-                        status: d.is_won ? 'âœ… Ganho' : d.is_lost ? 'âŒ Perdido' : 'ðŸ”„ Aberto'
+                        status: d.is_won ? '✅ Ganho' : d.is_lost ? 'âŒ Perdido' : 'ðŸ”„ Aberto'
                     })) || []
                 };
             },
@@ -385,7 +385,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 // supabase is already initialized
                 const targetBoardId = boardId || context.boardId;
 
-                console.log('[AI] ðŸ“‹ listDealsByStage EXECUTING:', {
+                console.log('[AI] 📋 listDealsByStage EXECUTING:', {
                     stageName,
                     stageId,
                     boardId,
@@ -431,7 +431,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
 
                     if (stages && stages.length > 0) {
                         finalStageId = stages[0].id;
-                        console.log('[AI] âœ… Found stage by prefix:', stages[0].name, finalStageId);
+                        console.log('[AI] ✅ Found stage by prefix:', stages[0].name, finalStageId);
                     } else {
                         finalStageId = undefined;
                     }
@@ -446,7 +446,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                         .eq('board_id', targetBoardId)
                         .or(`name.ilike.%${effectiveStageName}%,label.ilike.%${effectiveStageName}%`);
 
-                    console.log('[AI] ðŸ“‹ Stage search by name:', {
+                    console.log('[AI] 📋 Stage search by name:', {
                         stageName: effectiveStageName,
                         foundStages: stages,
                         stageError
@@ -470,7 +470,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     return { error: 'Estágio não identificado. Informe o nome do estágio (ex: "Proposta", "Descoberta").' };
                 }
 
-                console.log('[AI] ðŸ“‹ Querying deals with stageId:', finalStageId);
+                console.log('[AI] 📋 Querying deals with stageId:', finalStageId);
 
                 const { data: deals, error: dealsError } = await supabase
                     .from('deals')
@@ -486,7 +486,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     return { error: formatSupabaseFailure(dealsError) };
                 }
 
-                console.log('[AI] ðŸ“‹ Deals query result:', {
+                console.log('[AI] 📋 Deals query result:', {
                     dealsCount: deals?.length,
                     deals,
                     dealsError
@@ -585,7 +585,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     .order('date', { ascending: true });
 
                 if (!overdueActivities || overdueActivities.length === 0) {
-                    return { count: 0, message: 'Nenhuma atividade atrasada encontrada! ðŸŽ‰', deals: [] };
+                    return { count: 0, message: 'Nenhuma atividade atrasada encontrada! 🎉', deals: [] };
                 }
 
                 const dealIds = [...new Set(overdueActivities.map(a => a.deal_id).filter(Boolean))];
@@ -647,7 +647,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                     id: deal.id,
                     title: deal.title,
                     value: `R$ ${(deal.value || 0).toLocaleString('pt-BR')}`,
-                    status: deal.is_won ? 'âœ… Ganho' : deal.is_lost ? 'âŒ Perdido' : 'ðŸ”„ Aberto',
+                    status: deal.is_won ? '✅ Ganho' : deal.is_lost ? 'âŒ Perdido' : 'ðŸ”„ Aberto',
                     stage: (deal.stage as any)?.name || (deal.stage as any)?.label || 'N/A',
                     priority: deal.priority || 'medium',
                     contact: (deal.contact as any)?.name || 'N/A',
@@ -660,7 +660,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
 
         // ============= AÇÕES (COM APROVAÇÍƒO) =============
         moveDeal: crmTool({
-            description: 'Move um deal para outro estágio do funil. Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
+            description: 'Move um deal para outro estágio do funil. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
             parameters: z.object({
                 dealId: z.string().optional().describe('ID do deal (usa contexto se não fornecido)'),
                 stageName: z.string().optional().describe('Nome do estágio destino'),
@@ -724,7 +724,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
         }),
 
         createDeal: crmTool({
-            description: 'Cria um novo deal no board atual (ou informado). Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
+            description: 'Cria um novo deal no board atual (ou informado). Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
             parameters: z.object({
                 title: z.string().min(1).describe('Título do deal'),
                 value: z.number().optional().default(0).describe('Valor do deal em reais'),
@@ -813,7 +813,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
         }),
 
         updateDeal: crmTool({
-            description: 'Atualiza campos de um deal existente. Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
+            description: 'Atualiza campos de um deal existente. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
             parameters: z.object({
                 dealId: z.string().optional().describe('ID do deal (usa contexto se não fornecido)'),
                 title: z.string().optional().describe('Novo título'),
@@ -849,7 +849,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
         }),
 
         markDealAsWon: crmTool({
-            description: 'Marca um deal como GANHO/fechado com sucesso! ðŸŽ‰ Pode encontrar o deal por ID, título, ou estágio. Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
+            description: 'Marca um deal como GANHO/fechado com sucesso! 🎉 Pode encontrar o deal por ID, título, ou estágio. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
             parameters: z.object({
                 dealId: z.string().optional().describe('ID do deal (opcional se fornecer outros identificadores)'),
                 dealTitle: z.string().optional().describe('Título/nome do deal para buscar'),
@@ -862,7 +862,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
                 let targetDealId = dealId || context.dealId;
                 const targetBoardId = context.boardId;
 
-                console.log('[AI] ðŸŽ‰ markDealAsWon EXECUTING:', { dealId, dealTitle, stageName, targetBoardId });
+                console.log('[AI] 🎉 markDealAsWon EXECUTING:', { dealId, dealTitle, stageName, targetBoardId });
 
                 // Smart lookup: find deal by title or stage if no dealId
                 if (!targetDealId && targetBoardId) {
@@ -957,19 +957,19 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
 
                 return {
                     success: true,
-                    message: `ðŸŽ‰ Parabéns! Deal "${deal.title}" marcado como GANHO!`,
+                    message: `🎉 Parabéns! Deal "${deal.title}" marcado como GANHO!`,
                     value: `R$ ${(deal.value || 0).toLocaleString('pt-BR')}`
                 };
             },
         }),
 
         markDealAsLost: crmTool({
-            description: 'Marca um deal como PERDIDO. Requer motivo da perda. Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
+            description: 'Marca um deal como PERDIDO. Requer motivo da perda. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
             parameters: z.object({
                 dealId: z.string().optional().describe('ID do deal'),
                 reason: z.string().describe('Motivo da perda (ex: Preço, Concorrente, Timing)'),
             }),
-            needsApproval: !bypassApproval, // âœ… Requer aprovação (bypassável em dev/test)
+            needsApproval: !bypassApproval, // ✅ Requer aprovação (bypassável em dev/test)
             execute: async ({ dealId, reason }) => {
                 // supabase is already initialized
                 const targetDealId = dealId || context.dealId;
@@ -1005,12 +1005,12 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
         }),
 
         assignDeal: crmTool({
-            description: 'Reatribui um deal para outro vendedor/responsável. Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
+            description: 'Reatribui um deal para outro vendedor/responsável. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
             parameters: z.object({
                 dealId: z.string().optional().describe('ID do deal'),
                 newOwnerId: z.string().describe('ID do novo responsável (UUID)'),
             }),
-            needsApproval: !bypassApproval, // âœ… Requer aprovação (bypassável em dev/test)
+            needsApproval: !bypassApproval, // ✅ Requer aprovação (bypassável em dev/test)
             execute: async ({ dealId, newOwnerId }) => {
                 // supabase is already initialized
                 const targetDealId = dealId || context.dealId;
@@ -1052,7 +1052,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
         }),
 
         createTask: crmTool({
-            description: 'Cria uma nova tarefa ou atividade para acompanhamento. Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
+            description: 'Cria uma nova tarefa ou atividade para acompanhamento. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
             parameters: z.object({
                 title: z.string().describe('Título da tarefa'),
                 description: z.string().optional(),
@@ -1097,7 +1097,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
 
         moveDealsBulk: crmTool({
             description:
-                'Move vários deals de uma vez para outro estágio. Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
+                'Move vários deals de uma vez para outro estágio. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
             parameters: z.object({
                 dealIds: z.array(z.string()).min(1).describe('IDs dos deals a mover'),
                 boardId: z.string().optional().describe('Board alvo (usa contexto se não fornecido)'),
@@ -1161,7 +1161,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
 
                 if (updError) return { error: formatSupabaseFailure(updError) };
 
-                // 3) â€œAutomação simplesâ€: cria 1 tarefa por deal (com guardrail extra)
+                // 3) “Automação simplesâ€: cria 1 tarefa por deal (com guardrail extra)
                 let followUpCreated = 0;
                 if (createFollowUpTask) {
                     const maxTasks = Math.min(idsToMove.length, 20);
@@ -1271,7 +1271,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
         }),
 
         completeActivity: crmTool({
-            description: 'Marca uma atividade como concluída. Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
+            description: 'Marca uma atividade como concluída. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
             parameters: z.object({
                 activityId: z.string(),
             }),
@@ -1292,7 +1292,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
         }),
 
         rescheduleActivity: crmTool({
-            description: 'Reagenda uma atividade (altera a data). Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
+            description: 'Reagenda uma atividade (altera a data). Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
             parameters: z.object({
                 activityId: z.string(),
                 newDate: z.string().describe('Nova data/hora (ISO)'),
@@ -1314,7 +1314,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
         }),
 
         logActivity: crmTool({
-            description: 'Registra uma interação (ligação/email/reunião) e já marca como concluída. Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
+            description: 'Registra uma interação (ligação/email/reunião) e já marca como concluída. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
             parameters: z.object({
                 title: z.string().min(1),
                 description: z.string().optional(),
@@ -1350,7 +1350,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
 
         // =================== DEAL NOTES (P0) ===================
         addDealNote: crmTool({
-            description: 'Adiciona uma nota a um deal. Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
+            description: 'Adiciona uma nota a um deal. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
             parameters: z.object({
                 dealId: z.string().optional().describe('ID do deal (usa contexto se não fornecido)'),
                 content: z.string().min(1).describe('Conteúdo da nota'),
@@ -1405,7 +1405,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
 
         // =================== CONTATOS (P1) ===================
         createContact: crmTool({
-            description: 'Cria um novo contato. Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
+            description: 'Cria um novo contato. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
             parameters: z.object({
                 name: z.string().min(1),
                 email: z.string().email().optional(),
@@ -1443,7 +1443,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
         }),
 
         updateContact: crmTool({
-            description: 'Atualiza campos de um contato. Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
+            description: 'Atualiza campos de um contato. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
             parameters: z.object({
                 contactId: z.string(),
                 name: z.string().optional(),
@@ -1501,7 +1501,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
         }),
 
         linkDealToContact: crmTool({
-            description: 'Associa um deal a um contato (define deal.contact_id). Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
+            description: 'Associa um deal a um contato (define deal.contact_id). Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
             parameters: z.object({
                 dealId: z.string().optional().describe('ID do deal (usa contexto se não fornecido)'),
                 contactId: z.string().describe('ID do contato'),
@@ -1559,7 +1559,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
         }),
 
         updateStage: crmTool({
-            description: 'Atualiza um estágio (nome/label/cor/ordem). Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
+            description: 'Atualiza um estágio (nome/label/cor/ordem). Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
             parameters: z.object({
                 stageId: z.string(),
                 name: z.string().optional(),
@@ -1592,7 +1592,7 @@ export function createCRMTools(context: CRMCallOptions, userId: string) {
         }),
 
         reorderStages: crmTool({
-            description: 'Reordena os estágios de um board. Requer aprovação no card (Aprovar/Negar) â€” não peça confirmação em texto.',
+            description: 'Reordena os estágios de um board. Requer aprovação no card (Aprovar/Negar) — não peça confirmação em texto.',
             parameters: z.object({
                 boardId: z.string().optional(),
                 orderedStageIds: z.array(z.string()).min(2),

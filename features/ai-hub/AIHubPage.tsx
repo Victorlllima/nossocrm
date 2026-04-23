@@ -191,7 +191,7 @@ export const AIHubPage: React.FC = () => {
           <div>
             <h1 className="font-bold text-slate-900 dark:text-white">AI Assistant</h1>
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              Gemini 2.5 Flash â€¢ Multi-step Agentic
+              Gemini 2.5 Flash • Multi-step Agentic
             </p>
           </div>
         </div>
@@ -287,7 +287,7 @@ export const AIHubPage: React.FC = () => {
         </form>
 
         <p className="text-center text-xs text-slate-400 mt-2">
-          Powered by Gemini 2.5 Flash â€¢ Respostas podem conter imprecisões
+          Powered by Gemini 2.5 Flash • Respostas podem conter imprecisões
         </p>
       </div>
     </div>

@@ -485,7 +485,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
     }
 
     // Link boards with an explicit handoff chain for official journeys.
-    // Market-aligned: keep the core revenue journey chained (SDR â†’ Sales â†’ Onboarding â†’ CS Health).
+    // Market-aligned: keep the core revenue journey chained (SDR → Sales → Onboarding → CS Health).
     // Expansion/Upsell is a separate commercial pipeline and should NOT be auto-chained by default.
     if (onUpdateBoardAsync && createdBoards.length > 0) {
       const bySlug = new Map<string, Board>();
@@ -640,7 +640,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
     setPreviewBoard(null); // Clear preview since it's now the actual board
     setChatMessages(prev => [
       ...prev,
-      { role: 'ai', content: 'âœ… Alterações aplicadas com sucesso!' },
+      { role: 'ai', content: '✅ Alterações aplicadas com sucesso!' },
     ]);
   };
 
@@ -825,12 +825,12 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
               <Loader2 className="mt-0.5 animate-spin text-primary-500" size={22} />
               <div className="min-w-0 flex-1">
                 <div className="text-base font-semibold text-slate-900 dark:text-white">
-                  {installProgress && installProgress.total === 1 ? 'Criando boardâ€¦' : 'Instalando funilâ€¦'}
+                  {installProgress && installProgress.total === 1 ? 'Criando board…' : 'Instalando funil…'}
                 </div>
                 <div className="mt-1 text-sm text-slate-600 dark:text-slate-300">
                   {installProgress
-                    ? `Criando board ${installProgress.current}/${installProgress.total}${installProgress.currentBoardName ? ` â€” ${installProgress.currentBoardName}` : ''}`
-                    : 'Preparandoâ€¦'}
+                    ? `Criando board ${installProgress.current}/${installProgress.total}${installProgress.currentBoardName ? ` — ${installProgress.currentBoardName}` : ''}`
+                    : 'Preparando…'}
                 </div>
               </div>
             </div>
@@ -930,7 +930,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                           onClick={() => handleApplyProposal(msg.proposalData!)}
                           className="px-3 py-1.5 text-xs font-medium rounded-lg bg-green-600 hover:bg-green-500 text-white transition-colors flex items-center gap-1"
                         >
-                          âœ… Aplicar
+                          ✅ Aplicar
                         </button>
                       </div>
                     )}
@@ -1052,7 +1052,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                               Usar template individual
                             </div>
                             <div className="text-[11px] text-slate-500 dark:text-slate-400">
-                              Um board pronto (Pré-venda, Vendas, CSâ€¦).
+                              Um board pronto (Pré-venda, Vendas, CS…).
                             </div>
                           </div>
                         </div>
@@ -1090,7 +1090,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                         }}
                         className="text-xs font-medium text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
                       >
-                        Ver templates da comunidade â†’
+                        Ver templates da comunidade →
                       </button>
                     </div>
                   </div>
@@ -1175,7 +1175,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                                   </div>
                                   <div className="opacity-0 group-hover:opacity-100 transition-opacity">
                                     <div className="w-6 h-6 rounded-full bg-primary-100 dark:bg-primary-900/40 flex items-center justify-center text-primary-600 dark:text-primary-400 text-xs">
-                                      â†’
+                                      →
                                     </div>
                                   </div>
                                 </div>
@@ -1254,7 +1254,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                               >
                                 <div className="flex items-center justify-between mb-2">
                                   <h4 className="font-semibold text-slate-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 flex items-center gap-2">
-                                    ðŸš€ {template.name}
+                                    🚀 {template.name}
                                     <span className="text-xs bg-slate-100 dark:bg-white/10 px-2 py-0.5 rounded-full text-slate-500">
                                       v{template.version}
                                     </span>
@@ -1396,7 +1396,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                                     </span>
                                     {i < board.columns.length - 1 && (
                                       <span className="mx-2 text-slate-300 dark:text-slate-600">
-                                        â†’
+                                        →
                                       </span>
                                     )}
                                   </div>
@@ -1452,7 +1452,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                   )}
 
                   <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
-                    ðŸ’¡ A IA vai criar um board personalizado para você!
+                    💡 A IA vai criar um board personalizado para você!
                   </p>
                 </div>
               </div>
@@ -1480,7 +1480,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                   className={`p-4 rounded-xl border ${isChatMode ? 'bg-white dark:bg-dark-card border-slate-200 dark:border-white/10 shadow-sm' : 'bg-primary-50 dark:bg-primary-900/20 border-primary-200 dark:border-primary-500/20'}`}
                 >
                   <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                    ðŸ“‹ {displayBoard.boardName}
+                    📋 {displayBoard.boardName}
                   </h4>
                   <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
                     {displayBoard.description}
@@ -1515,11 +1515,11 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                     displayBoard.automationSuggestions.length > 0 && (
                       <div className="mt-4 pt-4 border-t border-slate-200 dark:border-white/10">
                         <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                          ðŸ’¡ Automações sugeridas:
+                          💡 Automações sugeridas:
                         </p>
                         <ul className="text-sm text-slate-600 dark:text-slate-400 space-y-1">
                           {displayBoard.automationSuggestions.map((suggestion, idx) => (
-                            <li key={idx}>â†’ {suggestion}</li>
+                            <li key={idx}>→ {suggestion}</li>
                           ))}
                         </ul>
                       </div>
@@ -1548,7 +1548,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                 onClick={() => handleInstallOfficialJourney(selectedPlaybookId)}
                 className="px-8 py-3 bg-primary-600 hover:bg-primary-500 text-white rounded-xl transition-all shadow-lg hover:shadow-primary-500/25 font-bold flex items-center gap-2"
               >
-                <span className="text-lg">ðŸš€</span> Instalar Playbook Completo
+                <span className="text-lg">🚀</span> Instalar Playbook Completo
               </button>
             </div>
           )}
@@ -1614,7 +1614,7 @@ export const BoardCreationWizard: React.FC<BoardCreationWizardProps> = ({
                   onClick={handleCreateFromAI}
                   className="px-6 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg transition-colors shadow-lg flex items-center gap-2"
                 >
-                  âœ… Perfeito! Criar Board
+                  ✅ Perfeito! Criar Board
                 </button>
               </div>
             </div>

@@ -83,7 +83,7 @@ export function DashboardEmptyState({ hasNoDeals = true, hasNoContacts = true }:
                             Dica do Max Lima
                         </p>
                         <p className="text-sm text-primary-600 dark:text-primary-400 mt-1">
-                            Use o assistente de IA (ícone âœ¨ no header) para tirar dúvidas e criar conteúdos como emails e scripts de vendas.
+                            Use o assistente de IA (ícone ✨ no header) para tirar dúvidas e criar conteúdos como emails e scripts de vendas.
                         </p>
                     </div>
                 </div>

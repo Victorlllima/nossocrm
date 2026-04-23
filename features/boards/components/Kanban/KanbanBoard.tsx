@@ -10,7 +10,7 @@ import { useCRM } from '@/context/CRMContext';
  * UI: Drop highlight should follow the stage color.
  *
  * Note on Tailwind: stage colors come from persisted values like `bg-blue-500`.
- * Tailwind only generates classes it can â€œseeâ€ in source, so we map to a finite set
+ * Tailwind only generates classes it can “seeâ€ in source, so we map to a finite set
  * of explicit `border-<color>-500`, `bg-<color>-100/20`, and `shadow-<color>-500/30` classes here.
  */
 function dropHighlightClasses(stageBgClass?: string): string {
@@ -281,7 +281,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
                     onDragStart={handleDragStart}
                     onSelect={handleSelectDeal}
                     // Performance: avoid passing openMenuId (string) to all cards.
-                    // Only 1â€“2 cards will flip `isMenuOpen` when the menu is toggled.
+                    // Only 1–2 cards will flip `isMenuOpen` when the menu is toggled.
                     isMenuOpen={openActivityMenuId === deal.id}
                     setOpenMenuId={setOpenActivityMenuId}
                     onQuickAddActivity={handleQuickAddActivity}

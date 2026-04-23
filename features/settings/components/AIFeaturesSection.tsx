@@ -258,7 +258,7 @@ export const AIFeaturesSection: React.FC = () => {
               <textarea
                 value={promptDraft}
                 onChange={(e) => setPromptDraft(e.target.value)}
-                placeholder="Cole/edite o prompt aquiâ€¦"
+                placeholder="Cole/edite o prompt aqui…"
                 className="w-full min-h-[280px] resize-y bg-white dark:bg-slate-950 border border-slate-200 dark:border-white/10 rounded-xl p-4 text-sm text-slate-900 dark:text-white font-mono focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none"
               />
             )}

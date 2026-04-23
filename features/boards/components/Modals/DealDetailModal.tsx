@@ -252,7 +252,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
     } catch (error: any) {
       console.error('[DealDetailModal] analyzeLead failed:', error);
       addToast(
-        error?.message || 'Falha ao analisar deal com IA. Verifique Configurações â†’ Inteligência Artificial.',
+        error?.message || 'Falha ao analisar deal com IA. Verifique Configurações → Inteligência Artificial.',
         'warning'
       );
     } finally {
@@ -269,7 +269,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
     } catch (error: any) {
       console.error('[DealDetailModal] generateEmailDraft failed:', error);
       addToast(
-        error?.message || 'Falha ao gerar e-mail com IA. Verifique Configurações â†’ Inteligência Artificial.',
+        error?.message || 'Falha ao gerar e-mail com IA. Verifique Configurações → Inteligência Artificial.',
         'warning'
       );
     } finally {
@@ -287,7 +287,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
     } catch (error: any) {
       console.error('[DealDetailModal] generateObjectionResponse failed:', error);
       addToast(
-        error?.message || 'Falha ao gerar respostas. Verifique Configurações â†’ Inteligência Artificial.',
+        error?.message || 'Falha ao gerar respostas. Verifique Configurações → Inteligência Artificial.',
         'warning'
       );
     } finally {
@@ -1051,7 +1051,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
                             <input
                               value={customItemName}
                               onChange={e => setCustomItemName(e.target.value)}
-                              placeholder="Ex.: Pacote personalizado, Procedimento Xâ€¦"
+                              placeholder="Ex.: Pacote personalizado, Procedimento X…"
                               className="w-full bg-white dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary-500 dark:text-white"
                             />
                           </div>
@@ -1185,7 +1185,7 @@ export const DealDetailModal: React.FC<DealDetailModalProps> = ({
                             {dealBoard.agentPersona?.name}
                           </p>
                           <p className="text-xs text-slate-500 dark:text-slate-400">
-                            {dealBoard.agentPersona?.role} â€¢ Foco: {dealBoard.goal?.kpi || 'Geral'}
+                            {dealBoard.agentPersona?.role} • Foco: {dealBoard.goal?.kpi || 'Geral'}
                           </p>
                         </div>
                       </div>

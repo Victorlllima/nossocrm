@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import { DealDetailModal } from '@/features/boards/components/Modals/DealDetailModal';
 import { runStorySteps } from './storyRunner';
 
-// Story: US-001 â€” Abrir um deal no Boards
+// Story: US-001 — Abrir um deal no Boards
 // User Story: Abrir deal no Boards sem crash
 
 vi.mock('@/hooks/useResponsiveMode', () => ({
@@ -115,7 +115,7 @@ vi.mock('@/context/CRMContext', () => ({
   },
 }));
 
-describe('Story â€” US-001: Abrir deal no Boards', () => {
+describe('Story — US-001: Abrir deal no Boards', () => {
   it('simula a história e garante que não quebra', async () => {
     const user = userEvent.setup();
 

@@ -26,7 +26,7 @@ const mock = {
   },
   nextAction: {
     title: 'Agradecer cliente e agendar onboarding',
-    why: 'O deal acabou de entrar em â€œGanhoâ€. Consolidar relacionamento e garantir kickoff ainda hoje aumenta retenção.',
+    why: 'O deal acabou de entrar em “Ganhoâ€. Consolidar relacionamento e garantir kickoff ainda hoje aumenta retenção.',
     cta: 'Executar agora',
   },
   copilot: {
@@ -36,11 +36,11 @@ const mock = {
   },
   timeline: [
     { id: 't1', kind: 'human', label: 'Ligação: Apresentação', meta: 'Próximo passo para Proposta PROP-2', at: '20/12/2025 Â· 16:59' },
-    { id: 't2', kind: 'human', label: 'Moveu para â€œPROPOSTAâ€', meta: 'Atualização manual', at: '20/12/2025 Â· 12:21' },
+    { id: 't2', kind: 'human', label: 'Moveu para “PROPOSTAâ€', meta: 'Atualização manual', at: '20/12/2025 Â· 12:21' },
     { id: 't3', kind: 'system', label: 'Contato promovido para CUSTOMER', meta: 'Automático via LinkedStage', at: '21/12/2025 Â· 19:56' },
-    { id: 't4', kind: 'system', label: 'Moveu para â€œGANHOâ€', meta: 'Automático via regra', at: '21/12/2025 Â· 19:56' },
+    { id: 't4', kind: 'system', label: 'Moveu para “GANHOâ€', meta: 'Automático via regra', at: '21/12/2025 Â· 19:56' },
     { id: 't5', kind: 'system', label: 'Contato promovido para OTHER', meta: 'Automático via LinkedStage', at: '21/12/2025 Â· 19:56' },
-    { id: 't6', kind: 'system', label: 'Moveu para â€œPERDIDOâ€', meta: 'Automático via regra', at: '21/12/2025 Â· 19:56' },
+    { id: 't6', kind: 'system', label: 'Moveu para “PERDIDOâ€', meta: 'Automático via regra', at: '21/12/2025 Â· 19:56' },
   ] as TimelineItem[],
 };
 
@@ -275,7 +275,7 @@ export default function DealJobsMockClient() {
                 </button>
               </div>
               <p className="mt-2 text-[11px] text-slate-500">
-                Sem menu de features aqui â€” só conversa + uma recomendação ativa.
+                Sem menu de features aqui — só conversa + uma recomendação ativa.
               </p>
             </div>
           </aside>

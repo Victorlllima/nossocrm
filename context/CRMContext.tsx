@@ -403,7 +403,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         
         // #region agent log
         if (process.env.NODE_ENV !== 'production') {
-          console.log(`[CRMContext.addDeal] âœ… Temp deal inserted into cache`, { tempId: optimisticTempId.slice(0, 15) });
+          console.log(`[CRMContext.addDeal] ✅ Temp deal inserted into cache`, { tempId: optimisticTempId.slice(0, 15) });
           fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'CRMContext.tsx:390',message:'Temp deal inserted into cache',data:{tempId:optimisticTempId.slice(0,15)},timestamp:Date.now(),sessionId:'debug-session',runId:'crm-create-deal',hypothesisId:'CRM2'})}).catch(()=>{});
         }
         // #endregion
@@ -488,7 +488,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
     // #region agent log
     if (process.env.NODE_ENV !== 'production') {
-      console.log(`[CRMContext.addDeal] âœ… Server returned`, { dealId: createdDeal?.id?.slice(0, 8) || 'null', title: createdDeal?.title });
+      console.log(`[CRMContext.addDeal] ✅ Server returned`, { dealId: createdDeal?.id?.slice(0, 8) || 'null', title: createdDeal?.title });
       fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'CRMContext.tsx:485',message:'Server returned',data:{dealId:createdDeal?.id?.slice(0,8)||'null',title:createdDeal?.title},timestamp:Date.now(),sessionId:'debug-session',runId:'crm-create-deal',hypothesisId:'CRM4'})}).catch(()=>{});
     }
     // #endregion
@@ -527,7 +527,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
               
               // #region agent log
               if (process.env.NODE_ENV !== 'production') {
-                console.log(`[CRMContext.addDeal] ðŸ“Š Cache state before swap`, { cacheSize: old.length, tempFound: old.some(d => d.id === optimisticTempId), realExists: already });
+                console.log(`[CRMContext.addDeal] 📊 Cache state before swap`, { cacheSize: old.length, tempFound: old.some(d => d.id === optimisticTempId), realExists: already });
                 fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'CRMContext.tsx:515',message:'Cache state before swap',data:{cacheSize:old.length,tempFound:old.some(d=>d.id===optimisticTempId),realExists:already},timestamp:Date.now(),sessionId:'debug-session',runId:'crm-create-deal',hypothesisId:'CRM6'})}).catch(()=>{});
               }
               // #endregion
@@ -556,7 +556,7 @@ const CRMInnerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     if (process.env.NODE_ENV !== 'production') {
       const finalCache = queryClient.getQueryData<DealView[]>([...queryKeys.deals.lists(), 'view']) || [];
       const dealInCache = finalCache.some(d => d.id === createdDeal?.id);
-      console.log(`[CRMContext.addDeal] ðŸ“Š H2 Final cache state`, { cacheSize: finalCache.length, dealInCache, createdDealId: createdDeal?.id?.slice(0,8) });
+      console.log(`[CRMContext.addDeal] 📊 H2 Final cache state`, { cacheSize: finalCache.length, dealInCache, createdDealId: createdDeal?.id?.slice(0,8) });
       fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'CRMContext.tsx:555',message:'H2 Final cache state',data:{cacheSize:finalCache.length,dealInCache,createdDealId:createdDeal?.id?.slice(0,8)},timestamp:Date.now(),sessionId:'debug-session',runId:'crm-create-deal',hypothesisId:'H2'})}).catch(()=>{});
     }
     // #endregion

@@ -22,7 +22,7 @@ export function InstallBanner() {
             </div>
             <div className="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
               {platformHint === 'ios'
-                ? 'No iPhone/iPad: toque em Compartilhar â†’ â€œAdicionar Í  Tela de Inícioâ€.'
+                ? 'No iPhone/iPad: toque em Compartilhar → “Adicionar Í  Tela de Inícioâ€.'
                 : canPrompt
                   ? 'Instale para abrir mais rápido e usar como app.'
                   : 'Instale para abrir mais rápido e usar como app.'}

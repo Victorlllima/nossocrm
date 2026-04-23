@@ -3,13 +3,13 @@
 /**
  * Regra do produto: padronizar telefones em E.164.
  *
- * - Aceita entrada â€œsoltaâ€ (com espaços, parênteses, hífen etc.)
+ * - Aceita entrada “soltaâ€ (com espaços, parênteses, hífen etc.)
  * - Tenta normalizar usando `defaultCountry` quando não houver prefixo +
  * - Retorna string E.164 (ex.: +5511999990000) ou '' quando vazio
  *
  * Observação:
  * - Se a string já estiver em E.164 válido, retorna como está.
- * - Se não for possível parsear/validar, retorna uma versão â€œsanitizadaâ€
+ * - Se não for possível parsear/validar, retorna uma versão “sanitizadaâ€
  *   (mantendo + e dígitos) apenas se parecer E.164; caso contrário, retorna o input trimado.
  */
 export function normalizePhoneE164(

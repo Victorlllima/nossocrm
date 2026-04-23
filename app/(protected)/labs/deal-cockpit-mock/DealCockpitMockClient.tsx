@@ -106,7 +106,7 @@ const initialTimeline: TimelineItem[] = [
   { id: '2', kind: 'system', title: 'Contato promovido para CUSTOMER', subtitle: 'Automático via LinkedStage da etapa "Ganho"', at: '21/12/2025 Â· 19:56' },
   { id: '3', kind: 'status', title: 'Moveu para', subtitle: 'PERDIDO', at: '21/12/2025 Â· 19:56', tone: 'danger' },
   { id: '4', kind: 'system', title: 'Contato promovido para OTHER', subtitle: 'Automático via LinkedStage da etapa "Perdido"', at: '21/12/2025 Â· 19:56' },
-  { id: '5', kind: 'call', title: 'Ligação', subtitle: 'Apresentação â€” Próximo passo para Proposta PROP-2', at: '20/12/2025 Â· 16:59' },
+  { id: '5', kind: 'call', title: 'Ligação', subtitle: 'Apresentação — Próximo passo para Proposta PROP-2', at: '20/12/2025 Â· 16:59' },
   { id: '6', kind: 'status', title: 'Moveu para', subtitle: 'PROPOSTA', at: '20/12/2025 Â· 12:21', tone: 'neutral' },
 ];
 
@@ -226,7 +226,7 @@ export default function DealCockpitMockClient() {
       id: 'm1',
       role: 'assistant',
       text:
-        'Estou no modo cockpit (mock). Posso te ajudar com: próxima ação, mensagens, diagnóstico e checklist da semana â€” clique nos botões rápidos ou escreva uma pergunta.',
+        'Estou no modo cockpit (mock). Posso te ajudar com: próxima ação, mensagens, diagnóstico e checklist da semana — clique nos botões rápidos ou escreva uma pergunta.',
     },
   ]);
 
@@ -281,7 +281,7 @@ export default function DealCockpitMockClient() {
     }
     if (stageId === 'lost') {
       return [
-        { id: 'reason', label: 'Motivo da perda registrado', hint: 'Preço, timing, produto, concorrenteâ€¦' },
+        { id: 'reason', label: 'Motivo da perda registrado', hint: 'Preço, timing, produto, concorrente…' },
         { id: 'reopen', label: 'Próximo touch agendado', hint: 'Quando tentar novamente.' },
       ];
     }
@@ -335,7 +335,7 @@ export default function DealCockpitMockClient() {
 
       if (actionId === 'dx') {
         pushAssistant(
-          'Diagnóstico rápido (mock):\n\nâ€¢ Momentum: médio (última atividade há 2 dias)\nâ€¢ Risco: â€œcampeãoâ€ no cliente ainda não confirmado\nâ€¢ Próximo passo recomendado: confirmar kickoff + alinhar critérios de sucesso (30/60 dias).'
+          'Diagnóstico rápido (mock):\n\n• Momentum: médio (última atividade há 2 dias)\n• Risco: “campeãoâ€ no cliente ainda não confirmado\n• Próximo passo recomendado: confirmar kickoff + alinhar critérios de sucesso (30/60 dias).'
         );
         prependTimeline({ kind: 'system', title: 'IA gerou diagnóstico', subtitle: 'Resumo (mock) adicionado no painel de IA.' });
         return;
@@ -362,7 +362,7 @@ export default function DealCockpitMockClient() {
 
       if (actionId === 'week') {
         pushAssistant(
-          'Tarefas da semana (mock):\n\nâ€¢ Kickoff agendado\nâ€¢ Checklist de implantação enviado\nâ€¢ Definir indicadores de sucesso\nâ€¢ Confirmar acessos + responsáveis'
+          'Tarefas da semana (mock):\n\n• Kickoff agendado\n• Checklist de implantação enviado\n• Definir indicadores de sucesso\n• Confirmar acessos + responsáveis'
         );
         prependTimeline({ kind: 'system', title: 'IA listou tarefas', subtitle: 'Plano semanal (mock).' });
         return;
@@ -387,7 +387,7 @@ export default function DealCockpitMockClient() {
           id: uid('m'),
           role: 'assistant',
           text:
-            'Entendi. Como é mock, eu não chamo o banco nem a IA real â€” mas posso simular: quer (1) mensagem pronta, (2) checklist de próxima ação, ou (3) perguntas de qualificação?',
+            'Entendi. Como é mock, eu não chamo o banco nem a IA real — mas posso simular: quer (1) mensagem pronta, (2) checklist de próxima ação, ou (3) perguntas de qualificação?',
         },
       ]);
     }, 220);
@@ -489,7 +489,7 @@ export default function DealCockpitMockClient() {
               <div className="h-2 w-full rounded-full bg-white/10">
                 <div className="h-2 rounded-full bg-emerald-500" style={{ width: `${mock.deal.healthPct}%` }} />
               </div>
-              <div className="mt-2 text-[11px] text-slate-500">Indicador sintético (mock) â€” objetivo é te dar leitura rápida.</div>
+              <div className="mt-2 text-[11px] text-slate-500">Indicador sintético (mock) — objetivo é te dar leitura rápida.</div>
             </Panel>
 
             <Panel title="Próxima ação" icon={<BadgeCheck className="h-4 w-4 text-cyan-300" /> } className="shrink-0">
@@ -507,7 +507,7 @@ export default function DealCockpitMockClient() {
                     // Mock: executar a próxima ação = preparar o kit (rascunho + agenda + tarefa) e registrar tudo.
                     setTab('chat');
                     runQuickAction('wa');
-                    prependTimeline({ kind: 'status', title: 'Reunião', subtitle: 'Kickoff â€” sugeriu 2 horários (mock)' });
+                    prependTimeline({ kind: 'status', title: 'Reunião', subtitle: 'Kickoff — sugeriu 2 horários (mock)' });
                     prependTimeline({ kind: 'status', title: 'Tarefa', subtitle: 'Follow-up onboarding (mock)' });
                     prependTimeline({ kind: 'system', title: 'Próxima ação executada', subtitle: mock.nextAction.title });
                     pushToast('Próxima ação preparada (mock)', 'success');
@@ -524,7 +524,7 @@ export default function DealCockpitMockClient() {
                     aria-label="Ligar (abre o discador)"
                     onClick={() => {
                       prependTimeline({ kind: 'call', title: 'Ligação', subtitle: `Iniciou ligação para ${mock.contact.phoneE164} (mock)` });
-                      pushToast('Abrindo discadorâ€¦', 'neutral');
+                      pushToast('Abrindo discador…', 'neutral');
                       window.location.href = `tel:${mock.contact.phoneE164}`;
                     }}
                   >
@@ -534,8 +534,8 @@ export default function DealCockpitMockClient() {
                   <button
                     type="button"
                     className="flex flex-col items-center justify-center gap-1 rounded-xl border border-white/10 bg-white/3 px-2 py-2 hover:bg-white/5"
-                    title="Gerar WhatsApp (IA) â€” cria rascunho no chat"
-                    aria-label="Gerar WhatsApp (IA) â€” cria rascunho no chat"
+                    title="Gerar WhatsApp (IA) — cria rascunho no chat"
+                    aria-label="Gerar WhatsApp (IA) — cria rascunho no chat"
                     onClick={() => {
                       setTab('chat');
                       runQuickAction('wa');
@@ -656,11 +656,11 @@ export default function DealCockpitMockClient() {
                     <div className="mt-2 space-y-1 text-xs text-slate-300">
                       <div className="flex items-center justify-between gap-3">
                         <span className="text-slate-500">Íšltimo evento</span>
-                        <span className="truncate text-slate-200">{latestNonSystem ? `${latestNonSystem.title}${latestNonSystem.subtitle ? ` â€” ${latestNonSystem.subtitle}` : ''}` : 'â€”'}</span>
+                        <span className="truncate text-slate-200">{latestNonSystem ? `${latestNonSystem.title}${latestNonSystem.subtitle ? ` — ${latestNonSystem.subtitle}` : ''}` : '—'}</span>
                       </div>
                       <div className="flex items-center justify-between gap-3">
                         <span className="text-slate-500">Íšltima ligação</span>
-                        <span className="truncate text-slate-200">{latestCall ? latestCall.at : 'â€”'}</span>
+                        <span className="truncate text-slate-200">{latestCall ? latestCall.at : '—'}</span>
                       </div>
                       <div className="flex items-center justify-between gap-3">
                         <span className="text-slate-500">Etapa</span>
@@ -888,12 +888,12 @@ export default function DealCockpitMockClient() {
             {/* Bottom row: útil, mas não pode roubar altura da timeline */}
             <div className="grid min-h-0 gap-4 lg:grid-cols-2 lg:max-h-[30dvh]">
               <div className="flex min-h-0 flex-col rounded-2xl border border-white/10 bg-white/3 p-4">
-                <label className="block text-xs font-semibold text-slate-400">Escrevaâ€¦</label>
+                <label className="block text-xs font-semibold text-slate-400">Escreva…</label>
                 <textarea
                   value={noteDraft}
                   onChange={(e) => setNoteDraft(e.target.value)}
                   className="mt-2 min-h-0 flex-1 w-full resize-none rounded-xl border border-white/10 bg-white/2 p-3 text-sm text-slate-200 outline-none placeholder:text-slate-600"
-                  placeholder="Notas, resumo da call, próximos passosâ€¦"
+                  placeholder="Notas, resumo da call, próximos passos…"
                 />
                 <div className="mt-3 flex items-center justify-between gap-2">
                   <div className="text-[11px] text-slate-500">Dica: salve highlights curtos; a timeline vira seu log.</div>
@@ -910,7 +910,7 @@ export default function DealCockpitMockClient() {
                       const at = formatAt();
                       const id = uid('note');
                       setSavedNotes((prev) => [{ id, at, text }, ...prev]);
-                      prependTimeline({ kind: 'note', title: 'Nota', subtitle: text.slice(0, 120) + (text.length > 120 ? 'â€¦' : '') });
+                      prependTimeline({ kind: 'note', title: 'Nota', subtitle: text.slice(0, 120) + (text.length > 120 ? '…' : '') });
                       setNoteDraft('');
                       pushToast('Nota salva', 'success');
                     }}
@@ -931,7 +931,7 @@ export default function DealCockpitMockClient() {
                   <div className="h-2 rounded-full bg-amber-400" style={{ width: `${executionPct}%` }} />
                 </div>
                 <div className="mt-2 text-[11px] text-slate-500">
-                  Checklist rápido por etapa â€” use isso para preencher o â€œespaço vazioâ€ com ação.
+                  Checklist rápido por etapa — use isso para preencher o “espaço vazioâ€ com ação.
                 </div>
 
                 <div className="mt-3 space-y-2">
@@ -1054,7 +1054,7 @@ export default function DealCockpitMockClient() {
                                       const msg = lastGeneratedWhatsAppMessage ?? buildWhatsAppMessage();
                                       openWhatsApp(msg);
                                       prependTimeline({ kind: 'system', title: 'WhatsApp aberto', subtitle: 'Mensagem pronta (mock)' });
-                                      pushToast('Abrindo WhatsAppâ€¦', 'neutral');
+                                      pushToast('Abrindo WhatsApp…', 'neutral');
                                     }}
                                     title="Abrir WhatsApp para enviar"
                                   >
@@ -1098,7 +1098,7 @@ export default function DealCockpitMockClient() {
                           }
                         }}
                         className="w-full bg-transparent px-2 py-2 text-sm text-slate-200 outline-none placeholder:text-slate-600"
-                        placeholder="Pergunte algoâ€¦"
+                        placeholder="Pergunte algo…"
                       />
                       <button
                         type="button"

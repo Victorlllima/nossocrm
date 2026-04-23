@@ -57,7 +57,7 @@ export type OrganizationId = string;
  * 
  * @example
  * ```ts
- * // âœ… Correto: client_company_id vem de seleção do usuário
+ * // ✅ Correto: client_company_id vem de seleção do usuário
  * const deal = { 
  *   organization_id: organizationId,     // Do auth (segurança)
  *   client_company_id: selectedCompany,  // Do form (opcional)

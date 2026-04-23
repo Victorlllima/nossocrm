@@ -93,7 +93,7 @@ export async function requireAITaskContext(req: Request): Promise<AITaskContext>
 
   const aiEnabled = typeof orgSettings?.ai_enabled === 'boolean' ? orgSettings.ai_enabled : true;
   if (!aiEnabled) {
-    throw new AITaskHttpError(403, 'AI_DISABLED', 'IA desativada pela organização. Um admin pode ativar em Configurações â†’ Central de I.A.');
+    throw new AITaskHttpError(403, 'AI_DISABLED', 'IA desativada pela organização. Um admin pode ativar em Configurações → Central de I.A.');
   }
 
   const provider: AIProvider = (orgSettings?.ai_provider ?? 'google') as AIProvider;
@@ -110,7 +110,7 @@ export async function requireAITaskContext(req: Request): Promise<AITaskContext>
     throw new AITaskHttpError(
       400,
       'AI_KEY_NOT_CONFIGURED',
-      `API key não configurada para ${providerLabel}. Configure em Configurações â†’ Inteligência Artificial.`
+      `API key não configurada para ${providerLabel}. Configure em Configurações → Inteligência Artificial.`
     );
   }
 

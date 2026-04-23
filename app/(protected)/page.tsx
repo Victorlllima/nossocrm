@@ -29,7 +29,7 @@ export default async function Home() {
         isInitialized = null
     }
 
-    // â€œPadrão ouroâ€ pós-deploy:
+    // “Padrão ouroâ€ pós-deploy:
     // - Se o installer está habilitado e a instância confirmadamente NÍƒO está inicializada, manda pro /install.
     // - Se já está inicializada ou houve erro na checagem, não força /install (evita loops em falhas de conexão).
     if (installerEnabled && isInitialized === false) {

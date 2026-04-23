@@ -522,7 +522,7 @@ export async function POST(req: Request) {
               return;
             }
 
-            console.log('[run-stream] bootstrap: login falhou, garantindo credenciais via bootstrapâ€¦', login1.error);
+            console.log('[run-stream] bootstrap: login falhou, garantindo credenciais via bootstrap…', login1.error);
 
             const bootstrap = await bootstrapInstance({
               supabaseUrl: supabase.url,
@@ -574,7 +574,7 @@ export async function POST(req: Request) {
         const msg = err instanceof Error ? err.message : String(err);
         throw new Error(
           'Falha ao iniciar redeploy na Vercel (necessário para aplicar as variáveis do Supabase). ' +
-            'Abra o projeto na Vercel â†’ Deployments â†’ Redeploy e tente novamente. ' +
+            'Abra o projeto na Vercel → Deployments → Redeploy e tente novamente. ' +
             (msg ? 'Detalhe: ' + msg : '')
         );
       }
@@ -610,7 +610,7 @@ export async function POST(req: Request) {
       if (!wait.ok) {
         throw new Error(
           'Redeploy disparado, mas ainda não finalizou na Vercel. ' +
-            'Abra o projeto na Vercel â†’ Deployments e aguarde o status ficar READY.'
+            'Abra o projeto na Vercel → Deployments e aguarde o status ficar READY.'
         );
       }
 

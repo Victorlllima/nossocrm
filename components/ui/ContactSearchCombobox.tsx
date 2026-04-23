@@ -185,7 +185,7 @@ export const ContactSearchCombobox: React.FC<ContactSearchComboboxProps> = ({
                       </p>
                       <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                         {contact.email && <span className="truncate">{contact.email}</span>}
-                        {contact.email && contact.phone && <span>â€¢</span>}
+                        {contact.email && contact.phone && <span>•</span>}
                         {contact.phone && <span>{contact.phone}</span>}
                       </div>
                       {company && (

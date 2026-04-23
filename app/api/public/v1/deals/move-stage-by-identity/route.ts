@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     target: { to_stage_id: parsed.data.to_stage_id ?? null, to_stage_label: parsed.data.to_stage_label ?? null },
     mark: parsed.data.mark ?? null,
   });
-  // Compatibility alias (old name) â€” keep working.
+  // Compatibility alias (old name) — keep working.
   return NextResponse.json(res.body, { status: res.status });
 }
 

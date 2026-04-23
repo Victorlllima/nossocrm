@@ -228,7 +228,7 @@ export function ScriptEditorModal({
                         )}
 
                         <p className="text-[10px] text-slate-600 mt-2">
-                            ðŸ’¡ Variáveis disponíveis: {'{nome}'}, {'{empresa}'}, {'{valor}'}, {'{produto}'}
+                            💡 Variáveis disponíveis: {'{nome}'}, {'{empresa}'}, {'{valor}'}, {'{produto}'}
                         </p>
                     </div>
                 </div>

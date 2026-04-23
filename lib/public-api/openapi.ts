@@ -13,7 +13,7 @@ export function getPublicApiOpenApiDocument(): OpenApiDocument {
       title: 'NossoCRM Public API',
       version: 'v1',
       description:
-        'API pública do NossoCRM para integrações (n8n/Make). Produto em primeiro lugar: copiar â†’ colar â†’ testar.',
+        'API pública do NossoCRM para integrações (n8n/Make). Produto em primeiro lugar: copiar → colar → testar.',
     },
     servers: [{ url: '/api/public/v1' }],
     tags: [
@@ -30,7 +30,7 @@ export function getPublicApiOpenApiDocument(): OpenApiDocument {
           type: 'apiKey',
           in: 'header',
           name: 'X-Api-Key',
-          description: 'Chave gerada na interface (Settings â†’ Integrações).',
+          description: 'Chave gerada na interface (Settings → Integrações).',
         },
       },
       schemas: {

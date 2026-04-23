@@ -225,7 +225,7 @@ export const InboxOverviewView: React.FC<InboxOverviewViewProps> = ({
           label="Hoje"
           value={todayTotal}
           tone={todayTotal > 0 ? 'warning' : 'success'}
-          hint={todayTotal > 0 ? `${todayMeetings.length} reuniões â€¢ ${todayTasks.length} tarefas` : 'Sem tarefas para hoje'}
+          hint={todayTotal > 0 ? `${todayMeetings.length} reuniões • ${todayTasks.length} tarefas` : 'Sem tarefas para hoje'}
           onClick={onOpenToday}
         />
         <StatCard
