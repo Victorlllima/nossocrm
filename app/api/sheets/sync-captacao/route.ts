@@ -238,7 +238,23 @@ export async function POST(req: NextRequest) {
   })
 }
 
-// GET para verificar saúde do endpoint
-export async function GET() {
-  return NextResponse.json({ status: 'ok', endpoint: 'sheets/sync-captacao' })
+// GET — chamado pelo Vercel Cron (Authorization: Bearer <CRON_SECRET>)
+export async function GET(req: NextRequest) {
+  const auth = req.headers.get('authorization') ?? ''
+  const cronSecret = process.env.CRON_SECRET ?? ''
+
+  // Aceita chamada do cron (Bearer CRON_SECRET) ou do agente (x-sync-secret)
+  const fromCron = cronSecret && auth === `Bearer ${cronSecret}`
+  const fromAgent = req.headers.get('x-sync-secret') === (process.env.SHEETS_SYNC_SECRET ?? 'crm-max-sync')
+
+  if (!fromCron && !fromAgent) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  // Reutiliza a lógica do POST construindo um request sintético
+  const syntheticReq = new Request(req.url, {
+    method: 'POST',
+    headers: { 'x-sync-secret': process.env.SHEETS_SYNC_SECRET ?? 'crm-max-sync' },
+  })
+  return POST(syntheticReq as NextRequest)
 }
