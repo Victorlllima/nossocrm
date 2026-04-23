@@ -17,7 +17,7 @@ interface CreateBoardModalProps {
   availableBoards: Board[]; // Para selecionar o próximo board
   /**
    * Optional: allow switching which board is being edited without closing the modal.
-   * This removes the "close â†’ gear â†’ pick another board" friction.
+   * This removes the "close → gear → pick another board" friction.
    */
   onSwitchEditingBoard?: (board: Board) => void;
 }
@@ -423,7 +423,7 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
             {/* Board key (slug) */}
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                Chave (slug) â€” para integrações
+                Chave (slug) — para integrações
               </label>
               <div className="flex gap-2">
                 <input
@@ -469,7 +469,7 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
             {!editingBoard && (
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                  ðŸ“‹ Usar Template
+                  📋 Usar Template
                 </label>
                 <select
                   value={selectedTemplate}
@@ -477,14 +477,14 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
                   className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 >
                   <option value="">Board em branco</option>
-                  <option value="PRE_SALES">ðŸŽ¯ Pré-venda (Lead â†’ MQL)</option>
-                  <option value="SALES">ðŸ’° Pipeline de Vendas</option>
-                  <option value="ONBOARDING">ðŸš€ Onboarding de Clientes</option>
+                  <option value="PRE_SALES">🎯 Pré-venda (Lead → MQL)</option>
+                  <option value="SALES">💰 Pipeline de Vendas</option>
+                  <option value="ONBOARDING">🚀 Onboarding de Clientes</option>
                   <option value="CS">â¤ï¸ CS & Upsell</option>
                 </select>
                 {selectedTemplate && (
                   <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                    âœ¨ Template aplicado! Você pode editar os campos abaixo.
+                    ✨ Template aplicado! Você pode editar os campos abaixo.
                   </p>
                 )}
               </div>
@@ -493,7 +493,7 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
             {/* Linked Lifecycle Stage */}
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                ðŸŽ¯ Gerencia Contatos no Estágio
+                🎯 Gerencia Contatos no Estágio
               </label>
               <select
                 value={linkedLifecycleStage}
@@ -525,7 +525,7 @@ export const CreateBoardModal: React.FC<CreateBoardModalProps> = ({
                   .filter(p => p.active !== false)
                   .map(p => (
                     <option key={p.id} value={p.id}>
-                      {p.name} â€” R$ {Number(p.price ?? 0).toLocaleString('pt-BR')}
+                      {p.name} — R$ {Number(p.price ?? 0).toLocaleString('pt-BR')}
                     </option>
                   ))}
               </select>

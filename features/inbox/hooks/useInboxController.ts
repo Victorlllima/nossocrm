@@ -266,7 +266,7 @@ export const useInboxController = () => {
           id,
           type: 'STALLED',
           title: `Negócio Parado (${daysSinceUpdate}d)`,
-          description: `${deal.title} - R$ ${deal.value.toLocaleString('pt-BR')} â€¢ ${deal.probability}% probabilidade`,
+          description: `${deal.title} - R$ ${deal.value.toLocaleString('pt-BR')} • ${deal.probability}% probabilidade`,
           priority: score > 30 ? 'high' : score > 15 ? 'medium' : 'low',
           data: { deal },
           createdAt: nowIso,
@@ -287,7 +287,7 @@ export const useInboxController = () => {
           id,
           type: 'UPSELL',
           title: `Oportunidade de Upsell`,
-          description: `${deal.companyName} fechou há ${daysSinceClose} dias â€¢ R$ ${deal.value.toLocaleString('pt-BR')}`,
+          description: `${deal.companyName} fechou há ${daysSinceClose} dias • R$ ${deal.value.toLocaleString('pt-BR')}`,
           priority: score > 25 ? 'high' : score > 10 ? 'medium' : 'low',
           data: { deal },
           createdAt: nowIso,
@@ -335,7 +335,7 @@ export const useInboxController = () => {
         overdueActivities.length > 0 || upsellDeals.length > 0;
 
       if (!hasData) {
-        setBriefing('Sua inbox está limpa! Nenhuma pendência no momento. ðŸŽ‰');
+        setBriefing('Sua inbox está limpa! Nenhuma pendência no momento. 🎉');
         return;
       }
 
@@ -462,7 +462,7 @@ export const useInboxController = () => {
         if (suggestion.data.deal) {
           const deal = suggestion.data.deal;
 
-          // Transforme â€œdeal paradoâ€ em trabalho rastreável (não só um update vazio).
+          // Transforme “deal paradoâ€ em trabalho rastreável (não só um update vazio).
           const due = new Date();
           due.setDate(due.getDate() + 1);
           due.setHours(10, 0, 0, 0);
@@ -471,7 +471,7 @@ export const useInboxController = () => {
             activity: {
               title: `Follow-up: ${deal.title}`,
               type: 'TASK',
-              description: 'Deal parado â€” fazer follow-up para destravar o próximo passo',
+              description: 'Deal parado — fazer follow-up para destravar o próximo passo',
               date: due.toISOString(),
               dealId: deal.id,
               contactId: deal.contactId,

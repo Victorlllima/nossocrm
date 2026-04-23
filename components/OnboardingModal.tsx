@@ -97,13 +97,13 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
                             {/* Features */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 text-left" role="list" aria-label="Recursos do CRM">
                                 <div className="p-4 bg-white/10 rounded-xl backdrop-blur-sm" role="listitem">
-                                    <div className="text-2xl mb-2" aria-hidden="true">ðŸŽ¯</div>
+                                    <div className="text-2xl mb-2" aria-hidden="true">🎯</div>
                                     <h3 className="font-semibold mb-1">Templates Prontos</h3>
                                     <p className="text-sm text-white/80">Vendas, Onboarding, CS e mais</p>
                                 </div>
 
                                 <div className="p-4 bg-white/10 rounded-xl backdrop-blur-sm" role="listitem">
-                                    <div className="text-2xl mb-2" aria-hidden="true">âœ¨</div>
+                                    <div className="text-2xl mb-2" aria-hidden="true">✨</div>
                                     <h3 className="font-semibold mb-1">Criação com IA</h3>
                                     <p className="text-sm text-white/80">Descreva seu negócio em 1 frase</p>
                                 </div>

@@ -417,7 +417,7 @@ export function useRealtimeSync(
                   if (!currentDeal) {
                     // #region agent log
                     if (process.env.NODE_ENV !== 'production') {
-                      console.log(`[Realtime] âœ… Deal not in cache - adding it`, { dealId: dealId.slice(0, 8), incomingStatus: incomingStatus?.slice(0, 8) || '' });
+                      console.log(`[Realtime] ✅ Deal not in cache - adding it`, { dealId: dealId.slice(0, 8), incomingStatus: incomingStatus?.slice(0, 8) || '' });
                     }
                     // #endregion
                     // Add the deal to cache (this can happen if deal was created in another tab)
@@ -507,7 +507,7 @@ export function useRealtimeSync(
                             incomingUpdatedAt: new Date(incomingUpdatedAt).toISOString(),
                             diffMs: diffMs,
                           };
-                          console.log(`[Realtime] âœ… Applying update (empty oldStatus, timestamp newer or close)`, logData);
+                          console.log(`[Realtime] ✅ Applying update (empty oldStatus, timestamp newer or close)`, logData);
                           fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useRealtimeSync.ts:315',message:'Applying update (empty oldStatus, timestamp newer or close)',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'realtime-update',hypothesisId:'L'})}).catch(()=>{});
                         }
                         // #endregion
@@ -524,7 +524,7 @@ export function useRealtimeSync(
                               currentUpdatedAt: currentUpdatedAt ? new Date(currentUpdatedAt).toISOString() : 'null',
                               incomingUpdatedAt: incomingUpdatedAt ? new Date(incomingUpdatedAt).toISOString() : 'null',
                             };
-                            console.log(`[Realtime] âœ… Applying update (empty oldStatus, can't compare but status matches)`, logData);
+                            console.log(`[Realtime] ✅ Applying update (empty oldStatus, can't compare but status matches)`, logData);
                             fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useRealtimeSync.ts:330',message:'Applying update (empty oldStatus, can\'t compare but status matches)',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'realtime-update',hypothesisId:'M'})}).catch(()=>{});
                           }
                           // #endregion
@@ -553,7 +553,7 @@ export function useRealtimeSync(
                     if (payloadOldStatus) {
                       // #region agent log
                       if (process.env.NODE_ENV !== 'production') {
-                        console.log(`[Realtime] âœ… Applying update (has oldStatus, likely from another tab)`, {
+                        console.log(`[Realtime] ✅ Applying update (has oldStatus, likely from another tab)`, {
                           dealId: dealId.slice(0, 8),
                           currentStatus: currentStatus.slice(0, 8),
                           incomingStatus: incomingStatus.slice(0, 8),
@@ -569,7 +569,7 @@ export function useRealtimeSync(
                   if (!currentStatus && incomingStatus) {
                     // #region agent log
                     if (process.env.NODE_ENV !== 'production') {
-                      console.log(`[Realtime] âœ… Applying update (currentStatus null but incomingStatus exists)`, {
+                      console.log(`[Realtime] ✅ Applying update (currentStatus null but incomingStatus exists)`, {
                         dealId: dealId.slice(0, 8),
                         incomingStatus: incomingStatus.slice(0, 8),
                       });
@@ -587,7 +587,7 @@ export function useRealtimeSync(
                           oldStatus: typeof deal.status === 'string' ? deal.status.slice(0, 8) : '',
                           newStatus: incomingStatus ? incomingStatus.slice(0, 8) : '',
                         };
-                        console.log(`[Realtime] âœ… Applying update to cache`, logData);
+                        console.log(`[Realtime] ✅ Applying update to cache`, logData);
                         fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useRealtimeSync.ts:346',message:'Applying update to cache',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'realtime-update',hypothesisId:'E'})}).catch(()=>{});
                       }
                       // #endregion
@@ -692,7 +692,7 @@ export function useRealtimeSync(
             tables: tableList.join(','),
             status: 'SUBSCRIBED',
           };
-          console.log(`[Realtime] âœ… Connected to ${tableList.join(', ')}`);
+          console.log(`[Realtime] ✅ Connected to ${tableList.join(', ')}`);
           fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useRealtimeSync.ts:488',message:'Realtime connected',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'realtime-connection',hypothesisId:'O'})}).catch(()=>{});
         }
         // #endregion

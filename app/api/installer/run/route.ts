@@ -122,7 +122,7 @@ export async function POST(req: Request) {
     const needsKeys = !resolvedAnonKey || !resolvedServiceRoleKey;
     const needsDb = !resolvedDbUrl;
 
-    // â€œ100% mágicoâ€: se não existir nenhuma Edge Function no repo, não exigir PAT só por deploy.
+    // “100% mágicoâ€: se não existir nenhuma Edge Function no repo, não exigir PAT só por deploy.
     const localEdgeFunctionSlugs = supabase.deployEdgeFunctions
       ? await listEdgeFunctionSlugs()
       : [];

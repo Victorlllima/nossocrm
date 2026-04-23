@@ -300,7 +300,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     })();
   }, [profile, pathname, isGlobalAIOpen, shouldLoadAiFeatures]);
 
-  // Allow UIs (ex.: Settings â†’ Produtos) to notify the app to reload the catalog.
+  // Allow UIs (ex.: Settings → Produtos) to notify the app to reload the catalog.
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const handler = () => {

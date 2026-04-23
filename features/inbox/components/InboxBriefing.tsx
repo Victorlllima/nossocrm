@@ -85,7 +85,7 @@ export const InboxBriefing: React.FC<InboxBriefingProps> = ({
           )}
           {stats.totalPending === 0 && (
             <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/20 text-green-300 rounded-full text-sm">
-              âœ¨ Inbox Zero!
+              ✨ Inbox Zero!
             </div>
           )}
         </div>

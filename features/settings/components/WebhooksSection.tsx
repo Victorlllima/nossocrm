@@ -93,7 +93,7 @@ export const WebhooksSection: React.FC = () => {
   const [isFollowUpOpen, setIsFollowUpOpen] = useState(false);
   const [followUpUrl, setFollowUpUrl] = useState('');
 
-  // Quick start (produto) â€” inbound/outbound
+  // Quick start (produto) — inbound/outbound
   const [isQuickStartOpen, setIsQuickStartOpen] = useState(false);
   const [quickStartTab, setQuickStartTab] = useState<'inbound' | 'outbound'>('inbound');
   const [inboundStep, setInboundStep] = useState<1 | 2 | 3>(1);
@@ -494,7 +494,7 @@ export const WebhooksSection: React.FC = () => {
                   {inboundBoardName && inboundStageLabel ? (
                     <>
                       {' '}Â· <span className="text-slate-600 dark:text-slate-300">{inboundBoardName}</span>
-                      {' '}â†’ <span className="text-slate-600 dark:text-slate-300">{inboundStageLabel}</span>
+                      {' '}→ <span className="text-slate-600 dark:text-slate-300">{inboundStageLabel}</span>
                     </>
                   ) : null}
                 </div>
@@ -732,7 +732,7 @@ export const WebhooksSection: React.FC = () => {
                 </div>
               </div>
               <div className="text-xs text-slate-500 dark:text-slate-400">
-                Dica: para testar, mova um deal de etapa â€” o aviso dispara somente na mudança.
+                Dica: para testar, mova um deal de etapa — o aviso dispara somente na mudança.
               </div>
             </div>
           ) : (
@@ -820,7 +820,7 @@ export const WebhooksSection: React.FC = () => {
                     <div className="text-xs text-slate-500 dark:text-slate-400">
                       {activeInbound ? (
                         <>
-                          Atual: <b>{inboundBoardName}</b> â†’ <b>{inboundStageLabel}</b>
+                          Atual: <b>{inboundBoardName}</b> → <b>{inboundStageLabel}</b>
                         </>
                       ) : (
                         <>Você vai gerar uma URL única e um Secret (senha) para esse destino.</>
@@ -988,7 +988,7 @@ export const WebhooksSection: React.FC = () => {
                     </div>
 
                     <div className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                      Quer deixar â€œbonitoâ€? Envie também <code className="font-mono">contact_name</code>,{' '}
+                      Quer deixar “bonitoâ€? Envie também <code className="font-mono">contact_name</code>,{' '}
                       <code className="font-mono">company_name</code> e <code className="font-mono">deal_title</code>.
                     </div>
                   </div>
@@ -1072,7 +1072,7 @@ export const WebhooksSection: React.FC = () => {
                                     {new Date(ev.received_at).toLocaleString()}
                                   </div>
                                   <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
-                                    {ev.external_event_id ? `event_id: ${ev.external_event_id}` : 'event_id: â€”'}
+                                    {ev.external_event_id ? `event_id: ${ev.external_event_id}` : 'event_id: —'}
                                   </div>
                                 </div>
                                 <div className="text-xs font-bold">

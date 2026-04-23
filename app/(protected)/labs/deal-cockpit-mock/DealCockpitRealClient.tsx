@@ -213,7 +213,7 @@ function TemplatePickerModal({
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Buscar por título ou textoâ€¦"
+                  placeholder="Buscar por título ou texto…"
                   className="w-full rounded-xl border border-white/10 bg-white/3 px-9 py-2 text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
                 />
               </div>
@@ -243,7 +243,7 @@ function TemplatePickerModal({
 
             <div className="h-105 overflow-auto rounded-2xl border border-white/10 bg-white/2">
               {isLoading ? (
-                <div className="p-4 text-sm text-slate-400">Carregando scriptsâ€¦</div>
+                <div className="p-4 text-sm text-slate-400">Carregando scripts…</div>
               ) : filtered.length === 0 ? (
                 <div className="p-4 text-sm text-slate-400">Nenhum template encontrado.</div>
               ) : (
@@ -1321,7 +1321,7 @@ export default function DealCockpitRealClient({ dealId }: { dealId?: string }) {
                     const labelCompany = d.clientCompanyName || d.companyName || 'Empresa';
                     return (
                       <option key={d.id} value={d.id} className="bg-slate-950">
-                        {d.title} â€” {labelCompany}
+                        {d.title} — {labelCompany}
                       </option>
                     );
                   })}
@@ -1335,7 +1335,7 @@ export default function DealCockpitRealClient({ dealId }: { dealId?: string }) {
             <div className="shrink-0 text-right">
               <div className="text-sm font-semibold text-emerald-300">{formatCurrencyBRL(deal.value ?? 0)}</div>
               <div className="mt-0.5 text-[11px] text-slate-500">
-                Etapa: <span className="font-semibold text-slate-300">{activeStage?.label ?? 'â€”'}</span>
+                Etapa: <span className="font-semibold text-slate-300">{activeStage?.label ?? '—'}</span>
               </div>
             </div>
           </div>
@@ -1393,7 +1393,7 @@ export default function DealCockpitRealClient({ dealId }: { dealId?: string }) {
                 >
                   <span className="inline-flex items-center gap-1">
                     <Sparkles className="h-3.5 w-3.5" />
-                    {aiLoading ? 'Analisandoâ€¦' : 'Reanalisar'}
+                    {aiLoading ? 'Analisando…' : 'Reanalisar'}
                   </span>
                 </button>
               </div>
@@ -1517,7 +1517,7 @@ export default function DealCockpitRealClient({ dealId }: { dealId?: string }) {
             >
               <div className="flex min-h-0 flex-col gap-3">
                 <div>
-                  <div className="text-sm font-semibold text-slate-100">{contact?.name ?? 'â€”'}</div>
+                  <div className="text-sm font-semibold text-slate-100">{contact?.name ?? '—'}</div>
                   <div className="mt-1 text-xs text-slate-400">{selectedContact?.role ?? ''}</div>
                   <div className="mt-3 space-y-2 text-xs">
                     <div className="flex items-center justify-between gap-2">
@@ -1552,11 +1552,11 @@ export default function DealCockpitRealClient({ dealId }: { dealId?: string }) {
                     </div>
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-slate-500">Origem</span>
-                      <span className="text-slate-200">{contact?.source ?? 'â€”'}</span>
+                      <span className="text-slate-200">{contact?.source ?? '—'}</span>
                     </div>
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-slate-500">Status</span>
-                      <span className="text-slate-200">{contact?.status ?? 'â€”'}</span>
+                      <span className="text-slate-200">{contact?.status ?? '—'}</span>
                     </div>
                   </div>
                 </div>
@@ -1567,16 +1567,16 @@ export default function DealCockpitRealClient({ dealId }: { dealId?: string }) {
                     <div className="flex items-center justify-between gap-3">
                       <span className="text-slate-500">Íšltimo evento</span>
                       <span className="truncate text-slate-200">
-                        {latestNonSystem ? `${latestNonSystem.title}${latestNonSystem.subtitle ? ` â€” ${latestNonSystem.subtitle}` : ''}` : 'â€”'}
+                        {latestNonSystem ? `${latestNonSystem.title}${latestNonSystem.subtitle ? ` — ${latestNonSystem.subtitle}` : ''}` : '—'}
                       </span>
                     </div>
                     <div className="flex items-center justify-between gap-3">
                       <span className="text-slate-500">Íšltima ligação</span>
-                      <span className="truncate text-slate-200">{latestCall ? latestCall.at : 'â€”'}</span>
+                      <span className="truncate text-slate-200">{latestCall ? latestCall.at : '—'}</span>
                     </div>
                     <div className="flex items-center justify-between gap-3">
                       <span className="text-slate-500">Etapa</span>
-                      <span className="text-slate-200">{activeStage?.label ?? 'â€”'}</span>
+                      <span className="text-slate-200">{activeStage?.label ?? '—'}</span>
                     </div>
                   </div>
                 </div>
@@ -1594,7 +1594,7 @@ export default function DealCockpitRealClient({ dealId }: { dealId?: string }) {
                     </div>
                     <div className="rounded-lg border border-white/10 bg-white/2 p-2">
                       <div className="text-slate-500">Dono</div>
-                      <div className="mt-0.5 font-semibold text-slate-100">{deal.owner?.name ?? 'â€”'}</div>
+                      <div className="mt-0.5 font-semibold text-slate-100">{deal.owner?.name ?? '—'}</div>
                     </div>
                     <div className="rounded-lg border border-white/10 bg-white/2 p-2">
                       <div className="text-slate-500">Íšltima mudança</div>
@@ -1833,12 +1833,12 @@ export default function DealCockpitRealClient({ dealId }: { dealId?: string }) {
             {/* Bottom row: nota + (placeholder) */}
             <div className="grid min-h-0 gap-4 lg:grid-cols-2 lg:max-h-[30dvh]">
               <div className="flex min-h-0 flex-col rounded-2xl border border-white/10 bg-white/3 p-4">
-                <label className="block text-xs font-semibold text-slate-400">Escrevaâ€¦</label>
+                <label className="block text-xs font-semibold text-slate-400">Escreva…</label>
                 <textarea
                   value={noteDraftTimeline}
                   onChange={(e) => setNoteDraftTimeline(e.target.value)}
                   className="mt-2 min-h-0 flex-1 w-full resize-none rounded-xl border border-white/10 bg-white/2 p-3 text-sm text-slate-200 outline-none placeholder:text-slate-600"
-                  placeholder="Notas, resumo da call, próximos passosâ€¦"
+                  placeholder="Notas, resumo da call, próximos passos…"
                 />
                 <div className="mt-3 flex items-center justify-between gap-2">
                   <div className="text-[11px] text-slate-500">Isso vira uma Activity NOTE (log do deal).</div>
@@ -1935,7 +1935,7 @@ export default function DealCockpitRealClient({ dealId }: { dealId?: string }) {
                   <input
                     value={checklistDraft}
                     onChange={(e) => setChecklistDraft(e.target.value)}
-                    placeholder="Adicionar itemâ€¦"
+                    placeholder="Adicionar item…"
                     className="h-10 flex-1 rounded-xl border border-white/10 bg-white/2 px-3 text-sm text-slate-200 outline-none placeholder:text-slate-600"
                   />
                   <button
@@ -2007,7 +2007,7 @@ export default function DealCockpitRealClient({ dealId }: { dealId?: string }) {
                         value={dealNoteDraft}
                         onChange={(e) => setDealNoteDraft(e.target.value)}
                         className="w-full min-h-27.5 resize-none rounded-xl border border-white/10 bg-white/3 p-3 text-sm text-slate-200 outline-none placeholder:text-slate-600"
-                        placeholder="Escreva uma nota persistidaâ€¦"
+                        placeholder="Escreva uma nota persistida…"
                       />
                       <div className="mt-2 flex items-center justify-between gap-2">
                         <div className="text-[11px] text-slate-500">Salva em deal_notes.</div>
@@ -2023,14 +2023,14 @@ export default function DealCockpitRealClient({ dealId }: { dealId?: string }) {
                             pushToast('Nota persistida salva', 'success');
                           }}
                         >
-                          {createNote.isPending ? 'Salvandoâ€¦' : 'Adicionar'}
+                          {createNote.isPending ? 'Salvando…' : 'Adicionar'}
                         </button>
                       </div>
                     </div>
 
                     <div className="mt-4">
                       {isNotesLoading ? (
-                        <div className="text-sm text-slate-400">Carregandoâ€¦</div>
+                        <div className="text-sm text-slate-400">Carregando…</div>
                       ) : notes.length === 0 ? (
                         <div className="text-sm text-slate-400">Sem notas ainda.</div>
                       ) : (
@@ -2071,7 +2071,7 @@ export default function DealCockpitRealClient({ dealId }: { dealId?: string }) {
                       <div className="flex items-center gap-2 text-xs font-semibold text-slate-300">
                         <FileText className="h-4 w-4" /> Scripts (persistidos)
                       </div>
-                      <div className="text-[11px] text-slate-500">{isScriptsLoading ? 'Carregandoâ€¦' : `${scripts.length} itens`}</div>
+                      <div className="text-[11px] text-slate-500">{isScriptsLoading ? 'Carregando…' : `${scripts.length} itens`}</div>
                     </div>
 
                     <div className="mt-3 space-y-2">
@@ -2110,7 +2110,7 @@ export default function DealCockpitRealClient({ dealId }: { dealId?: string }) {
                       <div className="flex items-center gap-2 text-xs font-semibold text-slate-300">
                         <Inbox className="h-4 w-4" /> Arquivos (storage)
                       </div>
-                      <div className="text-[11px] text-slate-500">{isFilesLoading ? 'Carregandoâ€¦' : `${files.length} itens`}</div>
+                      <div className="text-[11px] text-slate-500">{isFilesLoading ? 'Carregando…' : `${files.length} itens`}</div>
                     </div>
 
                     <div className="mt-3">
@@ -2137,7 +2137,7 @@ export default function DealCockpitRealClient({ dealId }: { dealId?: string }) {
                               <div className="min-w-0">
                                 <div className="truncate text-sm font-semibold text-slate-100">{f.file_name}</div>
                                 <div className="mt-1 text-xs text-slate-400">
-                                  {formatFileSize(f.file_size)} â€¢ {formatAtISO(f.created_at)}
+                                  {formatFileSize(f.file_size)} • {formatAtISO(f.created_at)}
                                 </div>
                               </div>
                               <div className="flex items-center gap-2">

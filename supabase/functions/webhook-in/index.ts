@@ -23,7 +23,7 @@ type LeadPayload = {
   /**
    * ID do evento no sistema de origem (opcional).
    * Use quando sua origem for orientada a eventos (ex.: Hotmart) e você quiser idempotência contra retry.
-   * Para â€œcadastro/atualizaçãoâ€ (formulário), não é necessário.
+   * Para “cadastro/atualizaçãoâ€ (formulário), não é necessário.
    */
   external_event_id?: string;
   /** Nome do contato (legado) */
@@ -385,7 +385,7 @@ Deno.serve(async (req) => {
       if (dealValue !== null) updates.value = dealValue;
       if (clientCompanyId) updates.client_company_id = clientCompanyId;
 
-      // mantém stage atual (não â€œpuxaâ€ de volta pro stage de entrada)
+      // mantém stage atual (não “puxaâ€ de volta pro stage de entrada)
       // apenas carimba metadados do inbound
       updates.custom_fields = {
         inbound_source_id: source.id,

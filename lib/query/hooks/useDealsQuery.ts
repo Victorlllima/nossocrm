@@ -249,7 +249,7 @@ export const useCreateDeal = () => {
       // #region agent log
       if (process.env.NODE_ENV !== 'production') {
         const logData = { dealId: data?.id?.slice(0, 8) || 'null', title: data?.title };
-        console.log(`[useCreateDeal] âœ… Server confirmed creation`, logData);
+        console.log(`[useCreateDeal] ✅ Server confirmed creation`, logData);
         fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useDealsQuery.ts:240',message:'Server confirmed creation',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'create-deal',hypothesisId:'CD2'})}).catch(()=>{});
       }
       // #endregion
@@ -336,7 +336,7 @@ export const useCreateDeal = () => {
           const withoutTemp = old.filter(d => d.id !== tempId);
           // #region agent log
           if (process.env.NODE_ENV !== 'production') {
-            console.log(`[useCreateDeal] âœ… Swapped temp for real deal`, { tempId: tempId.slice(0, 15), realId: data.id?.slice(0, 8), cacheSize: withoutTemp.length + 1 });
+            console.log(`[useCreateDeal] ✅ Swapped temp for real deal`, { tempId: tempId.slice(0, 15), realId: data.id?.slice(0, 8), cacheSize: withoutTemp.length + 1 });
             fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useDealsQuery.ts:300',message:'Swapped temp for real deal',data:{tempId:tempId.slice(0,15),realId:data.id?.slice(0,8),cacheSize:withoutTemp.length+1},timestamp:Date.now(),sessionId:'debug-session',runId:'create-deal',hypothesisId:'CD6'})}).catch(()=>{});
           }
           // #endregion

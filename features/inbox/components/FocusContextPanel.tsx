@@ -260,7 +260,7 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
         const dealCtx = dealTitle ? ` sobre ${dealTitle}` : '';
         const reasonSentence = r ? `\n\nPensei nisso porque ${r.charAt(0).toLowerCase()}${r.slice(1)}.` : '';
 
-        // Quando a â€œaçãoâ€ é algo como â€œAgendar reuniãoâ€, a intenção real no WhatsApp é pedir disponibilidade.
+        // Quando a “açãoâ€ é algo como “Agendar reuniãoâ€, a intenção real no WhatsApp é pedir disponibilidade.
         if (actionType === 'MEETING') {
             return (
                 `${greeting}` +
@@ -452,7 +452,7 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
         };
     }, [aiAnalysis, activities]);
 
-    // Snapshot completo do cockpit para a IA (equivalente ao â€œboard envia tudo do boardâ€)
+    // Snapshot completo do cockpit para a IA (equivalente ao “board envia tudo do boardâ€)
     // Importante: esse snapshot é enviado via props-only para evitar herdar contexto global do board.
     const cockpitSnapshot = useMemo(() => {
         const stageInfo = currentStage
@@ -1755,7 +1755,7 @@ export const FocusContextPanel: React.FC<FocusContextPanelProps> = ({
                                                         <div className="ml-3 flex-1 min-w-0">
                                                             <p className="text-sm font-medium text-white truncate">{file.file_name}</p>
                                                             <p className="text-xs text-slate-500">
-                                                                {formatFileSize(file.file_size)} â€¢ {new Date(file.created_at).toLocaleDateString('pt-BR')}
+                                                                {formatFileSize(file.file_size)} • {new Date(file.created_at).toLocaleDateString('pt-BR')}
                                                             </p>
                                                         </div>
                                                         <button

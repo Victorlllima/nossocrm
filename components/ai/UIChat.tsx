@@ -193,7 +193,7 @@ export function UIChat({
 
     // Auto-scroll to bottom (somente dentro do container de mensagens)
     useEffect(() => {
-        // Evita â€œpularâ€/rolar o painel ao abrir o chat (quando ainda não há mensagens)
+        // Evita “pularâ€/rolar o painel ao abrir o chat (quando ainda não há mensagens)
         if (messages.length === 0) return;
 
         const el = messagesContainerRef.current;
@@ -231,7 +231,7 @@ export function UIChat({
 
     // Se existir uma tool-call aguardando aprovação, não podemos aceitar novas mensagens:
     // alguns providers exigem que toda tool-call tenha um tool-result antes de continuar.
-    // Caso contrário, aparece o erro â€œNo tool output found for function call ...â€.
+    // Caso contrário, aparece o erro “No tool output found for function call ...â€.
     const pendingApprovalIds = (() => {
         const ids: string[] = [];
         for (const m of messages) {
@@ -262,7 +262,7 @@ export function UIChat({
 
         const has = (re: RegExp) => re.test(msg);
 
-        // Heurísticas bem conservadoras: preferimos errar para â€œmensagem genéricaâ€
+        // Heurísticas bem conservadoras: preferimos errar para “mensagem genéricaâ€
         // do que inventar causa.
         const isToolApproval = /No tool output found for function call/i.test(msg);
 
@@ -308,11 +308,11 @@ export function UIChat({
         }
 
         if (parsed.isAuth) {
-            return 'Falha de autenticação com o provedor de IA. Confira a chave em Configurações â†’ Inteligência Artificial.';
+            return 'Falha de autenticação com o provedor de IA. Confira a chave em Configurações → Inteligência Artificial.';
         }
 
         if (parsed.isModelNotFound) {
-            return 'Modelo não encontrado para o provedor configurado. Confira o provedor/modelo em Configurações â†’ Inteligência Artificial.';
+            return 'Modelo não encontrado para o provedor configurado. Confira o provedor/modelo em Configurações → Inteligência Artificial.';
         }
 
         if (parsed.isRateLimit) {
@@ -321,10 +321,10 @@ export function UIChat({
 
         if (parsed.isOpenAIServerError) {
             const id = parsed.requestId ? ` (ID: ${parsed.requestId})` : '';
-            return `A OpenAI parece estar instável no momento (erro interno). Tente novamente em alguns segundos. Se persistir, troque para um modelo mais estável (ex.: gpt-4o) em Configurações â†’ IA${id}.`;
+            return `A OpenAI parece estar instável no momento (erro interno). Tente novamente em alguns segundos. Se persistir, troque para um modelo mais estável (ex.: gpt-4o) em Configurações → IA${id}.`;
         }
 
-        // Fallback: manter a mensagem original (útil p/ debug), mas sem deixar 100% â€œcruaâ€.
+        // Fallback: manter a mensagem original (útil p/ debug), mas sem deixar 100% “cruaâ€.
         return parsed.requestId ? `${parsed.raw} (ID: ${parsed.requestId})` : parsed.raw;
     })();
 
@@ -334,7 +334,7 @@ export function UIChat({
 
         if (hasDealContext) {
             return {
-                subtitle: 'Deal â€¢ Contato â€¢ Atividades â€¢ Notas â€¢ Arquivos â€¢ Scripts',
+                subtitle: 'Deal • Contato • Atividades • Notas • Arquivos • Scripts',
                 quickActions: [
                     {
                         label: 'ðŸ§¾ Diagnóstico do Deal',
@@ -352,7 +352,7 @@ export function UIChat({
                             'Escreva uma mensagem curta de follow-up para WhatsApp para este contato, baseada no estágio atual e no histórico do cockpit. Traga 2 variações.',
                     },
                     {
-                        label: 'âœ… Tarefas da semana',
+                        label: '✅ Tarefas da semana',
                         prompt:
                             'Crie 3 tarefas objetivas para avançar este deal nesta semana (com datas sugeridas) e descreva rapidamente o porquê de cada uma.',
                     },
@@ -362,9 +362,9 @@ export function UIChat({
 
         if (hasBoardContext) {
             return {
-                subtitle: 'Pipeline â€¢ Deals â€¢ Contatos â€¢ Tarefas',
+                subtitle: 'Pipeline • Deals • Contatos • Tarefas',
                 quickActions: [
-                    { label: 'ðŸ“Š Analisar Pipeline', prompt: 'Analise meu pipeline de vendas' },
+                    { label: '📊 Analisar Pipeline', prompt: 'Analise meu pipeline de vendas' },
                     { label: 'â° Deals Parados', prompt: 'Quais deals estão parados há mais de 7 dias?' },
                     { label: 'ðŸ” Buscar', prompt: 'Buscar deals por: ' },
                 ],
@@ -372,11 +372,11 @@ export function UIChat({
         }
 
         return {
-            subtitle: 'Deals â€¢ Contatos â€¢ Tarefas',
+            subtitle: 'Deals • Contatos • Tarefas',
             quickActions: [
                 { label: 'ðŸ” Buscar deals', prompt: 'Buscar deals por: ' },
                 { label: 'ðŸ‘¤ Buscar contatos', prompt: 'Buscar contatos por: ' },
-                { label: 'âœ… Próximas tarefas', prompt: 'Quais tarefas eu deveria priorizar hoje?' },
+                { label: '✅ Próximas tarefas', prompt: 'Quais tarefas eu deveria priorizar hoje?' },
             ],
         };
     }, [cockpitDealTitle, context.boardId, context.dealId]);
@@ -683,7 +683,7 @@ export function UIChat({
                                                 const earliestStr = formatDateTimePtBr(earliestDue);
                                                 if (latestDue && latestDue.getTime() !== earliestDue.getTime()) {
                                                     const latestStr = formatDateTimePtBr(latestDue);
-                                                    return `Vencimentos: ${earliestStr} â†’ ${latestStr}`;
+                                                    return `Vencimentos: ${earliestStr} → ${latestStr}`;
                                                 }
                                                 return `Vencimento: ${formatDateTimePtBr(earliestDue)}`;
                                             })();
@@ -743,10 +743,10 @@ export function UIChat({
 
                                             const headerTitle = (() => {
                                                 // Evita o título gigante (que quebra palavra por palavra em telas estreitas)
-                                                // e traz o â€œparâmetro principalâ€ pro título quando fizer sentido.
+                                                // e traz o “parâmetro principalâ€ pro título quando fizer sentido.
                                                 if (toolName === 'moveDeal' && commonMain?.startsWith('Destino: ')) {
                                                     const dest = commonMain.replace(/^Destino:\s*/, '').trim();
-                                                    return `Mover â†’ ${dest}`;
+                                                    return `Mover → ${dest}`;
                                                 }
                                                 return toolTitle;
                                             })();
@@ -770,14 +770,14 @@ export function UIChat({
                                                                     <span>{uniqueDeals.size} deal{uniqueDeals.size === 1 ? '' : 's'}</span>
                                                                     {dueSummary && (
                                                                         <>
-                                                                            <span className="opacity-60">â€¢</span>
+                                                                            <span className="opacity-60">•</span>
                                                                             <span>{dueSummary}</span>
                                                                         </>
                                                                     )}
                                                                     {/* Se o parâmetro principal não foi promovido pro título, mostramos como detalhe */}
                                                                     {commonMain && headerTitle === toolTitle && (
                                                                         <>
-                                                                            <span className="opacity-60">â€¢</span>
+                                                                            <span className="opacity-60">•</span>
                                                                             <span className="text-amber-100/90">{commonMain}</span>
                                                                         </>
                                                                     )}
@@ -861,7 +861,7 @@ export function UIChat({
                                                                             <div className="text-[12px] font-semibold text-amber-100 truncate">{dealTitle}</div>
                                                                         </div>
                                                                         {/* Quando todas as ações são iguais (commonMain) e é 1 item por deal sem extras,
-                                                                            a lista já faz sentido só com os nomes dos deals. Evita â€œIncluídoâ€ repetido. */}
+                                                                            a lista já faz sentido só com os nomes dos deals. Evita “Incluídoâ€ repetido. */}
                                                                         {!(commonMain && !selectionMode && dealItems.length === 1 && dealItems[0].extra.length === 0 && !dealItems[0].dueDate) && (
                                                                             <div className="px-2 py-2 space-y-1">
                                                                                 {dealItems.map((p) => {
@@ -1057,7 +1057,7 @@ export function UIChat({
                                                 </div>
                                                 <div className="text-xs text-amber-200/80 mb-3 space-y-1">
                                                     {summaryLines.map((line, i) => (
-                                                        <p key={i} className="m-0">â€¢ {line}</p>
+                                                        <p key={i} className="m-0">• {line}</p>
                                                     ))}
                                                 </div>
                                                 <div className="flex gap-2">

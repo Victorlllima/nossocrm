@@ -197,7 +197,7 @@ export const McpSection: React.FC = () => {
 
       if (!token) return; // errors already toasted
 
-      // Ensure input shows the key after auto-generate (and to make it feel â€œrealâ€).
+      // Ensure input shows the key after auto-generate (and to make it feel “realâ€).
       setShowHaveKey(true);
       setTimeout(() => apiKeyInputRef.current?.focus(), 0);
 
@@ -236,7 +236,7 @@ export const McpSection: React.FC = () => {
                   className="px-4 py-2.5 rounded-xl bg-primary-600 hover:bg-primary-700 disabled:opacity-60 text-white text-sm font-semibold inline-flex items-center gap-2"
                 >
                   {(connecting || creatingKey || testing) ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Play className="h-4 w-4" />}
-                  {(connecting || creatingKey || testing) ? 'Conectandoâ€¦' : 'Conectar'}
+                  {(connecting || creatingKey || testing) ? 'Conectando…' : 'Conectar'}
                 </button>
               ) : (
                 <button
@@ -342,7 +342,7 @@ export const McpSection: React.FC = () => {
                   className="px-3 py-2.5 rounded-lg bg-primary-600 hover:bg-primary-700 disabled:opacity-60 text-white text-sm font-semibold inline-flex items-center gap-2"
                 >
                   <Play className="h-4 w-4" />
-                  {testing ? 'Testandoâ€¦' : 'Testar'}
+                  {testing ? 'Testando…' : 'Testar'}
                 </button>
               </div>
               <div className="mt-2 text-[11px] text-slate-500 dark:text-slate-400">

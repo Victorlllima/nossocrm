@@ -34,7 +34,7 @@ function normalizeTitleKey(value: string) {
   return value
     .trim()
     .toLowerCase()
-    .replace(/[â€œâ€"]/g, '')
+    .replace(/[“â€"]/g, '')
     .replace(/\s+/g, ' ');
 }
 
@@ -122,7 +122,7 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
   // Performance: build lookup maps once to avoid repeated `.find(...)` in `contextData`.
   const dealsById = useMemo(() => new Map(deals.map(d => [d.id, d])), [deals]);
   // UX: alguns itens (ex.: atividades) podem vir sem `dealId` mas com `dealTitle`.
-  // Criamos um lookup por título para conseguir abrir o painel â€œVer detalhesâ€.
+  // Criamos um lookup por título para conseguir abrir o painel “Ver detalhesâ€.
   const dealsByTitleKey = useMemo(() => {
     const map = new Map<string, DealView[]>();
     for (const d of deals) {
@@ -594,7 +594,7 @@ export const InboxFocusView: React.FC<InboxFocusViewProps> = ({
                   <input
                     value={contextSearch}
                     onChange={e => setContextSearch(e.target.value)}
-                    placeholder="Buscar negócio pelo títuloâ€¦"
+                    placeholder="Buscar negócio pelo título…"
                     className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 px-4 py-2 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-primary-500/40"
                   />
                 </div>

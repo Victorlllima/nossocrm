@@ -283,7 +283,7 @@ export const UsersPage: React.FC = () => {
                             Sua Equipe
                         </h1>
                         <p className="text-slate-500 dark:text-slate-400 mt-2 text-lg">
-                            {users.length} {users.length === 1 ? 'membro' : 'membros'} â€¢ {admins.length} admin{admins.length !== 1 && 's'}, {vendedores.length} vendedor{vendedores.length !== 1 && 'es'}
+                            {users.length} {users.length === 1 ? 'membro' : 'membros'} • {admins.length} admin{admins.length !== 1 && 's'}, {vendedores.length} vendedor{vendedores.length !== 1 && 'es'}
                         </p>
                     </div>
                     <button
@@ -356,7 +356,7 @@ export const UsersPage: React.FC = () => {
                                                 </>
                                             )}
                                         </span>
-                                        <span className="text-slate-300 dark:text-slate-600">â€¢</span>
+                                        <span className="text-slate-300 dark:text-slate-600">•</span>
                                         <span className="text-sm text-slate-400 dark:text-slate-500">
                                             {user.status === 'pending'
                                                 ? `Convidado ${new Date(user.invited_at || user.created_at).toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' })}`

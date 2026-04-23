@@ -170,16 +170,16 @@ export function getConsentText(): { title: string; description: string; version:
     title: 'Consentimento para Uso de IA',
     description: `Ao aceitar, você autoriza:
 
-â€¢ O processamento de seus dados e contatos por APIs de Inteligência Artificial externas (Google Gemini, OpenAI, Anthropic)
-â€¢ Análise de leads, sugestões automatizadas e personalização de comunicações
+• O processamento de seus dados e contatos por APIs de Inteligência Artificial externas (Google Gemini, OpenAI, Anthropic)
+• Análise de leads, sugestões automatizadas e personalização de comunicações
 
 Observação sobre ditado por voz (microfone):
-â€¢ O recurso de ditado/transcrição é feito no seu navegador via Web Speech API.
-â€¢ Dependendo do navegador, o reconhecimento pode envolver processamento pelo fornecedor do navegador/OS.
+• O recurso de ditado/transcrição é feito no seu navegador via Web Speech API.
+• Dependendo do navegador, o reconhecimento pode envolver processamento pelo fornecedor do navegador/OS.
 
 Seus dados serão tratados conforme nossa Política de Privacidade e a LGPD (Lei Geral de Proteção de Dados), incluindo Art. 11 para dados sensíveis (voz).
 
-Você pode revogar este consentimento a qualquer momento nas Configurações â†’ Privacidade.`,
+Você pode revogar este consentimento a qualquer momento nas Configurações → Privacidade.`,
     version: CONSENT_VERSION,
   };
 }

@@ -240,7 +240,7 @@ export function ContactsImportExportModal(props: {
                 : 'bg-primary-600 hover:bg-primary-700 text-white'
             }`}
           >
-            <FileDown size={16} /> {isExporting ? 'Gerandoâ€¦' : 'Exportar CSV'}
+            <FileDown size={16} /> {isExporting ? 'Gerando…' : 'Exportar CSV'}
           </button>
         </div>
       )}
@@ -252,7 +252,7 @@ export function ContactsImportExportModal(props: {
               Importar contatos (CSV)
             </div>
             <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-              Padrão de mercado: upload â†’ validação â†’ dedupe (por email) â†’ resumo + relatório de erros.
+              Padrão de mercado: upload → validação → dedupe (por email) → resumo + relatório de erros.
             </div>
           </div>
 
@@ -329,7 +329,7 @@ export function ContactsImportExportModal(props: {
           <div className="text-xs text-slate-500 dark:text-slate-400 pl-7">
             Quando marcado: se o CSV vier com o nome da empresa e ela ainda não existir no CRM, nós criamos a empresa e vinculamos o contato.
             <br />
-            Quando desmarcado: não criamos empresas â€” se a empresa não existir, o contato entra <b>sem vínculo</b> de empresa.
+            Quando desmarcado: não criamos empresas — se a empresa não existir, o contato entra <b>sem vínculo</b> de empresa.
           </div>
           </div>
 
@@ -344,16 +344,16 @@ export function ContactsImportExportModal(props: {
                   : 'bg-primary-600 hover:bg-primary-700 text-white'
               }`}
             >
-              <Upload size={16} /> {isImporting ? 'Importandoâ€¦' : 'Importar'}
+              <Upload size={16} /> {isImporting ? 'Importando…' : 'Importar'}
             </button>
           </div>
 
           {importResult && (
             <div className="rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-black/30 p-3 space-y-2">
               <div className="text-xs text-slate-600 dark:text-slate-300">
-                <b>Resumo:</b> {importResult.totals?.created ?? 0} criados â€¢{' '}
-                {importResult.totals?.updated ?? 0} atualizados â€¢{' '}
-                {importResult.totals?.skipped ?? 0} ignorados â€¢{' '}
+                <b>Resumo:</b> {importResult.totals?.created ?? 0} criados •{' '}
+                {importResult.totals?.updated ?? 0} atualizados •{' '}
+                {importResult.totals?.skipped ?? 0} ignorados •{' '}
                 {importResult.totals?.errors ?? 0} erros
               </div>
               {(importResult.totals?.errors ?? 0) > 0 && (

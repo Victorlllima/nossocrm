@@ -34,7 +34,7 @@ export const BOARD_TEMPLATES: Record<BoardTemplateType, BoardTemplate> = {
   PRE_SALES: {
     name: 'Pré-venda',
     description: 'Qualificação de leads até tornarem-se MQL',
-    emoji: 'ðŸŽ¯',
+    emoji: '🎯',
     linkedLifecycleStage: 'LEAD',
     tags: ['SDR', 'Qualificação', 'Outbound'],
     stages: [
@@ -61,7 +61,7 @@ export const BOARD_TEMPLATES: Record<BoardTemplateType, BoardTemplate> = {
   SALES: {
     name: 'Pipeline de Vendas',
     description: 'MQL até fechamento ou perda',
-    emoji: 'ðŸ’°',
+    emoji: '💰',
     linkedLifecycleStage: 'MQL',
     tags: ['Vendas', 'CRM', 'Fechamento'],
     stages: [
@@ -91,7 +91,7 @@ export const BOARD_TEMPLATES: Record<BoardTemplateType, BoardTemplate> = {
   ONBOARDING: {
     name: 'Onboarding de Clientes',
     description: 'Ativação e implementação de novos clientes',
-    emoji: 'ðŸš€',
+    emoji: '🚀',
     linkedLifecycleStage: 'CUSTOMER',
     tags: ['CS', 'Implementação', 'Sucesso'],
     stages: [

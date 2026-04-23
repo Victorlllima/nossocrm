@@ -132,7 +132,7 @@ export const PipelineAlertsModal: React.FC<PipelineAlertsModalProps> = ({
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
               {totalAlerts > 0 
                 ? `${totalAlerts} itens precisam de atenção`
-                : 'Seu pipeline está saudável! ðŸŽ‰'
+                : 'Seu pipeline está saudável! 🎉'
               }
             </p>
           </div>
@@ -187,7 +187,7 @@ export const PipelineAlertsModal: React.FC<PipelineAlertsModalProps> = ({
                           {deal.title}
                         </p>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                          ${deal.value.toLocaleString()} â€¢ {deal.probability}% probabilidade
+                          ${deal.value.toLocaleString()} • {deal.probability}% probabilidade
                         </p>
                       </div>
                       <ChevronRight 
@@ -214,7 +214,7 @@ export const PipelineAlertsModal: React.FC<PipelineAlertsModalProps> = ({
         {/* Footer */}
         <div className="p-4 border-t border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5">
           <p className="text-xs text-slate-500 dark:text-slate-400 text-center">
-            ðŸ’¡ Dica: Deals sem atividade futura têm menor chance de conversão. Agende próximos passos!
+            💡 Dica: Deals sem atividade futura têm menor chance de conversão. Agende próximos passos!
           </p>
         </div>
       </div>

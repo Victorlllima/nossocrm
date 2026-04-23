@@ -252,7 +252,7 @@ const ReportsPage: React.FC = () => {
           </div>
           <p className="text-xs text-slate-500 mt-2">
             {isOnTrack
-              ? `ðŸŽ¯ No ritmo! Faltam ${formatGoalValue(Math.abs(forecastGap))} para bater a meta.`
+              ? `🎯 No ritmo! Faltam ${formatGoalValue(Math.abs(forecastGap))} para bater a meta.`
               : `âš ï¸ Atenção! Você está abaixo de 75% da meta. Faltam ${formatGoalValue(Math.abs(forecastGap))}.`
             }
           </p>

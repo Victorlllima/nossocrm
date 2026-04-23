@@ -137,7 +137,7 @@ export const AISuggestionsSection: React.FC<AISuggestionsSectionProps> = ({
                   {/* Deal/Contact info */}
                   {suggestion.data.deal && (
                     <div className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                      ðŸ’° R$ {suggestion.data.deal.value.toLocaleString('pt-BR')}
+                      💰 R$ {suggestion.data.deal.value.toLocaleString('pt-BR')}
                     </div>
                   )}
                 </div>

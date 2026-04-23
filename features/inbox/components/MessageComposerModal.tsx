@@ -75,7 +75,7 @@ function formatForWhatsApp(input: string) {
     }
 
     // Put common celebration emoji on its own line
-    text = text.replace(/\s*(ðŸŽ‰|âœ…|âœ¨|ðŸš€)\s*/g, '\n$1\n');
+    text = text.replace(/\s*(🎉|✅|✨|🚀)\s*/g, '\n$1\n');
 
     // Convert "Que tal X ou Y?" into a bullet list using WhatsApp list markers ("- ")
     const bulletize = (match: string, a: string, b: string) => {
@@ -353,7 +353,7 @@ export function MessageComposerModal({
             setAiBadge(true);
         } catch (err) {
             if (isConsentError(err)) {
-                setRewriteError('IA não configurada (consentimento necessário). Vá em Configurações â†’ Inteligência Artificial.');
+                setRewriteError('IA não configurada (consentimento necessário). Vá em Configurações → Inteligência Artificial.');
             } else if (isRateLimitError(err)) {
                 setRewriteError('IA em limite de uso no momento. Tente novamente em instantes.');
             } else {

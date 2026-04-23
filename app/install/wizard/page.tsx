@@ -268,7 +268,7 @@ export default function InstallWizardPage() {
   const [runError, setRunError] = useState<string | null>(null);
   const [showInstallOverlay, setShowInstallOverlay] = useState(false);
   const [cinePhase, setCinePhase] = useState<'preparing' | 'running' | 'success' | 'error'>('preparing');
-  const [cineMessage, setCineMessage] = useState('Preparando a decolagemâ€¦');
+  const [cineMessage, setCineMessage] = useState('Preparando a decolagem…');
   const [cineSubtitle, setCineSubtitle] = useState('');
   const [cineProgress, setCineProgress] = useState(0);
   const [cineStepLabel, setCineStepLabel] = useState<string>('');
@@ -539,7 +539,7 @@ export default function InstallWizardPage() {
     
     const paidOrg = preflight.organizations.find((o) => (o.plan || '').toLowerCase() !== 'free');
     if (paidOrg) {
-      console.log('ðŸ’° [SUPABASE] Usando org PAGA:', paidOrg.slug);
+      console.log('💰 [SUPABASE] Usando org PAGA:', paidOrg.slug);
       setNeedSpaceReason(null);
       await createProjectInOrg(paidOrg.slug, paidOrg.activeProjects.map((p) => p.name));
       return;
@@ -623,7 +623,7 @@ export default function InstallWizardPage() {
       for (let attempt = 0; attempt < 30; attempt++) {
         const projectName = suggestProjectName(Array.from(names));
 
-        console.log('ðŸš€ [SUPABASE] Criando projeto:', projectName, 'na org:', orgSlug);
+        console.log('🚀 [SUPABASE] Criando projeto:', projectName, 'na org:', orgSlug);
         console.log('â±ï¸ [SUPABASE] Início:', new Date().toLocaleTimeString());
 
         const res = await fetch('/api/installer/supabase/create-project', {
@@ -694,11 +694,11 @@ export default function InstallWizardPage() {
           const status = stData?.status || '';
           setSupabaseProvisioningStatus(status);
 
-          console.log(`ðŸ“Š [SUPABASE] Poll #${pollCount}: ${status} (${((Date.now() - createStart) / 1000).toFixed(0)}s)`);
+          console.log(`📊 [SUPABASE] Poll #${pollCount}: ${status} (${((Date.now() - createStart) / 1000).toFixed(0)}s)`);
 
           if (status.toUpperCase().startsWith('ACTIVE')) {
             const totalTime = ((Date.now() - createStart) / 1000).toFixed(1);
-            console.log('âœ… [SUPABASE] Projeto ATIVO!');
+            console.log('✅ [SUPABASE] Projeto ATIVO!');
             console.log('â±ï¸ [SUPABASE] TEMPO TOTAL:', totalTime, 'segundos');
 
             setSupabaseProvisioning(false);
@@ -902,7 +902,7 @@ export default function InstallWizardPage() {
       if (warnings.length > 0 && !hasDbUrl && isOnlyDbWarnings) {
         resolveAttemptsRef.current += 1;
         if (resolveAttemptsRef.current < 6 && mode === 'auto') {
-          setSupabaseResolveError(`Aguardando banco ficar prontoâ€¦ (${resolveAttemptsRef.current}/6)`);
+          setSupabaseResolveError(`Aguardando banco ficar pronto… (${resolveAttemptsRef.current}/6)`);
           resolveTimerRef.current = setTimeout(() => void resolveKeys('auto'), 2000 * resolveAttemptsRef.current);
           return;
         }
@@ -912,7 +912,7 @@ export default function InstallWizardPage() {
       } else {
         resolveAttemptsRef.current = 0;
         setSupabaseResolvedOk(true);
-        // Vai direto pro próximo passo â€” sem tela de confirmação
+        // Vai direto pro próximo passo — sem tela de confirmação
         setCurrentStep(2);
       }
     } catch (err) {
@@ -1159,7 +1159,7 @@ export default function InstallWizardPage() {
     setCinePhase('running');
     setCineMessage('Etapa final');
     setCineStepLabel('Aguardando redeploy na Vercel (etapa final)');
-    setCineSubtitle('Verificando status do deployâ€¦');
+    setCineSubtitle('Verificando status do deploy…');
     setCineProgress(Math.max(0, Math.min(99, cineProgress || 0)));
 
     try {
@@ -1195,7 +1195,7 @@ export default function InstallWizardPage() {
       const msg = e instanceof Error ? e.message : 'Erro';
       setRunError(msg);
       setCinePhase('error');
-      setCineMessage('Quase láâ€¦');
+      setCineMessage('Quase lá…');
       setCineSubtitle(msg);
     } finally {
       setFinalizing(false);
@@ -1234,7 +1234,7 @@ export default function InstallWizardPage() {
     // Same-origin / CSRF guard
     if (lower === 'forbidden' || lower.includes('csrf') || lower.includes('same-origin')) {
       help.steps.push('Use o domínio de Produção da Vercel (não Preview).');
-      help.steps.push('Vá em Vercel â†’ Project â†’ Domains e abra o domínio principal.');
+      help.steps.push('Vá em Vercel → Project → Domains e abra o domínio principal.');
       help.steps.push('Recarregue e tente novamente.');
       help.primaryAction = { label: 'Ir para o início do Wizard', run: () => router.push('/install/start') };
       return help;
@@ -1264,7 +1264,7 @@ export default function InstallWizardPage() {
       lower.includes('missing_scope') ||
       lower.includes('insufficient_scope')
     ) {
-      help.steps.push('Gere um novo token na Vercel com permissão â€œFull Accountâ€.');
+      help.steps.push('Gere um novo token na Vercel com permissão “Full Accountâ€.');
       help.steps.push('Volte ao início do wizard e cole o token novo.');
       help.steps.push('Faça a instalação no domínio de Produção.');
       help.primaryAction = { label: 'Voltar ao início do Wizard', run: () => router.push('/install/start') };
@@ -1275,7 +1275,7 @@ export default function InstallWizardPage() {
     // Supabase token
     if (lower.includes('supabase') && (lower.includes('unauthorized') || lower.includes('token'))) {
       help.steps.push('Confirme que você colou o token do Supabase (começa com `sbp_`).');
-      help.steps.push('Se expirou, gere um novo em Supabase â†’ Account â†’ Access Tokens.');
+      help.steps.push('Se expirou, gere um novo em Supabase → Account → Access Tokens.');
       help.primaryAction = { label: 'Voltar ao início do Wizard', run: () => router.push('/install/start') };
       return help;
     }
@@ -1289,7 +1289,7 @@ export default function InstallWizardPage() {
     }
 
     // Fallback
-    help.steps.push('Clique em â€œTentar novamenteâ€.');
+    help.steps.push('Clique em “Tentar novamenteâ€.');
     help.steps.push('Se persistir, volte ao início do wizard e confira tokens/credenciais.');
     help.primaryAction = { label: 'Voltar ao início do Wizard', run: () => router.push('/install/start') };
     help.secondaryAction = { label: 'Limpar dados e recomeçar', run: clearInstallerLocalData };
@@ -1388,7 +1388,7 @@ export default function InstallWizardPage() {
                       <Loader2 className="w-8 h-8 text-cyan-400 animate-spin" />
                         </div>
                     <h1 className="text-2xl font-bold text-white mb-2">Preparando seu projeto</h1>
-                    <p className="text-slate-400">Verificando sua conta Supabaseâ€¦</p>
+                    <p className="text-slate-400">Verificando sua conta Supabase…</p>
                   </motion.div>
                 )}
                 
@@ -1424,8 +1424,8 @@ export default function InstallWizardPage() {
                             <div>O projeto está sendo pausado. Isso pode levar até ~3 minutos.</div>
                             <div className="text-amber-200/80 mt-1">
                               {pauseStartedAt ? `Tempo: ${Math.max(0, Math.round((Date.now() - pauseStartedAt) / 1000))}s` : null}
-                              {pauseAttempts ? ` â€¢ Tentativas: ${pauseAttempts}` : null}
-                              {pauseLastStatus ? ` â€¢ Status: ${pauseLastStatus}` : null}
+                              {pauseAttempts ? ` • Tentativas: ${pauseAttempts}` : null}
+                              {pauseLastStatus ? ` • Status: ${pauseLastStatus}` : null}
                             </div>
                           </div>
                         </div>
@@ -1607,7 +1607,7 @@ export default function InstallWizardPage() {
                       <>
                         <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 mb-6"><Loader2 className="w-8 h-8 text-cyan-400 animate-spin" /></div>
                         <h1 className="text-2xl font-bold text-white mb-2">Configurando chaves</h1>
-                        <p className="text-slate-400">Aguarde um momentoâ€¦</p>
+                        <p className="text-slate-400">Aguarde um momento…</p>
                       </>
                     ) : supabaseResolvedOk ? (
                       <>
@@ -1627,7 +1627,7 @@ export default function InstallWizardPage() {
                       <>
                         <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 mb-6"><Loader2 className="w-8 h-8 text-cyan-400 animate-spin" /></div>
                         <h1 className="text-2xl font-bold text-white mb-2">Finalizando</h1>
-                        <p className="text-slate-400">Resolvendo configuraçõesâ€¦</p>
+                        <p className="text-slate-400">Resolvendo configurações…</p>
                       </>
                     )}
                   </motion.div>
@@ -1670,7 +1670,7 @@ export default function InstallWizardPage() {
               )}
 
               <button onClick={runInstaller} disabled={!canInstall || installing} className="w-full py-5 rounded-2xl bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-400 hover:to-teal-400 text-white font-bold text-xl transition-all shadow-xl shadow-cyan-500/30 disabled:opacity-50">
-                {installing ? <span className="flex items-center justify-center gap-3"><Loader2 className="w-6 h-6 animate-spin" />Iniciandoâ€¦</span> : 'ðŸš€ Iniciar viagem'}
+                {installing ? <span className="flex items-center justify-center gap-3"><Loader2 className="w-6 h-6 animate-spin" />Iniciando…</span> : '🚀 Iniciar viagem'}
               </button>
               {runError && !showInstallOverlay && <div className="mt-4 rounded-xl bg-red-500/10 border border-red-500/20 p-4 text-red-400 text-sm">{runError}</div>}
             </motion.div>
@@ -1868,7 +1868,7 @@ export default function InstallWizardPage() {
                     />
                   </div>
                   <p className="text-xs text-slate-500 mt-2">
-                    {cineProgress}%{cineStepLabel ? ` â€¢ ${cineStepLabel}` : ''}
+                    {cineProgress}%{cineStepLabel ? ` • ${cineStepLabel}` : ''}
                   </p>
                 </div>
               )}
@@ -1883,7 +1883,7 @@ export default function InstallWizardPage() {
                 >
                   <p className="text-slate-300">
                     Seu novo mundo está pronto.<br />
-                    <span className="text-slate-500 text-sm">Tudo está pronto â€” você já pode entrar. (Se parecer desatualizado, recarregue a página.)</span>
+                    <span className="text-slate-500 text-sm">Tudo está pronto — você já pode entrar. (Se parecer desatualizado, recarregue a página.)</span>
                   </p>
                   <button 
                     onClick={() => {

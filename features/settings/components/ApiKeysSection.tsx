@@ -116,7 +116,7 @@ export const ApiKeysSection: React.FC = () => {
       setCreatedToken(token);
       setCreatedPrefix(prefix);
       setApiKeyToken(token);
-      addToast('Chave criada. Copie agora â€” ela aparece só uma vez.', 'success');
+      addToast('Chave criada. Copie agora — ela aparece só uma vez.', 'success');
       await loadKeys();
     } catch (e: any) {
       addToast(e?.message || 'Erro ao criar chave', 'error');
@@ -192,7 +192,7 @@ export const ApiKeysSection: React.FC = () => {
         setTestResult({ ok: false, message: json?.error || 'Falha no teste' });
         return;
       }
-      setTestResult({ ok: true, message: 'OK â€” API key validada' });
+      setTestResult({ ok: true, message: 'OK — API key validada' });
     } catch (e: any) {
       setTestResult({ ok: false, message: e?.message || 'Erro no teste' });
     } finally {
@@ -414,7 +414,7 @@ export const ApiKeysSection: React.FC = () => {
   return (
     <SettingsSection title="API (Integrações)" icon={Key}>
       <p className="text-sm text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
-        Aqui você conecta n8n/Make sem precisar â€œentender APIâ€. Escolha o que quer automatizar, copie o que precisa e teste.
+        Aqui você conecta n8n/Make sem precisar “entender APIâ€. Escolha o que quer automatizar, copie o que precisa e teste.
         <br />
         A documentação técnica (OpenAPI/Swagger) fica disponível, mas só quando você quiser.
       </p>
@@ -426,7 +426,7 @@ export const ApiKeysSection: React.FC = () => {
             Chave da integração (independente do assistente)
           </div>
           <div className="text-xs text-slate-600 dark:text-slate-300 mb-3">
-            A chave é da sua conta. O assistente só usa ela para montar o â€œcopiar/colarâ€ e testar.
+            A chave é da sua conta. O assistente só usa ela para montar o “copiar/colarâ€ e testar.
           </div>
 
           <div className="flex gap-2">
@@ -483,7 +483,7 @@ export const ApiKeysSection: React.FC = () => {
                 value={apiKeyToken}
                 onChange={(e) => setApiKeyToken(e.target.value)}
                 className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 text-slate-900 dark:text-white font-mono text-xs"
-                placeholder="ncrm_â€¦ (fica só em memória, não é salvo)"
+                placeholder="ncrm_… (fica só em memória, não é salvo)"
               />
               <button
                 type="button"
@@ -491,7 +491,7 @@ export const ApiKeysSection: React.FC = () => {
                 disabled={testLoading}
                 className="shrink-0 px-3 py-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 disabled:opacity-60 text-slate-800 dark:text-white text-sm font-semibold"
               >
-                {testLoading ? 'Testandoâ€¦' : 'Testar chave'}
+                {testLoading ? 'Testando…' : 'Testar chave'}
               </button>
             </div>
             {testResult && (
@@ -504,7 +504,7 @@ export const ApiKeysSection: React.FC = () => {
 
         <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 p-4">
           <div className="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-2">
-            Passo 1 â€” O que você quer automatizar?
+            Passo 1 — O que você quer automatizar?
           </div>
           <select
             value={action}
@@ -525,10 +525,10 @@ export const ApiKeysSection: React.FC = () => {
 
         <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 p-4">
           <div className="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-2">
-            Passo 2 â€” Configure (dinâmico)
+            Passo 2 — Configure (dinâmico)
           </div>
           <div className="text-xs text-slate-600 dark:text-slate-300 mb-3">
-            Aqui entra o â€œmágicoâ€: você escolhe e a gente já preenche o comando final.
+            Aqui entra o “mágicoâ€: você escolhe e a gente já preenche o comando final.
           </div>
 
           {action === 'create_lead' && (
@@ -622,10 +622,10 @@ export const ApiKeysSection: React.FC = () => {
                   onChange={(e) => setSelectedBoardId(e.target.value)}
                   className="w-full px-3 py-2.5 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 text-slate-900 dark:text-white"
                 >
-                  <option value="">Selecioneâ€¦</option>
+                  <option value="">Selecione…</option>
                   {boardsFromContext.map((b) => (
                     <option key={b.id} value={b.id}>
-                      {b.name}{b.key ? ` â€” ${b.key}` : ' â€” (sem key)'}
+                      {b.name}{b.key ? ` — ${b.key}` : ' — (sem key)'}
                     </option>
                   ))}
                 </select>
@@ -693,7 +693,7 @@ export const ApiKeysSection: React.FC = () => {
                     onChange={(e) => setSelectedToStageId(e.target.value)}
                     className="w-full px-3 py-2.5 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 text-slate-900 dark:text-white"
                   >
-                    <option value="">Selecioneâ€¦</option>
+                    <option value="">Selecione…</option>
                     {stagesForBoard.map((s) => (
                       <option key={s.id} value={s.id}>
                         {s.label}
@@ -737,10 +737,10 @@ export const ApiKeysSection: React.FC = () => {
 
       <div className="mt-4 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 p-4">
         <div className="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-2">
-          Passo 3 â€” Copiar e testar
+          Passo 3 — Copiar e testar
         </div>
         <div className="text-xs text-slate-600 dark:text-slate-300 mb-3">
-          Este é o â€œcopiar/colarâ€ que seu usuário precisa. Se funcionar aqui, funciona no n8n.
+          Este é o “copiar/colarâ€ que seu usuário precisa. Se funcionar aqui, funciona no n8n.
         </div>
 
         <div className="flex flex-wrap gap-2 mb-3">
@@ -759,7 +759,7 @@ export const ApiKeysSection: React.FC = () => {
             className="px-3 py-2 rounded-lg bg-primary-600 hover:bg-primary-700 disabled:opacity-60 text-white text-sm font-semibold inline-flex items-center gap-2"
           >
             <Play className="h-4 w-4" />
-            {actionTestLoading ? 'Testandoâ€¦' : 'Testar agora'}
+            {actionTestLoading ? 'Testando…' : 'Testar agora'}
           </button>
         </div>
 
@@ -776,7 +776,7 @@ export const ApiKeysSection: React.FC = () => {
 
       <div className="mt-4 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 p-4">
         <div className="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-2">
-          Consulta técnica â€” OpenAPI
+          Consulta técnica — OpenAPI
         </div>
         <div className="text-xs text-slate-600 dark:text-slate-300 mb-3">
           Se você (ou o time técnico) precisar, aqui está o OpenAPI para importar em Swagger/Postman e gerar integrações.
@@ -849,10 +849,10 @@ export const ApiKeysSection: React.FC = () => {
                       )}
                     </div>
                     <div className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-mono">
-                      {k.key_prefix}â€¦
+                      {k.key_prefix}…
                     </div>
                     <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                      Íšltimo uso: {k.last_used_at ? new Date(k.last_used_at).toLocaleString('pt-BR') : 'â€”'}
+                      Íšltimo uso: {k.last_used_at ? new Date(k.last_used_at).toLocaleString('pt-BR') : '—'}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -864,7 +864,7 @@ export const ApiKeysSection: React.FC = () => {
                         className="px-3 py-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 hover:bg-rose-50 dark:hover:bg-rose-500/10 disabled:opacity-60 text-rose-700 dark:text-rose-300 text-sm font-semibold inline-flex items-center gap-2"
                       >
                         <Trash2 className="h-4 w-4" />
-                        {deletingId === k.id ? 'Excluindoâ€¦' : 'Excluir'}
+                        {deletingId === k.id ? 'Excluindo…' : 'Excluir'}
                       </button>
                     ) : (
                       <button
@@ -874,7 +874,7 @@ export const ApiKeysSection: React.FC = () => {
                         className="px-3 py-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 hover:bg-rose-50 dark:hover:bg-rose-500/10 disabled:opacity-60 text-rose-700 dark:text-rose-300 text-sm font-semibold inline-flex items-center gap-2"
                       >
                         <Trash2 className="h-4 w-4" />
-                        {revokingId === k.id ? 'Revogandoâ€¦' : 'Revogar'}
+                        {revokingId === k.id ? 'Revogando…' : 'Revogar'}
                       </button>
                     )}
                   </div>
@@ -899,7 +899,7 @@ export const ApiKeysSection: React.FC = () => {
             <div className="text-xs text-slate-500 dark:text-slate-400">
               {deleteTarget ? (
                 <>
-                  <span className="font-semibold">{deleteTarget.name}</span> â€” <span className="font-mono">{deleteTarget.key_prefix}â€¦</span>
+                  <span className="font-semibold">{deleteTarget.name}</span> — <span className="font-mono">{deleteTarget.key_prefix}…</span>
                 </>
               ) : null}
             </div>

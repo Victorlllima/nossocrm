@@ -132,7 +132,7 @@ export const useMoveDeal = () => {
       // #region agent log
       if (process.env.NODE_ENV !== 'production') {
         const logData = { dealId: dealId.slice(0, 8), targetStageId: targetStageId.slice(0, 8) };
-        console.log(`[useMoveDeal] âœ… Server update confirmed`, logData);
+        console.log(`[useMoveDeal] ✅ Server update confirmed`, logData);
         fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useMoveDeal.ts:112',message:'Server update confirmed',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'move-deal',hypothesisId:'J'})}).catch(()=>{});
       }
       // #endregion
@@ -242,7 +242,7 @@ export const useMoveDeal = () => {
           targetStageId: targetStageId.slice(0, 8),
           currentStatus: deal.status?.slice(0, 8) || 'null',
         };
-        console.log(`[useMoveDeal] ðŸš€ Starting optimistic update`, logData);
+        console.log(`[useMoveDeal] 🚀 Starting optimistic update`, logData);
         fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useMoveDeal.ts:210',message:'Starting optimistic update',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'move-deal',hypothesisId:'F'})}).catch(()=>{});
       }
       // #endregion
@@ -278,7 +278,7 @@ export const useMoveDeal = () => {
             dealFound: !!dealInCache,
             currentStatus: dealInCache?.status?.slice(0, 8) || 'null',
           };
-          console.log(`[useMoveDeal] ðŸ“Š Processing DEALS_VIEW_KEY cache`, logData);
+          console.log(`[useMoveDeal] 📊 Processing DEALS_VIEW_KEY cache`, logData);
           fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useMoveDeal.ts:280',message:'Processing cache for optimistic update',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'move-deal',hypothesisId:'OPT'})}).catch(()=>{});
         }
         // #endregion
@@ -301,7 +301,7 @@ export const useMoveDeal = () => {
                 newStatus: targetStageId.slice(0, 8),
                 updatedAt: newDeal.updatedAt,
               };
-              console.log(`[useMoveDeal] âœ… Optimistic update applied`, logData);
+              console.log(`[useMoveDeal] ✅ Optimistic update applied`, logData);
               fetch('http://127.0.0.1:7242/ingest/d70f541c-09d7-4128-9745-93f15f184017',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useMoveDeal.ts:235',message:'Optimistic update applied',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'move-deal',hypothesisId:'G'})}).catch(()=>{});
             }
             // #endregion
@@ -340,8 +340,8 @@ export const useMoveDeal = () => {
     // Invalidating here causes the deal to "jump back" because:
     // 1. Optimistic update moves deal visually
     // 2. Server confirms update
-    // 3. onSettled invalidates â†’ refetch (may get stale data if timing is off)
-    // 4. Realtime UPDATE arrives â†’ invalidates again â†’ refetch (may overwrite with old data)
+    // 3. onSettled invalidates → refetch (may get stale data if timing is off)
+    // 4. Realtime UPDATE arrives → invalidates again → refetch (may overwrite with old data)
     // By skipping invalidation here, we let Realtime handle sync naturally.
     onSettled: () => {
       // #region agent log

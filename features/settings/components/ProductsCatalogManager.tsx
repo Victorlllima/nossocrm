@@ -191,7 +191,7 @@ export const ProductsCatalogManager: React.FC = () => {
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Ex.: Sessão, Pacote, Implantaçãoâ€¦"
+              placeholder="Ex.: Sessão, Pacote, Implantação…"
               className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/40"
             />
           </div>
@@ -300,7 +300,7 @@ export const ProductsCatalogManager: React.FC = () => {
                             )}
                           </div>
                           <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate">
-                            {formatBRL(p.price)}{p.sku ? ` â€¢ SKU: ${p.sku}` : ''}{p.description ? ` â€¢ ${p.description}` : ''}
+                            {formatBRL(p.price)}{p.sku ? ` • SKU: ${p.sku}` : ''}{p.description ? ` • ${p.description}` : ''}
                           </div>
                         </>
                       )}

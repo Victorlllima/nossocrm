@@ -69,7 +69,7 @@ export const ActivitiesProvider: React.FC<{ children: ReactNode }> = ({ children
       }
 
       // Invalida cache para TanStack Query atualizar
-      // Don't await invalidations â€” awaiting can block UI flows until heavy refetches finish.
+      // Don't await invalidations — awaiting can block UI flows until heavy refetches finish.
       void queryClient.invalidateQueries({ queryKey: queryKeys.activities.all });
 
       return data;

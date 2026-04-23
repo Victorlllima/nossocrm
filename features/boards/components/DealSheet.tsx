@@ -11,7 +11,7 @@ export interface DealSheetProps {
 }
 
 /**
- * DealSheet â€” wrapper to present deal flows as a mobile-first sheet.
+ * DealSheet — wrapper to present deal flows as a mobile-first sheet.
  *
  * Desktop continues to use the existing modal implementation; this is used only on mobile.
  */

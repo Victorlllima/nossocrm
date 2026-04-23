@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  agent-crm-max:
+    image: agent-crm-max:latest
+    container_name: agent-crm-max
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      PORT: "3001"
+    ports:
+      - "3001:3001"
+    networks:
+      - redpro-net
+
+networks:
+  redpro-net:
+    external: true
