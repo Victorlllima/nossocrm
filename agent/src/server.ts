@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
+import { appendFileSync } from 'fs';
 import { supabase } from './services/supabase.js';
 import { bufferMessage, isDuplicate } from './services/buffer.js';
 import { sendText, downloadMedia, transcribeAudio, describeImage, deleteMessageForEveryone } from './services/evolution.js';
@@ -66,11 +67,21 @@ async function startTelegramPolling(): Promise<void> {
         const msg = update.message;
         if (!msg?.text) continue;
 
-        // Ignora comandos do Telegram (ex: /start, /clear)
+        // Comandos do Telegram
         if (msg.text.startsWith('/')) {
-          const cmd = msg.text.toLowerCase();
-          if (cmd === '/clear' || cmd === '/start' || cmd === '/reset') {
+          const cmd = msg.text.trim();
+          const cmdLower = cmd.toLowerCase();
+
+          if (cmdLower === '/clear' || cmdLower === '/start' || cmdLower === '/reset') {
             await telegramSend(msg.chat.id, 'Sistema reiniciado. Como posso te ajudar?');
+          } else if (cmdLower.startsWith('/bug')) {
+            const descricao = cmd.slice(4).trim();
+            if (!descricao) {
+              await telegramSend(msg.chat.id, 'Use: /bug <descrição do problema>');
+            } else {
+              await registrarBug(descricao, msg.from?.first_name ?? 'Max');
+              await telegramSend(msg.chat.id, `Bug registrado: "${descricao}"`);
+            }
           }
           continue;
         }
@@ -335,6 +346,12 @@ function splitResponse(text: string, maxLen = 1000): string[] {
 
 function sleep(ms: number): Promise<void> {
   return new Promise(r => setTimeout(r, ms));
+}
+
+async function registrarBug(descricao: string, autor: string): Promise<void> {
+  const linha = `[${new Date().toISOString()}] ${autor}: ${descricao}\n`;
+  appendFileSync('bugs.log', linha, 'utf-8');
+  console.log(`[bug] ${linha.trim()}`);
 }
 
 // ─── SHEETS SYNC ─────────────────────────────────────────────────────────────
