@@ -3,7 +3,7 @@ import { anthropic } from '@ai-sdk/anthropic';
 import { loadHistory, saveMessage } from '../services/history.js';
 import { buildSystemPrompt, getTemporalContext } from '../prompts/system.js';
 import { consultarBaseImoveis } from '../tools/imoveis.js';
-import { criarOuAtualizarLead, buscarLead } from '../tools/crm.js';
+import { criarOuAtualizarLead, buscarLead, criarDealNoCRM } from '../tools/crm.js';
 import { acionarHumano } from '../tools/humano.js';
 
 export interface AgentInput {
@@ -37,6 +37,7 @@ export async function runComercialAgent(input: AgentInput): Promise<string> {
   const toolsWithContext = {
     consultarBaseImoveis: patchToolContext(consultarBaseImoveis, toolContext),
     criarOuAtualizarLead: patchToolContext(criarOuAtualizarLead, toolContext),
+    criarDealNoCRM: patchToolContext(criarDealNoCRM, toolContext),
     buscarLead,
     acionarHumano: patchToolContext(acionarHumano, toolContext),
   };

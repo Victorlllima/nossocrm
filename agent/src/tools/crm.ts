@@ -2,6 +2,102 @@ import { tool } from 'ai';
 import { z } from 'zod';
 import { supabase } from '../services/supabase.js';
 
+const BOARD_ID = '7d9637e4-7bde-4a58-bc41-0bd3f03c329f';
+const STAGE_NOVO_LEAD = '298e1028-8fc0-48d0-9d14-14a514415245';
+const ORG_ID = '3cd3d18e-6fd4-4f9c-8fcf-701d099e4e45';
+const OWNER_ID = '963bb55f-37fe-4404-b0da-6f5f915aa23c';
+
+// Cria contact + deal no board do CRM a partir de dados coletados na conversa
+export const criarDealNoCRM = tool({
+  description:
+    'Cria um contato e um deal no board do CRM quando o lead informar nome e telefone. ' +
+    'Use assim que tiver nome completo e telefone confirmados na conversa. ' +
+    'Só chame uma vez por lead — verifica duplicata antes de criar.',
+  parameters: z.object({
+    nome: z.string().describe('Nome completo do lead'),
+    telefone: z.string().describe('Telefone do lead com DDD, apenas dígitos'),
+    bairro: z.string().optional().describe('Bairro de interesse mencionado'),
+    objetivo: z.string().optional().describe('Compra, venda, aluguel ou investimento'),
+    observacoes: z.string().optional().describe('Resumo do interesse coletado na conversa'),
+  }),
+  execute: async (params, { toolCallId }) => {
+    const whatsappId: string = (toolCallId as unknown as { whatsappId?: string })?.whatsappId ?? '';
+
+    // Normaliza telefone
+    const telefone = params.telefone.replace(/\D/g, '');
+
+    // Verifica duplicata por telefone
+    const { data: existente } = await supabase
+      .from('contacts')
+      .select('id')
+      .eq('whatsapp_phone', telefone)
+      .eq('organization_id', ORG_ID)
+      .maybeSingle();
+
+    if (existente) {
+      return `Lead já cadastrado no CRM (contact_id: ${existente.id}).`;
+    }
+
+    const notes = [
+      params.objetivo ? `Objetivo: ${params.objetivo}` : '',
+      params.bairro ? `Bairro de interesse: ${params.bairro}` : '',
+      params.observacoes ? `Obs: ${params.observacoes}` : '',
+      whatsappId ? `WhatsApp: ${whatsappId}` : '',
+    ].filter(Boolean).join('\n');
+
+    // Cria contato
+    const { data: contact, error: contactError } = await supabase
+      .from('contacts')
+      .insert({
+        name: params.nome,
+        phone: telefone,
+        whatsapp_phone: telefone,
+        source: `whatsapp:${whatsappId}`,
+        status: 'active',
+        organization_id: ORG_ID,
+        owner_id: OWNER_ID,
+        notes,
+      })
+      .select('id')
+      .single();
+
+    if (contactError) {
+      console.error('[crm] Erro ao criar contato:', contactError.message);
+      return `Erro ao criar contato: ${contactError.message}`;
+    }
+
+    // Cria deal
+    const dealTitle = params.bairro ? `${params.nome} — ${params.bairro}` : params.nome;
+
+    const { error: dealError } = await supabase
+      .from('deals')
+      .insert({
+        title: dealTitle,
+        contact_id: contact.id,
+        board_id: BOARD_ID,
+        stage_id: STAGE_NOVO_LEAD,
+        status: 'open',
+        priority: 'medium',
+        organization_id: ORG_ID,
+        owner_id: OWNER_ID,
+        tags: ['whatsapp'],
+        custom_fields: {
+          whatsapp_id: whatsappId,
+          objetivo: params.objetivo ?? '',
+          bairro: params.bairro ?? '',
+        },
+      });
+
+    if (dealError) {
+      await supabase.from('contacts').delete().eq('id', contact.id);
+      console.error('[crm] Erro ao criar deal:', dealError.message);
+      return `Erro ao criar deal: ${dealError.message}`;
+    }
+
+    return `Lead "${params.nome}" cadastrado no CRM com sucesso — aparecerá no board em "Novo Lead".`;
+  },
+});
+
 // Cria ou atualiza um lead no CRM com os dados coletados na conversa
 export const criarOuAtualizarLead = tool({
   description:
