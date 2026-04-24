@@ -55,7 +55,7 @@ export async function runComercialAgent(input: AgentInput): Promise<string> {
 
   try {
     const { text } = await generateText({
-      model: anthropic('claude-sonnet-4-6'),
+      model: anthropic('claude-haiku-4-5-20251001'),
       system: systemPrompt,
       messages: messagesForLLM,
       tools: toolsWithContext,
