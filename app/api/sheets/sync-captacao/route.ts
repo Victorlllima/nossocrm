@@ -71,7 +71,7 @@ async function enviarEmailNovoLead(dados: {
   ].filter(Boolean).join('')
 
   await resend.emails.send({
-    from: 'CRM Max Lima <onboarding@resend.dev>',
+    from: 'CRM Max Lima <crm@redpro.com.br>',
     to: DESTINATARIOS,
     subject: `🏠 Novo lead captado — ${nome}`,
     html: `
