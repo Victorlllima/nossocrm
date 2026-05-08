@@ -3,6 +3,11 @@ import { google } from 'googleapis'
 import { createClient } from '@supabase/supabase-js'
 import { readFileSync } from 'fs'
 import path from 'path'
+import { Resend } from 'resend'
+
+const resend = new Resend(process.env.RESEND_API_KEY)
+const MAX_EMAIL = 'max.lima90@gmail.com'
+const CRM_URL = 'https://crm-maxlima.vercel.app'
 
 const SPREADSHEET_ID = '1v0VpVSoULS-yREZMTLGjofc2baoES0RsK2n9gjb86-E'
 const SHEET_NAME = 'Captação'
@@ -26,6 +31,70 @@ const COL = {
   nome: 14,
   telefone: 15,
   lead_status: 16,
+}
+
+function formatPhone(phone: string): string {
+  const digits = phone.replace(/\D/g, '')
+  if (digits.length === 13) return `+${digits.slice(0,2)} (${digits.slice(2,4)}) ${digits.slice(4,9)}-${digits.slice(9)}`
+  if (digits.length === 12) return `+${digits.slice(0,2)} (${digits.slice(2,4)}) ${digits.slice(4,8)}-${digits.slice(8)}`
+  return phone
+}
+
+function formatValor(raw: string): string {
+  const map: Record<string, string> = {
+    'ate_500_mil': 'Até R$ 500.000',
+    'entre_500_mil_a_700_mil': 'R$ 500.000 – R$ 700.000',
+    'entre_700_mil_a_1_milhão': 'R$ 700.000 – R$ 1.000.000',
+    'entre_700_mil_a_1_milhao': 'R$ 700.000 – R$ 1.000.000',
+    'entre_1_milhão_a_2_milhões': 'R$ 1.000.000 – R$ 2.000.000',
+    'entre_1_milhao_a_2_milhoes': 'R$ 1.000.000 – R$ 2.000.000',
+    'acima_de_2_milhões': 'Acima de R$ 2.000.000',
+    'acima_de_2_milhoes': 'Acima de R$ 2.000.000',
+  }
+  return map[raw.toLowerCase()] ?? raw
+}
+
+async function enviarEmailNovoLead(dados: {
+  nome: string
+  telefone: string
+  bairro: string
+  valorRaw: string
+  campanha: string
+  plataforma: string
+}) {
+  const { nome, telefone, bairro, valorRaw, campanha, plataforma } = dados
+  const linhas = [
+    bairro && `<tr><td style="padding:6px 0;color:#6b7280;font-size:14px;">Bairro de interesse</td><td style="padding:6px 0;font-size:14px;font-weight:600;">${bairro}</td></tr>`,
+    valorRaw && `<tr><td style="padding:6px 0;color:#6b7280;font-size:14px;">Valor estimado</td><td style="padding:6px 0;font-size:14px;font-weight:600;">${formatValor(valorRaw)}</td></tr>`,
+    campanha && `<tr><td style="padding:6px 0;color:#6b7280;font-size:14px;">Campanha</td><td style="padding:6px 0;font-size:14px;font-weight:600;">${campanha}</td></tr>`,
+    plataforma && `<tr><td style="padding:6px 0;color:#6b7280;font-size:14px;">Plataforma</td><td style="padding:6px 0;font-size:14px;font-weight:600;">${plataforma}</td></tr>`,
+  ].filter(Boolean).join('')
+
+  await resend.emails.send({
+    from: 'CRM Max Lima <onboarding@resend.dev>',
+    to: MAX_EMAIL,
+    subject: `🏠 Novo lead captado — ${nome}`,
+    html: `
+      <div style="font-family:sans-serif;max-width:520px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
+        <div style="background:#1a1a1a;padding:20px 24px;">
+          <p style="margin:0;color:#fff;font-size:18px;font-weight:700;">🏠 Novo lead captado</p>
+        </div>
+        <div style="padding:24px;">
+          <table style="width:100%;border-collapse:collapse;">
+            <tr><td style="padding:6px 0;color:#6b7280;font-size:14px;">Nome</td><td style="padding:6px 0;font-size:14px;font-weight:600;">${nome}</td></tr>
+            <tr><td style="padding:6px 0;color:#6b7280;font-size:14px;">Telefone</td><td style="padding:6px 0;font-size:14px;font-weight:600;">${formatPhone(telefone)}</td></tr>
+            ${linhas}
+          </table>
+          <div style="margin-top:24px;">
+            <a href="${CRM_URL}" style="background:#1a1a1a;color:#fff;padding:12px 20px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:600;">Ver no CRM →</a>
+          </div>
+        </div>
+        <div style="padding:12px 24px;background:#f9fafb;border-top:1px solid #e5e7eb;">
+          <p style="margin:0;font-size:12px;color:#9ca3af;">Sistema CRM Max Lima — notificação automática</p>
+        </div>
+      </div>
+    `,
+  })
 }
 
 function parseCreds(): object {
@@ -213,6 +282,11 @@ export async function POST(req: NextRequest) {
 
     imported++
     rowsToMark.push(sheetRowIndex)
+
+    // Notificar Max por email
+    enviarEmailNovoLead({ nome, telefone, bairro, valorRaw, campanha, plataforma }).catch(err =>
+      errors.push(`Email não enviado para ${nome}: ${err.message}`)
+    )
   }
 
   // Marcar linhas importadas como IMPORTED na planilha (coluna R = índice 17)
