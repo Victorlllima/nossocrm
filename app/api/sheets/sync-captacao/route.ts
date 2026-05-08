@@ -6,7 +6,7 @@ import path from 'path'
 import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
-const MAX_EMAIL = 'max.lima90@gmail.com'
+const DESTINATARIOS = ['max.lima90@gmail.com', 'victorlllima@gmail.com']
 const CRM_URL = 'https://crm-maxlima.vercel.app'
 
 const SPREADSHEET_ID = '1v0VpVSoULS-yREZMTLGjofc2baoES0RsK2n9gjb86-E'
@@ -71,8 +71,8 @@ async function enviarEmailNovoLead(dados: {
   ].filter(Boolean).join('')
 
   await resend.emails.send({
-    from: 'CRM Max Lima <onboarding@resend.dev>',
-    to: MAX_EMAIL,
+    from: 'CRM Max Lima <crm@redpro.com.br>',
+    to: DESTINATARIOS,
     subject: `🏠 Novo lead captado — ${nome}`,
     html: `
       <div style="font-family:sans-serif;max-width:520px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
