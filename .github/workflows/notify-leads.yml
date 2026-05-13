@@ -1,0 +1,23 @@
+name: Notify Leads → Email
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Chamar endpoint de notificação
+        run: |
+          response=$(curl -s -o /tmp/notify_response.json -w "%{http_code}" \
+            -X POST "${{ secrets.CRM_URL }}/api/sheets/notify-leads" \
+            -H "x-sync-secret: ${{ secrets.SHEETS_SYNC_SECRET }}" \
+            -H "Content-Type: application/json")
+          body=$(cat /tmp/notify_response.json)
+          echo "Status HTTP: $response"
+          echo "Resposta: $body"
+          if [ "$response" != "200" ]; then
+            echo "Erro no notify!" && exit 1
+          fi
